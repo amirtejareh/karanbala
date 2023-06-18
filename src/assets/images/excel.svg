@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19.82" height="18.58" viewBox="0 0 19.82 18.58">
+    <defs>
+        <style>
+            .cls-excel{fill:#d6d5dd}
+        </style>
+    </defs>
+    <g id="excel" transform="translate(0 -16.01)">
+        <g id="Group_1584" data-name="Group 1584" transform="translate(0 16.01)">
+            <g id="Group_1583" data-name="Group 1583">
+                <path id="Path_1523" data-name="Path 1523" class="cls-excel" d="M10.924 16.152a.623.623 0 0 0-.509-.131l-9.91 1.857a.618.618 0 0 0-.505.609v13.626a.619.619 0 0 0 .505.608l9.91 1.858a.592.592 0 0 0 .114.011.619.619 0 0 0 .619-.619V16.628a.618.618 0 0 0-.224-.476zM9.91 33.224 1.239 31.6V19l8.671-1.625z" transform="translate(0 -16.01)"/>
+            </g>
+        </g>
+        <g id="Group_1586" data-name="Group 1586" transform="translate(9.91 18.487)">
+            <g id="Group_1585" data-name="Group 1585">
+                <path id="Path_1524" data-name="Path 1524" class="cls-excel" d="M265.291 79.99h-8.671a.619.619 0 1 0 0 1.239h8.052v11.148h-8.052a.619.619 0 1 0 0 1.239h8.671a.62.62 0 0 0 .619-.616V80.609a.62.62 0 0 0-.619-.619z" transform="translate(-256 -79.99)"/>
+            </g>
+        </g>
+        <g id="Group_1588" data-name="Group 1588" transform="translate(9.91 20.964)">
+            <g id="Group_1587" data-name="Group 1587">
+                <path id="Path_1525" data-name="Path 1525" class="cls-excel" d="M259.1 143.99h-2.477a.619.619 0 1 0 0 1.239h2.477a.619.619 0 1 0 0-1.239z" transform="translate(-256 -143.99)"/>
+            </g>
+        </g>
+        <g id="Group_1590" data-name="Group 1590" transform="translate(9.91 23.441)">
+            <g id="Group_1589" data-name="Group 1589">
+                <path id="Path_1526" data-name="Path 1526" class="cls-excel" d="M259.1 207.99h-2.477a.619.619 0 0 0 0 1.239h2.477a.619.619 0 0 0 0-1.239z" transform="translate(-256 -207.99)"/>
+            </g>
+        </g>
+        <g id="Group_1592" data-name="Group 1592" transform="translate(9.91 25.919)">
+            <g id="Group_1591" data-name="Group 1591">
+                <path id="Path_1527" data-name="Path 1527" class="cls-excel" d="M259.1 271.99h-2.477a.619.619 0 1 0 0 1.239h2.477a.619.619 0 1 0 0-1.239z" transform="translate(-256 -271.99)"/>
+            </g>
+        </g>
+        <g id="Group_1594" data-name="Group 1594" transform="translate(9.91 28.396)">
+            <g id="Group_1593" data-name="Group 1593">
+                <path id="Path_1528" data-name="Path 1528" class="cls-excel" d="M259.1 335.99h-2.477a.619.619 0 1 0 0 1.239h2.477a.619.619 0 1 0 0-1.239z" transform="translate(-256 -335.99)"/>
+            </g>
+        </g>
+        <g id="Group_1596" data-name="Group 1596" transform="translate(14.865 20.964)">
+            <g id="Group_1595" data-name="Group 1595">
+                <path id="Path_1529" data-name="Path 1529" class="cls-excel" d="M385.858 143.99h-1.239a.619.619 0 1 0 0 1.239h1.239a.619.619 0 0 0 0-1.239z" transform="translate(-384 -143.99)"/>
+            </g>
+        </g>
+        <g id="Group_1598" data-name="Group 1598" transform="translate(14.865 23.441)">
+            <g id="Group_1597" data-name="Group 1597">
+                <path id="Path_1530" data-name="Path 1530" class="cls-excel" d="M385.858 207.99h-1.239a.619.619 0 1 0 0 1.239h1.239a.619.619 0 0 0 0-1.239z" transform="translate(-384 -207.99)"/>
+            </g>
+        </g>
+        <g id="Group_1600" data-name="Group 1600" transform="translate(14.865 25.919)">
+            <g id="Group_1599" data-name="Group 1599">
+                <path id="Path_1531" data-name="Path 1531" class="cls-excel" d="M385.858 271.99h-1.239a.619.619 0 1 0 0 1.239h1.239a.619.619 0 0 0 0-1.239z" transform="translate(-384 -271.99)"/>
+            </g>
+        </g>
+        <g id="Group_1602" data-name="Group 1602" transform="translate(14.865 28.396)">
+            <g id="Group_1601" data-name="Group 1601">
+                <path id="Path_1532" data-name="Path 1532" class="cls-excel" d="M385.858 335.99h-1.239a.619.619 0 1 0 0 1.239h1.239a.619.619 0 0 0 0-1.239z" transform="translate(-384 -335.99)"/>
+            </g>
+        </g>
+        <g id="Group_1604" data-name="Group 1604" transform="translate(3.097 22.202)">
+            <g id="Group_1603" data-name="Group 1603">
+                <path id="Path_1533" data-name="Path 1533" class="cls-excel" d="m85.426 181.151-4.335-4.951a.619.619 0 0 0-.933.815l4.336 4.955a.619.619 0 0 0 .933-.815z" transform="translate(-80.004 -175.984)"/>
+            </g>
+        </g>
+        <g id="Group_1606" data-name="Group 1606" transform="translate(3.097 21.583)">
+            <g id="Group_1605" data-name="Group 1605">
+                <path id="Path_1534" data-name="Path 1534" class="cls-excel" d="M85.335 160.123a.619.619 0 0 0-.87.108l-4.336 5.574a.62.62 0 0 0 .977.762l4.336-5.574a.619.619 0 0 0-.107-.87z" transform="translate(-79.999 -159.992)"/>
+            </g>
+        </g>
+    </g>
+</svg>
