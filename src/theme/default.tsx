@@ -1,14 +1,12 @@
 import React from "react";
 import { LinkProps, SvgIcon, ThemeOptions } from "@mui/material";
 import { Box } from "@mui/system";
-import { CheckedTrueSvg, RadioSelectedTrueSvg } from "../assets";
+import { CheckedTrueSvg } from "../assets";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import LinkBehavior from "../components/LinkBehavior";
 
 declare module "@mui/material/styles" {
     interface PaletteOptions {
-        tertiary: PaletteOptions["primary"];
-        grayVariant: PaletteOptions["primary"];
         btnBgColor: PaletteOptions["primary"];
     }
     interface Palette {
@@ -24,8 +22,8 @@ const theme: ThemeOptions = {
             xs: 0,
             sm: 600,
             md: 900,
-            lg: 1200,
-            xl: 1536,
+            lg: 1024,
+            xl: 1440,
         },
         unit: "px",
     },
@@ -343,19 +341,6 @@ const theme: ThemeOptions = {
         },
         MuiRadio: {
             defaultProps: {
-                // checkedIcon: <SvgIcon component={RadioSelectedTrueSvg} viewBox="0 0 16 16" />,
-                // icon: (
-                //     <Box
-                //         sx={{
-                //             width: "20px",
-                //             height: "20px",
-                //             background: "#f8d12f",
-                //             border: "2px solid #f8d12f",
-                //             boxSizing: "border-box",
-                //             borderRadius: "1000rem",
-                //         }}
-                //     />
-                // ),
                 sx: {
                     "&:hover": { bgcolor: "transparent" },
                 },
@@ -413,12 +398,6 @@ const theme: ThemeOptions = {
                     backgroundColor: "#272b37",
                     border: "none !important",
                     color: "#fff",
-                    // "&:before": {
-                    //     display: "none",
-                    // },
-                    // "&:after": {
-                    //     display: "none",
-                    // },
                     "&.MuiOutlinedInput-notchedOutline": {
                         borderWidth: "0 !important",
                     },
@@ -485,7 +464,6 @@ const theme: ThemeOptions = {
                         fontSize: "1.4rem",
                     },
                     "MuiDataGrid-cell": {
-                        // color: theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
                     },
                     "MuiPaginationItem-root": {
                         borderRadius: 0,
@@ -688,97 +666,69 @@ const theme: ThemeOptions = {
             white: "#fff",
         },
         primary: {
-            light: "#CCF8FF", // 25
-            main: "#22A9C0", // 400
-            dark: "#003740", // 900
-            "900": "#003740",
-            "800": "#08424D",
-            "700": "#145A66",
-            "600": "#267380",
-            "500": "#1B8799",
-            "400": "#22A9C0",
-            "300": "#45CEE5",
-            "200": "#66E9FF",
-            "100": "#8CEFFF",
-            "50": "#B2F4FF",
+            light: "#FBE9FF", // 25
+            main: "#32074F", // 400
+            dark: "#0E0125", // 900
+            "900": "#0E0125",
+            "800": "#14022D",
+            "700": "#14022D",
+            "600": "#1D0338",
+            "500": "#260543",
+            "400": "#32074F",
+            "300": "#722F95",
+            "200": "#AA5BCA",
+            "100": "#D996ED",
+            "50": "#EEC9F6",
+       
 
             contrastText: "#fff",
         },
         secondary: {
-            light: "#CCFFF3", // 25
-            main: "#03BD90", // 400
-            dark: "#003327", // 900
-            "900": "#003327",
-            "800": "#004D3A",
-            "700": "#00664D",
-            "600": "#008061",
-            "500": "#009974",
-            "400": "#03BD90",
-            "300": "#33CCA7",
-            "200": "#50E5C1",
-            "100": "#73FFDE",
-            "50": "#99FFE6",
+            light: "#FFFCF8", // 25
+            main: "#FFAD63", // 400
+            dark: "#2B0901", // 900
+            "900": "#2B0901",
+            "800": "#932F0E",
+            "700": "#B74817",
+            "600": "#DB6522",
+            "500": "#FF862F",
+            "400": "#FFAD63",
+            "300": "#FFC482",
+            "200": "#FFDCAB",
+            "100": "#FFF0D5",
+            "50": "#FFF7EA",
             contrastText: "#fff",
         },
-        tertiary: {
-            light: "#FFCCDE", // 25
-            main: "#D9004E", // 400
-            dark: "#330013", // 900
-            "900": "#330013",
-            "800": "#73002A",
-            "700": "#8C0033",
-            "600": "#A6003C",
-            "500": "#BF0045",
-            "400": "#D9004E",
-            "300": "#F20C5F",
-            "200": "#FF337C",
-            "100": "#FF73A5",
-            "50": "#FFB2CE",
-            contrastText: "#fff",
-        },
+
         grey: {
-            "50": "#F5F5F5",
-            "100": "#E0E0E0",
-            "200": "#C6C8CC",
-            "300": "#B8BCC2",
-            "400": "#979EA8",
-            "500": "#76808F",
-            "600": "#526075",
-            "700": "#37465C",
-            "800": "#252B3D",
-            "900": "#0D1023",
+            "50": "#ECF2F6",
+            "100": "#DAE4ED",
+            "200": "#B2BFCB",
+            "300": "#818B98",
+            "400": "#515A66",
+            "500": "#404955",
+            "600": "#38414D",
+            "700": "#2B333E",
+            "800": "#252D37",
+            "900": "#1D252F",
             //new greys
-            A100: "#F7F8FA", //25
-        },
-        grayVariant: {
-            "50": "#F2F2F2",
-            "100": "#E6E6E6",
-            "200": "#CCCCCC",
-            "300": "#B3B3B3",
-            "400": "#999999",
-            "500": "#7A7C7F",
-            "600": "#585D66",
-            "700": "#3A414D",
-            "800": "#222933",
-            "900": "#0D1023",
-            //new greys
-            A100: "#FAFAFA", //25
+            A100: "#FBFDFF", //25
         },
 
         error: {
-            light: "#FCEEEE", // 25
-            main: "#fe4335", // 500
-            dark: "#fe4335", // 900
-            "900": "#000000",
-            "800": "#410E0B",
-            "700": "#601410",
-            "600": "#8C1D18",
-            "500": "#B3261E",
-            "400": "#DC362E",
-            "300": "#E46962",
-            "200": "#EC928E",
-            "100": "#F2B8B5",
-            "50": "#F9DEDC",
+            light: "#FFF1EC", // 25
+            main: "#C82D50", // 500
+            dark: "#3A031F", // 900
+            "900": "#3A031F",
+            "800": "#6F0B3E",
+            "700": "#851745",
+            "600": "#A71F4A",
+            "500": "#C82D50",
+            "400": "#E93E55",
+            "300": "#F16C72",
+            "200": "#F8908B",
+            "100": "#FCBDB2",
+            "50": "#FDE1D8",
             contrastText: "#fff",
         },
         warning: {
@@ -786,11 +736,11 @@ const theme: ThemeOptions = {
             contrastText: "#fff",
         },
         info: {
-            main: "#177DB0",
+            main: "#2CAEE5",
             contrastText: "#fff",
         },
         success: {
-            main: "#0C9900",
+            main: "#05AF82",
             contrastText: "#fff",
         },
         btnBgColor: {
