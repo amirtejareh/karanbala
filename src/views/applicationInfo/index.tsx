@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid, Stack, useTheme, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-// import { Header } from "./components/Header";
+import { Header } from "./components/Header";
+import { Footer } from "./components/footer";
 
 const useStyles = makeStyles((theme: Theme) => ({}));
 const ApplicationInfoView = () => {
@@ -9,11 +10,11 @@ const ApplicationInfoView = () => {
     const theme = useTheme();
 
     return (
-        <Stack my={1} display={"flex"} justifyContent={"center"} alignItems={"center"} mx={2}>
+     
             <Grid item xs={12}>
-                Karanbala
+                <Header/>
+                <Footer/>
             </Grid>
-        </Stack>
     );
 };
 

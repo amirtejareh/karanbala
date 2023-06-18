@@ -1,12 +1,7 @@
 import {
-    Box,
-    Grid,
+    Grid, Typography,
    
 } from "@mui/material";
-import { Link } from "react-router-dom";
-
-import { ButtonKit } from "../../../components/kit/Button";
-// import Menu from "./landingMenu";
 
 const Header = () => {
     return (
@@ -18,31 +13,18 @@ const Header = () => {
             flexWrap="nowrap"
             justifyContent={"space-between"}
         >
-            <Grid item  container alignItems={"center"} flexWrap="nowrap" spacing={{ lg: 2, xl: 9 }}>
+            <Grid item  container alignItems={"center"} flexWrap="nowrap" >
                 <Grid item>
-                    <Link to="/pv/dashboard">
-                        <img
-                            src="/images/hafez-logo.svg"
-                            alt="logo"
-                            height={75}
-                            style={{ marginLeft: "5px" }}
-                        />
-                        <img src="/images/dorin-logo.svg" alt="logo" height={75} />
-                    </Link>
+
+                    <Typography>1</Typography>
+                    <Typography>2</Typography>
+                    <Typography>3</Typography>
+                    <Typography>3</Typography>
+      
                 </Grid>
-                <Grid item>
-                    menu
-                    {/* <Menu /> */}
-                </Grid>
+           
             </Grid>
-            <Grid xs={2} item>
-                <Box width={'100%'}>
-                    <ButtonKit fullWidth variant="contained">
-                        افتتاح حساب
-                    </ButtonKit>
-                </Box>
-               
-            </Grid>
+      
         </Grid>
     );
 };

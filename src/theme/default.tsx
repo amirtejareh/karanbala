@@ -747,8 +747,8 @@ const theme: ThemeOptions = {
             main: "linear-gradient(90deg, #22A9C0 0%, #03BD90 100%)",
         },
         text: {
-            primary: "#fff",
-            secondary: "#526075", // grey 600
+            primary: "#000000",
+            secondary: "#1D252F", // grey 600
             disabled: "#999999", // grey variant 400
         },
 
@@ -757,7 +757,7 @@ const theme: ThemeOptions = {
         tonalOffset: 0.2,
         background: {
             paper: "#1a1e2a",
-            default: "#121420",
+            default: "#FFFFFF",
         },
         action: {
             active: "rgba(0, 0, 0, 0.54)",

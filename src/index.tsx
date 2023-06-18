@@ -5,9 +5,9 @@ import { Provider } from "react-redux";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(
-    <React.StrictMode>
+  
         <App />
-    </React.StrictMode>,
+,
     document.getElementById("root")
 );
 
