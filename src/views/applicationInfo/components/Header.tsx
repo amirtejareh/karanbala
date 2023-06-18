@@ -23,7 +23,7 @@ const Header = () => {
         <Grid item xs={12}>
             <Box justifyContent={"center"} display={"flex"}>
      
-     <Typography variant="caption"  className={classes.typography}>
+     <Typography variant="subtitle1"  className={classes.typography}>
      امام جعفر صادق (ع) : دوست ندارم جوانی از شما را جز بر دو گونه ببینم،دانشمند یا دانشجو
      </Typography>
             </Box>

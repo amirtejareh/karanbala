@@ -853,7 +853,7 @@ const theme: ThemeOptions = {
             fontSize: "1.8rem",
             lineHeight: "2.8rem",
         },
-        subtitle1: { fontWeight: 500, fontSize: "1.8rem", lineHeight: "2.8rem" },
+        subtitle1: { fontWeight: 700, fontSize: "16px", lineHeight: "24px" },
         subtitle2: { fontWeight: 500, fontSize: "1.6rem", lineHeight: "2.5rem" },
         body1: { fontWeight: 400, fontSize: "1.6rem", lineHeight: "2.5rem" },
         body2: { fontWeight: 400, fontSize: "1.4rem", lineHeight: "2.2rem" },
