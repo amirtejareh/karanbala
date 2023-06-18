@@ -10,10 +10,14 @@ const ApplicationInfoView = () => {
     const theme = useTheme();
 
     return (
+
+        <Grid container>
      
-            <Grid item xs={12}>
+            <Grid m={'16px'}  item xs={12}>
                 <Header/>
                 <Footer/>
+            </Grid>
+
             </Grid>
     );
 };
