@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16.085" height="22.888" viewBox="0 0 16.085 22.888">
+  <defs>
+    <style>
+      .cls-attachment {
+        fill: none;
+        stroke: #19191c;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <path id="Attachment_1" data-name="Attachment 1" class="cls-attachment" d="M15.129,2.531s.8,2.8-1.01,9.564c-2.459,9.176-5.038,11.074-8.9,10.038S.069,18.166,2.528,8.99,10.11.909,11.36,3.074c1.414,2.449-.88,9.082-.88,9.082s-1.5,5.291-3.838,4.666c-3.381-.906.4-9.211.4-9.211" transform="translate(-0.285 -0.488)"/>
+</svg>

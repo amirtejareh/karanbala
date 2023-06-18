@@ -1,0 +1,16 @@
+<svg id="Sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1{fill:#19191c}
+        </style>
+    </defs>
+    <path id="Path_738" data-name="Path 738" class="cls-1" d="M12 0a.857.857 0 0 1 .857.857v1.714a.857.857 0 1 1-1.714 0V.857A.857.857 0 0 1 12 0z"/>
+    <path id="Path_739" data-name="Path 739" d="M12 18.857c-5.2 0-6.913-1.714-6.857-6.857S6.8 5.143 12 5.143 18.857 6.857 18.857 12 17.2 18.857 12 18.857z" style="fill-rule:evenodd;fill:#19191c"/>
+    <path id="Path_740" data-name="Path 740" class="cls-1" d="M12.857 21.429a.857.857 0 1 0-1.714 0v1.714a.857.857 0 0 0 1.714 0z"/>
+    <path id="Path_741" data-name="Path 741" class="cls-1" d="M24 12a.857.857 0 0 1-.857.857h-1.714a.857.857 0 1 1 0-1.714h1.714A.857.857 0 0 1 24 12z"/>
+    <path id="Path_742" data-name="Path 742" class="cls-1" d="M2.571 12.857a.857.857 0 1 0 0-1.714H.857a.857.857 0 1 0 0 1.714z"/>
+    <path id="Path_743" data-name="Path 743" class="cls-1" d="M2.822 2.822a.857.857 0 0 1 1.212 0l1.213 1.213a.857.857 0 0 1-1.212 1.212L2.822 4.035a.857.857 0 0 1 0-1.213z"/>
+    <path id="Path_744" data-name="Path 744" class="cls-1" d="M4.035 21.532a.857.857 0 1 1-1.213-1.212l1.212-1.212a.857.857 0 0 1 1.213 1.212z"/>
+    <path id="Path_745" data-name="Path 745" class="cls-1" d="M21.532 2.822a.857.857 0 0 0-1.212 0l-1.212 1.213a.857.857 0 0 0 1.212 1.212l1.212-1.212a.857.857 0 0 0 0-1.213z"/>
+    <path id="Path_746" data-name="Path 746" class="cls-1" d="M20.32 21.532a.857.857 0 0 0 1.212-1.212l-1.212-1.212a.857.857 0 0 0-1.212 1.212z"/>
+</svg>

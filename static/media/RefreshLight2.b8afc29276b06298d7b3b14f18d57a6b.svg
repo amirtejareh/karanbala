@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17.8" height="18.553" viewBox="0 0 17.8 18.553">
+    <defs>
+        <style>
+            .cls-2{fill:none;stroke:#19191c;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px}
+        </style>
+    </defs>
+    <g id="Refresh_2" data-name="Refresh 2" transform="translate(.248 .248)">
+        <path id="Path_705" data-name="Path 705" d="M16.536 9.781a.745.745 0 0 1-.736-.752c0-2.793-.67-4.609-1.745-5.73S11.288 1.5 8.653 1.5s-4.34.684-5.4 1.794A5.617 5.617 0 0 0 2 5.447a.817.817 0 0 1-.763.572.716.716 0 0 1-.703-.919Q2.149 0 8.653 0q8.653 0 8.653 9.029v.033a.727.727 0 0 1-.735.719zm-1.236 2.83a.817.817 0 0 1 .763-.572.716.716 0 0 1 .707.918q-1.615 5.1-8.119 5.1Q0 18.058 0 9.029V9a.727.727 0 0 1 .735-.719h.034a.745.745 0 0 1 .736.752c0 2.793.67 4.609 1.745 5.73s2.767 1.794 5.4 1.794 4.34-.684 5.4-1.794a5.617 5.617 0 0 0 1.25-2.152z" style="fill:#19191c;fill-rule:evenodd"/>
+        <path id="Path_706" data-name="Path 706" class="cls-2" d="M1 1v4.514h4.514" transform="translate(-.248 -.248)"/>
+        <path id="Path_707" data-name="Path 707" class="cls-2" d="M20.514 21.514V17H16" transform="translate(-3.962 -4.209)"/>
+    </g>
+</svg>
