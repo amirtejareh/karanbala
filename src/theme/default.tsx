@@ -57,8 +57,6 @@ const theme: ThemeOptions = {
                 },
 
                 contained: {
-                    backgroundImage: "linear-gradient(90.16deg, #22A9BF 0.13%, #03BD90 99.1%)",
-
                     border: " 1px solid #03BD90",
 
                     "&:disabled": {
@@ -463,8 +461,7 @@ const theme: ThemeOptions = {
                         color: "#111827",
                         fontSize: "1.4rem",
                     },
-                    "MuiDataGrid-cell": {
-                    },
+                    "MuiDataGrid-cell": {},
                     "MuiPaginationItem-root": {
                         borderRadius: 0,
                     },
@@ -679,7 +676,6 @@ const theme: ThemeOptions = {
             "200": "#AA5BCA",
             "100": "#D996ED",
             "50": "#EEC9F6",
-       
 
             contrastText: "#fff",
         },

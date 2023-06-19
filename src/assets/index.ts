@@ -71,6 +71,8 @@ import { ReactComponent as LoginNewSvg } from "./images/loginNew.svg";
 import { ReactComponent as OtpNewSvg } from "./images/otp.svg";
 import { ReactComponent as SquareInfoSvg } from "./images/infoSquare.svg";
 import { ReactComponent as ResMenuSelectedSvg } from "./images/resMenuSelected.svg";
+import { ReactComponent as KaranbalaLogoSvg } from "./images/karanbalaLogo.svg";
+import { ReactComponent as KaranbalaLogoTextSvg } from "./images/karanbalaLogoText.svg";
 import { ReactComponent as ResMenuSvg } from "./images/resMenu.svg";
 import { ReactComponent as PlusIconSvg } from "./images/plus.svg";
 import { ReactComponent as MinusSimpleIconSvg } from "./images/minus.svg";
@@ -129,8 +131,6 @@ import TableArrowLost8Svg from "./images/tableArrowLost-8.svg";
 import TableArrowLost9Svg from "./images/tableArrowLost-9.svg";
 import TableArrowLost10Svg from "./images/tableArrowLost-10.svg";
 import TableArrowLost11Svg from "./images/tableArrowLost-11.svg";
-import KaranbalaLogoSvg from "./images/karanbalaLogo.svg";
-import KaranbalaLogoTextSvg from "./images/karanbalaLogoText.svg";
 
 import TableArrowPositive1 from "./images/TableArrowPositive1.svg";
 import TableArrowPositive2 from "./images/TableArrowPositive2.svg";

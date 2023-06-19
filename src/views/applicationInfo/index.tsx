@@ -4,10 +4,10 @@ import { makeStyles } from "@mui/styles";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 
+
 const useStyles = makeStyles((theme: Theme) => ({}));
 const ApplicationInfoView = () => {
-    const classes = useStyles();
-    const theme = useTheme();
+
 
     return (
         <>
