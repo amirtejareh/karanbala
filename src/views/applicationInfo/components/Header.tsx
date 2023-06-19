@@ -6,7 +6,7 @@ import { ButtonKit } from "../../../components/kit/Button";
 const sharedStyle = createStyles({
     sharedRule: {
         width: "100%",
-        margin: "0 10px 0 10px",
+        margin: "0 52px",
     },
 });
 
