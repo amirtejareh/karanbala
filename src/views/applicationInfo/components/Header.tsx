@@ -8,6 +8,9 @@ const sharedStyle = createStyles({
         width: "100%",
         margin: "0 52px",
     },
+    sharedPosition: {
+        position: "relative",
+    },
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -25,8 +28,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         textAlign: "left",
     },
     parentLogoAndSignUp: {
-        position: "relative",
+        ...sharedStyle.sharedPosition,
         top: "-25px",
+    },
+    parentCaption: {
+        ...sharedStyle.sharedPosition,
+        top: "-33px",
     },
 }));
 
@@ -36,7 +43,7 @@ const Header = () => {
     return (
         <>
             <Box alignItems={"center"} justifyContent={"space-around"} display={"flex"}>
-                <Box mt={"16px"}>
+                <Box mt={"1.6rem"}>
                     <Typography variant="subtitle1" className={classes.typography}>
                         امام جعفر صادق (ع) : دوست ندارم جوانی از شما را جز بر دو گونه ببینم،دانشمند
                         یا دانشجو
@@ -57,6 +64,16 @@ const Header = () => {
                 <Box className={classes.signUp}>
                     <ButtonKit variant="contained">ورود / ثبت نام</ButtonKit>
                 </Box>
+            </Box>
+            <Box
+                className={classes.parentCaption}
+                alignItems={"center"}
+                justifyContent={"space-around"}
+                display={"flex"}
+            >
+                <Typography variant="caption" className={classes.typography}>
+                    18:37 - یکشنبه 10 اردیبهشت 1402
+                </Typography>
             </Box>
         </>
     );

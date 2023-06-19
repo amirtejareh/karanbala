@@ -101,7 +101,7 @@ const theme: ThemeOptions = {
                     lineHeight: 1.231,
                 },
                 sizeBase: {
-                    padding: "7px 16px",
+                    padding: "16px 24px",
                     lineHeight: 1.429,
                     fontSize: "1rem",
                 },
@@ -849,12 +849,12 @@ const theme: ThemeOptions = {
             fontSize: "1.8rem",
             lineHeight: "2.8rem",
         },
-        subtitle1: { fontWeight: 700, fontSize: "16px", lineHeight: "24px" },
+        subtitle1: { fontWeight: 700, fontSize: "1.6rem", lineHeight: "24px" },
         subtitle2: { fontWeight: 500, fontSize: "1.6rem", lineHeight: "2.5rem" },
         body1: { fontWeight: 400, fontSize: "1.6rem", lineHeight: "2.5rem" },
         body2: { fontWeight: 400, fontSize: "1.4rem", lineHeight: "2.2rem" },
         button: { fontWeight: 500, fontSize: "1.4rem", lineHeight: "2.2rem" },
-        caption: { fontWeight: 400, fontSize: "1.2rem", lineHeight: "1.9rem" },
+        caption: { fontWeight: 400, fontSize: "1.2rem", lineHeight: "1.6rem" },
         overline: { fontWeight: 400, fontSize: "1rem", lineHeight: "1.3rem" },
     },
 
