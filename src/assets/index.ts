@@ -129,7 +129,8 @@ import TableArrowLost8Svg from "./images/tableArrowLost-8.svg";
 import TableArrowLost9Svg from "./images/tableArrowLost-9.svg";
 import TableArrowLost10Svg from "./images/tableArrowLost-10.svg";
 import TableArrowLost11Svg from "./images/tableArrowLost-11.svg";
-import KaranbalaSvg from "./images/karanbala.svg";
+import KaranbalaLogoSvg from "./images/karanbalaLogo.svg";
+import KaranbalaLogoTextSvg from "./images/karanbalaLogoText.svg";
 
 import TableArrowPositive1 from "./images/TableArrowPositive1.svg";
 import TableArrowPositive2 from "./images/TableArrowPositive2.svg";
@@ -166,7 +167,8 @@ export {
     FavariteChartSvg,
     NotificationLightSvg,
     BagTickSvg,
-    KaranbalaSvg,
+    KaranbalaLogoSvg,
+    KaranbalaLogoTextSvg,
     CardSvg,
     CurveArrowNegativeSvg,
     SmsStartSvg,
