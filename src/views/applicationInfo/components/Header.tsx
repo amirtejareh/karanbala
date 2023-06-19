@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     parentLogoAndSignUp: {
         ...sharedStyle.sharedPosition,
-        top: "-25px",
+        top: "-16px",
     },
     parentCaption: {
         ...sharedStyle.sharedPosition,
-        top: "-33px",
+        top: "-32px",
     },
 }));
 
