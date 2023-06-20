@@ -74,6 +74,15 @@ import { ReactComponent as ResMenuSelectedSvg } from "./images/resMenuSelected.s
 import { ReactComponent as KaranbalaLogoSvg } from "./images/karanbalaLogo.svg";
 import { ReactComponent as KaranbalaLogoTextSvg } from "./images/karanbalaLogoText.svg";
 import { ReactComponent as KaranbalaBannerSvg } from "./images/karanbalaBanner.svg";
+
+import { ReactComponent as AparatSvg } from "./images/aparat.svg";
+import { ReactComponent as InstagramSvg } from "./images/instagram.svg";
+import { ReactComponent as TwitterSvg } from "./images/twitter.svg";
+import { ReactComponent as TelegramSvg } from "./images/telegram.svg";
+
+import { ReactComponent as EnamadSvg } from "./images/enamad.svg";
+import { ReactComponent as SanatSvg } from "./images/sanat.svg";
+
 import { ReactComponent as ResMenuSvg } from "./images/resMenu.svg";
 import { ReactComponent as PlusIconSvg } from "./images/plus.svg";
 import { ReactComponent as MinusSimpleIconSvg } from "./images/minus.svg";
@@ -171,6 +180,12 @@ export {
     KaranbalaLogoSvg,
     KaranbalaLogoTextSvg,
     KaranbalaBannerSvg,
+    AparatSvg,
+    InstagramSvg,
+    TwitterSvg,
+    TelegramSvg,
+    EnamadSvg,
+    SanatSvg,
     CardSvg,
     CurveArrowNegativeSvg,
     SmsStartSvg,
