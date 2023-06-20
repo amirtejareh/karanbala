@@ -74,11 +74,10 @@
             format("truetype");
 }
 
-
-html , body{
+html,
+body {
     height: 100%;
 }
-
 
 a {
     text-decoration: none;
@@ -119,4 +118,15 @@ input:-webkit-autofill:active {
 }
 input:-webkit-autofill {
     -webkit-text-fill-color: #bdbdbd !important;
+}
+
+@media screen and (max-width: 980px) {
+    .makeStyles-parentLogoAndSignUp-5 {
+        top: 0 !important;
+    }
+}
+@media screen and (max-width: 690px) {
+    .makeStyles-parentCaption-6 {
+        top: 0 !important;
+    }
 }

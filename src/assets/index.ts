@@ -73,6 +73,7 @@ import { ReactComponent as SquareInfoSvg } from "./images/infoSquare.svg";
 import { ReactComponent as ResMenuSelectedSvg } from "./images/resMenuSelected.svg";
 import { ReactComponent as KaranbalaLogoSvg } from "./images/karanbalaLogo.svg";
 import { ReactComponent as KaranbalaLogoTextSvg } from "./images/karanbalaLogoText.svg";
+import { ReactComponent as KaranbalaBannerSvg } from "./images/karanbalaBanner.svg";
 import { ReactComponent as ResMenuSvg } from "./images/resMenu.svg";
 import { ReactComponent as PlusIconSvg } from "./images/plus.svg";
 import { ReactComponent as MinusSimpleIconSvg } from "./images/minus.svg";
@@ -169,6 +170,7 @@ export {
     BagTickSvg,
     KaranbalaLogoSvg,
     KaranbalaLogoTextSvg,
+    KaranbalaBannerSvg,
     CardSvg,
     CurveArrowNegativeSvg,
     SmsStartSvg,
