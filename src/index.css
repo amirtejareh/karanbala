@@ -66,3 +66,12 @@ input:-webkit-autofill {
         top: 0 !important;
     }
 }
+
+@media screen and (max-width: 700px) {
+    .makeStyles-bannerContent-10 {
+        width: 100% !important;
+    }
+    .makeStyles-bannerSvg-11 {
+        display: none !important;
+    }
+}
