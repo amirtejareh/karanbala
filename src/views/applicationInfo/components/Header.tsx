@@ -15,6 +15,7 @@ const sharedStyle = createStyles({
 const useStyles = makeStyles((theme: Theme) => ({
     typography: {
         color: theme.palette.primary["main"],
+        textAlign: "center",
     },
 
     logo: {

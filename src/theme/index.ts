@@ -153,7 +153,7 @@ declare module "@mui/material/SvgIcon/svgIconClasses" {
 }
 declare module "@mui/system/createTheme/shape" {
     export interface Shape {
-        borderRadius: number ;
+        borderRadius: number;
         rounded: string;
     }
 }

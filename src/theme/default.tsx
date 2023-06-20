@@ -813,7 +813,7 @@ const theme: ThemeOptions = {
     ],
     typography: {
         htmlFontSize: 10,
-        fontFamily: "IRANSans",
+        fontFamily: "Yekan",
         fontSize: 14,
         fontWeightLight: 300,
         fontWeightRegular: 400,
@@ -850,7 +850,7 @@ const theme: ThemeOptions = {
             lineHeight: "2.8rem",
         },
         subtitle1: { fontWeight: 700, fontSize: "1.6rem", lineHeight: "24px" },
-        subtitle2: { fontWeight: 500, fontSize: "1.6rem", lineHeight: "2.5rem" },
+        subtitle2: { fontWeight: 500, fontSize: "1.2rem", lineHeight: "2.5rem" },
         body1: { fontWeight: 400, fontSize: "1.6rem", lineHeight: "2.5rem" },
         body2: { fontWeight: 400, fontSize: "1.4rem", lineHeight: "2.2rem" },
         button: { fontWeight: 500, fontSize: "1.4rem", lineHeight: "2.2rem" },
