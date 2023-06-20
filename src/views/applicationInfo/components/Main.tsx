@@ -36,10 +36,7 @@ const Main = () => {
         <Box className={classes.banner} justifyContent={"space-between"} display={"flex"}>
             <Box className={classes.bannerContent}>
                 <Box>
-                    <Typography
-                        className={`${classes.bannerContentAlign} ${classes.bannerContentTitle}`}
-                        variant="subtitle1"
-                    >
+                    <Typography className={` ${classes.bannerContentTitle}`} variant="subtitle1">
                         کران ي موفقیت در کران بالا
                     </Typography>
                 </Box>
