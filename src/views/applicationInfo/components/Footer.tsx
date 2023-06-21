@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         minHeight: "132px",
         height: "auto",
         color: theme?.palette?.common.white,
+        padding: "0 20px",
     },
     phone: {
         backgroundColor: theme?.palette?.primary["main"],
