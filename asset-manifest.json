@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/karanbala/static/css/main.3280bd34.css",
-    "main.js": "/karanbala/static/js/main.b2b84a73.js",
-    "static/js/161.b25538b8.chunk.js": "/karanbala/static/js/161.b25538b8.chunk.js",
+    "main.css": "/karanbala/static/css/main.03f2d5e1.css",
+    "main.js": "/karanbala/static/js/main.bd6fdd7f.js",
+    "static/js/161.119a14c4.chunk.js": "/karanbala/static/js/161.119a14c4.chunk.js",
     "static/js/544.2a4ef7f4.chunk.js": "/karanbala/static/js/544.2a4ef7f4.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.1c7c90df421183f989f4e86f17472298.svg",
@@ -162,13 +162,13 @@
     "static/media/Rectangle.svg": "/karanbala/static/media/Rectangle.614ae759c58b35acd2b08dc86e224b43.svg",
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
-    "main.3280bd34.css.map": "/karanbala/static/css/main.3280bd34.css.map",
-    "main.b2b84a73.js.map": "/karanbala/static/js/main.b2b84a73.js.map",
-    "161.b25538b8.chunk.js.map": "/karanbala/static/js/161.b25538b8.chunk.js.map",
+    "main.03f2d5e1.css.map": "/karanbala/static/css/main.03f2d5e1.css.map",
+    "main.bd6fdd7f.js.map": "/karanbala/static/js/main.bd6fdd7f.js.map",
+    "161.119a14c4.chunk.js.map": "/karanbala/static/js/161.119a14c4.chunk.js.map",
     "544.2a4ef7f4.chunk.js.map": "/karanbala/static/js/544.2a4ef7f4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3280bd34.css",
-    "static/js/main.b2b84a73.js"
+    "static/css/main.03f2d5e1.css",
+    "static/js/main.bd6fdd7f.js"
   ]
 }
