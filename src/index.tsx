@@ -4,11 +4,6 @@ import App from "./App";
 import { Provider } from "react-redux";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-ReactDOM.render(
-  
-        <App />
-,
-    document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
-serviceWorkerRegistration.register();
+//serviceWorkerRegistration.register();
