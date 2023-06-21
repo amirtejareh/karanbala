@@ -75,3 +75,9 @@ input:-webkit-autofill {
         display: none !important;
     }
 }
+
+@media screen and (max-width: 720px) {
+    .footer {
+        justify-content: center !important;
+    }
+}

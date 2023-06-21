@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { ThemeOptions } from "@mui/system";
 
-import { createStyles, makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import {
     AparatSvg,
     InstagramSvg,
@@ -48,7 +48,7 @@ const Footer = () => {
         <Grid container>
             <Grid item xs={12}>
                 <Box
-                    className={`${classes.footer}`}
+                    className={`${classes.footer} ${"footer"}`}
                     justifyContent={"space-between"}
                     alignItems={"center"}
                     display={"flex"}
