@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     socialNetwork: {
         flexWrap: "wrap",
         "& > div": {
-            margin: "0 25px 0 0",
+            margin: "0 0 0 25px",
         },
     },
 
