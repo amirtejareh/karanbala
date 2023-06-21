@@ -57,8 +57,6 @@ const theme: ThemeOptions = {
                 },
 
                 contained: {
-                    border: " 1px solid #03BD90",
-
                     "&:disabled": {
                         backgroundColor: "rgba(255, 255, 255, 0.04)",
                         color: "rgba(255, 255, 255, 0.38)",
