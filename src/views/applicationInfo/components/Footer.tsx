@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         backgroundColor: theme?.palette?.primary["main"],
         width: "100%",
         height: "132px",
-        position: "relative",
-        bottom: "0",
         color: theme?.palette?.common.white,
         padding: "0 100px",
     },
