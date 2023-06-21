@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
     phone: {
         backgroundColor: theme?.palette?.primary["main"],
-        margin: "0 0 0 24px",
+        margin: "0 0 0 25px",
     },
     email: {
         backgroundColor: theme?.palette?.primary["main"],
