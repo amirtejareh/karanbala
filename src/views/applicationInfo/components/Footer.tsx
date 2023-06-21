@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         minHeight: "132px",
         height: "auto",
         color: theme?.palette?.common.white,
-        padding: "0 100px",
     },
     phone: {
         backgroundColor: theme?.palette?.primary["main"],
@@ -31,8 +30,12 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     socialNetwork: {
         flexWrap: "wrap",
         "& > div": {
-            margin: "0 0 0 25px",
+            margin: "0 25px ",
         },
+    },
+
+    "& > div:nth-of-type(2)": {
+        margin: "0 25px 0 0 !important",
     },
 
     auth: {
