@@ -50,6 +50,7 @@ const Footer = () => {
                     justifyContent={"space-between"}
                     alignItems={"center"}
                     display={"flex"}
+                    flexWrap={"wrap"}
                 >
                     <Box justifyContent={"center"} display={"flex"}>
                         <Box className={classes.phone}>

@@ -5,7 +5,8 @@ import { KaranbalaBannerSvg } from "../../../assets";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     main: {
-        height: "600px",
+        minHeight: "700px",
+        height: "auto",
     },
     banner: {
         backgroundColor: theme?.palette?.secondary["50"],
