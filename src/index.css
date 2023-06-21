@@ -80,6 +80,6 @@ input:-webkit-autofill {
     .footer {
         justify-content: center !important;
         align-items: center !important;
-        padding-top: 10px !important;
+        padding-top: 50px !important;
     }
 }
