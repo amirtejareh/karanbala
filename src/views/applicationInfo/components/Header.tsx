@@ -52,7 +52,7 @@ const Header = () => {
             </Box>
 
             <Box
-                className={classes.parentLogoAndSignUp}
+                className={`${classes.parentLogoAndSignUp} ${"parentLogoAndSignUp"}`}
                 alignItems={"center"}
                 justifyContent={"space-around"}
                 display={"flex"}
@@ -66,7 +66,7 @@ const Header = () => {
                 </Box>
             </Box>
             <Box
-                className={classes.parentCaption}
+                className={`${classes.parentCaption} ${"parentCaption"}`}
                 alignItems={"center"}
                 justifyContent={"space-around"}
                 display={"flex"}

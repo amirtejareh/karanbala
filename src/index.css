@@ -57,21 +57,21 @@ input:-webkit-autofill {
 }
 
 @media screen and (max-width: 980px) {
-    .makeStyles-parentLogoAndSignUp-5 {
+    .parentLogoAndSignUp {
         top: 0 !important;
     }
 }
 @media screen and (max-width: 690px) {
-    .makeStyles-parentCaption-6 {
+    .parentCaption {
         top: 0 !important;
     }
 }
 
 @media screen and (max-width: 700px) {
-    .makeStyles-bannerContent-10 {
+    .bannerContent {
         width: 100% !important;
     }
-    .makeStyles-bannerSvg-11 {
+    .bannerSvg {
         display: none !important;
     }
 }

@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     footer: {
         backgroundColor: theme?.palette?.primary["main"],
         width: "100%",
-        height: "132px",
+        minHeight: "132px",
+        height: "auto",
         color: theme?.palette?.common.white,
         padding: "0 100px",
     },
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
 
     socialNetwork: {
+        flexWrap: "wrap",
         "& > div": {
             margin: "0 25px 0 0",
         },
@@ -46,7 +48,7 @@ const Footer = () => {
         <Grid container>
             <Grid item xs={12}>
                 <Box
-                    className={classes.footer}
+                    className={`${classes.footer}`}
                     justifyContent={"space-between"}
                     alignItems={"center"}
                     display={"flex"}

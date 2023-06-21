@@ -39,7 +39,7 @@ const Main = () => {
     return (
         <Box className={classes.main}>
             <Box className={classes.banner} justifyContent={"space-between"} display={"flex"}>
-                <Box className={classes.bannerContent}>
+                <Box className={`${classes.bannerContent} ${"bannerContent"}`}>
                     <Box>
                         <Typography
                             className={` ${classes.bannerContentTitle}`}
@@ -63,7 +63,7 @@ const Main = () => {
                     </Box>
                 </Box>
 
-                <Box className={classes.bannerSvg}>
+                <Box className={`${classes.bannerSvg} ${"bannerSvg"}`}>
                     <KaranbalaBannerSvg />
                 </Box>
             </Box>
