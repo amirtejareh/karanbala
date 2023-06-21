@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme, Theme, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
+import { Footer } from "./components/footer";
 import { Main } from "./components/Main";
 
 const useStyles = makeStyles((theme: Theme) => ({
