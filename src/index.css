@@ -76,9 +76,10 @@ input:-webkit-autofill {
     }
 }
 
-@media screen and (max-width: 1144px) {
+@media screen and (max-width: 1100px) {
     .footer {
         justify-content: center !important;
         align-items: center !important;
+        padding-top: 10px !important;
     }
 }
