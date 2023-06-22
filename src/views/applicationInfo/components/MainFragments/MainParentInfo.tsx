@@ -20,7 +20,7 @@ const MainParentInfo = () => {
             margin={"5rem 0"}
             justifyContent={"space-evenly"}
             display={"flex"}
-            gap={"12.5rem"}
+            gap={"5rem"}
             flexWrap={"wrap"}
         >
             <Box
