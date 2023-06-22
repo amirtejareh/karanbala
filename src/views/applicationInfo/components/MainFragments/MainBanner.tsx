@@ -32,12 +32,13 @@ const MainBanner = () => {
                         lineHeight={"52px"}
                         fontSize={"4.5rem"}
                         variant="subtitle1"
+                        textAlign={"center"}
                     >
                         کرانه‌ی موفقیت در کران بالا
                     </Typography>
                 </Box>
                 <Box>
-                    <Typography variant="subtitle2" fontSize={"2rem"} textAlign={"justify"}>
+                    <Typography variant="subtitle2" fontSize={"2rem"} textAlign={"center"}>
                         ما در کران بالا بر این باوریم که با استعانت از درگاه باري تعالی، همیت و
                         اهتمام اساتید گرانقدر به مقوله آموزش صحیح، جامع، هدفمند و پرهیز از زیاده
                         گویی و با استفاده از ابزار‌ها و روش های نوین آموزشی، بستری مناسب را برای
