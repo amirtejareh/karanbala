@@ -159,6 +159,9 @@ input:-webkit-autofill {
     .banner {
         justify-content: space-evenly !important;
     }
+    .bannerSvg {
+        margin: "0 !important";
+    }
 }
 
 @media screen and (max-width: 1100px) {
