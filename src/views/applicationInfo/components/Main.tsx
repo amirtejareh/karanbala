@@ -1,21 +1,14 @@
 import { Box } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { ThemeOptions } from "@mui/system";
-import { MainBanner } from "./MainBanner";
-import { MainParentInfo } from "./MainParentInfo";
+import { MainBanner } from "./MainFragments/MainBanner";
+import { MainParentInfo } from "./MainFragments/MainParentInfo";
+import { MainMajor } from "./MainFragments/MainMajor";
 
-const useStyles = makeStyles((theme: ThemeOptions) => ({
-    main: {
-        minHeight: "700px",
-        height: "auto",
-    },
-}));
 const Main = () => {
-    const classes = useStyles();
     return (
-        <Box className={classes.main}>
+        <Box minHeight={"700px"} height={"auto"}>
             <MainBanner />
             <MainParentInfo />
+            <MainMajor />
         </Box>
     );
 };

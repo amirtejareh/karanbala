@@ -1,11 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { KaranbalaBooklet, KaranbalaLast } from "../../../assets";
 import { makeStyles } from "@mui/styles";
+import { KaranbalaBooklet, KaranbalaLast } from "../../../../assets";
 
 const useStyles = makeStyles(() => ({
-    parentInfo: {
-        margin: "5rem 0",
-    },
     info: {
         "& > div": {
             margin: "0 1rem 0 0",
@@ -20,7 +17,7 @@ const MainParentInfo = () => {
     const classes = useStyles();
     return (
         <Box
-            className={classes.parentInfo}
+            margin={"5rem 0"}
             justifyContent={"space-evenly"}
             display={"flex"}
             gap={"12.5rem"}
