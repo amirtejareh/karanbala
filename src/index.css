@@ -1,13 +1,98 @@
 /* Fonts */
 
 @font-face {
-    font-family: Yekan;
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 200;
+    src: url("../public/fonts/eot/Yekan Bakh FA 01 Hairline.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 01 Hairline.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 01 Hairline.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 01 Hairline.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 300;
+    src: url("../public/fonts/eot/Yekan Bakh FA 02 Thin.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 02 Thin.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 02 Thin.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 02 Thin.ttf")
+            format("truetype");
+}
+@font-face {
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 400;
+    src: url("../public/fonts/eot/Yekan Bakh FA 03 Light.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 03 Light.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 03 Light.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 03 Light.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 500;
+    src: url("../public/fonts/eot/Yekan Bakh FA 04 Regular.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 04 Regular.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 04 Regular.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 04 Regular.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 600;
+    src: url("../public/fonts/eot/Yekan Bakh FA 05 Medium.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 05 Medium.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 05 Medium.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 05 Medium.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 700;
+    src: url("../public/fonts/eot/Yekan Bakh FA 06 Bold.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 06 Bold.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 06 Bold.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 06 Bold.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: YekanBakh;
+    font-style: normal;
+    font-weight: 800;
+    src: url("../public/fonts/eot/Yekan Bakh FA 07 Heavy.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 07 Heavy.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 07 Heavy.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 07 Heavy.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: YekanBakh;
     font-style: normal;
     font-weight: 900;
-    src: url("../public/fonts/ttf/yekanbakh.ttf");
-    src:
-        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/yekanbakh.ttf")
-        format("truetype");
+    src: url("../public/fonts/eot/Yekan Bakh FA 08 Fat.eot");
+    src: url("../public/fonts/eot/Yekan Bakh FA 08 Fat.eot?#iefix") format("embedded-opentype"),
+        /* FF39+,Chrome36+, Opera24+*/ url("../public/fonts/woff/Yekan Bakh FA 08 Fat.woff")
+            format("woff"),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../public/fonts/ttf/Yekan Bakh FA 08 Fat.ttf")
+            format("truetype");
 }
 
 html,
@@ -67,12 +152,12 @@ input:-webkit-autofill {
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1367px) {
     .bannerContent {
         width: 100% !important;
     }
-    .bannerSvg {
-        display: none !important;
+    .banner {
+        justify-content: space-evenly !important;
     }
 }
 
