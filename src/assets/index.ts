@@ -71,19 +71,17 @@ import { ReactComponent as LoginNewSvg } from "./images/loginNew.svg";
 import { ReactComponent as OtpNewSvg } from "./images/otp.svg";
 import { ReactComponent as SquareInfoSvg } from "./images/infoSquare.svg";
 import { ReactComponent as ResMenuSelectedSvg } from "./images/resMenuSelected.svg";
+
 import { ReactComponent as KaranbalaLogoSvg } from "./images/karanbalaLogo.svg";
 import { ReactComponent as KaranbalaLogoTextSvg } from "./images/karanbalaLogoText.svg";
 import { ReactComponent as KaranbalaBannerSvg } from "./images/karanbalaBanner.svg";
-
 import { ReactComponent as KaranbalaBooklet } from "./images/karanbalaBooklet.svg";
-
 import { ReactComponent as KaranbalaLast } from "./images/karanbalaLast.svg";
-
+import { ReactComponent as BookSaved } from "./images/bookSaved.svg";
 import { ReactComponent as AparatSvg } from "./images/aparat.svg";
 import { ReactComponent as InstagramSvg } from "./images/instagram.svg";
 import { ReactComponent as TwitterSvg } from "./images/twitter.svg";
 import { ReactComponent as TelegramSvg } from "./images/telegram.svg";
-
 import { ReactComponent as EnamadSvg } from "./images/enamad.svg";
 import { ReactComponent as SanatSvg } from "./images/sanat.svg";
 
@@ -186,6 +184,7 @@ export {
     KaranbalaBannerSvg,
     KaranbalaBooklet,
     KaranbalaLast,
+    BookSaved,
     AparatSvg,
     InstagramSvg,
     TwitterSvg,

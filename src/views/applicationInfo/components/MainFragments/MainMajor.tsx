@@ -1,14 +1,15 @@
 import { Box, Typography } from "@mui/material";
+import { MainMajorBoxes } from "./MainMajorBoxes";
 
 const MainMajor = () => {
     return (
-        <Box gap={"2.5rem"} display={"flex"} flexDirection={"column"}>
-            <Box>
+        <Box display={"flex"} flexDirection={"column"}>
+            <Box margin={"5rem 3.25rem 0 0rem"}>
                 <Typography fontSize={"2rem"} variant="subtitle1">
                     پایه تحصیلی خود را انتخاب کنید
                 </Typography>
             </Box>
-            <Box></Box>
+            <MainMajorBoxes />
         </Box>
     );
 };

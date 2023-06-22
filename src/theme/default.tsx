@@ -8,6 +8,11 @@ import LinkBehavior from "../components/LinkBehavior";
 declare module "@mui/material/styles" {
     interface PaletteOptions {
         btnBgColor: PaletteOptions["primary"];
+        others: {
+            info: PaletteOptions["primary"];
+            success: PaletteOptions["primary"];
+            warning: PaletteOptions["primary"];
+        };
     }
     interface Palette {
         tertiary: Palette["primary"];
@@ -724,6 +729,23 @@ const theme: ThemeOptions = {
             "100": "#FCBDB2",
             "50": "#FDE1D8",
             contrastText: "#fff",
+        },
+        others: {
+            info: {
+                main: "#2CAEE5",
+                light: "#DCF5FF",
+                dark: "#2CAEE5",
+            },
+            success: {
+                main: "#05AF82",
+                light: "#E5FFEC",
+                dark: "#05AF82",
+            },
+            warning: {
+                main: "#F57C00",
+                light: "#FFF1E2",
+                dark: "#F57C00",
+            },
         },
         warning: {
             main: "#F57C00",
