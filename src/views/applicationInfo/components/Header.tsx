@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Theme, Typography } from "@mui/material";
+import { Box, Theme, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
@@ -44,7 +44,11 @@ const Header = () => {
         <>
             <Box alignItems={"center"} justifyContent={"space-around"} display={"flex"}>
                 <Box mt={"1.6rem"}>
-                    <Typography variant="subtitle1" className={classes.typography}>
+                    <Typography
+                        fontSize={"2rem"}
+                        variant="subtitle1"
+                        className={classes.typography}
+                    >
                         امام جعفر صادق (ع) : دوست ندارم جوانی از شما را جز بر دو گونه ببینم،دانشمند
                         یا دانشجو
                     </Typography>
@@ -73,7 +77,7 @@ const Header = () => {
                 justifyContent={"space-around"}
                 display={"flex"}
             >
-                <Typography variant="caption" className={classes.typography}>
+                <Typography fontSize={"1.7rem"} variant="caption" className={classes.typography}>
                     یکشنبه ۱۰ اردیبهشت ۱۴۰۲ - ۱۸:۳۷
                 </Typography>
             </Box>

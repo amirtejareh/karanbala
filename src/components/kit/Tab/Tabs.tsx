@@ -24,16 +24,16 @@ const StyledTabs = withStyles((theme: Theme) => ({
         "& > span": {
             borderRadius: `${theme.shape.borderRadius}px !important`,
             width: "100%",
-            background: (props) =>
+            background: (props: any) =>
                 props.secondary
                     ? `${theme.palette.secondary.main} !important`
                     : `linear-gradient(90deg, #22A9C0 0.96%, #03BD90 100%) !important`,
             "&.tabPanel-0": {
-                backgroundColor: (props) =>
+                backgroundColor: (props: any) =>
                     props.differentBtn ? `${theme.palette.secondary.main} !important` : "inherit",
             },
             "&.tabPanel-1": {
-                backgroundColor: (props) =>
+                backgroundColor: (props: any) =>
                     props.differentBtn ? `${theme.palette.tertiary.main} !important` : "inherit",
             },
         },
@@ -151,7 +151,7 @@ const useStyles = makeStyles<Theme, IUseStyles>((theme: Theme) => ({
         flexGrow: 1,
         height: "100%",
         "& .MuiTabs-root": {
-            backgroundColor: (props) =>
+            backgroundColor: (props: any) =>
                 props.transparentBg ? "transparent" : theme.palette.grey[800],
         },
     },
@@ -200,7 +200,7 @@ function a11yProps(index: any) {
     };
 }
 
-const TabsKit: React.FC<ITabsKit> = (props) => {
+const TabsKit: React.FC<ITabsKit> = (props: any) => {
     const {
         hasButton,
         className,
@@ -231,7 +231,7 @@ const TabsKit: React.FC<ITabsKit> = (props) => {
         <Box className={classes.root}>
             {bottomTab && (
                 <Box className={classes.topTabPanel}>
-                    {tabs.map((item, index) => {
+                    {tabs.map((item: any, index: any) => {
                         return (
                             <TabPanel key={index} value={value} index={item.key || index}>
                                 {item.children}
@@ -251,7 +251,7 @@ const TabsKit: React.FC<ITabsKit> = (props) => {
                         tertiary={tertiary}
                         aria-label="custom tab"
                     >
-                        {tabs.map((item, index) => {
+                        {tabs.map((item: any, index: any) => {
                             return (
                                 <StyledTab
                                     secondary={secondary}
@@ -263,7 +263,7 @@ const TabsKit: React.FC<ITabsKit> = (props) => {
                             );
                         })}
                     </StyledTabs>
-                    {tabs.map((item, index) => {
+                    {tabs.map((item: any, index: any) => {
                         return (
                             <TabPanel
                                 key={index}
@@ -304,7 +304,7 @@ const TabsKit: React.FC<ITabsKit> = (props) => {
                     tertiary={tertiary}
                     aria-label="custom tab"
                 >
-                    {tabs.map((item, index) => {
+                    {tabs.map((item: any, index: any) => {
                         return (
                             <StyledTab
                                 secondary={secondary}
@@ -319,7 +319,7 @@ const TabsKit: React.FC<ITabsKit> = (props) => {
             )}
 
             {!bottomTab &&
-                tabs.map((item, index) => {
+                tabs.map((item: any, index: any) => {
                     return (
                         <TabPanel key={index} value={value} index={item.key || index}>
                             {item.children}

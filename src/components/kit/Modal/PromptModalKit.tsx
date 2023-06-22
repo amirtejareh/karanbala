@@ -102,7 +102,7 @@ const DialogContent = withStyles((theme: Theme) => ({
     },
 }))(MuiDialogContent);
 
-const PromptModalKit: React.FC<PromptModalProps> = (props) => {
+const PromptModalKit: React.FC<PromptModalProps> = (props: any) => {
     const classes = useStyles();
     const { prompModalState = false, onClose } = props;
     const [open, setOpen] = React.useState(prompModalState);

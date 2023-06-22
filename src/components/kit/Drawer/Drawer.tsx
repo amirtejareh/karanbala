@@ -21,7 +21,7 @@ const Root = styled("div")(({ theme }) => ({
 
 const StyledBox = styled(Box)(({ theme }) => ({}));
 
-const DrawerKit: React.FC<IDrawerKitProps> = (props) => {
+const DrawerKit: React.FC<IDrawerKitProps> = (props: any) => {
     const {
         className,
         onClose,

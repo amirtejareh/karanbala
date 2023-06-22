@@ -60,7 +60,7 @@ const useStyles = makeStyles<Theme, IUseStyles>((theme: Theme) => ({
     },
     checkedIcon: {
         "input ~ &": {
-            backgroundColor: (props) =>
+            backgroundColor: (props: any) =>
                 props.simple ? theme.palette.common.white : theme.palette.info.main,
         },
         "&:before": {
@@ -78,7 +78,7 @@ const useStyles = makeStyles<Theme, IUseStyles>((theme: Theme) => ({
             },
         },
         "input:hover ~ &": {
-            backgroundColor: (props) =>
+            backgroundColor: (props: any) =>
                 props.simple ? theme.palette.common.white : theme.palette.info.main,
         },
     },

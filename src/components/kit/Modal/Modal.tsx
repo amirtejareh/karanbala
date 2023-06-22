@@ -73,7 +73,7 @@ const DialogContent = withStyles((theme: Theme) => ({
     },
 }))(MuiDialogContent);
 
-export interface IModalKit extends Omit<DialogProps, "open" | "title"> {
+export interface IModalKit extends Omit<DialogProps, "open" | "title" | "children"> {
     opener?: React.ReactElement;
     title?: React.ReactNode;
     onSubmit?: () => void;

@@ -8,13 +8,12 @@ import { deepmerge } from "@mui/utils";
 import { useMediaQuery } from "@mui/material";
 import { enUS } from "@mui/material/locale";
 import RTL from "./RTL";
-import { IMuiProviderProps } from "widget/Provider";
 
 const inputGlobalStyles = <CssBaseline enableColorScheme />;
 
-const Noop: React.FC = ({ children }) => <>{children}</>;
+const Noop: any = ({ children }: any) => <>{children}</>;
 
-const MuiProvider: React.FC<IMuiProviderProps> = (props) => {
+const MuiProvider: any = (props: any) => {
     const { mode, theme, lowDensity, localization, direction } = props;
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");

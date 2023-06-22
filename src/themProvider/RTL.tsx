@@ -4,12 +4,12 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Create rtl cache
-const cacheRtl = createCache({
+const cacheRtl: any = createCache({
     key: "muirtl",
     stylisPlugins: [rtlPlugin],
 });
 
-const RTL: React.FC = (props) => {
+const RTL: any = (props: any) => {
     return <CacheProvider value={cacheRtl}>{props.children}</CacheProvider>;
 };
 

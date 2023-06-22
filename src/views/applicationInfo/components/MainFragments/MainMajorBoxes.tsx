@@ -24,7 +24,7 @@ const MainMajorBoxes = () => {
             className={classes.majorBox}
         >
             <Box
-                bgcolor={theme?.palette?.others.info.light}
+                bgcolor={theme?.palette?.primary["light"]}
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
@@ -45,11 +45,35 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1">ریاضی دوازدهم</Typography>
+                <Typography variant="subtitle1">ریاضی دهم</Typography>
+            </Box>
+            <Box
+                bgcolor={theme?.palette?.grey["50"]}
+                display={"flex"}
+                height={"7rem"}
+                alignItems={"center"}
+                borderRadius={"1.6rem"}
+                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
+            >
+                <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    width={"5rem"}
+                    height={"5rem"}
+                    margin={"1rem"}
+                    bgcolor={theme?.palette?.common.white}
+                    borderRadius={"1rem"}
+                    padding={"1rem"}
+                >
+                    <BookSavedSvg />
+                </Box>
+
+                <Typography variant="subtitle1">تجربی دهم</Typography>
             </Box>
 
             <Box
-                bgcolor={theme?.palette?.others.success.light}
+                bgcolor={theme?.palette?.others.warning.light}
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
@@ -70,32 +94,7 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1">تجربی دوازدهم</Typography>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.secondary["200"]}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-
-                <Typography variant="subtitle1">انسانی دوازدهم</Typography>
+                <Typography variant="subtitle1">انسانی دهم</Typography>
             </Box>
 
             <Box
@@ -174,7 +173,7 @@ const MainMajorBoxes = () => {
             </Box>
 
             <Box
-                bgcolor={theme?.palette?.primary["light"]}
+                bgcolor={theme?.palette?.others.info.light}
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
@@ -195,35 +194,11 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1">ریاضی دهم</Typography>
-            </Box>
-            <Box
-                bgcolor={theme?.palette?.grey["50"]}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-
-                <Typography variant="subtitle1">تجربی دهم</Typography>
+                <Typography variant="subtitle1">ریاضی دوازدهم</Typography>
             </Box>
 
             <Box
-                bgcolor={theme?.palette?.others.warning.light}
+                bgcolor={theme?.palette?.others.success.light}
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
@@ -244,7 +219,32 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1">انسانی دهم</Typography>
+                <Typography variant="subtitle1">تجربی دوازدهم</Typography>
+            </Box>
+
+            <Box
+                bgcolor={theme?.palette?.secondary["200"]}
+                display={"flex"}
+                height={"7rem"}
+                alignItems={"center"}
+                borderRadius={"1.6rem"}
+                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
+            >
+                <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    width={"5rem"}
+                    height={"5rem"}
+                    margin={"1rem"}
+                    bgcolor={theme?.palette?.common.white}
+                    borderRadius={"1rem"}
+                    padding={"1rem"}
+                >
+                    <BookSavedSvg />
+                </Box>
+
+                <Typography variant="subtitle1">انسانی دوازدهم</Typography>
             </Box>
 
             <Box
@@ -320,7 +320,7 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1"> هفتم</Typography>
+                <Typography variant="subtitle1"> نهم</Typography>
             </Box>
             <Box
                 bgcolor={"#E2E3FF"}

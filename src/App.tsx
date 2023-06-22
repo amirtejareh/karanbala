@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import MuiProvider from "./themProvider/MUI";
 import AppRoute from "./routes/app.route";
 import "./index.css";
@@ -12,7 +12,7 @@ const App = () => {
     const colorMode = React.useMemo(
         () => ({
             toggleColorMode: () => {
-                setMode((prevMode) => {
+                setMode((prevMode: string) => {
                     const mode = prevMode === "light" ? "dark" : "light";
                     localStorage.setItem("paletteMode", mode);
                     return mode;
