@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { KaranbalaBannerSvg } from "../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
 }));
 
-const ParentInfo = () => {
+const MainBanner = () => {
     const classes = useStyles();
     return (
         <Box
@@ -68,4 +68,4 @@ const ParentInfo = () => {
     );
 };
 
-export { ParentInfo };
+export { MainBanner };
