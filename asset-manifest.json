@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.b449d7af.css",
-    "main.js": "/karanbala/static/js/main.4d695459.js",
-    "static/js/688.c0ea1397.chunk.js": "/karanbala/static/js/688.c0ea1397.chunk.js",
+    "main.js": "/karanbala/static/js/main.5e5e9b31.js",
+    "static/js/688.44381114.chunk.js": "/karanbala/static/js/688.44381114.chunk.js",
     "static/js/60.bfd3bd4e.chunk.js": "/karanbala/static/js/60.bfd3bd4e.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
-    "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.1b1f007ad85fc6d00d41f0df0e56eace.svg",
+    "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
     "static/media/learning.svg": "/karanbala/static/media/learning.55711bb9611a633edc8baff230b233cf.svg",
     "static/media/karanbalaLogoText.svg": "/karanbala/static/media/karanbalaLogoText.992a4d34e4c3fb0034f56b8085707aec.svg",
     "static/media/enamad.svg": "/karanbala/static/media/enamad.f8b4321d4c3341b7c7169652f6b9837c.svg",
     "static/media/karanbalaLogo.svg": "/karanbala/static/media/karanbalaLogo.6a10d187cc2b00917065c547939a4e65.svg",
+    "service-worker.js": "/karanbala/service-worker.js",
     "static/media/No-data.svg": "/karanbala/static/media/No-data.77afdd4bddc185f3cb4b66f0fd6b8a01.svg",
     "static/media/analysis.svg": "/karanbala/static/media/analysis.46901cabfb07587f49b37b1773df9658.svg",
-    "service-worker.js": "/karanbala/service-worker.js",
     "static/media/news.svg": "/karanbala/static/media/news.39ffcb17fbfcec60f6a549f89d6635b7.svg",
     "static/media/Yekan Bakh FA 01 Hairline.ttf": "/karanbala/static/media/Yekan Bakh FA 01 Hairline.19205941c13e1f106d7f.ttf",
     "static/media/Yekan Bakh FA 01 Hairline.eot": "/karanbala/static/media/Yekan Bakh FA 01 Hairline.4d32fca073e7fcaf7791.eot",
@@ -189,12 +189,12 @@
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
     "main.b449d7af.css.map": "/karanbala/static/css/main.b449d7af.css.map",
-    "main.4d695459.js.map": "/karanbala/static/js/main.4d695459.js.map",
-    "688.c0ea1397.chunk.js.map": "/karanbala/static/js/688.c0ea1397.chunk.js.map",
+    "main.5e5e9b31.js.map": "/karanbala/static/js/main.5e5e9b31.js.map",
+    "688.44381114.chunk.js.map": "/karanbala/static/js/688.44381114.chunk.js.map",
     "60.bfd3bd4e.chunk.js.map": "/karanbala/static/js/60.bfd3bd4e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b449d7af.css",
-    "static/js/main.4d695459.js"
+    "static/js/main.5e5e9b31.js"
   ]
 }
