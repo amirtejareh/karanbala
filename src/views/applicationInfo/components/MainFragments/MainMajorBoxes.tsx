@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     majorBox: {
         "& > div": {
             boxShadow: "0px 4px 8px 0px #252D370F",
+            flexBasis: "25%",
         },
     },
 }));
@@ -27,7 +28,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -53,7 +53,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -79,7 +78,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -105,7 +103,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -131,7 +128,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -157,7 +153,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -183,7 +178,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -208,7 +202,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >
@@ -234,7 +227,6 @@ const MainMajorBoxes = () => {
                 display={"flex"}
                 height={"7rem"}
                 alignItems={"center"}
-                width={"26.16rem"}
                 borderRadius={"1.6rem"}
                 margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
             >

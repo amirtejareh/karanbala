@@ -6,6 +6,9 @@ import { ThemeOptions } from "@mui/system";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     banner: {
         backgroundColor: theme?.palette?.secondary["50"],
+        "& > div": {
+            flexBasis: "33.33%",
+        },
     },
 }));
 
@@ -20,8 +23,9 @@ const MainBanner = () => {
             justifyContent={"space-between"}
             display={"flex"}
             flexWrap={"wrap"}
+            borderRadius={"2rem"}
         >
-            <Box width={"524px"} margin={"65px 80px"} className={` ${"bannerContent"}`}>
+            <Box margin={"65px 80px"} className={` ${"bannerContent"}`}>
                 <Box>
                     <Typography
                         margin={"40px 0"}
@@ -29,7 +33,7 @@ const MainBanner = () => {
                         fontSize={"4.5rem"}
                         variant="subtitle1"
                     >
-                        کران ي موفقیت در کران بالا
+                        کرانه‌ی موفقیت در کران بالا
                     </Typography>
                 </Box>
                 <Box>
@@ -44,7 +48,7 @@ const MainBanner = () => {
                 </Box>
             </Box>
 
-            <Box width={"500px"} margin={"24px 0 0 80px"} className={`${"bannerSvg"}`}>
+            <Box margin={"24px 0 0 80px"} className={`${"bannerSvg"}`}>
                 <KaranbalaBannerSvg />
             </Box>
         </Box>

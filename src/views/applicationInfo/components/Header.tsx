@@ -62,7 +62,9 @@ const Header = () => {
                     <KaranbalaLogoTextSvg />
                 </Box>
                 <Box className={classes.signUp}>
-                    <ButtonKit variant="contained">ورود / ثبت نام</ButtonKit>
+                    <ButtonKit variant="contained">
+                        <Typography variant="subtitle1">ورود / ثبت نام</Typography>
+                    </ButtonKit>
                 </Box>
             </Box>
             <Box
@@ -72,7 +74,7 @@ const Header = () => {
                 display={"flex"}
             >
                 <Typography variant="caption" className={classes.typography}>
-                    18:37 - یکشنبه 10 اردیبهشت 1402
+                    یکشنبه ۱۰ اردیبهشت ۱۴۰۲ - ۱۸:۳۷
                 </Typography>
             </Box>
         </>
