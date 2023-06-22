@@ -77,7 +77,7 @@ const Header = () => {
                 justifyContent={"space-around"}
                 display={"flex"}
             >
-                <Typography fontSize={"1.7rem"} variant="caption" className={classes.typography}>
+                <Typography fontSize={"1.6rem"} variant="caption" className={classes.typography}>
                     یکشنبه ۱۰ اردیبهشت ۱۴۰۲ - ۱۸:۳۷
                 </Typography>
             </Box>
