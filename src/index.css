@@ -152,7 +152,7 @@ input:-webkit-autofill {
     }
 }
 
-@media screen and (max-width: 1367px) {
+@media screen and (max-width: 1368px) {
     .bannerContent {
         width: 100% !important;
     }
@@ -160,7 +160,7 @@ input:-webkit-autofill {
         justify-content: space-evenly !important;
     }
     .bannerSvg {
-        margin: "0 !important";
+        margin: 0 !important;
     }
 }
 
