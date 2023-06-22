@@ -75,9 +75,9 @@ import { ReactComponent as ResMenuSelectedSvg } from "./images/resMenuSelected.s
 import { ReactComponent as KaranbalaLogoSvg } from "./images/karanbalaLogo.svg";
 import { ReactComponent as KaranbalaLogoTextSvg } from "./images/karanbalaLogoText.svg";
 import { ReactComponent as KaranbalaBannerSvg } from "./images/karanbalaBanner.svg";
-import { ReactComponent as KaranbalaBooklet } from "./images/karanbalaBooklet.svg";
-import { ReactComponent as KaranbalaLast } from "./images/karanbalaLast.svg";
-import { ReactComponent as BookSaved } from "./images/bookSaved.svg";
+import { ReactComponent as KaranbalaBookletSvg } from "./images/karanbalaBooklet.svg";
+import { ReactComponent as KaranbalaLastSvg } from "./images/karanbalaLast.svg";
+import { ReactComponent as BookSavedSvg } from "./images/bookSaved.svg";
 import { ReactComponent as AparatSvg } from "./images/aparat.svg";
 import { ReactComponent as InstagramSvg } from "./images/instagram.svg";
 import { ReactComponent as TwitterSvg } from "./images/twitter.svg";
@@ -182,9 +182,9 @@ export {
     KaranbalaLogoSvg,
     KaranbalaLogoTextSvg,
     KaranbalaBannerSvg,
-    KaranbalaBooklet,
-    KaranbalaLast,
-    BookSaved,
+    KaranbalaBookletSvg,
+    KaranbalaLastSvg,
+    BookSavedSvg,
     AparatSvg,
     InstagramSvg,
     TwitterSvg,

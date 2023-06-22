@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { BookSaved } from "../../../../assets";
+import { BookSavedSvg } from "../../../../assets";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { makeStyles } from "@mui/styles";
@@ -42,7 +42,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">ریاضی دوازدهم</Typography>
@@ -68,7 +68,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">تجربی دوازدهم</Typography>
@@ -94,7 +94,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">انسانی دوازدهم</Typography>
@@ -120,7 +120,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">ریاضی یازدهم</Typography>
@@ -146,7 +146,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">تجربی یازدهم</Typography>
@@ -172,7 +172,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">انسانی یازدهم</Typography>
@@ -198,7 +198,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">ریاضی دهم</Typography>
@@ -223,7 +223,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">تجربی دهم</Typography>
@@ -249,7 +249,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1">انسانی دهم</Typography>
@@ -275,7 +275,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1"> هفتم</Typography>
@@ -300,7 +300,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1"> هشتم</Typography>
@@ -325,7 +325,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1"> هفتم</Typography>
@@ -350,7 +350,7 @@ const MainMajorBoxes = () => {
                     borderRadius={"1rem"}
                     padding={"1rem"}
                 >
-                    <BookSaved />
+                    <BookSavedSvg />
                 </Box>
 
                 <Typography variant="subtitle1"> منحصرا زبان</Typography>

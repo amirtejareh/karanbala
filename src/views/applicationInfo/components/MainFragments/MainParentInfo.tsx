@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { KaranbalaBooklet, KaranbalaLast } from "../../../../assets";
+import { KaranbalaBookletSvg, KaranbalaLastSvg } from "../../../../assets";
 
 const useStyles = makeStyles(() => ({
     info: {
@@ -30,7 +30,7 @@ const MainParentInfo = () => {
                 alignItems={"center"}
             >
                 <Box>
-                    <KaranbalaLast />
+                    <KaranbalaLastSvg />
                 </Box>
                 <Box>
                     <Typography variant="subtitle1">کران آخر</Typography>
@@ -44,7 +44,7 @@ const MainParentInfo = () => {
                 alignItems={"center"}
             >
                 <Box>
-                    <KaranbalaBooklet />
+                    <KaranbalaBookletSvg />
                 </Box>
                 <Box>
                     <Typography variant="subtitle1">کتابچه راهنمای کران</Typography>
