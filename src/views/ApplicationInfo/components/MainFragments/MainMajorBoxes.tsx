@@ -23,6 +23,53 @@ const MainMajorBoxes = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
+    const text = [
+        "ریاضی دهم",
+        "تجربی دهم",
+        "انسانی دهم",
+        "ریاضی یازدهم",
+        "تجربی یازدهم",
+        "انسانی یازدهم",
+        "ریاضی دوازدهم",
+        "تجربی دوازدهم",
+        "انسانی دوازدهم",
+        "هفتم",
+        "هشتم",
+        "نهم",
+        "منحصرا زبان",
+    ];
+    const path = [
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+        "major-requirements",
+    ];
+
+    const color = [
+        theme?.palette?.primary["light"],
+        theme?.palette?.grey["50"],
+        theme?.palette?.others.warning.light,
+        "#FCF5B2",
+        theme?.palette?.common.white,
+        theme?.palette?.primary["50"],
+        theme?.palette?.others.info.light,
+        theme?.palette?.others.success.light,
+        theme?.palette?.secondary["200"],
+        "#DBFFF6",
+        "#ECECF6",
+        "#FFCCD5",
+        "#E2E3FF",
+    ];
+
     const redirectRoute = (path: string) => {
         return navigate(`/karanbala/${path}`);
     };
@@ -33,345 +80,36 @@ const MainMajorBoxes = () => {
             flexWrap={"wrap"}
             className={classes.majorBox}
         >
-            <Box
-                bgcolor={theme?.palette?.primary["light"]}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
+            {text.map((value, index) => {
+                return (
+                    <Box
+                        bgcolor={color[index]}
+                        display={"flex"}
+                        height={"7rem"}
+                        alignItems={"center"}
+                        borderRadius={"1.6rem"}
+                        margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
+                    >
+                        <Box
+                            display={"flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            width={"5rem"}
+                            height={"5rem"}
+                            margin={"1rem"}
+                            bgcolor={theme?.palette?.common.white}
+                            borderRadius={"1rem"}
+                            padding={"1rem"}
+                        >
+                            <BookSavedSvg />
+                        </Box>
 
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">ریاضی دهم</Typography>
-                </ButtonKit>
-            </Box>
-            <Box
-                bgcolor={theme?.palette?.grey["50"]}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">تجربی دهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.others.warning.light}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">انسانی دهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={"#FCF5B2"}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">ریاضی یازدهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.common.white}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">تجربی یازدهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.primary["50"]}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">انسانی یازدهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.others.info.light}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">ریاضی دوازدهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.others.success.light}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">تجربی دوازدهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={theme?.palette?.secondary["200"]}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1">انسانی دوازدهم</Typography>
-                </ButtonKit>
-            </Box>
-
-            <Box
-                bgcolor={"#DBFFF6"}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                width={"19.125rem"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1"> هفتم</Typography>
-                </ButtonKit>
-            </Box>
-            <Box
-                bgcolor={"#ECECF6"}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                width={"19.125rem"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1"> هشتم</Typography>
-                </ButtonKit>
-            </Box>
-            <Box
-                bgcolor={"#FFCCD5"}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                width={"19.125rem"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1"> نهم</Typography>
-                </ButtonKit>
-            </Box>
-            <Box
-                bgcolor={"#E2E3FF"}
-                display={"flex"}
-                height={"7rem"}
-                alignItems={"center"}
-                width={"19.125rem"}
-                borderRadius={"1.6rem"}
-                margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-            >
-                <Box
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"5rem"}
-                    height={"5rem"}
-                    margin={"1rem"}
-                    bgcolor={theme?.palette?.common.white}
-                    borderRadius={"1rem"}
-                    padding={"1rem"}
-                >
-                    <BookSavedSvg />
-                </Box>
-                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
-                    <Typography variant="subtitle1"> منحصرا زبان</Typography>
-                </ButtonKit>
-            </Box>
+                        <ButtonKit onClick={() => redirectRoute(path[index])}>
+                            <Typography variant="subtitle1">{value}</Typography>
+                        </ButtonKit>
+                    </Box>
+                );
+            })}
         </Box>
     );
 };

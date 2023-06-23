@@ -94,6 +94,10 @@ import { ReactComponent as ExampleSvg } from "./images/example.svg";
 import { ReactComponent as ExamSvg } from "./images/exam.svg";
 import { ReactComponent as PracticeSvg } from "./images/practice.svg";
 
+import { ReactComponent as AccountSvg } from "./images/account.svg";
+import { ReactComponent as BasketSvg } from "./images/basket.svg";
+import { ReactComponent as TelevisionSvg } from "./images/television.svg";
+
 import { ReactComponent as SanatSvg } from "./images/sanat.svg";
 
 import { ReactComponent as ResMenuSvg } from "./images/resMenu.svg";
@@ -196,6 +200,9 @@ export {
     KaranbalaBookletSvg,
     KaranbalaLastSvg,
     BookSavedSvg,
+    AccountSvg,
+    BasketSvg,
+    TelevisionSvg,
     TextBookSvg,
     QuestionsSvg,
     PointAndTestSvg,
