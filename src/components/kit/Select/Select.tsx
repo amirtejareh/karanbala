@@ -1,22 +1,7 @@
-import { MenuItem, OutlinedInput, SelectProps } from "@mui/material";
-import { makeStyles, withStyles } from "@mui/styles";
+import { InputLabel, MenuItem, OutlinedInput, SelectProps } from "@mui/material";
+import { withStyles } from "@mui/styles";
 import React from "react";
 import Select from "@mui/material/Select";
-
-const useStyles = makeStyles(() => ({
-    "&.MuiMenu-paper": {
-        backgroundColor: "red",
-    },
-    formControl: {
-        marign: 0,
-        minWidth: 120,
-    },
-    select: {
-        "&:focus": {
-            backgroundColor: "transparent",
-        },
-    },
-}));
 
 const StyledMenu = withStyles(() => ({
     root: {
@@ -43,10 +28,12 @@ const SelectKit: React.FC<ISelectKitProps> = (props) => {
 
     return (
         <>
+            <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+
             <Select
+                labelId="demo-simple-select-label"
                 fullWidth
                 size="small"
-                displayEmpty
                 input={<OutlinedInput />}
                 renderValue={(selected: any) => {
                     if (typeof selected === "number" || selected) {
@@ -54,18 +41,19 @@ const SelectKit: React.FC<ISelectKitProps> = (props) => {
                     }
                     return label;
                 }}
-                // MenuProps={MenuProps}
-                inputProps={{ "aria-label": "Without label" }}
-                {...rest}
             >
                 <StyledMenu disabled value="">
                     <em>انتخاب کنید...</em>
                 </StyledMenu>
-                {options.map((item, index) => (
-                    <StyledMenu key={index} value={item.value}>
-                        {item.title}
-                    </StyledMenu>
-                ))}
+                {options.map((item, index) => {
+                    console.log(item, index);
+
+                    return (
+                        <StyledMenu key={index} value={item.value}>
+                            {item.title}
+                        </StyledMenu>
+                    );
+                })}
             </Select>
         </>
     );

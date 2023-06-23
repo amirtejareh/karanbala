@@ -83,6 +83,17 @@ import { ReactComponent as InstagramSvg } from "./images/instagram.svg";
 import { ReactComponent as TwitterSvg } from "./images/twitter.svg";
 import { ReactComponent as TelegramSvg } from "./images/telegram.svg";
 import { ReactComponent as EnamadSvg } from "./images/enamad.svg";
+
+import { ReactComponent as TextBookSvg } from "./images/textBook.svg";
+import { ReactComponent as QuestionsSvg } from "./images/questions.svg";
+import { ReactComponent as PointAndTestSvg } from "./images/pointAndTest.svg";
+import { ReactComponent as AttachSvg } from "./images/attach.svg";
+import { ReactComponent as QuizSvg } from "./images/quiz.svg";
+import { ReactComponent as KaranbalaExamSvg } from "./images/karanbalaExam.svg";
+import { ReactComponent as ExampleSvg } from "./images/example.svg";
+import { ReactComponent as ExamSvg } from "./images/exam.svg";
+import { ReactComponent as PracticeSvg } from "./images/practice.svg";
+
 import { ReactComponent as SanatSvg } from "./images/sanat.svg";
 
 import { ReactComponent as ResMenuSvg } from "./images/resMenu.svg";
@@ -185,6 +196,15 @@ export {
     KaranbalaBookletSvg,
     KaranbalaLastSvg,
     BookSavedSvg,
+    TextBookSvg,
+    QuestionsSvg,
+    PointAndTestSvg,
+    AttachSvg,
+    QuizSvg,
+    KaranbalaExamSvg,
+    ExampleSvg,
+    ExamSvg,
+    PracticeSvg,
     AparatSvg,
     InstagramSvg,
     TwitterSvg,

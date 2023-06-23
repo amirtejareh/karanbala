@@ -35,90 +35,90 @@ const theme: ThemeOptions = {
     direction: "ltr",
     components: {
         // MuiButtonBase: { defaultProps: { disableRipple: true, disableTouchRipple: true } },
-        MuiButton: {
-            defaultProps: { disableElevation: true, size: "base" },
-            styleOverrides: {
-                root: {
-                    boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.05)",
-                    borderRadius: "6px",
-                    color: "#F7F8FA",
-                    "&.MuiButton-containedSuccess": {
-                        backgroundColor: "#03BD90",
-                        backgroundImage: "unset",
-                    },
-                    "&.MuiButton-containedError": {
-                        backgroundColor: "#D9004E",
-                        backgroundImage: "unset",
-                        borderColor: "#D9004E",
-                    },
-                    "&.MuiButton-sizeLarge": {
-                        padding: "18px 22px",
-                        fontSize: "12px",
-                    },
-                    "&.MuiButton-sizeMedium": {
-                        padding: "13px 22px",
-                        fontSize: "12px",
-                    },
-                },
+        // MuiButton: {
+        //     defaultProps: { disableElevation: true, size: "base" },
+        //     styleOverrides: {
+        //         root: {
+        //             boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.05)",
+        //             borderRadius: "6px",
+        //             color: "#F7F8FA",
+        //             "&.MuiButton-containedSuccess": {
+        //                 backgroundColor: "#03BD90",
+        //                 backgroundImage: "unset",
+        //             },
+        //             "&.MuiButton-containedError": {
+        //                 backgroundColor: "#D9004E",
+        //                 backgroundImage: "unset",
+        //                 borderColor: "#D9004E",
+        //             },
+        //             "&.MuiButton-sizeLarge": {
+        //                 padding: "18px 22px",
+        //                 fontSize: "12px",
+        //             },
+        //             "&.MuiButton-sizeMedium": {
+        //                 padding: "13px 22px",
+        //                 fontSize: "12px",
+        //             },
+        //         },
 
-                contained: {
-                    "&:disabled": {
-                        backgroundColor: "rgba(255, 255, 255, 0.04)",
-                        color: "rgba(255, 255, 255, 0.38)",
-                    },
-                },
-                outlined: {
-                    borderColor: "#22A9BE",
+        //         contained: {
+        //             "&:disabled": {
+        //                 backgroundColor: "rgba(255, 255, 255, 0.04)",
+        //                 color: "rgba(255, 255, 255, 0.38)",
+        //             },
+        //         },
+        //         outlined: {
+        //             borderColor: "#22A9BE",
 
-                    "&:hover": {
-                        backgroundColor: "rgba(248, 209, 47, 0.04)",
-                    },
-                    ":disabled": {
-                        borderColor: "rgba(255, 255, 255, 0.12)",
-                        color: "rgba(255, 255, 255, 0.38)",
-                    },
-                },
-                text: {
-                    ":hover": {
-                        // backgroundColor: "rgba(248, 209, 47, 0.04)",
-                    },
-                    "&:focus": {
-                        // border: "solid 1px #f8d12f",
-                        // backgroundColor: "rgba(248, 209, 47, 0.12)",
-                    },
-                    ":disabled": {
-                        color: "rgba(255, 255, 255, 0.38)",
-                    },
-                },
+        //             "&:hover": {
+        //                 backgroundColor: "rgba(248, 209, 47, 0.04)",
+        //             },
+        //             ":disabled": {
+        //                 borderColor: "rgba(255, 255, 255, 0.12)",
+        //                 color: "rgba(255, 255, 255, 0.38)",
+        //             },
+        //         },
+        //         text: {
+        //             ":hover": {
+        //                 // backgroundColor: "rgba(248, 209, 47, 0.04)",
+        //             },
+        //             "&:focus": {
+        //                 // border: "solid 1px #f8d12f",
+        //                 // backgroundColor: "rgba(248, 209, 47, 0.12)",
+        //             },
+        //             ":disabled": {
+        //                 color: "rgba(255, 255, 255, 0.38)",
+        //             },
+        //         },
 
-                sizeSmall: { padding: "4px 6px", lineHeight: 1 },
-                sizeXs: {
-                    padding: "3px 8px",
-                    fontSize: "1rem",
-                    lineHeight: 1.231,
-                    minWidth: "4.9rem",
-                    borderRadius: 4,
-                },
-                sizeSm: {
-                    padding: "9px 13px",
-                    lineHeight: 1.231,
-                },
-                sizeBase: {
-                    padding: "16px 24px",
-                    lineHeight: 1.429,
-                    fontSize: "1rem",
-                },
-                sizeLg: {
-                    padding: "9px 17px",
-                    lineHeight: 1.715,
-                },
-                sizeXl: {
-                    padding: "13px 25px",
-                    lineHeight: 1.6,
-                    fontSize: "1.5rem",
-                },
-            },
-        },
+        //         sizeSmall: { padding: "4px 6px", lineHeight: 1 },
+        //         sizeXs: {
+        //             padding: "3px 8px",
+        //             fontSize: "1rem",
+        //             lineHeight: 1.231,
+        //             minWidth: "4.9rem",
+        //             borderRadius: 4,
+        //         },
+        //         sizeSm: {
+        //             padding: "9px 13px",
+        //             lineHeight: 1.231,
+        //         },
+        //         sizeBase: {
+        //             padding: "16px 24px",
+        //             lineHeight: 1.429,
+        //             fontSize: "1rem",
+        //         },
+        //         sizeLg: {
+        //             padding: "9px 17px",
+        //             lineHeight: 1.715,
+        //         },
+        //         sizeXl: {
+        //             padding: "13px 25px",
+        //             lineHeight: 1.6,
+        //             fontSize: "1.5rem",
+        //         },
+        //     },
+        // },
         MuiFab: {
             defaultProps: { size: "base", color: "primary" },
             styleOverrides: {
@@ -203,7 +203,6 @@ const theme: ThemeOptions = {
                             color: "#d6d5dd",
                             opacity: "unset",
                         },
-                        color: "#fff",
 
                         "& fieldset": {
                             // borderWidth: "0.75px",
@@ -237,7 +236,6 @@ const theme: ThemeOptions = {
         MuiInputLabel: {
             styleOverrides: {
                 root: {
-                    color: "#fff",
                     "&.Mui-disabled": {
                         color: "#797979",
                     },
@@ -353,7 +351,6 @@ const theme: ThemeOptions = {
             },
             styleOverrides: {
                 select: {
-                    color: "#fff",
                     "&.MuiOutlinedInput-notchedOutline": {
                         borderWidth: "0 !important",
                     },
@@ -398,7 +395,6 @@ const theme: ThemeOptions = {
                     borderRadius: "4px",
                     backgroundColor: "#272b37",
                     border: "none !important",
-                    color: "#fff",
                     "&.MuiOutlinedInput-notchedOutline": {
                         borderWidth: "0 !important",
                     },
@@ -479,7 +475,6 @@ const theme: ThemeOptions = {
                     "& .MuiPagination-ul": {
                         "& li": {
                             "& button": {
-                                color: "#fff",
                                 backgroundColor: "#3b3b43",
                                 border: "none",
                                 borderRadius: 4,
@@ -539,7 +534,6 @@ const theme: ThemeOptions = {
                         padding: "1rem 0.5rem",
                         fontSize: "1.1rem",
                         fontWeight: 400,
-                        color: "#fff",
                         backgroundColor: "transparent !important",
                         "& p": {
                             fontSize: "1.1rem !important",

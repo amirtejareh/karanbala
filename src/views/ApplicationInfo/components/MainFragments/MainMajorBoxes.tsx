@@ -3,6 +3,8 @@ import { BookSavedSvg } from "../../../../assets";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { makeStyles } from "@mui/styles";
+import { ButtonKit } from "../../../../components/kit/Button";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     majorBox: {
@@ -10,12 +12,20 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
             boxShadow: "0px 4px 8px 0px #252D370F",
             flexBasis: "25%",
         },
+        "& button": {
+            margin: "auto",
+        },
     },
 }));
 
 const MainMajorBoxes = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
+    const navigate = useNavigate();
+
+    const redirectRoute = (path: string) => {
+        return navigate(`/karanbala/${path}`);
+    };
     return (
         <Box
             display={"flex"}
@@ -45,7 +55,9 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1">ریاضی دهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">ریاضی دهم</Typography>
+                </ButtonKit>
             </Box>
             <Box
                 bgcolor={theme?.palette?.grey["50"]}
@@ -68,8 +80,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">تجربی دهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">تجربی دهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -93,8 +106,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">انسانی دهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">انسانی دهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -119,7 +133,9 @@ const MainMajorBoxes = () => {
                     <BookSavedSvg />
                 </Box>
 
-                <Typography variant="subtitle1">ریاضی یازدهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">ریاضی یازدهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -143,8 +159,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">تجربی یازدهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">تجربی یازدهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -168,8 +185,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">انسانی یازدهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">انسانی یازدهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -193,8 +211,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">ریاضی دوازدهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">ریاضی دوازدهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -218,8 +237,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">تجربی دوازدهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">تجربی دوازدهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -243,8 +263,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1">انسانی دوازدهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1">انسانی دوازدهم</Typography>
+                </ButtonKit>
             </Box>
 
             <Box
@@ -269,8 +290,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1"> هفتم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1"> هفتم</Typography>
+                </ButtonKit>
             </Box>
             <Box
                 bgcolor={"#ECECF6"}
@@ -294,8 +316,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1"> هشتم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1"> هشتم</Typography>
+                </ButtonKit>
             </Box>
             <Box
                 bgcolor={"#FFCCD5"}
@@ -319,8 +342,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1"> نهم</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1"> نهم</Typography>
+                </ButtonKit>
             </Box>
             <Box
                 bgcolor={"#E2E3FF"}
@@ -344,8 +368,9 @@ const MainMajorBoxes = () => {
                 >
                     <BookSavedSvg />
                 </Box>
-
-                <Typography variant="subtitle1"> منحصرا زبان</Typography>
+                <ButtonKit onClick={() => redirectRoute("major-requirements")}>
+                    <Typography variant="subtitle1"> منحصرا زبان</Typography>
+                </ButtonKit>
             </Box>
         </Box>
     );
