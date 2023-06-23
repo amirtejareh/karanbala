@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.b449d7af.css",
-    "main.js": "/karanbala/static/js/main.08617171.js",
-    "static/js/688.d2ac0f7f.chunk.js": "/karanbala/static/js/688.d2ac0f7f.chunk.js",
-    "static/js/60.bfd3bd4e.chunk.js": "/karanbala/static/js/60.bfd3bd4e.chunk.js",
+    "main.js": "/karanbala/static/js/main.f45814e1.js",
+    "static/js/774.c9a847c4.chunk.js": "/karanbala/static/js/774.c9a847c4.chunk.js",
+    "static/js/197.31cbd83e.chunk.js": "/karanbala/static/js/197.31cbd83e.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
     "static/media/learning.svg": "/karanbala/static/media/learning.55711bb9611a633edc8baff230b233cf.svg",
@@ -11,6 +11,7 @@
     "static/media/enamad.svg": "/karanbala/static/media/enamad.f8b4321d4c3341b7c7169652f6b9837c.svg",
     "static/media/karanbalaLogo.svg": "/karanbala/static/media/karanbalaLogo.6a10d187cc2b00917065c547939a4e65.svg",
     "service-worker.js": "/karanbala/service-worker.js",
+    "static/media/drsamiee.png": "/karanbala/static/media/drsamiee.9ef506f442008b1d9680.png",
     "static/media/No-data.svg": "/karanbala/static/media/No-data.77afdd4bddc185f3cb4b66f0fd6b8a01.svg",
     "static/media/analysis.svg": "/karanbala/static/media/analysis.46901cabfb07587f49b37b1773df9658.svg",
     "static/media/news.svg": "/karanbala/static/media/news.39ffcb17fbfcec60f6a549f89d6635b7.svg",
@@ -72,6 +73,7 @@
     "static/media/sun-filled.svg": "/karanbala/static/media/sun-filled.4308e3bc929120b8be28d42f5a117864.svg",
     "static/media/TableArrowNegative5.svg": "/karanbala/static/media/TableArrowNegative5.ea5df7c2c8c0d28a3711a19f6b7e8e3d.svg",
     "static/media/profileInfo.svg": "/karanbala/static/media/profileInfo.1e6cc0859f2a8ea682697a37bf04d7e7.svg",
+    "static/media/practice.svg": "/karanbala/static/media/practice.fcd2f93c97ab882ad8f868ad8bd92b7c.svg",
     "static/media/Iconly_Light-outline_Star.svg": "/karanbala/static/media/Iconly_Light-outline_Star.9e398023cd401e54bb932b84e21fafbe.svg",
     "static/media/TableArrowPositive4.svg": "/karanbala/static/media/TableArrowPositive4.a9e1b725062569201373334e91b941d3.svg",
     "static/media/iconly-light-outline-filter.svg": "/karanbala/static/media/iconly-light-outline-filter.a3b6d0da9121ba370330879d1fa2fba3.svg",
@@ -81,9 +83,12 @@
     "static/media/home.svg": "/karanbala/static/media/home.6c1b17abeb60175d44ad20a8c80502d0.svg",
     "static/media/chart.svg": "/karanbala/static/media/chart.687af82aeee32f9fb70c15d443fe3d28.svg",
     "static/media/TableArrowNegative4.svg": "/karanbala/static/media/TableArrowNegative4.ac42018edd051afaab43695d7cb601f6.svg",
+    "static/media/pointAndTest.svg": "/karanbala/static/media/pointAndTest.cb8c94f9a00f0c327c86d6fd2e50ade4.svg",
     "static/media/wallet.svg": "/karanbala/static/media/wallet.a74caed63c4f41c1dcdd17ea6ea01672.svg",
+    "static/media/textBook.svg": "/karanbala/static/media/textBook.d9991bb49abc8ba2e76119ed15b4a2b9.svg",
     "static/media/bookSaved.svg": "/karanbala/static/media/bookSaved.c0f624930d5f58a0d7100b7b00a73ae8.svg",
     "static/media/bookmark.svg": "/karanbala/static/media/bookmark.474900641b7c58966ed24d3621fdf3ac.svg",
+    "static/media/exam.svg": "/karanbala/static/media/exam.7608cef5d58929bf2c106532e6ada7f5.svg",
     "static/media/RefreshLight2.svg": "/karanbala/static/media/RefreshLight2.b8afc29276b06298d7b3b14f18d57a6b.svg",
     "static/media/refresh-2.svg": "/karanbala/static/media/refresh-2.8e1ff3edab2e11f09b071a87e183ddb0.svg",
     "static/media/portfoDetail.svg": "/karanbala/static/media/portfoDetail.599e3c8931ced48074a0c1e6c352200e.svg",
@@ -95,6 +100,7 @@
     "static/media/location.svg": "/karanbala/static/media/location.ff21ba0b8a0e16fd82d2f1883e5cf6e1.svg",
     "static/media/resMenu.svg": "/karanbala/static/media/resMenu.eb6e175fc5af7c84f2af59fdfea6e882.svg",
     "static/media/resMenuSelected.svg": "/karanbala/static/media/resMenuSelected.706e52db86c103f036194100d7417e7e.svg",
+    "static/media/example.svg": "/karanbala/static/media/example.d2c3544455371f66ac8e2822df69243d.svg",
     "static/media/TableArrowNegative3.svg": "/karanbala/static/media/TableArrowNegative3.15ef8e8181f52d459e5538b0f5340ee5.svg",
     "static/media/agreement.svg": "/karanbala/static/media/agreement.d18765fb14265b248664a577fe83bfba.svg",
     "static/media/Iconly_Light-outline_Delete.svg": "/karanbala/static/media/Iconly_Light-outline_Delete.d3c4ad831754c7242c62fe38edd9816a.svg",
@@ -104,6 +110,7 @@
     "static/media/increaseChart.svg": "/karanbala/static/media/increaseChart.03cf01ed4f06751bdff7c18e7aa6d39b.svg",
     "static/media/decreaseChart.svg": "/karanbala/static/media/decreaseChart.63989f97ba5d28442024df7ad56f114c.svg",
     "static/media/percentage-circle.svg": "/karanbala/static/media/percentage-circle.ca5a75af6cd8d99934f78855fca5b94d.svg",
+    "static/media/questions.svg": "/karanbala/static/media/questions.969b6f0c99aa93362b9bfe065b651ce2.svg",
     "static/media/boldArrowDownDark.svg": "/karanbala/static/media/boldArrowDownDark.5d9f75c9ba73f9bad0bc3cc252d7549b.svg",
     "static/media/boldArrowDownLight.svg": "/karanbala/static/media/boldArrowDownLight.2b6806552a49edb505f84652d901b7d6.svg",
     "static/media/boldArrowDown.svg": "/karanbala/static/media/boldArrowDown.077a8d2fa219517c82cf4e943ca3c894.svg",
@@ -114,7 +121,9 @@
     "static/media/iconly-light-outline-message.svg": "/karanbala/static/media/iconly-light-outline-message.7e92643517be306a30071d9e6c6f6271.svg",
     "static/media/note.svg": "/karanbala/static/media/note.2997780485f16d392c3d6f125569550a.svg",
     "static/media/iconly-light-outline-swap.svg": "/karanbala/static/media/iconly-light-outline-swap.ca1d51a2300ec4ab4c878e5fde4e7dc5.svg",
+    "static/media/attach.svg": "/karanbala/static/media/attach.94100782cac0e990f2c90429576bbb42.svg",
     "static/media/iconly-light-outline-show.svg": "/karanbala/static/media/iconly-light-outline-show.439eb1fbb36c80bfa27a5997483050c5.svg",
+    "static/media/quiz.svg": "/karanbala/static/media/quiz.94100782cac0e990f2c90429576bbb42.svg",
     "static/media/group-1966.svg": "/karanbala/static/media/group-1966.09e603865b2fbbc9bfc5a194ab2e5a9b.svg",
     "static/media/TableArrowPositive2.svg": "/karanbala/static/media/TableArrowPositive2.35dc45e02f30da6e5f26b2897a4c7850.svg",
     "static/media/boldArrowUp.svg": "/karanbala/static/media/boldArrowUp.4f2f44c6fd15657571b52d97f8d11230.svg",
@@ -144,6 +153,7 @@
     "static/media/decreaseArrow.svg": "/karanbala/static/media/decreaseArrow.3b87abc069b1b27bf53271bd3e46099d.svg",
     "static/media/iconly-bold-arrow-down-2.svg": "/karanbala/static/media/iconly-bold-arrow-down-2.9a4fd11d9121ef3622f9152a3c182ae2.svg",
     "static/media/CurveArrowSvgNegative.svg": "/karanbala/static/media/CurveArrowSvgNegative.8c84e3a309b422bb0014ae41013f2142.svg",
+    "static/media/karanbalaExam.svg": "/karanbala/static/media/karanbalaExam.c1ec3e2d6ea6a6659a0241f8103be6c8.svg",
     "static/media/AttachmentLight.svg": "/karanbala/static/media/AttachmentLight.b339e43b213ef40e20a45e294582eb7d.svg",
     "static/media/Attachment.svg": "/karanbala/static/media/Attachment.9be926b2b159b35552606342ad8caba0.svg",
     "static/media/TableArrowPositive1.svg": "/karanbala/static/media/TableArrowPositive1.450c8190f303ee8ae0c8dd102e9bd03e.svg",
@@ -189,12 +199,12 @@
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
     "main.b449d7af.css.map": "/karanbala/static/css/main.b449d7af.css.map",
-    "main.08617171.js.map": "/karanbala/static/js/main.08617171.js.map",
-    "688.d2ac0f7f.chunk.js.map": "/karanbala/static/js/688.d2ac0f7f.chunk.js.map",
-    "60.bfd3bd4e.chunk.js.map": "/karanbala/static/js/60.bfd3bd4e.chunk.js.map"
+    "main.f45814e1.js.map": "/karanbala/static/js/main.f45814e1.js.map",
+    "774.c9a847c4.chunk.js.map": "/karanbala/static/js/774.c9a847c4.chunk.js.map",
+    "197.31cbd83e.chunk.js.map": "/karanbala/static/js/197.31cbd83e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b449d7af.css",
-    "static/js/main.08617171.js"
+    "static/js/main.f45814e1.js"
   ]
 }
