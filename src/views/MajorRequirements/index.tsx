@@ -22,6 +22,31 @@ import { ThemeOptions } from "@mui/system";
 const MajorRequirements = () => {
     const theme: ThemeOptions = useTheme();
 
+    const text = [
+        "معرفی کتاب",
+        "درس نامه",
+        "سوالات تشریحی",
+        "نکته و تست",
+        "ضمائم",
+        "آزمون انتخابی",
+        "کران بالا",
+        "نمونه سوالات امتحانی",
+        "تست‌های جامع",
+        "تمارین داخل کتاب",
+    ];
+    const logo = [
+        <BookSavedSvg />,
+        <TextBookSvg />,
+        <QuestionsSvg />,
+        <PointAndTestSvg />,
+        <AttachSvg />,
+        <QuizSvg />,
+        <KaranbalaExamSvg />,
+        <ExampleSvg />,
+        <ExamSvg />,
+        <PracticeSvg />,
+    ];
+
     const [selectValue, setSelectValue] = useState(2);
 
     const option = [
@@ -102,276 +127,37 @@ const MajorRequirements = () => {
                     },
                 }}
             >
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <BookSavedSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">معرفی کتاب</Typography>
-                    </Box>
-                </Box>
-
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <TextBookSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">درس نامه</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <QuestionsSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">سوالات تشریحی</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <PointAndTestSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">نکته و تست</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <AttachSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">ضمائم</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <QuizSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">آزمون انتخابی</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <KaranbalaExamSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">کران بالا</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <ExampleSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">نمونه سوالات امتحانی </Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <ExamSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">تست‌های جامع</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    width={"27.9rem"}
-                    height={"16rem"}
-                    display={"flex"}
-                    borderRadius={"2rem"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    bgcolor={theme?.palette?.others.info.light}
-                >
-                    <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
-                    >
-                        <PracticeSvg />
-                    </Box>
-                    <Box>
-                        <Typography variant="subtitle1">تمارین داخل کتاب</Typography>
-                    </Box>
-                </Box>
+                {text.map((value: string, index: number) => {
+                    return (
+                        <Box
+                            width={"27.9rem"}
+                            height={"16rem"}
+                            display={"flex"}
+                            borderRadius={"2rem"}
+                            flexDirection={"column"}
+                            alignItems={"center"}
+                            justifyContent={"center"}
+                            bgcolor={theme?.palette?.others.info.light}
+                        >
+                            <Box
+                                display={"flex"}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                                width={"5rem"}
+                                height={"5rem"}
+                                margin={"1rem"}
+                                bgcolor={theme?.palette?.common.white}
+                                borderRadius={"1rem"}
+                                padding={"1rem"}
+                            >
+                                {logo[index]}
+                            </Box>
+                            <Box>
+                                <Typography variant="subtitle1">{value}</Typography>
+                            </Box>
+                        </Box>
+                    );
+                })}
             </Box>
         </Box>
     );
