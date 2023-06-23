@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.b449d7af.css",
-    "main.js": "/karanbala/static/js/main.f45814e1.js",
-    "static/js/774.c9a847c4.chunk.js": "/karanbala/static/js/774.c9a847c4.chunk.js",
+    "main.js": "/karanbala/static/js/main.2ee19dfa.js",
+    "static/js/774.f3d92895.chunk.js": "/karanbala/static/js/774.f3d92895.chunk.js",
     "static/js/197.31cbd83e.chunk.js": "/karanbala/static/js/197.31cbd83e.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
@@ -121,7 +121,6 @@
     "static/media/iconly-light-outline-message.svg": "/karanbala/static/media/iconly-light-outline-message.7e92643517be306a30071d9e6c6f6271.svg",
     "static/media/note.svg": "/karanbala/static/media/note.2997780485f16d392c3d6f125569550a.svg",
     "static/media/iconly-light-outline-swap.svg": "/karanbala/static/media/iconly-light-outline-swap.ca1d51a2300ec4ab4c878e5fde4e7dc5.svg",
-    "static/media/attach.svg": "/karanbala/static/media/attach.94100782cac0e990f2c90429576bbb42.svg",
     "static/media/iconly-light-outline-show.svg": "/karanbala/static/media/iconly-light-outline-show.439eb1fbb36c80bfa27a5997483050c5.svg",
     "static/media/quiz.svg": "/karanbala/static/media/quiz.94100782cac0e990f2c90429576bbb42.svg",
     "static/media/group-1966.svg": "/karanbala/static/media/group-1966.09e603865b2fbbc9bfc5a194ab2e5a9b.svg",
@@ -133,6 +132,7 @@
     "static/media/aparat.svg": "/karanbala/static/media/aparat.798402d2bf393e79c0138b10aa1aaceb.svg",
     "static/media/iconly-light-outline-paper-plus.svg": "/karanbala/static/media/iconly-light-outline-paper-plus.894fb1595f045bfa24eb88458685ad78.svg",
     "static/media/CheckedTrue.svg": "/karanbala/static/media/CheckedTrue.291e0de5b3f2a1822e743c30ba07adf4.svg",
+    "static/media/attach.svg": "/karanbala/static/media/attach.7006c5be41792ed8ba857d729f87df91.svg",
     "static/media/diagram.svg": "/karanbala/static/media/diagram.61a82cf2bd008f003091872bcc7f7448.svg",
     "static/media/twitter.svg": "/karanbala/static/media/twitter.8d09d0d6a34a4c03704f0cdb70e3fd51.svg",
     "static/media/laptop.svg": "/karanbala/static/media/laptop.08c060cd73a4d9acfde17b2f34454a00.svg",
@@ -199,12 +199,12 @@
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
     "main.b449d7af.css.map": "/karanbala/static/css/main.b449d7af.css.map",
-    "main.f45814e1.js.map": "/karanbala/static/js/main.f45814e1.js.map",
-    "774.c9a847c4.chunk.js.map": "/karanbala/static/js/774.c9a847c4.chunk.js.map",
+    "main.2ee19dfa.js.map": "/karanbala/static/js/main.2ee19dfa.js.map",
+    "774.f3d92895.chunk.js.map": "/karanbala/static/js/774.f3d92895.chunk.js.map",
     "197.31cbd83e.chunk.js.map": "/karanbala/static/js/197.31cbd83e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b449d7af.css",
-    "static/js/main.f45814e1.js"
+    "static/js/main.2ee19dfa.js"
   ]
 }
