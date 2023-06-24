@@ -157,7 +157,7 @@ input:-webkit-autofill {
         width: 100% !important;
     }
     .banner {
-        justify-content: space-evenly !important;
+        justify-content: space-evenly;
     }
     .bannerSvg {
         margin: 0 !important;
@@ -175,5 +175,18 @@ input:-webkit-autofill {
 @media screen and (max-width: 836px) {
     .slogan {
         justify-content: center !important;
+    }
+}
+
+@media screen and (max-width: 1005px) {
+    .majorBox > div {
+        flex-basis: 100% !important;
+    }
+    .banner > div {
+        flex-basis: 100% !important;
+        justify-content: center;
+    }
+    .bannerSvg {
+        display: "flex";
     }
 }

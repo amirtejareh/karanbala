@@ -78,7 +78,7 @@ const MainMajorBoxes = () => {
             display={"flex"}
             justifyContent={"space-evenly"}
             flexWrap={"wrap"}
-            className={classes.majorBox}
+            className={`${classes.majorBox} ${"majorBox"}`}
         >
             {text.map((value, index) => {
                 return (
