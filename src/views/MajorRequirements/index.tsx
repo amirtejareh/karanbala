@@ -33,7 +33,7 @@ const EducationDetails = () => {
 
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
-            <Box display={"flex"} justifyContent={"flex-end"}>
+            <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
                 <KaranbalaLogoSvg />
                 <KaranbalaLogoTextSvg />
             </Box>
