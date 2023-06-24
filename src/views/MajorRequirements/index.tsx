@@ -106,7 +106,12 @@ const EducationDetails = () => {
                 </Box>
             </Box>
             <Box>
-                <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                <Box
+                    className={`drSamieeBox`}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                >
                     <Box>
                         <Typography variant="subtitle1" fontSize="2.5rem" marginBottom={"2rem"}>
                             پروفسور سمیعی
@@ -136,7 +141,7 @@ const EducationDetails = () => {
                 marginTop={"9rem"}
                 gap={"5rem"}
                 justifyContent={"space-between"}
-                className={classes.parentEducationBoxes}
+                className={`${classes.parentEducationBoxes} ${"parentEducationBoxes"}`}
                 flexWrap={"wrap"}
             >
                 <Box

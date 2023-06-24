@@ -190,3 +190,13 @@ input:-webkit-autofill {
         display: "flex";
     }
 }
+
+@media screen and (max-width: 742px) {
+    .parentEducationBoxes {
+        justify-content: center !important;
+    }
+
+    .drSamieeBox img {
+        display: none !important;
+    }
+}
