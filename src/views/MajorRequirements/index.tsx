@@ -37,7 +37,7 @@ const EducationDetails = () => {
                 <KaranbalaLogoSvg />
                 <KaranbalaLogoTextSvg />
             </Box>
-            <Box display={"flex"} justifyContent={"space-between"}>
+            <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
                 <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
                     <Box component={"img"} src={ProfilePicture}></Box>
                     <Box display={"flex"} margin={"2rem"} flexDirection={"column"}>
@@ -63,7 +63,7 @@ const EducationDetails = () => {
                     alignItems={"center"}
                     margin={"4rem"}
                 >
-                    <Box display={"flex"} gap={"2.8rem"} flexWrap={"wrap"}>
+                    <Box display={"flex"} gap={"2.8rem"}>
                         <Box
                             bgcolor={theme?.palette?.grey["50"]}
                             padding={"1rem"}
@@ -161,14 +161,19 @@ const EducationDetails = () => {
                     boxShadow={"0px 6px 12px 4px #252D371A"}
                     padding={"2rem"}
                     borderRadius={"2rem"}
+                    flexWrap={"wrap"}
                 >
-                    <Box borderRadius={"1rem"} component={"img"} src={Exam}></Box>
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <Box borderRadius={"1rem"} component={"img"} src={Exam}></Box>
+                    </Box>
                     <Box marginTop={"1rem"} display={"flex"} justifyContent={"space-between"}>
                         <Box>
                             <Typography variant="subtitle1">آزمون</Typography>
                         </Box>
                         <Box>
-                            <ButtonKit variant="contained">شروع</ButtonKit>
+                            <ButtonKit variant="contained" onClick={() => {}}>
+                                شروع
+                            </ButtonKit>
                         </Box>
                     </Box>
                 </Box>
@@ -176,14 +181,19 @@ const EducationDetails = () => {
                     boxShadow={"0px 6px 12px 4px #252D371A"}
                     padding={"2rem"}
                     borderRadius={"2rem"}
+                    flexWrap={"wrap"}
                 >
-                    <Box borderRadius={"1rem"} component={"img"} src={Communication}></Box>
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <Box borderRadius={"1rem"} component={"img"} src={Communication}></Box>
+                    </Box>
                     <Box marginTop={"1rem"} display={"flex"} justifyContent={"space-between"}>
                         <Box>
                             <Typography variant="subtitle1">ارتباط آنلاین</Typography>
                         </Box>
                         <Box>
-                            <ButtonKit variant="contained">شروع</ButtonKit>
+                            <ButtonKit variant="contained" onClick={() => {}}>
+                                شروع
+                            </ButtonKit>
                         </Box>
                     </Box>
                 </Box>
