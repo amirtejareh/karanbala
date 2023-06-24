@@ -18,9 +18,20 @@ import { SelectKit } from "../../components/kit/Select";
 import DrSamiee from "../../assets/images/drsamiee.png";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme: ThemeOptions) => ({
+    educationDetailsBox: {
+        "& > div": {
+            flexBasis: "22%",
+            margin: "0 auto",
+        },
+    },
+}));
 
 const MajorRequirements = () => {
     const theme: ThemeOptions = useTheme();
+    const classes = useStyles();
 
     const text = [
         "معرفی کتاب",
@@ -72,14 +83,13 @@ const MajorRequirements = () => {
                         defaultValue={selectValue}
                         onChange={({ target: { value } }) => {
                             const newValue: number = value as number;
-                            console.log(selectValue);
 
                             setSelectValue(newValue);
                         }}
                     ></SelectKit>
                 </Box>
 
-                <Box display={"flex"} flexDirection={"column"}>
+                <Box className={`drSamieeBox`} display={"flex"} flexDirection={"column"}>
                     <Box>
                         <Typography variant="subtitle1" fontSize="2rem">
                             پروفسور سمیعی
@@ -120,12 +130,7 @@ const MajorRequirements = () => {
                 flexWrap={"wrap"}
                 gap={"5rem"}
                 margin={"7.5rem auto"}
-                sx={{
-                    "& > div": {
-                        flexBasis: "22%",
-                        margin: "0 auto",
-                    },
-                }}
+                className={`${classes.educationDetailsBox} ${"educationDetailsBox"}`}
             >
                 {text.map((value: string, index: number) => {
                     return (

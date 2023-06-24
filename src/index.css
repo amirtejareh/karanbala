@@ -199,4 +199,8 @@ input:-webkit-autofill {
     .drSamieeBox img {
         display: none !important;
     }
+
+    .educationDetailsBox > div {
+        flex-basis: 100% !important;
+    }
 }
