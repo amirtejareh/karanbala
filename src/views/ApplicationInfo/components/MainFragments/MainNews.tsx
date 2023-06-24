@@ -68,7 +68,7 @@ const MainNews = () => {
                         <Box>
                             <Typography>لورم ایپسوم متن ساختگی با تولید تگی </Typography>
                         </Box>
-                        <Box display={"flex"} justifyContent={"space-between"}>
+                        <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
                             <Box>
                                 <Typography>۱۴۰۲/۰۱/۳۱</Typography>
                             </Box>
@@ -94,7 +94,7 @@ const MainNews = () => {
                         <Box>
                             <Typography>لورم ایپسوم متن ساختگی با تولید تگی </Typography>
                         </Box>
-                        <Box display={"flex"} justifyContent={"space-between"}>
+                        <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
                             <Box>
                                 <Typography>۱۴۰۲/۰۱/۳۱</Typography>
                             </Box>
