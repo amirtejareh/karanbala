@@ -37,7 +37,12 @@ const EducationDetails = () => {
                 <KaranbalaLogoSvg />
                 <KaranbalaLogoTextSvg />
             </Box>
-            <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
+            <Box
+                className={"slogan"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                flexWrap={"wrap"}
+            >
                 <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
                     <Box component={"img"} src={ProfilePicture}></Box>
                     <Box display={"flex"} margin={"2rem"} flexDirection={"column"}>

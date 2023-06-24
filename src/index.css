@@ -171,3 +171,9 @@ input:-webkit-autofill {
         padding-top: 50px !important;
     }
 }
+
+@media screen and (max-width: 836px) {
+    .slogan {
+        justify-content: center !important;
+    }
+}
