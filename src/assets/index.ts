@@ -84,6 +84,9 @@ import { ReactComponent as TwitterSvg } from "./images/twitter.svg";
 import { ReactComponent as TelegramSvg } from "./images/telegram.svg";
 import { ReactComponent as EnamadSvg } from "./images/enamad.svg";
 
+import { ReactComponent as ArrowLeftSvg } from "./images/arrowLeft.svg";
+import { ReactComponent as ArrowRightSvg } from "./images/arrowRight.svg";
+
 import { ReactComponent as TextBookSvg } from "./images/textBook.svg";
 import { ReactComponent as QuestionsSvg } from "./images/questions.svg";
 import { ReactComponent as PointAndTestSvg } from "./images/pointAndTest.svg";
@@ -199,6 +202,8 @@ export {
     KaranbalaBannerSvg,
     KaranbalaBookletSvg,
     KaranbalaLastSvg,
+    ArrowLeftSvg,
+    ArrowRightSvg,
     BookSavedSvg,
     AccountSvg,
     BasketSvg,

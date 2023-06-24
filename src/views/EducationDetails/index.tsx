@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import {
+    ArrowLeftSvg,
+    ArrowRightSvg,
     AttachSvg,
     BookSavedSvg,
     ExamSvg,
@@ -164,6 +166,18 @@ const MajorRequirements = () => {
                     );
                 })}
             </Box>
+            <Box display={"flex"} justifyContent={"space-between"}>
+                <Box display={"flex"} justifyContent={"space-between"}>
+                    <Typography variant="subtitle1" fontSize={"2rem"}>
+                        لیست اساتید کران بالا
+                    </Typography>
+                </Box>
+                <Box display={"flex"} gap={"2rem"}>
+                    <ArrowRightSvg />
+                    <ArrowLeftSvg />
+                </Box>
+            </Box>
+            <Box></Box>
         </Box>
     );
 };

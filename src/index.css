@@ -201,6 +201,6 @@ input:-webkit-autofill {
     }
 
     .educationDetailsBox > div {
-        flex-basis: 100% !important;
+        flex-basis: 100% !important ;
     }
 }
