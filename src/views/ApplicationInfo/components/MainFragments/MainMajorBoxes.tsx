@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     majorBox: {
         "& > div": {
-            boxShadow: "0px 4px 8px 0px #252D370F",
             flexBasis: "25%",
             display: "block",
             margin: "10px",
@@ -94,7 +93,8 @@ const MainMajorBoxes = () => {
                                 display={"flex"}
                                 height={"7rem"}
                                 alignItems={"center"}
-                                borderRadius={"1.6rem"}
+                                borderRadius={"1rem"}
+                                boxShadow={"0px 4px 8px 0px #252D370F"}
                             >
                                 <Box
                                     display={"flex"}
@@ -104,7 +104,6 @@ const MainMajorBoxes = () => {
                                     height={"5rem"}
                                     margin={"1rem"}
                                     bgcolor={theme?.palette?.common.white}
-                                    borderRadius={"1rem"}
                                     padding={"1rem"}
                                 >
                                     <BookSavedSvg />

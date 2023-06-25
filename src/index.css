@@ -187,7 +187,7 @@ input:-webkit-autofill {
         justify-content: center;
     }
     .bannerSvg {
-        display: "flex";
+        display: flex;
     }
 }
 
