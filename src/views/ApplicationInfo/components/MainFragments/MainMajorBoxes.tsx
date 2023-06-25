@@ -11,9 +11,14 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         "& > div": {
             boxShadow: "0px 4px 8px 0px #252D370F",
             flexBasis: "25%",
+            display: "block",
+            margin: "10px",
         },
         "& button": {
-            margin: "auto",
+            width: "100%",
+        },
+        "& button > div": {
+            width: "100%",
         },
     },
 }));
@@ -82,30 +87,33 @@ const MainMajorBoxes = () => {
         >
             {text.map((value, index) => {
                 return (
-                    <Box
-                        bgcolor={color[index]}
-                        display={"flex"}
-                        height={"7rem"}
-                        alignItems={"center"}
-                        borderRadius={"1.6rem"}
-                        margin={"2.5rem 3.25rem 2.5rem 2.5rem"}
-                    >
-                        <Box
-                            display={"flex"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            width={"5rem"}
-                            height={"5rem"}
-                            margin={"1rem"}
-                            bgcolor={theme?.palette?.common.white}
-                            borderRadius={"1rem"}
-                            padding={"1rem"}
-                        >
-                            <BookSavedSvg />
-                        </Box>
-
+                    <Box>
                         <ButtonKit onClick={() => redirectRoute(path[index])}>
-                            <Typography variant="subtitle1">{value}</Typography>
+                            <Box
+                                bgcolor={color[index]}
+                                display={"flex"}
+                                height={"7rem"}
+                                alignItems={"center"}
+                                borderRadius={"1.6rem"}
+                            >
+                                <Box
+                                    display={"flex"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                    width={"5rem"}
+                                    height={"5rem"}
+                                    margin={"1rem"}
+                                    bgcolor={theme?.palette?.common.white}
+                                    borderRadius={"1rem"}
+                                    padding={"1rem"}
+                                >
+                                    <BookSavedSvg />
+                                </Box>
+
+                                <Typography margin={"0 auto"} variant="subtitle1">
+                                    {value}
+                                </Typography>
+                            </Box>
                         </ButtonKit>
                     </Box>
                 );
