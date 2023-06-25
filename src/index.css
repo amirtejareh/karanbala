@@ -189,6 +189,9 @@ input:-webkit-autofill {
     .bannerSvg {
         display: flex;
     }
+    .teacherPicture {
+        justify-content: center !important;
+    }
 }
 
 @media screen and (max-width: 742px) {

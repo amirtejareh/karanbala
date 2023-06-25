@@ -10,6 +10,9 @@ import {
     TelevisionSvg,
 } from "../../assets";
 import ProfilePicture from "../../assets/images/profilePicture.png";
+import AlirezaPicture from "../../assets/images/alireza.png";
+import AnaPicture from "../../assets/images/ana.png";
+import SaraPicture from "../../assets/images/sara.png";
 import DrSamiee from "../../assets/images/drsamiee.png";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -214,7 +217,12 @@ const EducationDetails = () => {
                 </Box>
             </Box>
 
-            <Box marginTop={"8rem"} display={"flex"} justifyContent={"space-between"}>
+            <Box
+                marginTop={"8rem"}
+                marginBottom={"8rem"}
+                display={"flex"}
+                justifyContent={"space-between"}
+            >
                 <Typography variant="subtitle1" fontSize="2.5rem">
                     لیست اساتید کران بالا
                 </Typography>
@@ -225,6 +233,102 @@ const EducationDetails = () => {
                     <IconButton>
                         <ArrowLeftSvg />
                     </IconButton>
+                </Box>
+            </Box>
+            <Box
+                className={"teacherPicture"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                flexWrap={"wrap"}
+                gap={"10rem"}
+            >
+                <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    width={"28rem"}
+                >
+                    <Box
+                        width={"20rem"}
+                        height={"20rem"}
+                        component={"img"}
+                        borderRadius={"50%"}
+                        src={AlirezaPicture}
+                    ></Box>
+                    <Box margin={"1rem 0"}>
+                        <Typography variant="subtitle1" fontSize={"2rem"}>
+                            آنا جاوید
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="subtitle2">فیزیک</Typography>
+                    </Box>
+                    <Box margin={"1rem 0"} textAlign={"center"}>
+                        <Typography variant="subtitle1">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
+                            از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
+                            صنعت چاپ و با استفاده از طراحان گرافیک{" "}
+                        </Typography>
+                    </Box>
+                </Box>
+                <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    width={"28rem"}
+                >
+                    <Box
+                        width={"20rem"}
+                        height={"20rem"}
+                        component={"img"}
+                        borderRadius={"50%"}
+                        src={SaraPicture}
+                    ></Box>
+                    <Box margin={"1rem 0"}>
+                        <Typography variant="subtitle1" fontSize={"2rem"}>
+                            سارا محمدی
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="subtitle2">فیزیک</Typography>
+                    </Box>
+                    <Box margin={"1rem 0"} textAlign={"center"}>
+                        <Typography variant="subtitle1">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
+                            از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
+                            صنعت چاپ و با استفاده از طراحان گرافیک{" "}
+                        </Typography>
+                    </Box>
+                </Box>
+
+                <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    width={"28rem"}
+                >
+                    <Box
+                        width={"20rem"}
+                        height={"20rem"}
+                        component={"img"}
+                        borderRadius={"50%"}
+                        src={AnaPicture}
+                    ></Box>
+                    <Box margin={"1rem 0"}>
+                        <Typography variant="subtitle1" fontSize={"2rem"}>
+                            علیرضا سام
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="subtitle2">فیزیک</Typography>
+                    </Box>
+                    <Box margin={"1rem 0"} textAlign={"center"}>
+                        <Typography variant="subtitle1">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
+                            از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
+                            صنعت چاپ و با استفاده از طراحان گرافیک{" "}
+                        </Typography>
+                    </Box>
                 </Box>
             </Box>
         </Box>
