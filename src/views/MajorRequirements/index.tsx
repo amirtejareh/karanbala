@@ -1,7 +1,9 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import {
     AccountSvg,
+    ArrowLeftSvg,
+    ArrowRightSvg,
     BasketSvg,
     KaranbalaLogoSvg,
     KaranbalaLogoTextSvg,
@@ -209,6 +211,20 @@ const EducationDetails = () => {
                             </ButtonKit>
                         </Box>
                     </Box>
+                </Box>
+            </Box>
+
+            <Box marginTop={"8rem"} display={"flex"} justifyContent={"space-between"}>
+                <Typography variant="subtitle1" fontSize="2.5rem">
+                    لیست اساتید کران بالا
+                </Typography>
+                <Box>
+                    <IconButton>
+                        <ArrowRightSvg />
+                    </IconButton>
+                    <IconButton>
+                        <ArrowLeftSvg />
+                    </IconButton>
                 </Box>
             </Box>
         </Box>
