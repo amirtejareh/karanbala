@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         "& > div": {
             flexBasis: "25%",
         },
+        "& > div > div > img": {
+            flexBasis: "100%",
+        },
     },
 }));
 
