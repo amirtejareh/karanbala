@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/karanbala/static/css/main.f46ee11c.css",
-    "main.js": "/karanbala/static/js/main.ba868b1b.js",
-    "static/js/884.38d93db8.chunk.js": "/karanbala/static/js/884.38d93db8.chunk.js",
+    "main.css": "/karanbala/static/css/main.4260af9b.css",
+    "main.js": "/karanbala/static/js/main.a1909298.js",
+    "static/js/84.3da9363c.chunk.js": "/karanbala/static/js/84.3da9363c.chunk.js",
     "static/js/197.e2a2a8e1.chunk.js": "/karanbala/static/js/197.e2a2a8e1.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
@@ -12,12 +12,15 @@
     "static/media/karanbalaLogo.svg": "/karanbala/static/media/karanbalaLogo.6a10d187cc2b00917065c547939a4e65.svg",
     "service-worker.js": "/karanbala/service-worker.js",
     "static/media/drsamiee.png": "/karanbala/static/media/drsamiee.9ef506f442008b1d9680.png",
+    "static/media/alireza.png": "/karanbala/static/media/alireza.93d00fa8eeef6db7f2d4.png",
     "static/media/exam.png": "/karanbala/static/media/exam.f0775d04989be6c5c987.png",
     "static/media/No-data.svg": "/karanbala/static/media/No-data.77afdd4bddc185f3cb4b66f0fd6b8a01.svg",
     "static/media/analysis.svg": "/karanbala/static/media/analysis.46901cabfb07587f49b37b1773df9658.svg",
     "static/media/communication.png": "/karanbala/static/media/communication.9836e495b414e8bd0c39.png",
     "static/media/profilePicture.png": "/karanbala/static/media/profilePicture.5592734063cc14f2b2a3.png",
+    "static/media/ana.png": "/karanbala/static/media/ana.6139fb17096ec8c30797.png",
     "static/media/education.png": "/karanbala/static/media/education.e51ee3c17585cb5e34c5.png",
+    "static/media/sara.png": "/karanbala/static/media/sara.60d5c1be119ec2777d34.png",
     "static/media/news.svg": "/karanbala/static/media/news.39ffcb17fbfcec60f6a549f89d6635b7.svg",
     "static/media/Yekan Bakh FA 01 Hairline.ttf": "/karanbala/static/media/Yekan Bakh FA 01 Hairline.19205941c13e1f106d7f.ttf",
     "static/media/Yekan Bakh FA 01 Hairline.eot": "/karanbala/static/media/Yekan Bakh FA 01 Hairline.4d32fca073e7fcaf7791.eot",
@@ -207,13 +210,13 @@
     "static/media/Rectangle.svg": "/karanbala/static/media/Rectangle.614ae759c58b35acd2b08dc86e224b43.svg",
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
-    "main.f46ee11c.css.map": "/karanbala/static/css/main.f46ee11c.css.map",
-    "main.ba868b1b.js.map": "/karanbala/static/js/main.ba868b1b.js.map",
-    "884.38d93db8.chunk.js.map": "/karanbala/static/js/884.38d93db8.chunk.js.map",
+    "main.4260af9b.css.map": "/karanbala/static/css/main.4260af9b.css.map",
+    "main.a1909298.js.map": "/karanbala/static/js/main.a1909298.js.map",
+    "84.3da9363c.chunk.js.map": "/karanbala/static/js/84.3da9363c.chunk.js.map",
     "197.e2a2a8e1.chunk.js.map": "/karanbala/static/js/197.e2a2a8e1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f46ee11c.css",
-    "static/js/main.ba868b1b.js"
+    "static/css/main.4260af9b.css",
+    "static/js/main.a1909298.js"
   ]
 }
