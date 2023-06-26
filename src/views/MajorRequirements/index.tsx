@@ -7,6 +7,7 @@ import {
     BasketSvg,
     KaranbalaLogoSvg,
     KaranbalaLogoTextSvg,
+    QuizSvg,
     TelevisionSvg,
 } from "../../assets";
 import ProfilePicture from "../../assets/images/profilePicture.png";
@@ -42,7 +43,58 @@ const EducationDetails = () => {
 
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const ModalExam = () => {
-        return <>test</>;
+        const theme: ThemeOptions = useTheme();
+
+        return (
+            <Box display={"flex"} justifyContent={"space-between"}>
+                <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    flexDirection={"column"}
+                    width={"17.35rem"}
+                    bgcolor={theme?.palette?.others.warning.light}
+                    padding={"1rem"}
+                    borderRadius={"1rem"}
+                >
+                    <Box
+                        bgcolor={theme?.palette?.common.white}
+                        padding={"1rem"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        borderRadius={"1rem"}
+                    >
+                        <QuizSvg />
+                    </Box>
+                    <Box margin={"1rem"}>
+                        <Typography variant="subtitle1">تعیین سطح</Typography>
+                    </Box>
+                </Box>
+                <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    flexDirection={"column"}
+                    width={"17.35rem"}
+                    bgcolor={theme?.palette?.others.warning.light}
+                    padding={"1rem"}
+                    borderRadius={"1rem"}
+                >
+                    <Box
+                        bgcolor={theme?.palette?.common.white}
+                        padding={"1rem"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        borderRadius={"1rem"}
+                    >
+                        <QuizSvg />
+                    </Box>
+                    <Box margin={"1rem"}>
+                        <Typography variant="subtitle1">آزمون برنامه‌ای</Typography>
+                    </Box>
+                </Box>
+            </Box>
+        );
     };
 
     return (

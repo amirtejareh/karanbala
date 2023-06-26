@@ -30,7 +30,7 @@ const DialogTitle = withStyles((theme: Theme) => ({
         padding: theme.spacing(5),
         paddingBottom: theme.spacing(3),
         paddingTop: theme.spacing(2),
-        color: "#d6d5dd !important",
+        color: "#1D252F !important",
         "& .MuiIconButton-root": {
             position: "absolute",
             left: theme.spacing(1),
@@ -68,7 +68,8 @@ const DialogTitle = withStyles((theme: Theme) => ({
 const DialogContent = withStyles((theme: Theme) => ({
     root: {
         padding: theme.spacing(5),
-        color: `${theme.palette.grey[50]} !important`,
+        fontSize: "18px !important",
+        color: "#1D252F",
         minHeight: "15rem",
     },
 }))(MuiDialogContent);
@@ -94,6 +95,7 @@ const useStyles = makeStyles(() => ({
     paper: {
         width: "100%",
         backgroundImage: "none",
+        backgroundColor: "#fff",
     },
 }));
 
