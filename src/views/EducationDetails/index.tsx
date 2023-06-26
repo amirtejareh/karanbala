@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import {
-    ArrowLeftSvg,
-    ArrowRightSvg,
     AttachSvg,
     BookSavedSvg,
     ExamSvg,
@@ -21,10 +19,12 @@ import DrSamiee from "../../assets/images/drsamiee.png";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { makeStyles } from "@mui/styles";
+import { ButtonKit } from "../../components/kit/Button";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     educationDetailsBox: {
-        "& > div": {
+        "& > button": {
             flexBasis: "22%",
             margin: "0 auto",
         },
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 const MajorRequirements = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
+    const navigate = useNavigate();
 
     const text = [
         "معرفی کتاب",
@@ -71,10 +72,22 @@ const MajorRequirements = () => {
         { title: "فیزیک ۳", value: 5 },
     ];
 
+    const path = [
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+        "introduction-book",
+    ];
+
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
-                <KaranbalaLogoSvg />
                 <KaranbalaLogoTextSvg />
             </Box>
             <Box>
@@ -136,33 +149,35 @@ const MajorRequirements = () => {
             >
                 {text.map((value: string, index: number) => {
                     return (
-                        <Box
-                            width={"27.9rem"}
-                            height={"16rem"}
-                            display={"flex"}
-                            borderRadius={"2rem"}
-                            flexDirection={"column"}
-                            alignItems={"center"}
-                            justifyContent={"center"}
-                            bgcolor={theme?.palette?.others.info.light}
-                        >
+                        <ButtonKit onClick={() => navigate(path[index])}>
                             <Box
+                                width={"100%"}
+                                height={"16rem"}
                                 display={"flex"}
-                                justifyContent={"center"}
+                                borderRadius={"2rem"}
+                                flexDirection={"column"}
                                 alignItems={"center"}
-                                width={"5rem"}
-                                height={"5rem"}
-                                margin={"1rem"}
-                                bgcolor={theme?.palette?.common.white}
-                                borderRadius={"1rem"}
-                                padding={"1rem"}
+                                justifyContent={"center"}
+                                bgcolor={theme?.palette?.others.info.light}
                             >
-                                {logo[index]}
+                                <Box
+                                    display={"flex"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                    width={"5rem"}
+                                    height={"5rem"}
+                                    margin={"1rem"}
+                                    bgcolor={theme?.palette?.common.white}
+                                    borderRadius={"1rem"}
+                                    padding={"1rem"}
+                                >
+                                    {logo[index]}
+                                </Box>
+                                <Box>
+                                    <Typography variant="subtitle1">{value}</Typography>
+                                </Box>
                             </Box>
-                            <Box>
-                                <Typography variant="subtitle1">{value}</Typography>
-                            </Box>
-                        </Box>
+                        </ButtonKit>
                     );
                 })}
             </Box>
