@@ -203,7 +203,7 @@ input:-webkit-autofill {
         display: none !important;
     }
 
-    .educationDetailsBox > div {
+    .educationDetailsBox > button {
         flex-basis: 100% !important ;
     }
 }
