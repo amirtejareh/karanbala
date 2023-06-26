@@ -74,15 +74,15 @@ const MajorRequirements = () => {
 
     const path = [
         "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
-        "introduction-book",
+        "lessons",
+        "questions",
+        "point-and-test",
+        "attach",
+        "quiz",
+        "karanbala",
+        "example",
+        "exam",
+        "practice",
     ];
 
     return (

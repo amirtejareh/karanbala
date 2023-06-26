@@ -23,7 +23,13 @@ const IntroductionBook = () => {
                     معرفی کتاب
                 </Typography>
             </Box>
-            <Box display={"flex"} gap={"10rem"} justifyContent={"space-between"} margin={"5.2rem"}>
+            <Box
+                display={"flex"}
+                gap={"10rem"}
+                justifyContent={"space-between"}
+                margin={"5.2rem"}
+                flexWrap={"wrap"}
+            >
                 <Box
                     display={"flex"}
                     justifyContent={"center"}
@@ -57,17 +63,7 @@ const IntroductionBook = () => {
                 >
                     <Typography variant="subtitle1">ریاضی ۳ در امتحان پایانی</Typography>
                 </Box>
-                <Box
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    width={"29.8rem"}
-                    height={"16.8rem"}
-                    bgcolor={theme?.palette?.grey["50"]}
-                    display={"flex"}
-                    borderRadius={"1rem"}
-                >
-                    <Typography variant="subtitle1">بیوگرافی </Typography>
-                </Box>
+
                 <Box
                     justifyContent={"center"}
                     alignItems={"center"}
