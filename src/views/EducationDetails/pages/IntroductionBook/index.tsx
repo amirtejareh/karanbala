@@ -25,16 +25,15 @@ const IntroductionBook = () => {
             </Box>
             <Box
                 display={"flex"}
-                gap={"10rem"}
                 justifyContent={"space-between"}
-                margin={"5.2rem"}
                 flexWrap={"wrap"}
+                margin={"2rem"}
             >
                 <Box
                     display={"flex"}
                     justifyContent={"center"}
                     alignItems={"center"}
-                    width={"29.8rem"}
+                    flexBasis={"22%"}
                     height={"16.8rem"}
                     bgcolor={theme?.palette?.grey["50"]}
                     borderRadius={"1rem"}
@@ -45,7 +44,7 @@ const IntroductionBook = () => {
                     display={"flex"}
                     justifyContent={"center"}
                     alignItems={"center"}
-                    width={"29.8rem"}
+                    flexBasis={"22%"}
                     height={"16.8rem"}
                     bgcolor={theme?.palette?.grey["50"]}
                     borderRadius={"1rem"}
@@ -55,7 +54,7 @@ const IntroductionBook = () => {
                 <Box
                     justifyContent={"center"}
                     alignItems={"center"}
-                    width={"29.8rem"}
+                    flexBasis={"22%"}
                     height={"16.8rem"}
                     bgcolor={theme?.palette?.grey["50"]}
                     display={"flex"}
@@ -67,7 +66,7 @@ const IntroductionBook = () => {
                 <Box
                     justifyContent={"center"}
                     alignItems={"center"}
-                    width={"29.8rem"}
+                    flexBasis={"22%"}
                     height={"16.8rem"}
                     bgcolor={theme?.palette?.grey["50"]}
                     display={"flex"}
