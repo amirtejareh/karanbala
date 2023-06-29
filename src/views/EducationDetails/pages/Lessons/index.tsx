@@ -4,7 +4,7 @@ import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
-import { set } from "date-fns-jalali";
+import { ArrowLeftIcon } from "@mui/x-date-pickers";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -17,8 +17,23 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     seasons: {
         width: "27.125rem",
         display: "flex",
+        backgroundColor: theme?.palette?.primary["main"],
+        color: theme?.palette?.common.white,
+        height: "6.1rem",
+        borderRadius: "1.5rem",
+        padding: "1.5rem 2.5rem",
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: "1rem",
+        flexWrap: "wrap",
+    },
+    seasonSelected: {
+        width: "27.125rem",
+        display: "flex",
+        height: "6.1rem",
         backgroundColor: theme?.palette?.secondary["main"],
         borderRadius: "1.5rem",
+        color: theme?.palette?.common.black,
         padding: "1.5rem 2.5rem",
         justifyContent: "space-between",
         alignItems: "center",
@@ -76,10 +91,33 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     arrowDown: {
         width: "1.5rem",
         height: "1.5rem",
+        color: "#fff",
+    },
+    arrowLeft: {
+        color: "#fff",
+        width: "2.5rem",
+        height: "2.5rem",
     },
     arrowUp: {
         width: "1.5rem",
         height: "1.5rem",
+    },
+    arrow: {
+        border: "solid black",
+        borderWidth: "0 0.1rem 0.1rem 0",
+        display: "inline-block",
+        padding: "0.4rem",
+    },
+    arrowLeftParent: {
+        width: "41px",
+        height: "41px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    down: {
+        transform: "rotate(45deg)",
     },
 }));
 
@@ -89,16 +127,253 @@ const Lessons = () => {
 
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
-    const episodes = [1, 2];
-    const lessons = [1, 2, 3];
+    const [seasonVisible, setSeasonVisible] = useState<any>({});
+    const [episodes, setEpisodes] = useState<any>({});
+
+    const courses = [
+        {
+            courseTitle: "ریاضی ۱",
+            seasons: [
+                {
+                    seasonTitle: "تابع",
+                    lessons: [
+                        {
+                            episodes: [
+                                {
+                                    title: "تابع خطیِ، ثابت وتابع درجه دوم",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف تابع خطی",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف تابع ثابت",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                                {
+                                    title: "مثلثات",
+                                    attachment: [
+                                        {
+                                            title: "(۱) پی دی اف مثلثات مقدماتی",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "(۲) پی دی اف مثلثات ",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                            ],
+                        },
+                        {
+                            episodes: [
+                                {
+                                    title: "تابع خطیِ، ثابت وتابع درجه سوم",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف تابع خطی",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف تابع ثابت",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                                {
+                                    title: "۲ مثلثات",
+                                    attachment: [
+                                        {
+                                            title: "(۳) پی دی اف مثلثات مقدماتی",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "(۴) پی دی اف مثلثات ",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    seasonTitle: "انتگرال",
+
+                    lessons: [
+                        {
+                            episodes: [
+                                {
+                                    title: "انتگرال نامعین",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال نامعین",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                                {
+                                    title: "انتگرال توابع گویا",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال گویا",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                            ],
+                        },
+                        {
+                            episodes: [
+                                {
+                                    title: "انتگرال معین",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال معین",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                                {
+                                    title: "انتگرال توابع گنگ",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال گنگ",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری توابع گنگ",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+    ];
+
+    const seasons = courses.filter((element) => element.seasons != null)[0];
 
     useEffect(() => {
-        const myEpisodeArray = episodes.map((element) => {
+        const season = parseInt(
+            Object.keys(seasonVisible)
+                .map((element) => element.slice(7))
+                .toString()
+        );
+        if (season) {
+            setEpisodes(seasons?.seasons[season - 1]?.lessons);
+        }
+    }, [seasonVisible]);
+
+    useEffect(() => {
+        setEpisodes(seasons?.seasons[1]?.lessons);
+    }, []);
+
+    useEffect(() => {
+        const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
             return {
-                id: "parent-episode-" + element,
+                id: "parent-episode-" + (index + 1),
                 isSelected: false,
             };
         });
+
         setParentEpisodeVisible(
             myEpisodeArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
@@ -106,9 +381,9 @@ const Lessons = () => {
             }, {})
         );
 
-        const myLessonArray = lessons.map((element) => {
+        const myLessonArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
             return {
-                id: "children-episode-" + element,
+                id: "children-episode-" + (index + 1),
                 isSelected: false,
             };
         });
@@ -119,6 +394,27 @@ const Lessons = () => {
                 return acc;
             }, {})
         );
+
+        const mySeasonArray = seasons?.seasons?.map((value, index) => {
+            return {
+                id: "season-" + (index + 1),
+                isSelected: false,
+            };
+        });
+        setSeasonVisible(
+            mySeasonArray.reduce((acc: any, item: any) => {
+                acc[item.id] = item.isSelected;
+                return acc;
+            }, {})
+        );
+    }, []);
+
+    useEffect(() => {
+        setSeasonVisible((prev: any) => {
+            return {
+                ["season-" + 1]: !seasonVisible["season-" + 1],
+            };
+        });
     }, []);
 
     const numbers: any = {
@@ -152,110 +448,145 @@ const Lessons = () => {
             </Box>
             <Box className={classes.courses}>
                 <Box>
-                    <Box className={classes.seasons}>
-                        <Typography>فصل ۱: تابع</Typography>
-                        <Typography>
-                            <ArrowDownSvg className={classes.arrowDown} />
-                        </Typography>
-                    </Box>
-                    <Box className={classes.seasons}>
-                        <Typography>فصل ۲: مثلثات</Typography>
-                        <Typography>
-                            <ArrowDownSvg className={classes.arrowDown} />
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box className={classes.episodeParent}>
-                    {episodes.map((value: any, index: any) => {
+                    {seasons?.seasons?.map((value, index) => {
                         return (
-                            <Box key={value} className={classes.episodes}>
-                                <Box className={classes.episodeBoxes}>
-                                    <Box className={classes.episodeTitle}>
-                                        <Typography>درس {numbers[value]}</Typography>
-                                        <Typography>
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setParentEpisodeVisible((prev: any) => {
-                                                        return {
-                                                            ...prev,
-                                                            ["parent-episode-" + value]:
-                                                                !parentEpisodeVisible[
-                                                                    "parent-episode-" + value
-                                                                ],
-                                                        };
-                                                    });
-                                                }}
-                                            >
-                                                {parentEpisodeVisible["parent-episode-" + value] ? (
-                                                    <ArrowDownSvg className={classes.arrowDown} />
-                                                ) : (
-                                                    <ArrowUpSvg className={classes.arrowDown} />
-                                                )}
-                                            </IconButton>
-                                        </Typography>
-                                    </Box>
-
-                                    {parentEpisodeVisible["parent-episode-" + value] && (
-                                        <>
-                                            {lessons.map((value, index) => {
-                                                return (
-                                                    <Box className={classes.episodeLessons}>
-                                                        <Box className={classes.episodeLessonTitle}>
-                                                            <Typography>
-                                                                تابع خطی، ثابت و تابع درجه دوم
-                                                            </Typography>
-                                                            <Typography>
-                                                                <IconButton
-                                                                    onClick={(e: any) => {
-                                                                        setChildrenEpisodeVisible(
-                                                                            (prev: any) => {
-                                                                                return {
-                                                                                    ...prev,
-                                                                                    ["children-episode-" +
-                                                                                    value]:
-                                                                                        !childrenEpisodeVisible[
-                                                                                            "children-episode-" +
-                                                                                                value
-                                                                                        ],
-                                                                                };
-                                                                            }
-                                                                        );
-                                                                    }}
-                                                                >
-                                                                    {childrenEpisodeVisible[
-                                                                        "children-episode-" + value
-                                                                    ] ? (
-                                                                        <ArrowDownSvg
-                                                                            className={
-                                                                                classes.arrowDown
-                                                                            }
-                                                                        />
-                                                                    ) : (
-                                                                        <ArrowUpSvg
-                                                                            className={
-                                                                                classes.arrowDown
-                                                                            }
-                                                                        />
-                                                                    )}
-                                                                </IconButton>
-                                                            </Typography>
-                                                        </Box>
-                                                        {childrenEpisodeVisible[
-                                                            "children-episode-" + value
-                                                        ] && (
-                                                            <Box className={classes.content}>
-                                                                video
-                                                            </Box>
-                                                        )}
-                                                    </Box>
-                                                );
-                                            })}
-                                        </>
-                                    )}
-                                </Box>
+                            <Box
+                                className={
+                                    seasonVisible["season-" + (index + 1)]
+                                        ? classes.seasonSelected
+                                        : classes.seasons
+                                }
+                            >
+                                <Typography>
+                                    فصل {numbers[index + 1]}: {value.seasonTitle}
+                                </Typography>
+                                <Typography className={classes.arrowLeftParent}>
+                                    <IconButton
+                                        onClick={(e: any) => {
+                                            setSeasonVisible((prev: any) => {
+                                                return {
+                                                    ["season-" + (index + 1)]:
+                                                        !seasonVisible["season-" + (index + 1)],
+                                                };
+                                            });
+                                        }}
+                                    >
+                                        {seasonVisible["season-" + (index + 1)] ? (
+                                            <Box className={` ${classes.arrow} ${classes.down}`} />
+                                        ) : (
+                                            <ArrowLeftIcon className={classes.arrowLeft} />
+                                        )}
+                                    </IconButton>
+                                </Typography>
                             </Box>
                         );
                     })}
+                </Box>
+                <Box className={classes.episodeParent}>
+                    {Object.values(episodes).length > 0 &&
+                        episodes?.map((value: any, index: any) => {
+                            return (
+                                <Box key={index} className={classes.episodes}>
+                                    <Box className={classes.episodeBoxes}>
+                                        <Box className={classes.episodeTitle}>
+                                            <Typography>درس {numbers[index + 1]}</Typography>
+                                            <Typography>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setParentEpisodeVisible((prev: any) => {
+                                                            return {
+                                                                ...prev,
+                                                                ["parent-episode-" + (index + 1)]:
+                                                                    !parentEpisodeVisible[
+                                                                        "parent-episode-" +
+                                                                            (index + 1)
+                                                                    ],
+                                                            };
+                                                        });
+                                                    }}
+                                                >
+                                                    {parentEpisodeVisible[
+                                                        "parent-episode-" + (index + 1)
+                                                    ] ? (
+                                                        <ArrowUpSvg className={classes.arrowDown} />
+                                                    ) : (
+                                                        <ArrowDownSvg
+                                                            className={classes.arrowDown}
+                                                        />
+                                                    )}
+                                                </IconButton>
+                                            </Typography>
+                                        </Box>
+                                        {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
+                                            <>
+                                                {value?.episodes?.map((value: any, index: any) => {
+                                                    console.log(episodes);
+
+                                                    return (
+                                                        <Box className={classes.episodeLessons}>
+                                                            <Box
+                                                                className={
+                                                                    classes.episodeLessonTitle
+                                                                }
+                                                            >
+                                                                <Typography>
+                                                                    {value?.title}
+                                                                </Typography>
+                                                                <Typography>
+                                                                    <IconButton
+                                                                        onClick={(e: any) => {
+                                                                            setChildrenEpisodeVisible(
+                                                                                (prev: any) => {
+                                                                                    return {
+                                                                                        ...prev,
+                                                                                        ["children-episode-" +
+                                                                                        (index +
+                                                                                            1)]:
+                                                                                            !childrenEpisodeVisible[
+                                                                                                "children-episode-" +
+                                                                                                    (index +
+                                                                                                        1)
+                                                                                            ],
+                                                                                    };
+                                                                                }
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        {childrenEpisodeVisible[
+                                                                            "children-episode-" +
+                                                                                (index + 1)
+                                                                        ] ? (
+                                                                            <ArrowUpSvg
+                                                                                className={
+                                                                                    classes.arrowDown
+                                                                                }
+                                                                            />
+                                                                        ) : (
+                                                                            <ArrowDownSvg
+                                                                                className={
+                                                                                    classes.arrowDown
+                                                                                }
+                                                                            />
+                                                                        )}
+                                                                    </IconButton>
+                                                                </Typography>
+                                                            </Box>
+                                                            {childrenEpisodeVisible[
+                                                                "children-episode-" + (index + 1)
+                                                            ] && (
+                                                                <Box className={classes.content}>
+                                                                    video
+                                                                </Box>
+                                                            )}
+                                                        </Box>
+                                                    );
+                                                })}
+                                            </>
+                                        )}
+                                    </Box>
+                                </Box>
+                            );
+                        })}
                 </Box>
             </Box>
         </>
