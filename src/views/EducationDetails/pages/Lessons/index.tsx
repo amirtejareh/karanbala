@@ -381,12 +381,16 @@ const Lessons = () => {
             }, {})
         );
 
-        const myLessonArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
-            return {
-                id: "children-episode-" + (index + 1),
-                isSelected: false,
-            };
-        });
+        const myLessonArray = seasons?.seasons[0]?.lessons
+            ?.map((element: any, index: any) => {
+                return element.episodes.map((el: any, ix: any) => {
+                    return {
+                        id: "children-episode-index-" + index + "-ix-" + ix,
+                        isSelected: false,
+                    };
+                });
+            })
+            .flat();
 
         setChildrenEpisodeVisible(
             myLessonArray.reduce((acc: any, item: any) => {
@@ -519,9 +523,7 @@ const Lessons = () => {
                                         </Box>
                                         {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
                                             <>
-                                                {value?.episodes?.map((value: any, index: any) => {
-                                                    console.log(episodes);
-
+                                                {value?.episodes?.map((value: any, ix: any) => {
                                                     return (
                                                         <Box className={classes.episodeLessons}>
                                                             <Box
@@ -539,13 +541,15 @@ const Lessons = () => {
                                                                                 (prev: any) => {
                                                                                     return {
                                                                                         ...prev,
-                                                                                        ["children-episode-" +
-                                                                                        (index +
-                                                                                            1)]:
+                                                                                        ["children-episode-index-" +
+                                                                                        index +
+                                                                                        "-ix-" +
+                                                                                        ix]:
                                                                                             !childrenEpisodeVisible[
-                                                                                                "children-episode-" +
-                                                                                                    (index +
-                                                                                                        1)
+                                                                                                "children-episode-index-" +
+                                                                                                    index +
+                                                                                                    "-ix-" +
+                                                                                                    ix
                                                                                             ],
                                                                                     };
                                                                                 }
@@ -553,8 +557,10 @@ const Lessons = () => {
                                                                         }}
                                                                     >
                                                                         {childrenEpisodeVisible[
-                                                                            "children-episode-" +
-                                                                                (index + 1)
+                                                                            "children-episode-index-" +
+                                                                                index +
+                                                                                "-ix-" +
+                                                                                ix
                                                                         ] ? (
                                                                             <ArrowUpSvg
                                                                                 className={
@@ -572,7 +578,10 @@ const Lessons = () => {
                                                                 </Typography>
                                                             </Box>
                                                             {childrenEpisodeVisible[
-                                                                "children-episode-" + (index + 1)
+                                                                "children-episode-index-" +
+                                                                    index +
+                                                                    "-ix-" +
+                                                                    ix
                                                             ] && (
                                                                 <Box className={classes.content}>
                                                                     video
