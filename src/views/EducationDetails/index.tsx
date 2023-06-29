@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         "& > button": {
             flexBasis: "22%",
             margin: "0 auto",
+            flexGrow: "1",
         },
     },
 }));

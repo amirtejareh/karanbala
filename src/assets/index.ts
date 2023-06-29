@@ -1,7 +1,6 @@
 import { ReactComponent as CheckedTrueSvg } from "./images/CheckedTrue.svg";
 import { ReactComponent as RadioSelectedTrueSvg } from "./images/RadioSelectedTrue.svg";
 import { ReactComponent as ExcelSvg } from "./images/excel.svg";
-import { ReactComponent as ArrowDownSvg } from "./images/iconly-bold-arrow-down-2.svg";
 import { ReactComponent as StarSvg } from "./images/iconly-bold-star.svg";
 import { ReactComponent as FilterSvg } from "./images/iconly-light-outline-filter.svg";
 import { ReactComponent as LogoutSvg } from "./images/iconly-light-outline-logout.svg";
@@ -60,8 +59,8 @@ import { ReactComponent as DecreaseArrowSvg } from "./images/decreaseArrow.svg";
 import { ReactComponent as IncreaseArrowSvg } from "./images/increaseArrow.svg";
 import { ReactComponent as DecreaseChartSvg } from "./images/decreaseChart.svg";
 import { ReactComponent as IncreaseChartSvg } from "./images/increaseChart.svg";
-import { ReactComponent as ArrowDownPriceCandleSvg } from "./images/arrowDown.svg";
-import { ReactComponent as ArrowUpPriceCandleSvg } from "./images/ArrowUp.svg";
+import { ReactComponent as ArrowDownSvg } from "./images/arrowDown.svg";
+import { ReactComponent as ArrowUpSvg } from "./images/arrowUp.svg";
 import { ReactComponent as ThinArrowUpSvg } from "./images/thinArrowUp.svg";
 import { ReactComponent as ThinArrowDownSvg } from "./images/thinArrowDown.svg";
 import { ReactComponent as BestLimitSVG } from "./images/bestLimit.svg";
@@ -250,14 +249,13 @@ export {
     BestLimitSVG,
     ThinArrowUpSvg,
     ThinArrowDownSvg,
-    ArrowDownPriceCandleSvg,
-    ArrowUpPriceCandleSvg,
+    ArrowDownSvg,
+    ArrowUpSvg,
     RedFlashSvg,
     GreenFlashSvg,
     RadioSelectedTrueSvg,
     CheckedTrueSvg,
     ExcelSvg,
-    ArrowDownSvg,
     StarSvg,
     FilterSvg,
     LogoutSvg,
