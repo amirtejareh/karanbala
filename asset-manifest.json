@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.cab671e5.css",
-    "main.js": "/karanbala/static/js/main.2c04971a.js",
-    "static/js/603.96ca29f0.chunk.js": "/karanbala/static/js/603.96ca29f0.chunk.js",
-    "static/js/661.2a008d7b.chunk.js": "/karanbala/static/js/661.2a008d7b.chunk.js",
+    "main.js": "/karanbala/static/js/main.db670231.js",
+    "static/js/603.72fd1281.chunk.js": "/karanbala/static/js/603.72fd1281.chunk.js",
+    "static/js/661.6b521485.chunk.js": "/karanbala/static/js/661.6b521485.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
     "static/media/learning.svg": "/karanbala/static/media/learning.55711bb9611a633edc8baff230b233cf.svg",
@@ -160,7 +160,6 @@
     "index.html": "/karanbala/index.html",
     "static/media/increaseArrow.svg": "/karanbala/static/media/increaseArrow.28a2c0d4108188913196bd5b2f64b9e1.svg",
     "static/media/decreaseArrow.svg": "/karanbala/static/media/decreaseArrow.3b87abc069b1b27bf53271bd3e46099d.svg",
-    "static/media/iconly-bold-arrow-down-2.svg": "/karanbala/static/media/iconly-bold-arrow-down-2.9a4fd11d9121ef3622f9152a3c182ae2.svg",
     "static/media/CurveArrowSvgNegative.svg": "/karanbala/static/media/CurveArrowSvgNegative.8c84e3a309b422bb0014ae41013f2142.svg",
     "static/media/karanbalaExam.svg": "/karanbala/static/media/karanbalaExam.c1ec3e2d6ea6a6659a0241f8103be6c8.svg",
     "static/media/AttachmentLight.svg": "/karanbala/static/media/AttachmentLight.b339e43b213ef40e20a45e294582eb7d.svg",
@@ -179,9 +178,9 @@
     "static/media/moon.svg": "/karanbala/static/media/moon.b23193e5fbc1890d75354dd9871a858e.svg",
     "static/media/dangerCircle.svg": "/karanbala/static/media/dangerCircle.2eeb7a782869611fc3791990b53c963b.svg",
     "static/media/iconly-light-outline-arrow-down-2.svg": "/karanbala/static/media/iconly-light-outline-arrow-down-2.d475103442b259fdc09ae9f1511c134f.svg",
-    "static/media/ArrowUp.svg": "/karanbala/static/media/ArrowUp.570e187b8004f2d9818090576bd0b4c6.svg",
+    "static/media/arrowDown.svg": "/karanbala/static/media/arrowDown.44a61ce2289e274ca3297e1e0d3fd298.svg",
+    "static/media/arrowUp.svg": "/karanbala/static/media/arrowUp.a0e713e212de0ecb13c9e3b6236336e9.svg",
     "static/media/trades.svg": "/karanbala/static/media/trades.75dd28eb23b9a97221e119d3710e4a6d.svg",
-    "static/media/arrowDown.svg": "/karanbala/static/media/arrowDown.b01ce84c379fef397b514fb6e941c192.svg",
     "static/media/checked.svg": "/karanbala/static/media/checked.9291e7e7bcbe4b50a79cd2c49631847a.svg",
     "static/media/tableArrow-10.svg": "/karanbala/static/media/tableArrow-10.7f9acfb1abb77abf47caefd0d8269f71.svg",
     "static/media/tableArrow-2.svg": "/karanbala/static/media/tableArrow-2.3b7c4a59130a04e11787f6c2bb243b25.svg",
@@ -211,12 +210,12 @@
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
     "main.cab671e5.css.map": "/karanbala/static/css/main.cab671e5.css.map",
-    "main.2c04971a.js.map": "/karanbala/static/js/main.2c04971a.js.map",
-    "603.96ca29f0.chunk.js.map": "/karanbala/static/js/603.96ca29f0.chunk.js.map",
-    "661.2a008d7b.chunk.js.map": "/karanbala/static/js/661.2a008d7b.chunk.js.map"
+    "main.db670231.js.map": "/karanbala/static/js/main.db670231.js.map",
+    "603.72fd1281.chunk.js.map": "/karanbala/static/js/603.72fd1281.chunk.js.map",
+    "661.6b521485.chunk.js.map": "/karanbala/static/js/661.6b521485.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cab671e5.css",
-    "static/js/main.2c04971a.js"
+    "static/js/main.db670231.js"
   ]
 }
