@@ -187,6 +187,9 @@ input:-webkit-autofill {
     .drSamieeBox img {
         display: none !important;
     }
+    .karanbalatitle {
+        font-size: 3.5rem !important;
+    }
     .drSamieeBox {
         display: block !important;
     }

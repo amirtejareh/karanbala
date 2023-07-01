@@ -30,6 +30,7 @@ const MainBanner = () => {
                         fontSize={"5.5rem"}
                         variant="subtitle1"
                         textAlign={"center"}
+                        className="karanbalatitle"
                     >
                         کرانه‌ی موفقیت در کران بالا
                     </Typography>
