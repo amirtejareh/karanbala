@@ -28,19 +28,19 @@ const MainMajorBoxes = () => {
     const navigate = useNavigate();
 
     const text = [
-        "ریاضی دهم",
-        "تجربی دهم",
-        "انسانی دهم",
-        "ریاضی یازدهم",
-        "تجربی یازدهم",
-        "انسانی یازدهم",
-        "ریاضی دوازدهم",
-        "تجربی دوازدهم",
-        "انسانی دوازدهم",
         "هفتم",
         "هشتم",
         "نهم",
-        "منحصرا زبان",
+        "دهم ریاضی ",
+        "دهم تجربی ",
+        "دهم انسانی ",
+        "یازدهم ریاضی ",
+        "یازدهم تجربی ",
+        "یازدهم انسانی ",
+        "دوازدهم ریاضی ",
+        "دوازدهم تجربی ",
+        "دوازدهم انسانی ",
+        "منحصرا زبان انگلیسی",
     ];
     const path = [
         "major-requirements",
@@ -63,7 +63,7 @@ const MainMajorBoxes = () => {
         theme?.palette?.grey["50"],
         theme?.palette?.others.warning.light,
         "#FCF5B2",
-        theme?.palette?.common.white,
+        theme?.palette?.secondary["main"],
         theme?.palette?.primary["50"],
         theme?.palette?.others.info.light,
         theme?.palette?.others.success.light,
