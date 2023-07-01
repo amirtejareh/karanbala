@@ -202,6 +202,9 @@ input:-webkit-autofill {
     .drSamieeBox img {
         display: none !important;
     }
+    .drSamieeBox {
+        display: block !important;
+    }
 
     .educationDetailsBox > button {
         flex-basis: 100% !important ;

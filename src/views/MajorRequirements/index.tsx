@@ -196,11 +196,16 @@ const EducationDetails = () => {
                     <Box
                         className={`drSamieeBox`}
                         display={"flex"}
-                        justifyContent={"center"}
+                        justifyContent={"space-around"}
                         alignItems={"center"}
                     >
-                        <Box>
-                            <Typography variant="subtitle1" fontSize="2.5rem" marginBottom={"2rem"}>
+                        <Box flexBasis={"40%"}>
+                            <Typography
+                                variant="subtitle1"
+                                fontSize="2.5rem"
+                                marginTop={"8rem"}
+                                marginBottom={"2rem"}
+                            >
                                 پروفسور سمیعی
                             </Typography>
                             <Typography lineHeight={"3.5rem"}>
@@ -221,12 +226,14 @@ const EducationDetails = () => {
                                 گرافیک لورم ایپسوم متن ساختگی با تولید
                             </Typography>
                         </Box>
-                        <img
-                            src={`${DrSamiee}`}
-                            alt="dr samieee"
-                            width={"273rem"}
-                            height={"271rem"}
-                        />
+                        <Box flexBasis={"60%"} textAlign={"right"}>
+                            <img
+                                src={`${DrSamiee}`}
+                                alt="dr samieee"
+                                width={"273rem"}
+                                height={"271rem"}
+                            />
+                        </Box>
                     </Box>
                 </Box>
                 <Box
