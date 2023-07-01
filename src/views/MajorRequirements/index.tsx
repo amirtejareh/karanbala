@@ -153,7 +153,7 @@ const EducationDetails = () => {
                         display={"flex"}
                         flexDirection={"column"}
                         alignItems={"center"}
-                        margin={"4rem"}
+                        marginTop={"4rem"}
                     >
                         <Box display={"flex"} gap={"2.8rem"}>
                             <Box
