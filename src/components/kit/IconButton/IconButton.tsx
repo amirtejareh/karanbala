@@ -7,20 +7,16 @@ interface IIconButtonProps extends IconButtonProps {
     children: React.ReactElement;
     size?: "medium" | "large";
     selected?: boolean;
-    bgColor?: "primary" | "default" | 'secondary';
+    bgColor?: "primary" | "default" | "secondary";
 }
 
 const useStyles = makeStyles<Theme>((theme: Theme) => ({
     root: {
         borderRadius: "0.8rem",
-        backgroundColor: theme.palette.grey[800],
+        backgroundColor: theme.palette.common.white,
         transition: "all 0.3s",
-        "&:focus , &:hover ": {
-            backgroundColor: theme.palette.primary.main,
-            // "& svg path": {
-            //     fill: `${theme.palette.background.paper} !important`,
-            // },
-        },
+        "&:focus , &:hover ": {},
+        border: `1px solid ${theme.palette.warning["light"]}`,
     },
     medium: {
         width: "3rem",

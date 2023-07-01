@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg } from "../../../../assets";
+import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg, ShowSvg } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
+import { IconButtonKit } from "../../../../components/kit/IconButton";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -89,7 +90,8 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         border: `1px solid ${theme?.palette?.grey["200"]}`,
         flexWrap: "wrap",
     },
-    content: {},
+    content: { width: "100%" },
+    attachment: { width: "100%", display: "flex" },
     arrowDown: {
         width: "1.5rem",
         height: "1.5rem",
@@ -593,7 +595,46 @@ const Lessons = () => {
                                                                     ix
                                                             ] && (
                                                                 <Box className={classes.content}>
-                                                                    video
+                                                                    <Box
+                                                                        className={
+                                                                            classes.attachment
+                                                                        }
+                                                                    >
+                                                                        {value.attachment.map(
+                                                                            (element: any) => (
+                                                                                <Box
+                                                                                    display={"flex"}
+                                                                                    width={"100%"}
+                                                                                    margin={"1rem"}
+                                                                                    padding={"1rem"}
+                                                                                >
+                                                                                    <IconButtonKit
+                                                                                        onClick={() =>
+                                                                                            navigate(
+                                                                                                element.address
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        <Box
+                                                                                            display={
+                                                                                                "flex"
+                                                                                            }
+                                                                                            gap={
+                                                                                                "0.5rem"
+                                                                                            }
+                                                                                        >
+                                                                                            <ShowSvg />
+                                                                                            <Typography variant="caption">
+                                                                                                {
+                                                                                                    element.title
+                                                                                                }
+                                                                                            </Typography>
+                                                                                        </Box>
+                                                                                    </IconButtonKit>
+                                                                                </Box>
+                                                                            )
+                                                                        )}
+                                                                    </Box>
                                                                 </Box>
                                                             )}
                                                         </Box>
