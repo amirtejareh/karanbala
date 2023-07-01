@@ -209,29 +209,6 @@ const Attach = () => {
                                     pointAndTest: "#",
                                     questions: "#",
                                 },
-                                {
-                                    title: "مثلثات",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف مثلثات مقدماتی (۱) ",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: " پی دی اف مثلثات (۲) ",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
                             ],
                         },
                         {
