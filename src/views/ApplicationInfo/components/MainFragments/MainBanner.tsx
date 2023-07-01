@@ -17,7 +17,7 @@ const MainBanner = () => {
             width={"100%"}
             minHeight={"365.48px"}
             height={"auto"}
-            justifyContent={"space-between"}
+            justifyContent={"space-around"}
             display={"flex"}
             flexWrap={"wrap"}
             borderRadius={"2rem"}
