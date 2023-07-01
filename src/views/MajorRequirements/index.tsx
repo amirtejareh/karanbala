@@ -115,8 +115,14 @@ const EducationDetails = () => {
             </ModalKit>
             <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
                 <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
-                    <KaranbalaLogoSvg />
-                    <KaranbalaLogoTextSvg />
+                    <ButtonKit onClick={() => navigate("/")}>
+                        {" "}
+                        <KaranbalaLogoSvg />
+                    </ButtonKit>
+                    <ButtonKit onClick={() => navigate("/")}>
+                        {" "}
+                        <KaranbalaLogoTextSvg />
+                    </ButtonKit>
                 </Box>
                 <Box
                     className={"slogan"}

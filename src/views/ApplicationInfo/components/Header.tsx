@@ -2,6 +2,7 @@ import { Box, Theme, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
+import { useNavigate } from "react-router-dom";
 
 const sharedStyle = createStyles({
     sharedRule: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Header = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -62,8 +64,14 @@ const Header = () => {
                 display={"flex"}
             >
                 <Box className={classes.logo}>
-                    <KaranbalaLogoSvg />
-                    <KaranbalaLogoTextSvg />
+                    <ButtonKit onClick={() => navigate("/")}>
+                        {" "}
+                        <KaranbalaLogoSvg />
+                    </ButtonKit>
+                    <ButtonKit onClick={() => navigate("/")}>
+                        {" "}
+                        <KaranbalaLogoTextSvg />
+                    </ButtonKit>
                 </Box>
                 <Box className={classes.signUp}>
                     <ButtonKit variant="contained">

@@ -3,9 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { KaranbalaLogoTextSvg } from "../../../../assets";
+import { ButtonKit } from "../../../../components/kit/Button";
+import { useNavigate } from "react-router-dom";
 
 const Quiz = () => {
     const theme: ThemeOptions = useTheme();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -16,7 +19,10 @@ const Quiz = () => {
                 justifyContent={"flex-end"}
                 gap={"2rem"}
             >
-                <KaranbalaLogoTextSvg />
+                <ButtonKit onClick={() => navigate("/")}>
+                    {" "}
+                    <KaranbalaLogoTextSvg />
+                </ButtonKit>
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
                 <Typography fontSize={"3.6rem"} variant="subtitle1">

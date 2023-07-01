@@ -5,6 +5,8 @@ import { ThemeOptions } from "@mui/system";
 import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
+import { ButtonKit } from "../../../../components/kit/Button";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -433,6 +435,7 @@ const Karanbala = () => {
         9: "نهم",
         10: "دهم",
     };
+    const navigate = useNavigate();
 
     return (
         <>
@@ -443,7 +446,10 @@ const Karanbala = () => {
                 justifyContent={"flex-end"}
                 gap={"2rem"}
             >
-                <KaranbalaLogoTextSvg />
+                <ButtonKit onClick={() => navigate("/")}>
+                    {" "}
+                    <KaranbalaLogoTextSvg />
+                </ButtonKit>
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
                 <Typography fontSize={"3.6rem"} variant="subtitle1">

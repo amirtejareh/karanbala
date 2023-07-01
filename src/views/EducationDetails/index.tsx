@@ -6,7 +6,6 @@ import {
     ExamSvg,
     ExampleSvg,
     KaranbalaExamSvg,
-    KaranbalaLogoSvg,
     KaranbalaLogoTextSvg,
     PointAndTestSvg,
     PracticeSvg,
@@ -89,7 +88,10 @@ const MajorRequirements = () => {
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
-                <KaranbalaLogoTextSvg />
+                <ButtonKit onClick={() => navigate("/")}>
+                    {" "}
+                    <KaranbalaLogoTextSvg />
+                </ButtonKit>
             </Box>
             <Box>
                 <Box margin={"3.19rem 0 7.5rem 0"}>
