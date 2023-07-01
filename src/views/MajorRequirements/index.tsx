@@ -137,6 +137,12 @@ const EducationDetails = () => {
                                     من اهل جنگیدنم، از پای نمی‌افتم
                                 </Typography>
                             </Box>
+                            <Box display={"flex"}>
+                                <Typography marginRight={"1rem"} variant="subtitle2">
+                                    پایه من :{" "}
+                                </Typography>
+                                <Typography variant="subtitle1">دهم ریاضی</Typography>
+                            </Box>
                         </Box>
                     </Box>
                     <Box

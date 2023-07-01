@@ -552,7 +552,6 @@ const theme: ThemeOptions = {
         MuiMenu: {
             styleOverrides: {
                 list: {
-                    backgroundColor: "#252B3D",
                     boxShadow: "0 2px 30px 0 rgba(0, 0, 0, 0.5)",
                     paddingBottom: 0,
                     paddingTop: 0,
@@ -564,13 +563,14 @@ const theme: ThemeOptions = {
             defaultProps: {},
             styleOverrides: {
                 root: {
-                    color: "#d6d5dd",
-                    backgroundColor: "#252B3D",
+                    color: "#000",
                     "&:not(:last-child)": {
-                        borderBottom: "solid 1px #313136",
+                        borderBottom: "solid 1px #31313638",
                     },
                     ":hover": {
-                        color: "#22A9C0",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        backgroundColor: "#22A9C0",
                     },
                 },
             },
@@ -578,7 +578,6 @@ const theme: ThemeOptions = {
         MuiAutocomplete: {
             styleOverrides: {
                 paper: {
-                    backgroundColor: "#252B3D !important",
                     backgroundImage: "none !important",
                     color: "#fff",
                 },
@@ -595,7 +594,6 @@ const theme: ThemeOptions = {
                 },
                 listbox: {
                     '& .MuiAutocomplete-option[aria-selected="true"]': {
-                        backgroundColor: "#252B3D",
                         color: "#22A9C0 !important",
                     },
                 },
@@ -619,7 +617,6 @@ const theme: ThemeOptions = {
                         borderBottom: "solid 1px #fff",
                     },
                     "&.Mui-focused": {
-                        backgroundColor: "#252B3D !important",
                         color: "#22A9C0 !important",
                     },
                 },
@@ -643,7 +640,6 @@ const theme: ThemeOptions = {
         MuiTabs: {
             styleOverrides: {
                 root: {
-                    backgroundColor: "#252B3D",
                     borderRadius: 8,
                     minHeight: "auto",
                     "& .MuiTabScrollButton-root ": {
@@ -766,7 +762,7 @@ const theme: ThemeOptions = {
         contrastThreshold: 3,
         tonalOffset: 0.2,
         background: {
-            paper: "#1a1e2a",
+            paper: "#fff",
             default: "#FFFFFF",
         },
         action: {

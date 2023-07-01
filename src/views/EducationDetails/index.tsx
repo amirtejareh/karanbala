@@ -95,7 +95,7 @@ const MajorRequirements = () => {
                 <Box margin={"3.19rem 0 7.5rem 0"}>
                     <SelectKit
                         options={option}
-                        label={"انتخاب رشته"}
+                        label={"انتخاب کتاب"}
                         defaultValue={selectValue}
                         onChange={({ target: { value } }) => {
                             const newValue: number = value as number;

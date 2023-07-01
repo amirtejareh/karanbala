@@ -46,8 +46,6 @@ const SelectKit: React.FC<ISelectKitProps> = (props) => {
                     <em>انتخاب کنید...</em>
                 </StyledMenu>
                 {options.map((item, index) => {
-                    console.log(item, index);
-
                     return (
                         <StyledMenu key={index} value={item.value}>
                             {item.title}
