@@ -328,7 +328,7 @@ const EducationDetails = () => {
                 <Box
                     className={"teacherPicture"}
                     display={"flex"}
-                    justifyContent={"space-between"}
+                    justifyContent={"space-evenly"}
                     flexWrap={"wrap"}
                     gap={"10rem"}
                 >
