@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/karanbala/static/css/main.12debe64.css",
+    "main.css": "/karanbala/static/css/main.01f549fe.css",
     "main.js": "/karanbala/static/js/main.72828a2b.js",
     "static/js/603.53608492.chunk.js": "/karanbala/static/js/603.53608492.chunk.js",
     "static/js/439.cfa2032e.chunk.js": "/karanbala/static/js/439.cfa2032e.chunk.js",
@@ -209,13 +209,13 @@
     "static/media/Rectangle.svg": "/karanbala/static/media/Rectangle.614ae759c58b35acd2b08dc86e224b43.svg",
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
-    "main.12debe64.css.map": "/karanbala/static/css/main.12debe64.css.map",
+    "main.01f549fe.css.map": "/karanbala/static/css/main.01f549fe.css.map",
     "main.72828a2b.js.map": "/karanbala/static/js/main.72828a2b.js.map",
     "603.53608492.chunk.js.map": "/karanbala/static/js/603.53608492.chunk.js.map",
     "439.cfa2032e.chunk.js.map": "/karanbala/static/js/439.cfa2032e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.12debe64.css",
+    "static/css/main.01f549fe.css",
     "static/js/main.72828a2b.js"
   ]
 }
