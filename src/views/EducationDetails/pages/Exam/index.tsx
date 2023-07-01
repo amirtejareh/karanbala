@@ -30,6 +30,7 @@ import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
 import { CheckboxKit } from "../../../../components/kit/Checkbox";
+import { ModalKit } from "../../../../components/kit/Modal";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -177,6 +178,77 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
 }));
 
+const ModalExam = () => {
+    const theme: ThemeOptions = useTheme();
+
+    return (
+        <Box>
+            <Box>
+                <Typography>سوال مشابه ۱</Typography>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <FormControl>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="جواب ۱"
+                            name="radio-buttons-group"
+                        >
+                            <FormControlLabel value="جواب ۱" control={<Radio />} label="جواب ۱" />
+                            <FormControlLabel value="جواب ۲" control={<Radio />} label="جواب ۲" />
+                            <FormControlLabel value="جواب ۳" control={<Radio />} label="جواب ۳" />
+                            <FormControlLabel value="جواب ۴" control={<Radio />} label="جواب ۴" />
+                        </RadioGroup>
+                    </FormControl>
+                </Box>
+            </Box>
+            <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                borderBottom={"1px solid grey"}
+                paddingBottom={"25px"}
+                marginBottom={"3rem"}
+            >
+                <Box>
+                    <Typography>پاسخنامه</Typography>
+                </Box>
+                <Box>
+                    <Typography>
+                        <ArrowLeftIcon />
+                    </Typography>
+                </Box>
+            </Box>
+            <Box>
+                <Typography>سوال مشابه ۲</Typography>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <FormControl>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="جواب ۲"
+                            name="radio-buttons-group"
+                        >
+                            <FormControlLabel value="جواب ۱" control={<Radio />} label="جواب ۱" />
+                            <FormControlLabel value="جواب ۲" control={<Radio />} label="جواب ۲" />
+                            <FormControlLabel value="جواب ۳" control={<Radio />} label="جواب ۳" />
+                            <FormControlLabel value="جواب ۴" control={<Radio />} label="جواب ۴" />
+                        </RadioGroup>
+                    </FormControl>
+                </Box>
+            </Box>
+            <Box display={"flex"} justifyContent={"space-between"}>
+                <Box>
+                    <Typography>پاسخنامه</Typography>
+                </Box>
+                <Box>
+                    <Typography>
+                        <ArrowLeftIcon />
+                    </Typography>
+                </Box>
+            </Box>
+        </Box>
+    );
+};
+
 const Exam = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
@@ -185,6 +257,7 @@ const Exam = () => {
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
     const [episodes, setEpisodes] = useState<any>({});
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const courses = [
         {
@@ -492,6 +565,17 @@ const Exam = () => {
     const navigate = useNavigate();
     return (
         <>
+            {" "}
+            <ModalKit
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+                modalState={modalOpen}
+                title={<>سوال مشابه</>}
+                maxWidth={"sm"}
+            >
+                {({ handleApproved }: any) => <ModalExam />}
+            </ModalKit>
             <Box
                 margin={"0.75rem 3.25rem 0 3.25rem"}
                 paddingBottom={"7.5rem"}
@@ -633,11 +717,22 @@ const Exam = () => {
                                     </defs>
                                 </svg>
                             </Box>
-                            <Box display={"flex"} justifyContent={"space-between"}>
+                            <Box
+                                display={"flex"}
+                                justifyContent={"center"}
+                                gap={"1rem"}
+                                flexWrap={"wrap"}
+                            >
                                 <ButtonKit size="large" variant="contained">
                                     <Typography></Typography>سوال بعدی
                                 </ButtonKit>
-                                <ButtonKit size="large" variant="contained">
+                                <ButtonKit
+                                    onClick={() => {
+                                        setModalOpen(!modalOpen);
+                                    }}
+                                    size="large"
+                                    variant="contained"
+                                >
                                     <Typography></Typography>سوال مشابه
                                 </ButtonKit>
                                 <ButtonKit size="large" variant="contained">
@@ -647,7 +742,7 @@ const Exam = () => {
                             <Box
                                 margin={"1rem 0 0 0"}
                                 display={"flex"}
-                                justifyContent={"space-between"}
+                                justifyContent={"space-around"}
                             >
                                 <ButtonKit size="large" variant="outlined">
                                     <Typography></Typography>
