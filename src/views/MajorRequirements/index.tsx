@@ -54,7 +54,7 @@ const EducationDetails = () => {
         const theme: ThemeOptions = useTheme();
 
         return (
-            <Box display={"flex"} justifyContent={"space-between"}>
+            <Box display={"flex"} justifyContent={"space-between"} gap={"5rem"}>
                 <Box
                     display={"flex"}
                     alignItems={"center"}
@@ -75,7 +75,7 @@ const EducationDetails = () => {
                         <QuizSvg />
                     </Box>
                     <Box margin={"1rem"}>
-                        <Typography variant="subtitle1">تعیین سطح</Typography>
+                        <Typography variant="subtitle1">آزمون تستی</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -98,7 +98,7 @@ const EducationDetails = () => {
                         <QuizSvg />
                     </Box>
                     <Box margin={"1rem"}>
-                        <Typography variant="subtitle1">آزمون برنامه‌ای</Typography>
+                        <Typography variant="subtitle1">آزمون تشریحی</Typography>
                     </Box>
                 </Box>
             </Box>
