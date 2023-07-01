@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.926e9c7f.css",
-    "main.js": "/karanbala/static/js/main.05b1f505.js",
-    "static/js/603.5348f8bd.chunk.js": "/karanbala/static/js/603.5348f8bd.chunk.js",
+    "main.js": "/karanbala/static/js/main.f1f1ee87.js",
+    "static/js/603.869c0559.chunk.js": "/karanbala/static/js/603.869c0559.chunk.js",
     "static/js/439.cfa2032e.chunk.js": "/karanbala/static/js/439.cfa2032e.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
@@ -210,12 +210,12 @@
     "static/media/minus.svg": "/karanbala/static/media/minus.1af244ceb57072412641f59b2d0a5026.svg",
     "static/media/ellipse.svg": "/karanbala/static/media/ellipse.34be5573239ac51018329b1a29aae275.svg",
     "main.926e9c7f.css.map": "/karanbala/static/css/main.926e9c7f.css.map",
-    "main.05b1f505.js.map": "/karanbala/static/js/main.05b1f505.js.map",
-    "603.5348f8bd.chunk.js.map": "/karanbala/static/js/603.5348f8bd.chunk.js.map",
+    "main.f1f1ee87.js.map": "/karanbala/static/js/main.f1f1ee87.js.map",
+    "603.869c0559.chunk.js.map": "/karanbala/static/js/603.869c0559.chunk.js.map",
     "439.cfa2032e.chunk.js.map": "/karanbala/static/js/439.cfa2032e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.926e9c7f.css",
-    "static/js/main.05b1f505.js"
+    "static/js/main.f1f1ee87.js"
   ]
 }
