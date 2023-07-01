@@ -105,6 +105,7 @@ const MainMajorBoxes = () => {
                                     margin={"1rem"}
                                     bgcolor={theme?.palette?.common.white}
                                     padding={"1rem"}
+                                    borderRadius={"1rem"}
                                 >
                                     <BookSavedSvg />
                                 </Box>

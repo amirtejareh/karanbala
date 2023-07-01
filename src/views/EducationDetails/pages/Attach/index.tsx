@@ -469,16 +469,10 @@ const Attach = () => {
     }, []);
 
     const numbers: any = {
-        1: "اول",
-        2: "دوم",
-        3: "سوم",
-        4: "چهارم",
-        5: "پنجم",
-        6: "ششم",
-        7: "هفتم",
-        8: "هشتم",
-        9: "نهم",
-        10: "دهم",
+        1: "خلاصه درس",
+        2: "جدول",
+        3: "پیوست‌ها",
+        4: "اشکال",
     };
     const navigate = useNavigate();
     return (
@@ -544,7 +538,7 @@ const Attach = () => {
                                 <Box key={index} className={classes.episodes}>
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
-                                            <Typography>درس {numbers[index + 1]}</Typography>
+                                            <Typography> {numbers[index + 1]}</Typography>
                                             <Typography>
                                                 <IconButton
                                                     onClick={(e: any) => {
