@@ -54,7 +54,7 @@ const EducationDetails = () => {
         const theme: ThemeOptions = useTheme();
 
         return (
-            <Box display={"flex"} justifyContent={"space-between"} gap={"5rem"}>
+            <Box display={"flex"} justifyContent={"space-between"} gap={"1rem"}>
                 <Box
                     display={"flex"}
                     alignItems={"center"}
