@@ -7,8 +7,13 @@ import {
     ArrowLeftSvg,
     ArrowRightSvg,
     ArrowUpSvg,
+    KaranbalaExamSvg,
     KaranbalaLogoTextSvg,
+    PointAndTestSvg,
+    QuestionsSvg,
+    QuizSvg,
     ShowSvg,
+    TextBookSvg,
 } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
@@ -105,6 +110,30 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         justifyContent: "space-around",
         alignItems: "center",
         borderRadius: "1rem",
+    },
+    quickAccess: {
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderRadius: "1rem",
+        "& > div": {
+            backgroundColor: theme?.palette?.others.warning.light,
+            width: "15rem",
+            height: "14rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "1rem",
+        },
+        "& svg": {
+            width: "50px",
+        },
+        "& div > svg": {
+            backgroundColor: "#fff",
+            padding: "5px",
+            borderRadius: "1rem",
+        },
     },
     arrowDown: {
         width: "1.5rem",
@@ -701,6 +730,91 @@ const Lessons = () => {
                                                                                 <ArrowLeftSvg />
                                                                             </IconButton>
                                                                         </Box>
+                                                                    </Box>
+                                                                    <Box
+                                                                        display={"flex"}
+                                                                        justifyContent={
+                                                                            "space-around"
+                                                                        }
+                                                                    >
+                                                                        {Array.of(
+                                                                            1,
+                                                                            2,
+                                                                            3,
+                                                                            4,
+                                                                            5
+                                                                        ).map((element) => (
+                                                                            <Box>
+                                                                                <IconButton
+                                                                                    className={
+                                                                                        classes.quickAccess
+                                                                                    }
+                                                                                >
+                                                                                    <Box
+                                                                                        flexDirection={
+                                                                                            "column"
+                                                                                        }
+                                                                                    >
+                                                                                        <Box>
+                                                                                            {element ==
+                                                                                            1 ? (
+                                                                                                <TextBookSvg />
+                                                                                            ) : element ==
+                                                                                              2 ? (
+                                                                                                <KaranbalaExamSvg />
+                                                                                            ) : element ==
+                                                                                              3 ? (
+                                                                                                <QuizSvg />
+                                                                                            ) : element ==
+                                                                                              4 ? (
+                                                                                                <PointAndTestSvg />
+                                                                                            ) : element ==
+                                                                                              5 ? (
+                                                                                                <QuestionsSvg />
+                                                                                            ) : (
+                                                                                                ""
+                                                                                            )}
+                                                                                        </Box>
+
+                                                                                        <Typography variant="subtitle2">
+                                                                                            {element ==
+                                                                                            1 ? (
+                                                                                                <>
+                                                                                                    درسنامه
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              2 ? (
+                                                                                                <>
+                                                                                                    کران
+                                                                                                    بالا
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              3 ? (
+                                                                                                <>
+                                                                                                    آزمون
+                                                                                                    انتخابی
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              4 ? (
+                                                                                                <>
+                                                                                                    نکته
+                                                                                                    و
+                                                                                                    تست
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              5 ? (
+                                                                                                <>
+                                                                                                    سوالات
+                                                                                                    تشریحی
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                ""
+                                                                                            )}
+                                                                                        </Typography>
+                                                                                    </Box>
+                                                                                </IconButton>
+                                                                            </Box>
+                                                                        ))}
                                                                     </Box>
                                                                 </Box>
                                                             )}
