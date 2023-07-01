@@ -134,6 +134,13 @@ input:-webkit-autofill {
 @media screen and (max-width: 1368px) {
     .bannerContent {
         width: 100% !important;
+        margin: 65px 80px;
+    }
+    .bannerContent h6 {
+        margin: 0 auto !important;
+    }
+    .bannerContent div {
+        margin: 0 0 4rem 0;
     }
     .banner {
         justify-content: center !important;
@@ -165,6 +172,7 @@ input:-webkit-autofill {
         flex-basis: 100% !important;
         justify-content: center;
     }
+
     .bannerSvg {
         display: flex;
     }
@@ -180,6 +188,7 @@ input:-webkit-autofill {
     .parentEducationBoxes {
         justify-content: center !important;
     }
+
     .karanbalaDescription {
         width: 100% !important;
     }
