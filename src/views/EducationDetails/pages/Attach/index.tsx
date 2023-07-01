@@ -259,29 +259,6 @@ const Attach = () => {
                                     pointAndTest: "#",
                                     questions: "#",
                                 },
-                                {
-                                    title: "۲ مثلثات",
-                                    attachment: [
-                                        {
-                                            title: " پی دی اف مثلثات مقدماتی (۳)",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: " پی دی اف مثلثات (۴) ",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
                             ],
                         },
                     ],
@@ -315,29 +292,6 @@ const Attach = () => {
                                     pointAndTest: "#",
                                     questions: "#",
                                 },
-                                {
-                                    title: "انتگرال توابع گویا",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال گویا",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
                             ],
                         },
                         {
@@ -351,29 +305,6 @@ const Attach = () => {
                                         },
                                         {
                                             title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                                {
-                                    title: "انتگرال توابع گنگ",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال گنگ",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری توابع گنگ",
                                             address: "#",
                                         },
                                     ],
@@ -586,159 +517,89 @@ const Attach = () => {
                                                             key={ix}
                                                             className={classes.episodeLessons}
                                                         >
-                                                            <Box
-                                                                className={
-                                                                    classes.episodeLessonTitle
-                                                                }
-                                                            >
-                                                                <Typography>
-                                                                    {value?.title}
-                                                                </Typography>
-                                                                <Typography>
-                                                                    <IconButton
-                                                                        onClick={(e: any) => {
-                                                                            setChildrenEpisodeVisible(
-                                                                                (prev: any) => {
-                                                                                    return {
-                                                                                        ...prev,
-                                                                                        ["children-episode-index-" +
-                                                                                        index +
-                                                                                        "-ix-" +
-                                                                                        ix]:
-                                                                                            !childrenEpisodeVisible[
-                                                                                                "children-episode-index-" +
-                                                                                                    index +
-                                                                                                    "-ix-" +
-                                                                                                    ix
-                                                                                            ],
-                                                                                    };
-                                                                                }
-                                                                            );
-                                                                        }}
-                                                                    >
-                                                                        {childrenEpisodeVisible[
-                                                                            "children-episode-index-" +
-                                                                                index +
-                                                                                "-ix-" +
-                                                                                ix
-                                                                        ] ? (
-                                                                            <ArrowUpSvg
-                                                                                className={
-                                                                                    classes.arrowDown
-                                                                                }
-                                                                            />
-                                                                        ) : (
-                                                                            <ArrowDownSvg
-                                                                                className={
-                                                                                    classes.arrowDown
-                                                                                }
-                                                                            />
-                                                                        )}
-                                                                    </IconButton>
-                                                                </Typography>
-                                                            </Box>
-                                                            {childrenEpisodeVisible[
-                                                                "children-episode-index-" +
-                                                                    index +
-                                                                    "-ix-" +
-                                                                    ix
-                                                            ] && (
-                                                                <Box className={classes.content}>
-                                                                    <Box
-                                                                        className={
-                                                                            classes.attachment
-                                                                        }
-                                                                    >
-                                                                        {value.attachment.map(
-                                                                            (
-                                                                                element: any,
-                                                                                index: any
-                                                                            ) => (
-                                                                                <Box
-                                                                                    key={index}
-                                                                                    display={"flex"}
-                                                                                    padding={
-                                                                                        "0.5rem"
+                                                            <Box className={classes.content}>
+                                                                <Box className={classes.attachment}>
+                                                                    {value.attachment.map(
+                                                                        (
+                                                                            element: any,
+                                                                            index: any
+                                                                        ) => (
+                                                                            <Box
+                                                                                key={index}
+                                                                                display={"flex"}
+                                                                                padding={"0.5rem"}
+                                                                            >
+                                                                                <IconButtonKit
+                                                                                    onClick={() =>
+                                                                                        navigate(
+                                                                                            element.address
+                                                                                        )
                                                                                     }
                                                                                 >
-                                                                                    <IconButtonKit
-                                                                                        onClick={() =>
-                                                                                            navigate(
-                                                                                                element.address
-                                                                                            )
-                                                                                        }
-                                                                                    >
-                                                                                        <Box
-                                                                                            display={
-                                                                                                "flex"
-                                                                                            }
-                                                                                            gap={
-                                                                                                "1rem"
-                                                                                            }
-                                                                                        >
-                                                                                            <ShowSvg />
-                                                                                            <Typography variant="caption">
-                                                                                                {
-                                                                                                    element.title
-                                                                                                }
-                                                                                            </Typography>
-                                                                                        </Box>
-                                                                                    </IconButtonKit>
-                                                                                </Box>
-                                                                            )
-                                                                        )}
-                                                                    </Box>
-                                                                    <Box className={classes.video}>
-                                                                        <Box>
-                                                                            <IconButton>
-                                                                                <ArrowRightSvg />
-                                                                            </IconButton>
-                                                                        </Box>
-                                                                        {value.videos.map(
-                                                                            (
-                                                                                element: any,
-                                                                                key: any
-                                                                            ) => {
-                                                                                return (
                                                                                     <Box
-                                                                                        controls
-                                                                                        width={
-                                                                                            "100%"
-                                                                                        }
                                                                                         display={
                                                                                             "flex"
                                                                                         }
-                                                                                        flexBasis={
-                                                                                            "59%"
-                                                                                        }
-                                                                                        borderRadius={
-                                                                                            "5px"
-                                                                                        }
-                                                                                        component={
-                                                                                            "video"
-                                                                                        }
+                                                                                        gap={"1rem"}
                                                                                     >
-                                                                                        <Box
-                                                                                            component={
-                                                                                                "source"
+                                                                                        <ShowSvg />
+                                                                                        <Typography variant="caption">
+                                                                                            {
+                                                                                                element.title
                                                                                             }
-                                                                                            src={
-                                                                                                element.address
-                                                                                            }
-                                                                                        ></Box>
+                                                                                        </Typography>
                                                                                     </Box>
-                                                                                );
-                                                                            }
-                                                                        )}
+                                                                                </IconButtonKit>
+                                                                            </Box>
+                                                                        )
+                                                                    )}
+                                                                </Box>
+                                                                <Box className={classes.video}>
+                                                                    <Box>
+                                                                        <IconButton>
+                                                                            <ArrowRightSvg />
+                                                                        </IconButton>
+                                                                    </Box>
+                                                                    {value.videos.map(
+                                                                        (
+                                                                            element: any,
+                                                                            key: any
+                                                                        ) => {
+                                                                            return (
+                                                                                <Box
+                                                                                    controls
+                                                                                    width={"100%"}
+                                                                                    display={"flex"}
+                                                                                    flexBasis={
+                                                                                        "59%"
+                                                                                    }
+                                                                                    borderRadius={
+                                                                                        "5px"
+                                                                                    }
+                                                                                    component={
+                                                                                        "video"
+                                                                                    }
+                                                                                >
+                                                                                    <Box
+                                                                                        component={
+                                                                                            "source"
+                                                                                        }
+                                                                                        src={
+                                                                                            element.address
+                                                                                        }
+                                                                                    ></Box>
+                                                                                </Box>
+                                                                            );
+                                                                        }
+                                                                    )}
 
-                                                                        <Box>
-                                                                            <IconButton>
-                                                                                <ArrowLeftSvg />
-                                                                            </IconButton>
-                                                                        </Box>
+                                                                    <Box>
+                                                                        <IconButton>
+                                                                            <ArrowLeftSvg />
+                                                                        </IconButton>
                                                                     </Box>
                                                                 </Box>
-                                                            )}
+                                                            </Box>
                                                         </Box>
                                                     );
                                                 })}
