@@ -177,6 +177,9 @@ input:-webkit-autofill {
     .parentEducationBoxes {
         justify-content: center !important;
     }
+    .karanbalaDescription {
+        width: 100% !important;
+    }
 
     .drSamieeBox img {
         display: none !important;

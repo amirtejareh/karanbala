@@ -41,6 +41,7 @@ const MainBanner = () => {
                         textAlign={"justify"}
                         fontWeight={"400"}
                         width={"59rem"}
+                        className="karanbalaDescription"
                     >
                         ما در کران بالا بر این باوریم که با استعانت از درگاه باري تعالی، همیت و
                         اهتمام اساتید گرانقدر به مقوله آموزش صحیح، جامع، هدفمند و پرهیز از زیاده
