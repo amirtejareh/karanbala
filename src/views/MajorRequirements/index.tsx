@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import {
     AccountSvg,
@@ -44,6 +44,10 @@ const EducationDetails = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
 
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const ModalExam = () => {
