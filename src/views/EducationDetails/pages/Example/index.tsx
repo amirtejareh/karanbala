@@ -2,19 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import {
-    ArrowDownSvg,
-    ArrowLeftSvg,
-    ArrowRightSvg,
-    ArrowUpSvg,
-    KaranbalaExamSvg,
-    KaranbalaLogoTextSvg,
-    PointAndTestSvg,
-    QuestionsSvg,
-    QuizSvg,
-    ShowSvg,
-    TextBookSvg,
-} from "../../../../assets";
+import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg, ShowSvg } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
@@ -216,6 +204,22 @@ const Example = () => {
                                 },
                             ],
                         },
+                        {
+                            episodes: [
+                                {
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف تابع خطی",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف تابع ثابت",
+                                            address: "#",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
                     ],
                 },
                 {
@@ -254,6 +258,22 @@ const Example = () => {
                                 },
                             ],
                         },
+                        {
+                            episodes: [
+                                {
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال معین",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
                     ],
                 },
                 {
@@ -266,6 +286,22 @@ const Example = () => {
                                     attachment: [
                                         {
                                             title: "پی دی اف انتگرال نامعین",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            episodes: [
+                                {
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال معین",
                                             address: "#",
                                         },
                                         {
@@ -384,9 +420,9 @@ const Example = () => {
     };
 
     const episode: any = {
-        1: "خلاصه فصل",
-        2: "جدول",
-        3: "پیوست",
+        1: "نمونه سوالات امتحانی ترم اول",
+        2: "نمونه سوالات امتحانی ترم دوم",
+        3: "نمونه سوالات امتحانی کل کتال",
     };
     const navigate = useNavigate();
     return (
