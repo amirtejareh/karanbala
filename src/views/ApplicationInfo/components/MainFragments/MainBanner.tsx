@@ -28,7 +28,7 @@ const MainBanner = () => {
             <Box margin={"65px 80px"} className={` ${"bannerContent"}`}>
                 <Box>
                     <Typography
-                        margin={"40px 0"}
+                        margin={"0 0 4rem 0"}
                         lineHeight={"52px"}
                         fontSize={"4.5rem"}
                         variant="subtitle1"
@@ -38,7 +38,14 @@ const MainBanner = () => {
                     </Typography>
                 </Box>
                 <Box>
-                    <Typography variant="subtitle2" fontSize={"2rem"} textAlign={"center"}>
+                    <Typography
+                        variant="subtitle2"
+                        fontSize={"2rem"}
+                        textAlign={"center"}
+                        margin={"5rem"}
+                        fontWeight={"400"}
+                        width={"59rem"}
+                    >
                         ما در کران بالا بر این باوریم که با استعانت از درگاه باري تعالی، همیت و
                         اهتمام اساتید گرانقدر به مقوله آموزش صحیح، جامع، هدفمند و پرهیز از زیاده
                         گویی و با استفاده از ابزار‌ها و روش های نوین آموزشی، بستری مناسب را برای
