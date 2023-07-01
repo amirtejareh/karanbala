@@ -738,7 +738,7 @@ const theme: ThemeOptions = {
     ],
     typography: {
         htmlFontSize: 10,
-        fontFamily: "YekanBakh",
+        fontFamily: "IRANSans",
         fontSize: 14,
         fontWeightLight: 300,
         fontWeightRegular: 400,
