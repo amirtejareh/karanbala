@@ -2,11 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg } from "../../../../assets";
+import {
+    ArrowDownSvg,
+    ArrowLeftSvg,
+    ArrowRightSvg,
+    ArrowUpSvg,
+    KaranbalaExamSvg,
+    KaranbalaLogoTextSvg,
+    PointAndTestSvg,
+    QuestionsSvg,
+    QuizSvg,
+    ShowSvg,
+    TextBookSvg,
+} from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
+import { IconButtonKit } from "../../../../components/kit/IconButton";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -89,7 +102,39 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         border: `1px solid ${theme?.palette?.grey["200"]}`,
         flexWrap: "wrap",
     },
-    content: {},
+    content: { width: "100%" },
+    attachment: { width: "100%", display: "flex" },
+    video: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderRadius: "1rem",
+    },
+    quickAccess: {
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderRadius: "1rem",
+        "& > div": {
+            backgroundColor: theme?.palette?.others.warning.light,
+            width: "15rem",
+            height: "14rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "1rem",
+        },
+        "& svg": {
+            width: "50px",
+        },
+        "& div > svg": {
+            backgroundColor: "#fff",
+            padding: "5px",
+            borderRadius: "1rem",
+        },
+    },
     arrowDown: {
         width: "1.5rem",
         height: "1.5rem",
@@ -168,11 +213,11 @@ const Karanbala = () => {
                                     title: "مثلثات",
                                     attachment: [
                                         {
-                                            title: "(۱) پی دی اف مثلثات مقدماتی",
+                                            title: "پی دی اف مثلثات مقدماتی (۱) ",
                                             address: "#",
                                         },
                                         {
-                                            title: "(۲) پی دی اف مثلثات ",
+                                            title: " پی دی اف مثلثات (۲) ",
                                             address: "#",
                                         },
                                     ],
@@ -218,11 +263,11 @@ const Karanbala = () => {
                                     title: "۲ مثلثات",
                                     attachment: [
                                         {
-                                            title: "(۳) پی دی اف مثلثات مقدماتی",
+                                            title: " پی دی اف مثلثات مقدماتی (۳)",
                                             address: "#",
                                         },
                                         {
-                                            title: "(۴) پی دی اف مثلثات ",
+                                            title: " پی دی اف مثلثات (۴) ",
                                             address: "#",
                                         },
                                     ],
@@ -436,7 +481,6 @@ const Karanbala = () => {
         10: "دهم",
     };
     const navigate = useNavigate();
-
     return (
         <>
             <Box
@@ -453,7 +497,7 @@ const Karanbala = () => {
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
                 <Typography fontSize={"3.6rem"} variant="subtitle1">
-                    کران بالا
+                    کران بالا{" "}
                 </Typography>
             </Box>
             <Box className={classes.courses}>
@@ -594,7 +638,184 @@ const Karanbala = () => {
                                                                     ix
                                                             ] && (
                                                                 <Box className={classes.content}>
-                                                                    video
+                                                                    <Box
+                                                                        className={
+                                                                            classes.attachment
+                                                                        }
+                                                                    >
+                                                                        {value.attachment.map(
+                                                                            (
+                                                                                element: any,
+                                                                                index: any
+                                                                            ) => (
+                                                                                <Box
+                                                                                    key={index}
+                                                                                    display={"flex"}
+                                                                                    padding={
+                                                                                        "0.5rem"
+                                                                                    }
+                                                                                >
+                                                                                    <IconButtonKit
+                                                                                        onClick={() =>
+                                                                                            navigate(
+                                                                                                element.address
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        <Box
+                                                                                            display={
+                                                                                                "flex"
+                                                                                            }
+                                                                                            gap={
+                                                                                                "1rem"
+                                                                                            }
+                                                                                        >
+                                                                                            <ShowSvg />
+                                                                                            <Typography variant="caption">
+                                                                                                {
+                                                                                                    element.title
+                                                                                                }
+                                                                                            </Typography>
+                                                                                        </Box>
+                                                                                    </IconButtonKit>
+                                                                                </Box>
+                                                                            )
+                                                                        )}
+                                                                    </Box>
+                                                                    <Box className={classes.video}>
+                                                                        <Box>
+                                                                            <IconButton>
+                                                                                <ArrowRightSvg />
+                                                                            </IconButton>
+                                                                        </Box>
+                                                                        {value.videos.map(
+                                                                            (
+                                                                                element: any,
+                                                                                key: any
+                                                                            ) => {
+                                                                                return (
+                                                                                    <Box
+                                                                                        controls
+                                                                                        width={
+                                                                                            "100%"
+                                                                                        }
+                                                                                        display={
+                                                                                            "flex"
+                                                                                        }
+                                                                                        flexBasis={
+                                                                                            "59%"
+                                                                                        }
+                                                                                        borderRadius={
+                                                                                            "5px"
+                                                                                        }
+                                                                                        component={
+                                                                                            "video"
+                                                                                        }
+                                                                                    >
+                                                                                        <Box
+                                                                                            component={
+                                                                                                "source"
+                                                                                            }
+                                                                                            src={
+                                                                                                element.address
+                                                                                            }
+                                                                                        ></Box>
+                                                                                    </Box>
+                                                                                );
+                                                                            }
+                                                                        )}
+
+                                                                        <Box>
+                                                                            <IconButton>
+                                                                                <ArrowLeftSvg />
+                                                                            </IconButton>
+                                                                        </Box>
+                                                                    </Box>
+                                                                    <Box
+                                                                        display={"flex"}
+                                                                        justifyContent={
+                                                                            "space-around"
+                                                                        }
+                                                                    >
+                                                                        {Array.of(
+                                                                            1,
+                                                                            2,
+                                                                            3,
+                                                                            4,
+                                                                            5
+                                                                        ).map((element) => (
+                                                                            <Box>
+                                                                                <IconButton
+                                                                                    className={
+                                                                                        classes.quickAccess
+                                                                                    }
+                                                                                >
+                                                                                    <Box
+                                                                                        flexDirection={
+                                                                                            "column"
+                                                                                        }
+                                                                                    >
+                                                                                        <Box>
+                                                                                            {element ==
+                                                                                            1 ? (
+                                                                                                <TextBookSvg />
+                                                                                            ) : element ==
+                                                                                              2 ? (
+                                                                                                <KaranbalaExamSvg />
+                                                                                            ) : element ==
+                                                                                              3 ? (
+                                                                                                <QuizSvg />
+                                                                                            ) : element ==
+                                                                                              4 ? (
+                                                                                                <PointAndTestSvg />
+                                                                                            ) : element ==
+                                                                                              5 ? (
+                                                                                                <QuestionsSvg />
+                                                                                            ) : (
+                                                                                                ""
+                                                                                            )}
+                                                                                        </Box>
+
+                                                                                        <Typography variant="subtitle2">
+                                                                                            {element ==
+                                                                                            1 ? (
+                                                                                                <>
+                                                                                                    درسنامه
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              2 ? (
+                                                                                                <>
+                                                                                                    کران
+                                                                                                    بالا
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              3 ? (
+                                                                                                <>
+                                                                                                    آزمون
+                                                                                                    انتخابی
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              4 ? (
+                                                                                                <>
+                                                                                                    نکته
+                                                                                                    و
+                                                                                                    تست
+                                                                                                </>
+                                                                                            ) : element ==
+                                                                                              5 ? (
+                                                                                                <>
+                                                                                                    سوالات
+                                                                                                    تشریحی
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                ""
+                                                                                            )}
+                                                                                        </Typography>
+                                                                                    </Box>
+                                                                                </IconButton>
+                                                                            </Box>
+                                                                        ))}
+                                                                    </Box>
                                                                 </Box>
                                                             )}
                                                         </Box>
