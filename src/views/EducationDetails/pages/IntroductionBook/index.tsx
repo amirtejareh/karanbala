@@ -43,6 +43,7 @@ const IntroductionBook = () => {
                     height={"16.8rem"}
                     bgcolor={theme?.palette?.grey["50"]}
                     borderRadius={"1rem"}
+                    padding={"11px"}
                 >
                     <Typography variant="subtitle1">بیوگرافی کتاب</Typography>
                 </Box>
@@ -54,6 +55,7 @@ const IntroductionBook = () => {
                     height={"16.8rem"}
                     bgcolor={theme?.palette?.grey["50"]}
                     borderRadius={"1rem"}
+                    padding={"11px"}
                 >
                     <Typography variant="subtitle1">ریاضی۳ در کنکور</Typography>
                 </Box>
@@ -65,6 +67,7 @@ const IntroductionBook = () => {
                     bgcolor={theme?.palette?.grey["50"]}
                     display={"flex"}
                     borderRadius={"1rem"}
+                    padding={"11px"}
                 >
                     <Typography variant="subtitle1">ریاضی ۳ در امتحان پایانی</Typography>
                 </Box>
@@ -77,6 +80,7 @@ const IntroductionBook = () => {
                     bgcolor={theme?.palette?.grey["50"]}
                     display={"flex"}
                     borderRadius={"1rem"}
+                    padding={"11px"}
                 >
                     <Typography variant="subtitle1">بررسی کتاب و نحوه مطالعه</Typography>
                 </Box>
