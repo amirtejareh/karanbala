@@ -455,6 +455,7 @@ const PointAndTest = () => {
                     {seasons?.seasons?.map((value, index) => {
                         return (
                             <Box
+                                key={index}
                                 className={
                                     seasonVisible["season-" + (index + 1)]
                                         ? classes.seasonSelected
@@ -525,7 +526,10 @@ const PointAndTest = () => {
                                             <>
                                                 {value?.episodes?.map((value: any, ix: any) => {
                                                     return (
-                                                        <Box className={classes.episodeLessons}>
+                                                        <Box
+                                                            key={ix}
+                                                            className={classes.episodeLessons}
+                                                        >
                                                             <Box
                                                                 className={
                                                                     classes.episodeLessonTitle

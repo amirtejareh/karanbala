@@ -6,9 +6,6 @@ import { ThemeOptions } from "@mui/system";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     banner: {
         backgroundColor: theme?.palette?.secondary["50"],
-        "& > div": {
-            flexBasis: "33.33%",
-        },
     },
 }));
 
@@ -30,7 +27,7 @@ const MainBanner = () => {
                     <Typography
                         margin={"0 0 4rem 0"}
                         lineHeight={"52px"}
-                        fontSize={"4.5rem"}
+                        fontSize={"5.5rem"}
                         variant="subtitle1"
                         textAlign={"center"}
                     >
@@ -41,8 +38,7 @@ const MainBanner = () => {
                     <Typography
                         variant="subtitle2"
                         fontSize={"2rem"}
-                        textAlign={"center"}
-                        margin={"5rem"}
+                        textAlign={"justify"}
                         fontWeight={"400"}
                         width={"59rem"}
                     >

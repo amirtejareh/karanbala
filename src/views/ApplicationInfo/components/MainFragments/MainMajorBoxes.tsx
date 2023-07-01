@@ -86,7 +86,7 @@ const MainMajorBoxes = () => {
         >
             {text.map((value, index) => {
                 return (
-                    <Box>
+                    <Box key={index}>
                         <ButtonKit onClick={() => redirectRoute(path[index])}>
                             <Box
                                 bgcolor={color[index]}
