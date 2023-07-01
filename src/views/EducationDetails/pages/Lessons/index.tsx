@@ -601,12 +601,16 @@ const Lessons = () => {
                                                                         }
                                                                     >
                                                                         {value.attachment.map(
-                                                                            (element: any) => (
+                                                                            (
+                                                                                element: any,
+                                                                                index: any
+                                                                            ) => (
                                                                                 <Box
+                                                                                    key={index}
                                                                                     display={"flex"}
-                                                                                    width={"100%"}
-                                                                                    margin={"1rem"}
-                                                                                    padding={"1rem"}
+                                                                                    padding={
+                                                                                        "0.5rem"
+                                                                                    }
                                                                                 >
                                                                                     <IconButtonKit
                                                                                         onClick={() =>
@@ -620,7 +624,7 @@ const Lessons = () => {
                                                                                                 "flex"
                                                                                             }
                                                                                             gap={
-                                                                                                "0.5rem"
+                                                                                                "1rem"
                                                                                             }
                                                                                         >
                                                                                             <ShowSvg />
