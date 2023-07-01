@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg, ShowSvg } from "../../../../assets";
+import {
+    ArrowDownSvg,
+    ArrowLeftSvg,
+    ArrowRightSvg,
+    ArrowUpSvg,
+    KaranbalaLogoTextSvg,
+    ShowSvg,
+} from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
@@ -92,6 +99,13 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
     content: { width: "100%" },
     attachment: { width: "100%", display: "flex" },
+    video: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderRadius: "1rem",
+    },
     arrowDown: {
         width: "1.5rem",
         height: "1.5rem",
@@ -170,11 +184,11 @@ const Lessons = () => {
                                     title: "مثلثات",
                                     attachment: [
                                         {
-                                            title: "(۱) پی دی اف مثلثات مقدماتی",
+                                            title: "پی دی اف مثلثات مقدماتی (۱) ",
                                             address: "#",
                                         },
                                         {
-                                            title: "(۲) پی دی اف مثلثات ",
+                                            title: " پی دی اف مثلثات (۲) ",
                                             address: "#",
                                         },
                                     ],
@@ -220,11 +234,11 @@ const Lessons = () => {
                                     title: "۲ مثلثات",
                                     attachment: [
                                         {
-                                            title: "(۳) پی دی اف مثلثات مقدماتی",
+                                            title: " پی دی اف مثلثات مقدماتی (۳)",
                                             address: "#",
                                         },
                                         {
-                                            title: "(۴) پی دی اف مثلثات ",
+                                            title: " پی دی اف مثلثات (۴) ",
                                             address: "#",
                                         },
                                     ],
@@ -638,6 +652,55 @@ const Lessons = () => {
                                                                                 </Box>
                                                                             )
                                                                         )}
+                                                                    </Box>
+                                                                    <Box className={classes.video}>
+                                                                        <Box>
+                                                                            <IconButton>
+                                                                                <ArrowRightSvg />
+                                                                            </IconButton>
+                                                                        </Box>
+                                                                        {value.videos.map(
+                                                                            (
+                                                                                element: any,
+                                                                                key: any
+                                                                            ) => {
+                                                                                return (
+                                                                                    <Box
+                                                                                        controls
+                                                                                        width={
+                                                                                            "100%"
+                                                                                        }
+                                                                                        display={
+                                                                                            "flex"
+                                                                                        }
+                                                                                        flexBasis={
+                                                                                            "59%"
+                                                                                        }
+                                                                                        borderRadius={
+                                                                                            "5px"
+                                                                                        }
+                                                                                        component={
+                                                                                            "video"
+                                                                                        }
+                                                                                    >
+                                                                                        <Box
+                                                                                            component={
+                                                                                                "source"
+                                                                                            }
+                                                                                            src={
+                                                                                                element.address
+                                                                                            }
+                                                                                        ></Box>
+                                                                                    </Box>
+                                                                                );
+                                                                            }
+                                                                        )}
+
+                                                                        <Box>
+                                                                            <IconButton>
+                                                                                <ArrowLeftSvg />
+                                                                            </IconButton>
+                                                                        </Box>
                                                                     </Box>
                                                                 </Box>
                                                             )}
