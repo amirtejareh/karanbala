@@ -204,22 +204,6 @@ const Example = () => {
                                 },
                             ],
                         },
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف تابع خطی",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف تابع ثابت",
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
                     ],
                 },
                 {
@@ -258,22 +242,6 @@ const Example = () => {
                                 },
                             ],
                         },
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال معین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
                     ],
                 },
                 {
@@ -286,22 +254,6 @@ const Example = () => {
                                     attachment: [
                                         {
                                             title: "پی دی اف انتگرال نامعین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال معین",
                                             address: "#",
                                         },
                                         {
@@ -420,9 +372,8 @@ const Example = () => {
     };
 
     const episode: any = {
-        1: "نمونه سوالات امتحانی ترم اول",
-        2: "نمونه سوالات امتحانی ترم دوم",
-        3: "نمونه سوالات امتحانی کل کتال",
+        1: "تالیفی",
+        2: "سراسری",
     };
     const navigate = useNavigate();
     return (

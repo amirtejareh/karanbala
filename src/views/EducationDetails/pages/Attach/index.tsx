@@ -238,6 +238,33 @@ const Attach = () => {
                                 },
                             ],
                         },
+                        {
+                            episodes: [
+                                {
+                                    title: "تابع خطیِ، ثابت وتابع درجه سوم",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف تابع خطی",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف تابع ثابت",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                            ],
+                        },
                     ],
                 },
                 {
@@ -251,6 +278,33 @@ const Attach = () => {
                                     attachment: [
                                         {
                                             title: "پی دی اف انتگرال نامعین",
+                                            address: "#",
+                                        },
+                                        {
+                                            title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
+                                    lessonPlan: "#",
+                                    karanbala: "#",
+                                    quiz: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                },
+                            ],
+                        },
+                        {
+                            episodes: [
+                                {
+                                    title: "انتگرال معین",
+                                    attachment: [
+                                        {
+                                            title: "پی دی اف انتگرال معین",
                                             address: "#",
                                         },
                                         {
