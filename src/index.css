@@ -168,6 +168,9 @@ input:-webkit-autofill {
     .bannerSvg {
         display: flex;
     }
+    .bannerSvg > svg {
+        width: 90%;
+    }
     .teacherPicture {
         justify-content: center !important;
     }
