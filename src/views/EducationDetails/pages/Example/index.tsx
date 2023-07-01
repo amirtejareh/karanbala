@@ -2,7 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import { ArrowDownSvg, ArrowUpSvg, KaranbalaLogoTextSvg, ShowSvg } from "../../../../assets";
+import {
+    ArrowDownSvg,
+    ArrowLeftSvg,
+    ArrowRightSvg,
+    ArrowUpSvg,
+    KaranbalaExamSvg,
+    KaranbalaLogoTextSvg,
+    PointAndTestSvg,
+    QuestionsSvg,
+    QuizSvg,
+    ShowSvg,
+    TextBookSvg,
+} from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
@@ -185,6 +197,11 @@ const Example = () => {
                                             address: "#",
                                         },
                                     ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
                                 },
                             ],
                         },
@@ -198,6 +215,11 @@ const Example = () => {
                                         },
                                         {
                                             title: "پی دی اف تابع ثابت",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
                                             address: "#",
                                         },
                                     ],
@@ -223,6 +245,11 @@ const Example = () => {
                                             address: "#",
                                         },
                                     ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
                                 },
                             ],
                         },
@@ -236,6 +263,11 @@ const Example = () => {
                                         },
                                         {
                                             title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
                                             address: "#",
                                         },
                                     ],
@@ -251,6 +283,7 @@ const Example = () => {
                         {
                             episodes: [
                                 {
+                                    title: "انتگرال نامعین",
                                     attachment: [
                                         {
                                             title: "پی دی اف انتگرال نامعین",
@@ -261,12 +294,18 @@ const Example = () => {
                                             address: "#",
                                         },
                                     ],
+                                    videos: [
+                                        {
+                                            address: "#",
+                                        },
+                                    ],
                                 },
                             ],
                         },
                         {
                             episodes: [
                                 {
+                                    title: "انتگرال معین",
                                     attachment: [
                                         {
                                             title: "پی دی اف انتگرال معین",
@@ -274,6 +313,11 @@ const Example = () => {
                                         },
                                         {
                                             title: "پی دی اف روش انتگرال گیری",
+                                            address: "#",
+                                        },
+                                    ],
+                                    videos: [
+                                        {
                                             address: "#",
                                         },
                                     ],
@@ -509,6 +553,51 @@ const Example = () => {
                                                                             </Box>
                                                                         )
                                                                     )}
+                                                                </Box>
+                                                                <Box className={classes.video}>
+                                                                    <Box>
+                                                                        <IconButton>
+                                                                            <ArrowRightSvg />
+                                                                        </IconButton>
+                                                                    </Box>
+                                                                    {value.videos.map(
+                                                                        (
+                                                                            element: any,
+                                                                            key: any
+                                                                        ) => {
+                                                                            return (
+                                                                                <Box
+                                                                                    controls
+                                                                                    width={"100%"}
+                                                                                    display={"flex"}
+                                                                                    flexBasis={
+                                                                                        "59%"
+                                                                                    }
+                                                                                    borderRadius={
+                                                                                        "5px"
+                                                                                    }
+                                                                                    component={
+                                                                                        "video"
+                                                                                    }
+                                                                                >
+                                                                                    <Box
+                                                                                        component={
+                                                                                            "source"
+                                                                                        }
+                                                                                        src={
+                                                                                            element.address
+                                                                                        }
+                                                                                    ></Box>
+                                                                                </Box>
+                                                                            );
+                                                                        }
+                                                                    )}
+
+                                                                    <Box>
+                                                                        <IconButton>
+                                                                            <ArrowLeftSvg />
+                                                                        </IconButton>
+                                                                    </Box>
                                                                 </Box>
                                                             </Box>
                                                         </Box>
