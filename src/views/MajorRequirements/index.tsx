@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
             flexBasis: "100%",
         },
     },
+    major: {
+        borderBottom: "3px solid #22A9C0",
+        padding: "0 30px",
+    },
 }));
 
 const EducationDetails = () => {
@@ -347,7 +351,9 @@ const EducationDetails = () => {
                             </Typography>
                         </Box>
                         <Box>
-                            <Typography variant="subtitle2">فیزیک</Typography>
+                            <Typography className={classes.major} variant="subtitle2">
+                                فیزیک
+                            </Typography>
                         </Box>
                         <Box margin={"1rem 0"} textAlign={"center"}>
                             <Typography variant="subtitle1">
@@ -376,7 +382,9 @@ const EducationDetails = () => {
                             </Typography>
                         </Box>
                         <Box>
-                            <Typography variant="subtitle2">فیزیک</Typography>
+                            <Typography className={classes.major} variant="subtitle2">
+                                فیزیک
+                            </Typography>
                         </Box>
                         <Box margin={"1rem 0"} textAlign={"center"}>
                             <Typography variant="subtitle1">
@@ -406,7 +414,9 @@ const EducationDetails = () => {
                             </Typography>
                         </Box>
                         <Box>
-                            <Typography variant="subtitle2">فیزیک</Typography>
+                            <Typography className={classes.major} variant="subtitle2">
+                                فیزیک
+                            </Typography>
                         </Box>
                         <Box margin={"1rem 0"} textAlign={"center"}>
                             <Typography variant="subtitle1">
