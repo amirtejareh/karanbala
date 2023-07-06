@@ -20,6 +20,8 @@ import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
+import { ModalKit } from "../../../../components/kit/Modal";
+import { ModalQuiz } from "../Karanbala";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -481,8 +483,20 @@ const PointAndTest = () => {
         10: "دهم",
     };
     const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+
     return (
         <>
+            <ModalKit
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+                modalState={modalOpen}
+                title={<>آزمون مورد نظر را انتخاب کنید</>}
+                maxWidth={"xs"}
+            >
+                {({ handleApproved }: any) => <ModalQuiz />}
+            </ModalKit>
             <Box
                 margin={"0.75rem 3.25rem 0 3.25rem"}
                 paddingBottom={"7.5rem"}
@@ -744,7 +758,18 @@ const PointAndTest = () => {
                                                                             4,
                                                                             5
                                                                         ).map((element) => (
-                                                                            <Box>
+                                                                            <Box
+                                                                                onClick={() => {
+                                                                                    if (
+                                                                                        element ===
+                                                                                        3
+                                                                                    ) {
+                                                                                        setModalOpen(
+                                                                                            true
+                                                                                        );
+                                                                                    }
+                                                                                }}
+                                                                            >
                                                                                 <IconButton
                                                                                     className={
                                                                                         classes.quickAccess

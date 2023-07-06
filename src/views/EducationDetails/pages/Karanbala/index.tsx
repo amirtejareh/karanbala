@@ -169,7 +169,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
 }));
 
-const ModalQuiz = () => {
+export const ModalQuiz = () => {
     const theme: ThemeOptions = useTheme();
     const navigate = useNavigate();
 
