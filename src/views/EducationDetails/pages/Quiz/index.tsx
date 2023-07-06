@@ -63,6 +63,10 @@ const Quiz = () => {
     const path = ["karanbala", "lessons", "questions", "point-and-test"];
 
     useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
+
+    useEffect(() => {
         if (showItem != undefined) {
             localStorage.setItem("examType", showItem ? "topic" : "standard");
         } else {
