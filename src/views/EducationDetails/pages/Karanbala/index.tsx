@@ -20,6 +20,7 @@ import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
+import { ModalKit } from "../../../../components/kit/Modal";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -167,6 +168,74 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         transform: "rotate(45deg)",
     },
 }));
+
+const ModalQuiz = () => {
+    const theme: ThemeOptions = useTheme();
+    const navigate = useNavigate();
+
+    return (
+        <>
+            <Box display={"flex"} justifyContent={"space-between"} gap={"1rem"}>
+                <Box
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => {
+                        localStorage.setItem("examType", "topic");
+                        navigate("/karanbala/education-details/quiz");
+                    }}
+                    display={"flex"}
+                    alignItems={"center"}
+                    flexDirection={"column"}
+                    width={"17.35rem"}
+                    bgcolor={theme?.palette?.others.warning.light}
+                    padding={"1rem"}
+                    borderRadius={"1rem"}
+                >
+                    <Box
+                        bgcolor={theme?.palette?.common.white}
+                        padding={"1rem"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        borderRadius={"1rem"}
+                    >
+                        <QuizSvg />
+                    </Box>
+                    <Box margin={"1rem"}>
+                        <Typography variant="subtitle1">آزمون موضوعی</Typography>
+                    </Box>
+                </Box>
+                <Box
+                    onClick={() => {
+                        localStorage.setItem("examType", "standard");
+                        navigate("/karanbala/education-details/quiz");
+                    }}
+                    sx={{ cursor: "pointer" }}
+                    display={"flex"}
+                    alignItems={"center"}
+                    flexDirection={"column"}
+                    width={"17.35rem"}
+                    bgcolor={theme?.palette?.others.warning.light}
+                    padding={"1rem"}
+                    borderRadius={"1rem"}
+                >
+                    <Box
+                        bgcolor={theme?.palette?.common.white}
+                        padding={"1rem"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        borderRadius={"1rem"}
+                    >
+                        <QuizSvg />
+                    </Box>
+                    <Box margin={"1rem"}>
+                        <Typography variant="subtitle1">آزمون استاندارد</Typography>
+                    </Box>
+                </Box>
+            </Box>
+        </>
+    );
+};
 
 const Karanbala = () => {
     const theme: ThemeOptions = useTheme();
@@ -481,8 +550,20 @@ const Karanbala = () => {
         10: "دهم",
     };
     const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+
     return (
         <>
+            <ModalKit
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+                modalState={modalOpen}
+                title={<>آزمون مورد نظر را انتخاب کنید</>}
+                maxWidth={"xs"}
+            >
+                {({ handleApproved }: any) => <ModalQuiz />}
+            </ModalKit>
             <Box
                 margin={"0.75rem 3.25rem 0 3.25rem"}
                 paddingBottom={"7.5rem"}
@@ -744,7 +825,18 @@ const Karanbala = () => {
                                                                             4,
                                                                             5
                                                                         ).map((element) => (
-                                                                            <Box>
+                                                                            <Box
+                                                                                onClick={() => {
+                                                                                    if (
+                                                                                        element ===
+                                                                                        3
+                                                                                    ) {
+                                                                                        setModalOpen(
+                                                                                            true
+                                                                                        );
+                                                                                    }
+                                                                                }}
+                                                                            >
                                                                                 <IconButton
                                                                                     className={
                                                                                         classes.quickAccess
