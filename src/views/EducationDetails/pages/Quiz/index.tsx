@@ -26,6 +26,7 @@ const Quiz = () => {
     const theme: ThemeOptions = useTheme();
     const navigate = useNavigate();
     const [examValue, setExamValue] = useState(2);
+    const [quizValue, setQuizValue] = useState(2);
     const [examTypeValue, setExamTypeValue] = useState(2);
     const [seasonValue, setSeasonValue] = useState(1);
     const [lessonValue, setLessonValue] = useState(1);
@@ -45,6 +46,11 @@ const Quiz = () => {
     const season = [
         { title: "فصل۱: تابع", value: 0 },
         { title: "فصل۲: مثلثات", value: 1 },
+    ];
+
+    const exam = [
+        { title: "تستی", value: 0 },
+        { title: "تشریحی", value: 1 },
     ];
 
     const lesson = [
@@ -308,13 +314,12 @@ const Quiz = () => {
                                 flexBasis={"30%"}
                             >
                                 <SelectKit
-                                    options={season}
+                                    options={exam}
                                     label={"نوع و سطح آزمون را انتخاب کنید"}
-                                    defaultValue={examValue}
+                                    defaultValue={quizValue}
                                     onChange={({ target: { value } }) => {
                                         const newValue: number = value as number;
-
-                                        setSeasonValue(newValue);
+                                        setQuizValue(newValue);
                                     }}
                                 ></SelectKit>
                             </Box>
