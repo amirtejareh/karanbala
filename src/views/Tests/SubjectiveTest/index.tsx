@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -11,7 +11,9 @@ const SubjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
     const navigate = useNavigate();
     const [selectValue, setSelectValue] = useState(2);
-
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
     const option = [
         { title: "ریاضی ۳", value: 0 },
         { title: "ریاضی ۲", value: 1 },
