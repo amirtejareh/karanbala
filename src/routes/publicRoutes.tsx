@@ -14,6 +14,7 @@ import Attach from "../views/EducationDetails/pages/Attach";
 import Practice from "../views/EducationDetails/pages/Practice";
 import Exam from "../views/EducationDetails/pages/Exam";
 import Karanbala from "../views/EducationDetails/pages/Karanbala";
+import ObjectiveTest from "../views/Tests/ObjectiveTest";
 
 const PublicRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const PublicRoutes = () => {
             <Route path={"/karanbala"} element={<ApplicationInfoView />} />
             <Route path={"/karanbala/major-requirements"} element={<MajorRequirements />} />
             <Route path={"/karanbala/education-details"} element={<EducationDetails />} />
+            <Route path={"/karanbala/objective-test"} element={<ObjectiveTest />} />
             <Route
                 path={"/karanbala/education-details/introduction-book"}
                 element={<IntroductionBook />}

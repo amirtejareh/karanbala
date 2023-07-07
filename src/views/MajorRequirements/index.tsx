@@ -63,6 +63,10 @@ const EducationDetails = () => {
                     bgcolor={theme?.palette?.others.warning.light}
                     padding={"1rem"}
                     borderRadius={"1rem"}
+                    onClick={() => {
+                        navigate("/karanbala/objective-test");
+                    }}
+                    sx={{ cursor: "pointer" }}
                 >
                     <Box
                         bgcolor={theme?.palette?.common.white}
@@ -86,6 +90,10 @@ const EducationDetails = () => {
                     bgcolor={theme?.palette?.others.warning.light}
                     padding={"1rem"}
                     borderRadius={"1rem"}
+                    onClick={() => {
+                        navigate("/karanbala/subjective-test");
+                    }}
+                    sx={{ cursor: "pointer" }}
                 >
                     <Box
                         bgcolor={theme?.palette?.common.white}
