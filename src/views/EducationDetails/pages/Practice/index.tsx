@@ -7,13 +7,8 @@ import {
     ArrowLeftSvg,
     ArrowRightSvg,
     ArrowUpSvg,
-    KaranbalaExamSvg,
     KaranbalaLogoTextSvg,
-    PointAndTestSvg,
-    QuestionsSvg,
-    QuizSvg,
     ShowSvg,
-    TextBookSvg,
 } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";

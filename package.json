@@ -19,6 +19,7 @@
         "@mui/x-date-pickers": "*",
         "clsx": "*",
         "env-cmd": "*",
+        "openapi-typescript-codegen": "^0.25.0",
         "react": "*",
         "react-dom": "*",
         "react-helmet": "*",
@@ -26,6 +27,7 @@
         "react-minimal-pie-chart": "*",
         "react-router-dom": "*",
         "react-scripts": "*",
+        "react-tabs": "^6.0.2",
         "stylis-plugin-rtl": "^2.1.1",
         "typescript": "*",
         "web-vitals": "*",
@@ -50,7 +52,8 @@
         "deploy": "gh-pages -d build",
         "build": "react-scripts build",
         "build:dev": "env-cmd -f dev.env react-scripts build",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "karanbala_gateway": "openapi -i http://localhost:3000/api-json  --exportCore false -o src/services"
     },
     "eslintConfig": {
         "extends": [

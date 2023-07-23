@@ -28,7 +28,7 @@ const Quiz = () => {
     const [examValue, setExamValue] = useState(2);
     const [quizValue, setQuizValue] = useState(2);
     const [examTypeValue, setExamTypeValue] = useState(2);
-    const [seasonValue, setSeasonValue] = useState(1);
+    const [, setSeasonValue] = useState(1);
     const [lessonValue, setLessonValue] = useState(1);
     const [episodeValue, setEpisodeValue] = useState(1);
     const [showItem, setShowItem] = useState<boolean | undefined>(undefined);
@@ -73,7 +73,7 @@ const Quiz = () => {
     }, []);
 
     useEffect(() => {
-        if (showItem != undefined) {
+        if (showItem !== undefined) {
             localStorage.setItem("examType", showItem ? "topic" : "standard");
         } else {
             if (localStorage.getItem("examType")) {

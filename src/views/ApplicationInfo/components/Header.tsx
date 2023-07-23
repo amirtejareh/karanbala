@@ -1,9 +1,12 @@
-import { Box, Theme, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, TextField, Theme, Typography, Button } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
-
+import { ModalKit } from "../../../components/kit/Modal";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 const sharedStyle = createStyles({
     sharedRule: {
         width: "100%",
@@ -14,6 +17,31 @@ const sharedStyle = createStyles({
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
+    formContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem",
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: "5px",
+        boxShadow: `0px 1px 2px ${theme.palette.primary.main}`,
+    },
+    formTitle: {
+        marginBottom: "2rem",
+        fontSize: "2rem",
+        fontWeight: "bold",
+        color: theme.palette.primary.main,
+    },
+    formField: {
+        margin: "1rem",
+        width: "100%",
+    },
+    formButton: {
+        margin: "1rem",
+        width: "100%",
+    },
+
     typography: {
         color: theme.palette.primary["main"],
         textAlign: "center",
@@ -38,12 +66,112 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
+const ModalLoginOrSignup = () => {
+    const [tabIndex, setTabIndex] = useState(0);
+    const classes = useStyles();
+
+    return (
+        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+            <TabList>
+                <Tab>ورود</Tab>
+                <Tab>عضویت</Tab>
+            </TabList>
+
+            <TabPanel>
+                <div className={classes.formContainer}>
+                    <h2 className={classes.formTitle}>ورود</h2>
+                    <form>
+                        <TextField
+                            label="نام کاربری"
+                            variant="outlined"
+                            className={classes.formField}
+                            required
+                        />
+                        <TextField
+                            label="رمز عبور"
+                            variant="outlined"
+                            className={classes.formField}
+                            type="password"
+                            required
+                        />
+                        <Button variant="contained" color="primary" className={classes.formButton}>
+                            ورود
+                        </Button>
+                    </form>
+                </div>
+            </TabPanel>
+
+            <TabPanel>
+                <div className={classes.formContainer}>
+                    <h2 className={classes.formTitle}>عضویت</h2>
+                    <form>
+                        <TextField
+                            label="نام کاربری"
+                            variant="outlined"
+                            className={classes.formField}
+                            required
+                        />
+                        <TextField
+                            label="ایمیل"
+                            variant="outlined"
+                            className={classes.formField}
+                            type="email"
+                            required
+                        />
+                        <TextField
+                            label="رمز عبور"
+                            variant="outlined"
+                            className={classes.formField}
+                            type="password"
+                            required
+                        />
+                        <TextField
+                            label="تکرار رمز عبور"
+                            variant="outlined"
+                            className={classes.formField}
+                            type="password"
+                            required
+                        />
+                        <TextField
+                            label="موبایل"
+                            variant="outlined"
+                            className={classes.formField}
+                            type="tel"
+                            required
+                        />
+                        <TextField
+                            label="کد ملی"
+                            variant="outlined"
+                            className={classes.formField}
+                            required
+                        />
+                        <Button variant="contained" color="primary" className={classes.formButton}>
+                            عضویت
+                        </Button>
+                    </form>
+                </div>
+            </TabPanel>
+        </Tabs>
+    );
+};
+
 const Header = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     return (
         <>
+            <ModalKit
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+                modalState={modalOpen}
+                title={<>ورود/ثبت نام کاربر</>}
+                maxWidth={"sm"}
+            >
+                {({ handleApproved }: any) => <ModalLoginOrSignup />}
+            </ModalKit>
             <Box alignItems={"center"} justifyContent={"space-around"} display={"flex"}>
                 <Box mt={"1.6rem"}>
                     <Typography
@@ -74,7 +202,12 @@ const Header = () => {
                     </ButtonKit>
                 </Box>
                 <Box className={classes.signUp}>
-                    <ButtonKit variant="contained">
+                    <ButtonKit
+                        variant="contained"
+                        onClick={() => {
+                            setModalOpen(true);
+                        }}
+                    >
                         <Typography variant="subtitle1">ورود / ثبت نام</Typography>
                     </ButtonKit>
                 </Box>

@@ -171,7 +171,6 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const PointAndTest = () => {
-    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
 
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});

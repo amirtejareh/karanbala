@@ -238,7 +238,6 @@ export const ModalQuiz = () => {
 };
 
 const Karanbala = () => {
-    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
 
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});

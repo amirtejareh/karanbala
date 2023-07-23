@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
-import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import {
     ArrowDownSvg,
@@ -171,7 +170,6 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const Questions = () => {
-    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
 
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});

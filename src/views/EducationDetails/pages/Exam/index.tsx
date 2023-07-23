@@ -3,7 +3,6 @@ import {
     Box,
     FormControl,
     FormControlLabel,
-    FormLabel,
     IconButton,
     Radio,
     RadioGroup,
@@ -11,19 +10,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import {
-    ArrowDownSvg,
-    ArrowLeftSvg,
-    ArrowRightSvg,
-    ArrowUpSvg,
-    KaranbalaExamSvg,
-    KaranbalaLogoTextSvg,
-    PointAndTestSvg,
-    QuestionsSvg,
-    QuizSvg,
-    ShowSvg,
-    TextBookSvg,
-} from "../../../../assets";
+import { KaranbalaLogoTextSvg } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";

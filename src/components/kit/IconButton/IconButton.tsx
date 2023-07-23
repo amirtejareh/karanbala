@@ -1,4 +1,4 @@
-import { Box, IconButton, IconButtonProps, Theme } from "@mui/material";
+import { IconButton, IconButtonProps, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { useState } from "react";
