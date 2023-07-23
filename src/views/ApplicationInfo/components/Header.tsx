@@ -77,7 +77,6 @@ const ModalLoginOrSignup = () => {
     const loginHandler = useLogin();
 
     const handleLoginSubmit = async (data: any) => {
-        console.log(data);
         setLoading(true);
         loginHandler.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number; token: string }) => {
@@ -86,7 +85,6 @@ const ModalLoginOrSignup = () => {
 
                     localStorage.setItem("token", result.token);
                 } else {
-                    console.log(result);
                     toast(result.message);
                 }
             },
