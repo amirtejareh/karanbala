@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, TextField, Theme, Typography, Button } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { ModalKit } from "../../../components/kit/Modal";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useLogin } from "../../../hooks";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 const sharedStyle = createStyles({
@@ -69,7 +72,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ModalLoginOrSignup = () => {
     const [tabIndex, setTabIndex] = useState(0);
     const classes = useStyles();
+    const { handleSubmit, register } = useForm();
+    const [loading, setLoading] = useState(false);
+    const loginHandler = useLogin();
 
+    const handleLoginSubmit = async (data: any) => {
+        console.log(data);
+        setLoading(true);
+        loginHandler.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number; token: string }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
+
+                    localStorage.setItem("token", result.token);
+                } else {
+                    console.log(result);
+                    toast(result.message);
+                }
+            },
+        });
+    };
     return (
         <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
             <TabList>
@@ -80,12 +102,17 @@ const ModalLoginOrSignup = () => {
             <TabPanel>
                 <div className={classes.formContainer}>
                     <h2 className={classes.formTitle}>ورود</h2>
-                    <form>
+                    <form id="login-form" onSubmit={handleSubmit(handleLoginSubmit)}>
                         <TextField
                             label="نام کاربری"
                             variant="outlined"
                             className={classes.formField}
                             required
+                            InputProps={{
+                                ...register("username", {
+                                    required: "لطفا نام کاربری را وارد کنید",
+                                }),
+                            }}
                         />
                         <TextField
                             label="رمز عبور"
@@ -93,8 +120,19 @@ const ModalLoginOrSignup = () => {
                             className={classes.formField}
                             type="password"
                             required
+                            InputProps={{
+                                ...register("password", {
+                                    required: "لطفا رمز عبور را وارد کنید",
+                                }),
+                            }}
                         />
-                        <Button variant="contained" color="primary" className={classes.formButton}>
+                        <Button
+                            type={"submit"}
+                            variant="contained"
+                            color="primary"
+                            className={classes.formButton}
+                            form={"login-form"}
+                        >
                             ورود
                         </Button>
                     </form>

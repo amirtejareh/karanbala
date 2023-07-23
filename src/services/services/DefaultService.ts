@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreateUserDto } from '../models/CreateUserDto';
+import type { SigninUserDto } from '../models/SigninUserDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -54,7 +55,7 @@ requestBody: CreateUserDto,
      * @throws ApiError
      */
     public static authControllerSinginUser(
-requestBody: CreateUserDto,
+requestBody: SigninUserDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',

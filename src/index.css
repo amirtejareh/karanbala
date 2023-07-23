@@ -207,3 +207,7 @@ input:-webkit-autofill {
         flex-basis: 100% !important ;
     }
 }
+
+.Toastify__toast-body {
+    font-family: "IRANSans", sans-serif;
+}
