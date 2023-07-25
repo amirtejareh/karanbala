@@ -180,7 +180,7 @@ export const ModalQuiz = () => {
                     sx={{ cursor: "pointer" }}
                     onClick={() => {
                         localStorage.setItem("examType", "topic");
-                        navigate("/karanbala/education-details/quiz");
+                        navigate("/pub/karanbala/education-details/quiz");
                     }}
                     display={"flex"}
                     alignItems={"center"}
@@ -207,7 +207,7 @@ export const ModalQuiz = () => {
                 <Box
                     onClick={() => {
                         localStorage.setItem("examType", "standard");
-                        navigate("/karanbala/education-details/quiz");
+                        navigate("/pub/education-details/quiz");
                     }}
                     sx={{ cursor: "pointer" }}
                     display={"flex"}

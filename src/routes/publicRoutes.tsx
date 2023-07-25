@@ -41,7 +41,6 @@ const PublicRoutes = () => {
             <Route path={"/karanbala/education-details/practice"} element={<Practice />} />
             <Route path={"/karanbala/education-details/quiz"} element={<Quiz />} />
             <Route path={"/karanbala/education-details/karanbala"} element={<Karanbala />} />
-            <Route path={"/"} element={<Navigate to={"/karanbala"} />} />
         </Routes>
     );
 };

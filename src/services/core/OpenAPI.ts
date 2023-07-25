@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: "http://localhost:3000",
+    BASE: "https://api-karanbala.iran.liara.run",
     VERSION: "0.1",
     WITH_CREDENTIALS: false,
     CREDENTIALS: "include",

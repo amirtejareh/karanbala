@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import { useLogin } from "../../../hooks";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import { store } from "../../../provider/store";
+import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
+
 const sharedStyle = createStyles({
     sharedRule: {
         width: "100%",
@@ -26,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: "center",
         justifyContent: "center",
         padding: "2rem",
+        margin: "1rem",
         border: `1px solid ${theme.palette.primary.main}`,
         borderRadius: "5px",
         boxShadow: `0px 1px 2px ${theme.palette.primary.main}`,
@@ -75,15 +79,27 @@ const ModalLoginOrSignup = () => {
     const { handleSubmit, register } = useForm();
     const [loading, setLoading] = useState(false);
     const loginHandler = useLogin();
+    const navigate = useNavigate();
 
     const handleLoginSubmit = async (data: any) => {
         setLoading(true);
         loginHandler.mutate(data, {
-            onSuccess: async (result: { message: string; statusCode: number; token: string }) => {
+            onSuccess: async (result: {
+                message: string;
+                statusCode: number;
+                access_token: string;
+            }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
 
-                    localStorage.setItem("token", result.token);
+                    store.dispatch<ActionInterface<any>>({
+                        type: ActionTypeEnum.SetUserToken,
+                        payload: result.access_token,
+                    });
+
+                    localStorage.setItem("token", result.access_token);
+
+                    navigate("/pv/karanbala/dashboard");
                 } else {
                     toast(result.message);
                 }

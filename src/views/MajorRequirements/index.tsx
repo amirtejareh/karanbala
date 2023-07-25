@@ -64,7 +64,7 @@ const EducationDetails = () => {
                     padding={"1rem"}
                     borderRadius={"1rem"}
                     onClick={() => {
-                        navigate("/karanbala/objective-test");
+                        navigate("/pub/karanbala/objective-test");
                     }}
                     sx={{ cursor: "pointer" }}
                 >
@@ -91,7 +91,7 @@ const EducationDetails = () => {
                     padding={"1rem"}
                     borderRadius={"1rem"}
                     onClick={() => {
-                        navigate("/karanbala/subjective-test");
+                        navigate("/pub/karanbala/subjective-test");
                     }}
                     sx={{ cursor: "pointer" }}
                 >
@@ -278,7 +278,7 @@ const EducationDetails = () => {
                             <Box>
                                 <ButtonKit
                                     variant="contained"
-                                    onClick={() => navigate("/karanbala/education-details")}
+                                    onClick={() => navigate("/pub/karanbala/education-details")}
                                 >
                                     شروع
                                 </ButtonKit>
