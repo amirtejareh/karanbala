@@ -4,8 +4,10 @@ import AdminDashboard from "../views/Dashboard/AdminDashboard";
 import UserDashboard from "../views/Dashboard/UserDashboard";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../provider/reducer/main.reducer";
-import { useJwt } from "react-jwt";
 
+import { ActionTypeEnum, ActionInterface } from "../provider/action.interface";
+import MainLayoutComponent from "../components/MainLayoutComponent";
+import jwt_decode from "jwt-decode";
 interface AuthRouteProps {
     userRole: any;
     route: { requiredPermissions: Array<string> };
@@ -26,10 +28,9 @@ const AuthorizedRoute = ({ children, userRole, route, ...rest }: AuthRouteProps)
 };
 
 const PrivateRoutes = () => {
-    const auth = useSelector((state: MainReducerInterface) => state.auth);
+    const user: any = useSelector((state: MainReducerInterface) => state.user);
+    const token = localStorage.getItem("token");
     const navigate = useNavigate();
-    const token = auth.token ?? localStorage.getItem("token");
-    const data = useJwt(token ?? "");
 
     useEffect(() => {
         if (token == undefined) {
@@ -38,30 +39,32 @@ const PrivateRoutes = () => {
     }, [navigate, token]);
 
     return (
-        <Routes>
-            <Route
-                path="/karanbala/dashboard"
-                element={
-                    <AuthorizedRoute
-                        userRole={data.decodedToken}
-                        route={{ requiredPermissions: ["User"] }}
-                    >
-                        <UserDashboard />
-                    </AuthorizedRoute>
-                }
-            />
-            <Route
-                path="/karanbala/admin"
-                element={
-                    <AuthorizedRoute
-                        userRole={data.decodedToken}
-                        route={{ requiredPermissions: ["SuperAdmin"] }}
-                    >
-                        <AdminDashboard />
-                    </AuthorizedRoute>
-                }
-            />
-        </Routes>
+        <MainLayoutComponent>
+            <Routes>
+                <Route
+                    path="/karanbala/dashboard"
+                    element={
+                        <AuthorizedRoute
+                            userRole={user?.user}
+                            route={{ requiredPermissions: ["User"] }}
+                        >
+                            <UserDashboard />
+                        </AuthorizedRoute>
+                    }
+                />
+                <Route
+                    path="/karanbala/admin"
+                    element={
+                        <AuthorizedRoute
+                            userRole={user?.user}
+                            route={{ requiredPermissions: ["SuperAdmin"] }}
+                        >
+                            <AdminDashboard />
+                        </AuthorizedRoute>
+                    }
+                />
+            </Routes>
+        </MainLayoutComponent>
     );
 };
 

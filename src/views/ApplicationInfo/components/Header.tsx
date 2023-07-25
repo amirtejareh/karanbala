@@ -10,8 +10,6 @@ import { toast } from "react-toastify";
 import { useLogin } from "../../../hooks";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { store } from "../../../provider/store";
-import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
 
 const sharedStyle = createStyles({
     sharedRule: {
@@ -92,14 +90,9 @@ const ModalLoginOrSignup = () => {
                 if (result.statusCode == 200) {
                     setLoading(false);
 
-                    store.dispatch<ActionInterface<any>>({
-                        type: ActionTypeEnum.SetUserToken,
-                        payload: result.access_token,
-                    });
-
                     localStorage.setItem("token", result.access_token);
 
-                    navigate("/pv/karanbala/dashboard");
+                    navigate("/auth/check");
                 } else {
                     toast(result.message);
                 }

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Theme, Box } from "@mui/material";
+import { Theme, Box, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { MainReducerInterface } from "../../../provider/reducer/main.reducer";
 import { useSelector } from "react-redux";
+import { MainReducerInterface } from "../../../provider/reducer/main.reducer";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -10,15 +10,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 const AdminDashboard = () => {
-    const user = useSelector((state: MainReducerInterface) => state);
-
-    console.log(user, "user");
+    const user: any = useSelector((state: MainReducerInterface) => state.user);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
+
+    useEffect(() => {}, [user]);
     const classes = useStyles();
-    return <Box className={classes.container}>سلام خوش اومدی</Box>;
+    return (
+        <Box className={classes.container}>
+            <>
+                سلام خوش آمدی {user?.user?.username} با نقش {user?.user?.roles[0]}
+            </>
+        </Box>
+    );
 };
 
 export default AdminDashboard;
