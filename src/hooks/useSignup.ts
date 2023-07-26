@@ -4,7 +4,7 @@ import { DefaultService } from "../services";
 
 const useSginup = () => {
     return useMutation((request: any) => {
-        return DefaultService.authControllerSinginUser({ ...request });
+        return DefaultService.authControllerCreateUser({ ...request });
     });
 };
 
