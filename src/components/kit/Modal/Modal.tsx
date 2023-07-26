@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { makeStyles, WithStyles, withStyles } from "@mui/styles";
-import { createStyles, Theme, Divider, useMediaQuery, useTheme, Paper } from "@mui/material";
+import { makeStyles, withStyles } from "@mui/styles";
+import { Theme, useMediaQuery, useTheme } from "@mui/material";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";

@@ -780,19 +780,19 @@ const Questions = () => {
                                                                                         }
                                                                                     >
                                                                                         <Box>
-                                                                                            {element ==
+                                                                                            {element ===
                                                                                             1 ? (
                                                                                                 <TextBookSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               2 ? (
                                                                                                 <KaranbalaExamSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               3 ? (
                                                                                                 <QuizSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               4 ? (
                                                                                                 <PointAndTestSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               5 ? (
                                                                                                 <QuestionsSvg />
                                                                                             ) : (
@@ -806,26 +806,26 @@ const Questions = () => {
                                                                                                 <>
                                                                                                     درسنامه
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               2 ? (
                                                                                                 <>
                                                                                                     کران
                                                                                                     بالا
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               3 ? (
                                                                                                 <>
                                                                                                     آزمون
                                                                                                     انتخابی
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               4 ? (
                                                                                                 <>
                                                                                                     نکته
                                                                                                     و
                                                                                                     تست
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               5 ? (
                                                                                                 <>
                                                                                                     سوالات

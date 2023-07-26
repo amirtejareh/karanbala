@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { store } from "../provider/store";
 import { ActionTypeEnum, ActionInterface } from "../provider/action.interface";
 import jwt_decode from "jwt-decode";
@@ -8,7 +8,7 @@ const CheckRoutes = () => {
     const navigate = useNavigate();
     const token: string = localStorage.getItem("token") ?? "";
 
-    if (token == undefined) {
+    if (token === undefined) {
         navigate("/");
     }
     var data: any = jwt_decode(token ?? "");
@@ -36,7 +36,7 @@ const CheckRoutes = () => {
     }, [data]);
 
     useEffect(() => {
-        if (token == undefined) {
+        if (token === undefined) {
             navigate("/");
         }
     }, [navigate, token]);

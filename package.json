@@ -55,7 +55,7 @@
         "start:mac": "env-cmd -f local.env react-scripts start",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
-        "build": "react-scripts build",
+        "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
         "build:dev": "env-cmd -f dev.env react-scripts build",
         "format": "prettier --write .",
         "karanbala_gateway": "openapi -i http://localhost:3000/api-json  --exportCore false -o src/services"

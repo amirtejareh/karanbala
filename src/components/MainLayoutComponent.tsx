@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../provider/reducer/main.reducer";
 import { store } from "../provider/store";

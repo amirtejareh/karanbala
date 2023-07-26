@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, TextField, Theme, Typography, Button } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ModalKit } from "../../../components/kit/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useLogin } from "../../../hooks";
+import { useLogin, useSignup } from "../../../hooks";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
@@ -77,6 +77,7 @@ const ModalLoginOrSignup = () => {
     const { handleSubmit, register } = useForm();
     const [loading, setLoading] = useState(false);
     const loginHandler = useLogin();
+    const signupHandler = useSignup();
     const navigate = useNavigate();
 
     const handleLoginSubmit = async (data: any) => {
@@ -99,6 +100,26 @@ const ModalLoginOrSignup = () => {
             },
         });
     };
+
+    const handleSignupSubmit = async (data: any) => {
+        setLoading(true);
+        signupHandler.mutate(data, {
+            onSuccess: async (result: {
+                message: string;
+                statusCode: number;
+                access_token: string;
+            }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
+
+                    toast(result.message);
+                } else {
+                    toast(result.message);
+                }
+            },
+        });
+    };
+
     return (
         <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
             <TabList>
@@ -149,12 +170,17 @@ const ModalLoginOrSignup = () => {
             <TabPanel>
                 <div className={classes.formContainer}>
                     <h2 className={classes.formTitle}>عضویت</h2>
-                    <form>
+                    <form id="signup-form" onSubmit={handleSubmit(handleSignupSubmit)}>
                         <TextField
                             label="نام کاربری"
                             variant="outlined"
                             className={classes.formField}
                             required
+                            InputProps={{
+                                ...register("username", {
+                                    required: "لطفا نام کاربری را وارد کنید",
+                                }),
+                            }}
                         />
                         <TextField
                             label="ایمیل"
@@ -162,6 +188,11 @@ const ModalLoginOrSignup = () => {
                             className={classes.formField}
                             type="email"
                             required
+                            InputProps={{
+                                ...register("email", {
+                                    required: "لطفا ایمیل را وارد کنید",
+                                }),
+                            }}
                         />
                         <TextField
                             label="رمز عبور"
@@ -169,6 +200,11 @@ const ModalLoginOrSignup = () => {
                             className={classes.formField}
                             type="password"
                             required
+                            InputProps={{
+                                ...register("password", {
+                                    required: "لطفا رمز عبور را وارد کنید",
+                                }),
+                            }}
                         />
                         <TextField
                             label="تکرار رمز عبور"
@@ -176,6 +212,11 @@ const ModalLoginOrSignup = () => {
                             className={classes.formField}
                             type="password"
                             required
+                            InputProps={{
+                                ...register("repassword", {
+                                    required: "لطفا تکرار رمز عبور را وارد کنید",
+                                }),
+                            }}
                         />
                         <TextField
                             label="موبایل"
@@ -183,14 +224,30 @@ const ModalLoginOrSignup = () => {
                             className={classes.formField}
                             type="tel"
                             required
+                            InputProps={{
+                                ...register("repassword", {
+                                    required: "لطفا شماره تلقن همراه را وارد کنید",
+                                }),
+                            }}
                         />
                         <TextField
                             label="کد ملی"
                             variant="outlined"
                             className={classes.formField}
                             required
+                            InputProps={{
+                                ...register("repassword", {
+                                    required: "لطفا شماره تلقن همراه را وارد کنید",
+                                }),
+                            }}
                         />
-                        <Button variant="contained" color="primary" className={classes.formButton}>
+                        <Button
+                            type={"submit"}
+                            variant="contained"
+                            color="primary"
+                            form={"signup-form"}
+                            className={classes.formButton}
+                        >
                             عضویت
                         </Button>
                     </form>

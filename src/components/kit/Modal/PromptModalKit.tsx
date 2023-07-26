@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { TransitionProps } from "@mui/material/transitions";
-import { makeStyles, WithStyles, withStyles } from "@mui/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 import Slide from "@mui/material/Slide";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog from "@mui/material/Dialog";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";
 import { DialogContentText, DialogActions, Theme } from "@mui/material";

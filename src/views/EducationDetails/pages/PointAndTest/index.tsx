@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
-import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import {
     ArrowDownSvg,
@@ -408,11 +407,11 @@ const PointAndTest = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible]);
+    }, [seasonVisible, seasons?.seasons]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, []);
+    }, [seasons?.seasons]);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -459,7 +458,7 @@ const PointAndTest = () => {
                 return acc;
             }, {})
         );
-    }, []);
+    }, [seasons?.seasons]);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
