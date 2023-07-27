@@ -21,7 +21,8 @@ const AdminDashboard = () => {
     return (
         <Box className={classes.container}>
             <>
-                سلام خوش آمدی {user?.user?.username} با نقش {user?.user?.roles[0]}
+                سلام خوش آمدی {user?.user?.username} با نقش {user?.user?.roles[0].title}
+            </>
             </>
         </Box>
     );
