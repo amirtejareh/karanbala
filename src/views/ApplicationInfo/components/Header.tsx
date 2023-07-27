@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, TextField, Theme, Typography, Button } from "@mui/material";
+import { Box, TextField, Theme, Typography, Button, CircularProgress } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
@@ -8,8 +8,13 @@ import { ModalKit } from "../../../components/kit/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useLogin, useSignup } from "../../../hooks";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const sharedStyle = createStyles({
     sharedRule: {
@@ -72,72 +77,97 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const ModalLoginOrSignup = () => {
-    const [tabIndex, setTabIndex] = useState(0);
     const classes = useStyles();
-    const { handleSubmit, register } = useForm();
+    const [value, setValue] = React.useState("login");
+
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
+    };
+
     const [loading, setLoading] = useState(false);
     const loginHandler = useLogin();
     const signupHandler = useSignup();
     const navigate = useNavigate();
 
-    const handleLoginSubmit = async (data: any) => {
+    const {
+        handleSubmit: handleLoginSubmit,
+        register: loginRegister,
+        formState: { errors: loginErrors },
+    } = useForm();
+    const {
+        handleSubmit: handleSignupSubmit,
+        register: signupRegister,
+        formState: { errors: signupErrors },
+    } = useForm();
+
+    const handleOnSubmit = async (data: any) => {
         setLoading(true);
-        loginHandler.mutate(data, {
-            onSuccess: async (result: {
-                message: string;
-                statusCode: number;
-                access_token: string;
-            }) => {
-                if (result.statusCode == 200) {
-                    setLoading(false);
+        if (value === "login") {
+            loginHandler.mutate(data, {
+                onSuccess: async (result: {
+                    message: string;
+                    statusCode: number;
+                    access_token: string;
+                }) => {
+                    if (result.statusCode == 200) {
+                        setLoading(false);
 
-                    localStorage.setItem("token", result.access_token);
+                        localStorage.setItem("token", result.access_token);
 
-                    navigate("/auth/check");
-                } else {
-                    toast(result.message);
-                }
-            },
-        });
-    };
+                        navigate("/auth/check");
+                    } else {
+                        setLoading(false);
+                        toast(result.message);
+                    }
+                },
+            });
+        } else if (value === "signup") {
+            signupHandler.mutate(data, {
+                onSuccess: async (result: {
+                    message: [];
+                    statusCode: number;
+                    access_token: string;
+                }) => {
+                    if (result.statusCode == 200) {
+                        setLoading(false);
 
-    const handleSignupSubmit = async (data: any) => {
-        setLoading(true);
-        signupHandler.mutate(data, {
-            onSuccess: async (result: {
-                message: string;
-                statusCode: number;
-                access_token: string;
-            }) => {
-                if (result.statusCode == 200) {
-                    setLoading(false);
+                        toast.success(
+                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید."
+                        );
+                        setValue("login");
+                    } else {
+                        setLoading(false);
 
-                    toast(result.message);
-                } else {
-                    toast(result.message);
-                }
-            },
-        });
+                        toast.error(
+                            <ul>
+                                {result.message.map((msg: string) => (
+                                    <li key={msg}>{msg}</li>
+                                ))}
+                            </ul>
+                        );
+                    }
+                },
+            });
+        }
     };
 
     return (
-        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-            <TabList>
-                <Tab>ورود</Tab>
-                <Tab>عضویت</Tab>
+        <TabContext value={value}>
+            <TabList onChange={handleChange}>
+                <Tab label="ورود" value="login" />
+                <Tab label="عضویت" value="signup" />
             </TabList>
 
-            <TabPanel>
+            <TabPanel value="login">
                 <div className={classes.formContainer}>
                     <h2 className={classes.formTitle}>ورود</h2>
-                    <form id="login-form" onSubmit={handleSubmit(handleLoginSubmit)}>
+                    <form onSubmit={handleLoginSubmit(handleOnSubmit)}>
                         <TextField
                             label="نام کاربری"
                             variant="outlined"
                             className={classes.formField}
-                            required
                             InputProps={{
-                                ...register("username", {
+                                ...loginRegister("username", {
                                     required: "لطفا نام کاربری را وارد کنید",
                                 }),
                             }}
@@ -147,113 +177,100 @@ const ModalLoginOrSignup = () => {
                             variant="outlined"
                             className={classes.formField}
                             type="password"
-                            required
                             InputProps={{
-                                ...register("password", {
+                                ...loginRegister("password", {
                                     required: "لطفا رمز عبور را وارد کنید",
                                 }),
                             }}
                         />
+
                         <Button
-                            type={"submit"}
                             variant="contained"
                             color="primary"
                             className={classes.formButton}
-                            form={"login-form"}
+                            disabled={loading}
+                            type="submit"
                         >
-                            ورود
+                            {loading ? <CircularProgress size={24} /> : "ورود"}
                         </Button>
                     </form>
                 </div>
             </TabPanel>
 
-            <TabPanel>
+            <TabPanel value="signup">
                 <div className={classes.formContainer}>
-                    <h2 className={classes.formTitle}>عضویت</h2>
-                    <form id="signup-form" onSubmit={handleSubmit(handleSignupSubmit)}>
+                    <h2 className={classes.formTitle}>ثبت نام</h2>
+                    <form onSubmit={handleSignupSubmit(handleOnSubmit)}>
                         <TextField
                             label="نام کاربری"
                             variant="outlined"
                             className={classes.formField}
-                            required
                             InputProps={{
-                                ...register("username", {
+                                ...signupRegister("username", {
                                     required: "لطفا نام کاربری را وارد کنید",
                                 }),
                             }}
                         />
+                        <TextField
+                            label="رمز عبور"
+                            variant="outlined"
+                            className={classes.formField}
+                            type="password"
+                            InputProps={{
+                                ...signupRegister("password", {
+                                    required: "لطفا رمز عبور را وارد کنید",
+                                }),
+                            }}
+                        />
+
                         <TextField
                             label="ایمیل"
                             variant="outlined"
                             className={classes.formField}
                             type="email"
-                            required
                             InputProps={{
-                                ...register("email", {
+                                ...signupRegister("email", {
                                     required: "لطفا ایمیل را وارد کنید",
                                 }),
                             }}
                         />
-                        <TextField
-                            label="رمز عبور"
-                            variant="outlined"
-                            className={classes.formField}
-                            type="password"
-                            required
-                            InputProps={{
-                                ...register("password", {
-                                    required: "لطفا رمز عبور را وارد کنید",
-                                }),
-                            }}
-                        />
-                        <TextField
-                            label="تکرار رمز عبور"
-                            variant="outlined"
-                            className={classes.formField}
-                            type="password"
-                            required
-                            InputProps={{
-                                ...register("repassword", {
-                                    required: "لطفا تکرار رمز عبور را وارد کنید",
-                                }),
-                            }}
-                        />
+
                         <TextField
                             label="موبایل"
                             variant="outlined"
                             className={classes.formField}
                             type="tel"
-                            required
                             InputProps={{
-                                ...register("repassword", {
-                                    required: "لطفا شماره تلقن همراه را وارد کنید",
+                                ...signupRegister("mobile", {
+                                    required: "لطفا شماره موبایل را وارد کنید",
                                 }),
                             }}
                         />
+
                         <TextField
                             label="کد ملی"
                             variant="outlined"
                             className={classes.formField}
-                            required
+                            type="text-"
                             InputProps={{
-                                ...register("repassword", {
-                                    required: "لطفا شماره تلقن همراه را وارد کنید",
+                                ...signupRegister("national_id_number", {
+                                    required: "لطفا کد ملی را وارد کنید",
                                 }),
                             }}
                         />
                         <Button
-                            type={"submit"}
                             variant="contained"
                             color="primary"
-                            form={"signup-form"}
                             className={classes.formButton}
+                            disabled={loading}
+                            type="submit"
                         >
-                            عضویت
+                            {loading ? <CircularProgress size={24} /> : "ثبت نام"}
                         </Button>
                     </form>
                 </div>
             </TabPanel>
-        </Tabs>
+        </TabContext>
     );
 };
 

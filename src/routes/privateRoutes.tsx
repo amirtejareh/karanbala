@@ -4,10 +4,7 @@ import AdminDashboard from "../views/Dashboard/AdminDashboard";
 import UserDashboard from "../views/Dashboard/UserDashboard";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../provider/reducer/main.reducer";
-
-import { ActionTypeEnum, ActionInterface } from "../provider/action.interface";
 import MainLayoutComponent from "../components/MainLayoutComponent";
-import jwt_decode from "jwt-decode";
 interface AuthRouteProps {
     userRole: any;
     route: { requiredPermissions: Array<string> };

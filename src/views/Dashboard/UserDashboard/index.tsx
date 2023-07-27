@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { Theme, Box, TextField } from "@mui/material";
+import { Theme, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../../../provider/reducer/main.reducer";
-import jwt_decode from "jwt-decode";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -20,7 +19,7 @@ const UserDashboard = () => {
     return (
         <Box className={classes.container}>
             <>
-                سلام خوش آمدی {user?.user?.username} با نقش {user?.user?.roles[0]}
+                سلام خوش آمدی {user?.user?.username} با نقش {user?.user?.roles[0].title}
             </>
         </Box>
     );
