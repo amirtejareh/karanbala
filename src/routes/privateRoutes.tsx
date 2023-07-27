@@ -1,27 +1,38 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate, RouteProps } from "react-router-dom";
 import AdminDashboard from "../views/Dashboard/AdminDashboard";
 import UserDashboard from "../views/Dashboard/UserDashboard";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../provider/reducer/main.reducer";
 import MainLayoutComponent from "../components/MainLayoutComponent";
-interface AuthRouteProps {
+
+interface Props {
+    route: {
+        requiredRoles: string[];
+        resource: string;
+        action: string;
+    };
+
     userRole: any;
-    route: { requiredPermissions: Array<string> };
     children: React.ReactNode;
 }
 
-const AuthorizedRoute = ({ children, userRole, route, ...rest }: AuthRouteProps) => {
-    const requiredPermissions = route.requiredPermissions;
-    if (userRole) {
-        const userRoles = userRole?.roles;
-        if (!requiredPermissions.map((permission) => userRoles.includes(permission))) {
-            return <Navigate to={"/"} />;
-        }
-        return <>{children}</>;
-    } else {
-        return <>{children}</>;
+const AuthorizedRoute: React.FC<Props> = ({ route, userRole, children }) => {
+    const hasRequiredRole = userRole?.roles?.some((role: any) => {
+        return (
+            route.requiredRoles.includes(role.title) &&
+            role.permissions?.some((permission: any) => {
+                return permission.resource === route.resource && permission.action === route.action;
+            })
+        );
+    });
+
+    if (!hasRequiredRole && hasRequiredRole !== undefined) {
+        localStorage.removeItem("token");
+        return <Navigate to={"/"} />;
     }
+
+    return <>{children}</>;
 };
 
 const PrivateRoutes = () => {
@@ -33,7 +44,7 @@ const PrivateRoutes = () => {
         if (token == undefined) {
             navigate("/");
         }
-    }, [navigate, token]);
+    }, [navigate, token, user]);
 
     return (
         <MainLayoutComponent>
@@ -43,7 +54,11 @@ const PrivateRoutes = () => {
                     element={
                         <AuthorizedRoute
                             userRole={user?.user}
-                            route={{ requiredPermissions: ["User"] }}
+                            route={{
+                                requiredRoles: ["User"],
+                                resource: "post",
+                                action: "read",
+                            }}
                         >
                             <UserDashboard />
                         </AuthorizedRoute>
@@ -54,7 +69,11 @@ const PrivateRoutes = () => {
                     element={
                         <AuthorizedRoute
                             userRole={user?.user}
-                            route={{ requiredPermissions: ["SuperAdmin"] }}
+                            route={{
+                                requiredRoles: ["SuperAdmin"],
+                                resource: "porfile",
+                                action: "create",
+                            }}
                         >
                             <AdminDashboard />
                         </AuthorizedRoute>
