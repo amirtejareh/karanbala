@@ -56,7 +56,7 @@ const PrivateRoutes = () => {
                             userRole={user?.user}
                             route={{
                                 requiredRoles: ["User"],
-                                resource: "post",
+                                resource: "profile",
                                 action: "read",
                             }}
                         >
