@@ -124,7 +124,7 @@ const ModalLoginOrSignup = () => {
         } else if (value === "signup") {
             signupHandler.mutate(data, {
                 onSuccess: async (result: {
-                    message: [];
+                    message: [] | string;
                     statusCode: number;
                     access_token: string;
                 }) => {
@@ -138,13 +138,19 @@ const ModalLoginOrSignup = () => {
                     } else {
                         setLoading(false);
 
-                        toast.error(
+                        if (Array.isArray(result.message)) {
+                            toast.error(
+                                <ul>
+                                    {result.message.map((msg: string) => (
+                                        <li key={msg}>{msg}</li>
+                                    ))}
+                                </ul>
+                            );
+                        } else {
                             <ul>
-                                {result.message.map((msg: string) => (
-                                    <li key={msg}>{msg}</li>
-                                ))}
-                            </ul>
-                        );
+                                <li key={result.message}>{result.message}</li>
+                            </ul>;
+                        }
                     }
                 },
             });
