@@ -23,7 +23,6 @@ const AdminDashboard = () => {
             <>
                 سلام خوش آمدی {user?.user?.username} با نقش {user?.user?.roles[0].title}
             </>
-            </>
         </Box>
     );
 };
