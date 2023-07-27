@@ -147,9 +147,11 @@ const ModalLoginOrSignup = () => {
                                 </ul>
                             );
                         } else {
-                            <ul>
-                                <li key={result.message}>{result.message}</li>
-                            </ul>;
+                            toast.error(
+                                <ul>
+                                    <li key={result.message}>{result.message}</li>
+                                </ul>
+                            );
                         }
                     }
                 },
