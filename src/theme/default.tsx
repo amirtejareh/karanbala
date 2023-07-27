@@ -778,7 +778,7 @@ const theme: ThemeOptions = {
         subtitle2: { fontWeight: 400, fontSize: "1.2rem", lineHeight: "2.5rem" },
         body1: { fontWeight: 400, fontSize: "1.6rem", lineHeight: "2.5rem" },
         body2: { fontWeight: 400, fontSize: "1.4rem", lineHeight: "2.2rem" },
-        button: { fontWeight: 500, fontSize: "1.4rem", lineHeight: "2.2rem" },
+        button: { fontWeight: 500, fontSize: "1.7rem", lineHeight: "2.2rem" },
         caption: { fontWeight: 400, fontSize: "1.2rem", lineHeight: "1.6rem" },
         overline: { fontWeight: 400, fontSize: "1rem", lineHeight: "1.3rem" },
     },
