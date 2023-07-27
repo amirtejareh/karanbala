@@ -71,7 +71,7 @@ const PrivateRoutes = () => {
                             userRole={user?.user}
                             route={{
                                 requiredRoles: ["SuperAdmin"],
-                                resource: "porfile",
+                                resource: "post",
                                 action: "create",
                             }}
                         >
