@@ -17,8 +17,9 @@ const AppRoute = () => {
                     <Route path={"/auth/check"} element={<CheckRoutes />} />
                     <Route path={"/pub/*"} element={<PublicRoutes />} />
                     <Route path={"/pv/*"} element={<PrivateRoutes />} />
-                    <Route path="/karanbala" element={<Navigate to="/pub/karanbala" />} />
-                    <Route path="/" element={<Navigate to="/karanbala" />} />
+                    <Route path="/" element={<Navigate to="/pub/karanbala" />} />
+                    <Route path="/pub" element={<Navigate to="/pub/karanbala" />} />
+                    <Route path="/*" element={<Navigate to="/pub/karanbala" />} />
                 </Routes>
             </BrowserRouter>
         </Suspense>
