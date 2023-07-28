@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    Theme,
-    Box,
-    Typography,
-    IconButton,
-    TextField,
-    Button,
-    CircularProgress,
-} from "@mui/material";
+import { Theme, Box, TextField, Button, CircularProgress } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import useCreateFieldOfStudy from "../../../../../hooks/useCreateFieldOfStudy";
