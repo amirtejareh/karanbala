@@ -1,11 +1,17 @@
 import React from "react";
 import HomeWork from "@mui/icons-material/HomeWork";
+import Dashboard from "@mui/icons-material/Dashboard";
 
-export const menuItems = [
+export const adminDashboardMenuItems = [
     {
         title: "خانه",
         to: "/",
         startIcon: <HomeWork />,
+    },
+    {
+        title: "داشبورد",
+        to: "/pv/karanbala/admin",
+        startIcon: <Dashboard />,
     },
     {
         category: {
@@ -15,27 +21,27 @@ export const menuItems = [
                     submenu: [
                         {
                             title: "رشته تحصیلی",
-                            to: "/",
+                            to: "/pv/karanbala/admin/field-of-study",
                         },
                         {
                             title: "پایه تحصیلی",
-                            to: "/",
+                            to: "/pv/karanbala/admin/grade-level",
                         },
                         {
                             title: "کتاب",
-                            to: "/",
+                            to: "/pv/karanbala/admin/book",
                         },
                         {
                             title: "ترم تحصیلی",
-                            to: "/",
+                            to: "/pv/karanbala/admin/term-of-study",
                         },
                         {
                             title: "فصل",
-                            to: "/",
+                            to: "/pv/karanbala/admin/chapter",
                         },
                         {
                             title: "موضوع",
-                            to: "/",
+                            to: "/pv/karanbala/admin/subject",
                         },
                     ],
                 },

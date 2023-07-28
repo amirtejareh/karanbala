@@ -4,9 +4,10 @@ import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../../../provider/reducer/main.reducer";
 import { MenuCreator } from "../../../components/MenuCreator";
-import { menuItems } from "../../../utils/menuItems";
-import { Outlet, useNavigate } from "react-router-dom";
+import { adminDashboardMenuItems } from "../../../utils/menuItems/adminDashboardMenuItems";
+import { useNavigate } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AdminDashboardRoute from "../../../routes/adminRoute";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -70,10 +71,10 @@ const AdminDashboard = () => {
 
             <Box className={classes.contentWrapper}>
                 <Box className={classes.menu}>
-                    <MenuCreator items={menuItems} />
+                    <MenuCreator items={adminDashboardMenuItems} />
                 </Box>
                 <Box className={classes.content}>
-                    <Outlet />
+                    <AdminDashboardRoute />
                 </Box>
             </Box>
         </Box>

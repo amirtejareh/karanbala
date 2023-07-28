@@ -5,7 +5,11 @@ import { store } from "../provider/store";
 import { ActionInterface, ActionTypeEnum } from "../provider/action.interface";
 import jwt_decode from "jwt-decode";
 
-const MainLayoutComponent = (props: any) => {
+interface MainLayoutComponentProps {
+    children: React.ReactNode;
+}
+
+const MainLayoutComponent = ({ children }: MainLayoutComponentProps) => {
     const auth = useSelector((state: MainReducerInterface) => state.auth);
     const token = auth.token ?? localStorage.getItem("token");
 
@@ -23,12 +27,9 @@ const MainLayoutComponent = (props: any) => {
                 payload: decoded,
             });
         }
-
-        // setUserData(data);
-        // const token = auth.token ?? localStorage.getItem("token");
     }, [token]);
 
-    return <>{props.children}</>;
+    return <>{children}</>;
 };
 
 export default MainLayoutComponent;
