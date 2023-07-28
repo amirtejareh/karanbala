@@ -16,8 +16,9 @@ import { toast } from "react-toastify";
 import useGetFieldOfStudies from "../../../../../hooks/field-of-study/useGetFieldOfStudies";
 import { TableKit } from "../../../../../components/kit/Table";
 import { PrompModalKit } from "../../../../../components/kit/Modal";
-import { DeleteLightSvg, DeleteSvg } from "../../../../../assets";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
 import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
+import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -63,6 +64,7 @@ const FieldOfStudy = (props: any) => {
     const [loading, setLoading] = useState(false);
 
     const createFieldOfStudy = useCreateFieldOfStudy();
+    const updateFieldOfStudy = useUpdateFieldOfStudy();
 
     const fieldOfStudies = useGetFieldOfStudies();
 
@@ -89,6 +91,7 @@ const FieldOfStudy = (props: any) => {
 
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
+    const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
 
     const {
         handleSubmit,
@@ -96,7 +99,7 @@ const FieldOfStudy = (props: any) => {
         formState: { errors: loginErrors },
     } = useForm();
 
-    const handleOnSubmit = async (data: any) => {
+    const handleCreateFieldOfStudy = async (data: any) => {
         setLoading(true);
 
         createFieldOfStudy.mutate(data, {
@@ -129,18 +132,68 @@ const FieldOfStudy = (props: any) => {
             },
         });
     };
+
+    const handleUpdateFieldOfStudy = async (data: any) => {
+        setLoading(true);
+
+        updateFieldOfStudy.mutate(
+            { id: value.id, title: value.data },
+            {
+                onSuccess: async (result: { message: string; statusCode: number }) => {
+                    if (result.statusCode == 200) {
+                        setLoading(false);
+                        fieldOfStudies.refetch();
+                        toast.success(result.message);
+                        setValue({ doUpdate: false, data: "", id: null });
+                    } else {
+                        setLoading(false);
+                        if (Array.isArray(result.message)) {
+                            toast.error(
+                                <ul>
+                                    {result.message.map((msg: string) => (
+                                        <li key={msg}>{msg}</li>
+                                    ))}
+                                </ul>
+                            );
+                        } else {
+                            toast.error(
+                                <ul>
+                                    <li key={result.message}>{result.message}</li>
+                                </ul>
+                            );
+                        }
+                    }
+                },
+                onError: async (e: any) => {
+                    toast.error(e.message);
+                },
+            }
+        );
+    };
     return (
         <Box className={classes.container}>
             <Box>
-                <form onSubmit={handleSubmit(handleOnSubmit)}>
+                <form
+                    onSubmit={
+                        value.doUpdate
+                            ? handleSubmit(handleUpdateFieldOfStudy)
+                            : handleSubmit(handleCreateFieldOfStudy)
+                    }
+                >
                     <TextField
                         label="عنوان رشته تحصیلی"
                         variant="outlined"
                         className={classes.formField}
-                        InputProps={{
-                            ...register("title", {
-                                required: "لطفا نام رشته تحصیلی را وارد کنید",
-                            }),
+                        value={value.data}
+                        {...register("title", {
+                            required: "لطفا نام رشته تحصیلی را وارد کنید",
+                        })}
+                        onChange={(e) => {
+                            if (value.doUpdate) {
+                                setValue({ doUpdate: true, data: e.target.value, id: value.id });
+                            } else {
+                                setValue({ doUpdate: false, data: e.target.value, id: null });
+                            }
                         }}
                     />
 
@@ -151,7 +204,13 @@ const FieldOfStudy = (props: any) => {
                         disabled={loading}
                         type="submit"
                     >
-                        {loading ? <CircularProgress size={24} /> : "ذخیره"}
+                        {loading ? (
+                            <CircularProgress size={24} />
+                        ) : value.doUpdate ? (
+                            "ویرایش"
+                        ) : (
+                            "ذخیره"
+                        )}
                     </Button>
                 </form>
             </Box>
@@ -167,16 +226,33 @@ const FieldOfStudy = (props: any) => {
                                 data: {
                                     title: item?.title,
                                     action: (
-                                        <IconButton>
-                                            <PrompModalKit
-                                                description={"آیا از حذف رشته تحصیلی مطمئن  هستید؟"}
-                                                onConfirm={() => handleDeleteFieldOfstudy(item._id)}
-                                                approved={"بله"}
-                                                denied={"خیر"}
+                                        <>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setValue({
+                                                        doUpdate: true,
+                                                        data: item.title,
+                                                        id: item._id,
+                                                    });
+                                                }}
                                             >
-                                                <DeleteLightSvg width={16} height={16} />
-                                            </PrompModalKit>
-                                        </IconButton>
+                                                <EditLightSvg width={12} height={12} />
+                                            </IconButton>
+                                            <IconButton>
+                                                <PrompModalKit
+                                                    description={
+                                                        "آیا از حذف رشته تحصیلی مطمئن  هستید؟"
+                                                    }
+                                                    onConfirm={() =>
+                                                        handleDeleteFieldOfstudy(item._id)
+                                                    }
+                                                    approved={"بله"}
+                                                    denied={"خیر"}
+                                                >
+                                                    <DeleteLightSvg width={16} height={16} />
+                                                </PrompModalKit>
+                                            </IconButton>
+                                        </>
                                     ),
                                 },
                             };
