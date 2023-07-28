@@ -4,6 +4,7 @@ import { MainReducerInterface } from "../provider/reducer/main.reducer";
 import { store } from "../provider/store";
 import { ActionInterface, ActionTypeEnum } from "../provider/action.interface";
 import jwt_decode from "jwt-decode";
+import { OpenAPI } from "../services/core/OpenAPI";
 
 interface MainLayoutComponentProps {
     children: React.ReactNode;
@@ -11,12 +12,13 @@ interface MainLayoutComponentProps {
 
 const MainLayoutComponent = ({ children }: MainLayoutComponentProps) => {
     const auth = useSelector((state: MainReducerInterface) => state.auth);
-    const token = auth.token ?? localStorage.getItem("token");
+    const token: any = auth.token ?? localStorage.getItem("token");
 
     useEffect(() => {
         if (token) {
             var decoded = jwt_decode(token ?? "");
 
+            OpenAPI.TOKEN = token;
             store.dispatch<ActionInterface<any>>({
                 type: ActionTypeEnum.SetUserToken,
                 payload: token,
