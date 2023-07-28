@@ -417,27 +417,7 @@ const theme: ThemeOptions = {
             defaultProps: {},
             styleOverrides: {
                 root: {
-                    "& .MuiTableHead-root": {
-                        background:
-                            "linear-gradient(90.5deg, rgba(37, 43, 61, 0.7) 1.05%, rgba(37, 43, 61, 0.1) 109.05%)",
-                        borderRadius: "8px",
-                    },
-                    "& .MuiTableCell-head": {
-                        backgroundColor: "transparent",
-                        color: "#d6d5dd",
-                        padding: "1rem 0.5rem",
-                        lineHeight: "2rem",
-                        fontSize: "1.1rem",
-                        fontWeight: 500,
-                        border: "none",
-                        textAlign: "center",
-                        "&:last-child": {
-                            borderRadius: "0px 8px 8px 0px",
-                        },
-                        "&:first-of-type": {
-                            borderRadius: "8px 0px 0px 8px",
-                        },
-                    },
+           
                     "& .MuiTableBody-root": {
                         "& tr:nth-of-type(even)": {
                             backgroundColor: "transparent",

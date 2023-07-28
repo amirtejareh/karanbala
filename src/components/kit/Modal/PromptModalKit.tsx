@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { TransitionProps } from "@mui/material/transitions";
-import { makeStyles, withStyles } from "@mui/styles";
+import { makeStyles, WithStyles, withStyles } from "@mui/styles";
 import Slide from "@mui/material/Slide";
-import Dialog from "@mui/material/Dialog";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";
 import { DialogContentText, DialogActions, Theme } from "@mui/material";
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
-        children: React.ReactElement<any, any>;
+        children: React.ReactElement<any, any> | any;
     },
     ref: React.Ref<unknown>
 ) {
@@ -36,11 +36,12 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export interface PromptModalProps {
-    onConfirm: () => void;
+    onConfirm: (e?: any) => void;
     description?: React.ReactNode;
     title?: string;
     approved?: string;
     denied?: string;
+    children: React.ReactNode;
     prompModalState?: boolean;
     onClose?: () => void;
 }
@@ -57,7 +58,7 @@ const DialogTitle = withStyles((theme: Theme) => ({
         padding: theme.spacing(5),
         paddingBottom: theme.spacing(3),
         paddingTop: theme.spacing(2),
-        color: "#d6d5dd !important",
+
         "& .MuiIconButton-root": {
             position: "absolute",
             left: theme.spacing(1),
@@ -95,14 +96,14 @@ const DialogTitle = withStyles((theme: Theme) => ({
 const DialogContent = withStyles((theme: Theme) => ({
     root: {
         paddingTop: `${theme.spacing(2)}!important `,
-        color: "#d6d5dd !important",
-        "& .MuiDialogContentText-root": {
-            color: "#d6d5dd !important",
-        },
+        color:
+            theme.palette.mode === "dark"
+                ? `${theme.palette.grey["50"]} !important`
+                : `${theme.palette.grey["A200"]} !important`,
     },
 }))(MuiDialogContent);
 
-const PromptModalKit: React.FC<PromptModalProps> = (props: any) => {
+const PromptModalKit: React.FC<PromptModalProps> = (props) => {
     const classes = useStyles();
     const { prompModalState = false, onClose } = props;
     const [open, setOpen] = React.useState(prompModalState);

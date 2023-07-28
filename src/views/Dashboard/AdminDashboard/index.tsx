@@ -15,7 +15,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         margin: "32px 52px",
     },
-    contentWrapper: {},
+    contentWrapper: {
+        float: "right",
+    },
     content: {
         margin: "16px 0",
         padding: "2px 0",
