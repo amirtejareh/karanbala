@@ -8,6 +8,8 @@ import { adminDashboardMenuItems } from "../../../utils/menuItems/adminDashboard
 import { useNavigate } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AdminDashboardRoute from "../../../routes/adminRoute";
+import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
+import { store } from "../../../provider/store";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -45,6 +47,10 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("token");
+        store.dispatch<ActionInterface<any>>({
+            type: ActionTypeEnum.SetUserToken,
+            payload: null,
+        });
         navigate("/");
     };
     return (

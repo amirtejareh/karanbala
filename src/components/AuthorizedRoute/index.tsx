@@ -1,4 +1,6 @@
 import { Navigate } from "react-router-dom";
+import { ActionInterface, ActionTypeEnum } from "../../provider/action.interface";
+import { store } from "../../provider/store";
 
 interface AuthorizedRouteProps {
     route: {
@@ -23,6 +25,11 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
 
     if (!hasRequiredRole && hasRequiredRole !== undefined) {
         localStorage.removeItem("token");
+        store.dispatch<ActionInterface<any>>({
+            type: ActionTypeEnum.SetUserToken,
+            payload: null,
+        });
+
         return <Navigate to={"/"} />;
     }
 
