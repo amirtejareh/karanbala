@@ -10,6 +10,7 @@ import { userDashboardMenuItems } from "../../../utils/menuItems/userDashboardMe
 import UserDashboardRoute from "../../../routes/userRoute";
 import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
 import { store } from "../../../provider/store";
+import { userStore } from "../../../stores";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -36,21 +37,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 const UserDashboard = () => {
-    const user: any = useSelector((state: MainReducerInterface) => state.user);
+    const user: any = userStore((state) => state);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
 
-    useEffect(() => {}, [user]);
     const classes = useStyles();
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        store.dispatch<ActionInterface<any>>({
-            type: ActionTypeEnum.SetUserToken,
-            payload: null,
-        });
+        // localStorage.removeItem("token");
+        // store.dispatch<ActionInterface<any>>({
+        //     type: ActionTypeEnum.SetUserToken,
+        //     payload: null,
+        // });
         navigate("/");
     };
     return (

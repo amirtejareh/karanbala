@@ -13,8 +13,10 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import jwt_decode from "jwt-decode";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { authStore, userStore } from "../../../stores";
 
 const sharedStyle = createStyles({
     sharedRule: {
@@ -79,6 +81,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ModalLoginOrSignup = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState("login");
+    const { setAccessToken } = authStore((state) => state);
+    const { setUser } = userStore((state) => state);
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -112,7 +116,8 @@ const ModalLoginOrSignup = () => {
                     if (result.statusCode == 200) {
                         setLoading(false);
 
-                        localStorage.setItem("token", result.access_token);
+                        setAccessToken(result.access_token);
+                        setUser(jwt_decode(result.access_token));
 
                         navigate("/auth/check");
                     } else {
@@ -132,7 +137,7 @@ const ModalLoginOrSignup = () => {
                         setLoading(false);
 
                         toast.success(
-                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید."
+                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید.",
                         );
                         setValue("login");
                     } else {
@@ -144,13 +149,13 @@ const ModalLoginOrSignup = () => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }

@@ -6,18 +6,10 @@ import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../provider/reducer/main.reducer";
 import MainLayoutComponent from "../components/MainLayoutComponent";
 import AuthorizedRoute from "../components/AuthorizedRoute";
+import { userStore } from "../stores";
 
 const PrivateRoutes = () => {
-    const user: any = useSelector((state: MainReducerInterface) => state.user);
-    const token = localStorage.getItem("token");
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (token == undefined) {
-            navigate("/");
-        }
-    }, [navigate, token, user]);
-
+    const user: any = userStore((state) => state);
     return (
         <MainLayoutComponent>
             <Routes>
