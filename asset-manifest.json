@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.36e648e5.css",
-    "main.js": "/karanbala/static/js/main.759b6981.js",
+    "main.js": "/karanbala/static/js/main.63d32737.js",
     "static/css/567.c2227bf7.chunk.css": "/karanbala/static/css/567.c2227bf7.chunk.css",
     "static/js/567.8dd3c352.chunk.js": "/karanbala/static/js/567.8dd3c352.chunk.js",
-    "static/js/731.cfa52750.chunk.js": "/karanbala/static/js/731.cfa52750.chunk.js",
+    "static/js/731.7d3bb0e9.chunk.js": "/karanbala/static/js/731.7d3bb0e9.chunk.js",
     "static/js/10.42563b46.chunk.js": "/karanbala/static/js/10.42563b46.chunk.js",
     "static/js/396.98447972.chunk.js": "/karanbala/static/js/396.98447972.chunk.js",
     "static/js/19.5f7adaa8.chunk.js": "/karanbala/static/js/19.5f7adaa8.chunk.js",
@@ -217,6 +217,6 @@
   },
   "entrypoints": [
     "static/css/main.36e648e5.css",
-    "static/js/main.759b6981.js"
+    "static/js/main.63d32737.js"
   ]
 }
