@@ -183,12 +183,12 @@ const Book = (props: any) => {
                     }
                 >
                     <TextField
-                        label="عنوان پایه تحصیلی"
+                        label="عنوان کتاب تحصیلی"
                         variant="outlined"
                         className={classes.formField}
                         value={value.data}
                         {...register("title", {
-                            required: "لطفا نام پایه تحصیلی را وارد کنید",
+                            required: "لطفا نام کتاب را وارد کنید",
                         })}
                         onChange={(e) => {
                             if (value.doUpdate) {
@@ -217,7 +217,7 @@ const Book = (props: any) => {
                 </form>
             </Box>
             <Box className={classes.fieldOfStudy}>
-                <Typography>لیست پایه های تحصیلی</Typography>
+                <Typography>لیست کتاب‌ها</Typography>
                 {!Books.isLoading ? (
                     <TableKit
                         secondary
@@ -242,9 +242,7 @@ const Book = (props: any) => {
                                             </IconButton>
                                             <IconButton>
                                                 <PrompModalKit
-                                                    description={
-                                                        "آیا از حذف پایه تحصیلی مطمئن  هستید؟"
-                                                    }
+                                                    description={"آیا از حذف کتاب مطمئن  هستید؟"}
                                                     onConfirm={() => handleDeleteBook(item._id)}
                                                     approved={"بله"}
                                                     denied={"خیر"}
