@@ -223,7 +223,7 @@ const FieldOfStudy = (props: any) => {
                     />
 
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب رشته</InputLabel>
+                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
                         <Select
                             value={gradeLevelIds ?? []}
                             {...register("gradeLevels", {
