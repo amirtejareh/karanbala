@@ -16,6 +16,8 @@ const MainLayoutComponent = ({ children }: MainLayoutComponentProps) => {
             const user = jwt_decode(accessToken ?? "");
             OpenAPI.TOKEN = accessToken;
             userData.setUser(user);
+        } else {
+            OpenAPI.TOKEN = accessToken;
         }
     }, [accessToken, userData]);
 

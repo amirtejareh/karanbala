@@ -4,10 +4,12 @@
 /* eslint-disable */
 import type { CreateFieldOfStudyDto } from '../models/CreateFieldOfStudyDto';
 import type { CreateGradeLevelDto } from '../models/CreateGradeLevelDto';
+import type { CreateTermOfStudyDto } from '../models/CreateTermOfStudyDto';
 import type { CreateUserDto } from '../models/CreateUserDto';
 import type { SigninUserDto } from '../models/SigninUserDto';
 import type { UpdateFieldOfStudyDto } from '../models/UpdateFieldOfStudyDto';
 import type { UpdateGradeLevelDto } from '../models/UpdateGradeLevelDto';
+import type { UpdateTermOfStudyDto } from '../models/UpdateTermOfStudyDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -227,6 +229,88 @@ id: string,
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/grade-level/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static termOfStudyControllerCreate(
+requestBody: CreateTermOfStudyDto,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/term-of-study',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @returns any 
+     * @throws ApiError
+     */
+    public static termOfStudyControllerFindAll(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/term-of-study',
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static termOfStudyControllerFindOne(
+id: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/term-of-study/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @param requestBody 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static termOfStudyControllerUpdate(
+id: string,
+requestBody: UpdateTermOfStudyDto,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/term-of-study/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static termOfStudyControllerRemove(
+id: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/term-of-study/{id}',
             path: {
                 'id': id,
             },
