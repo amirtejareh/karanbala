@@ -96,7 +96,7 @@ const TermOfStudy = (props: any) => {
     const {
         handleSubmit,
         register,
-        formState: { errors: loginErrors },
+        formState: { errors },
     } = useForm();
 
     const handleCreateTermOfStudy = async (data: any) => {

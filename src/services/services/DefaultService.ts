@@ -2,11 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateBookDto } from '../models/CreateBookDto';
 import type { CreateFieldOfStudyDto } from '../models/CreateFieldOfStudyDto';
 import type { CreateGradeLevelDto } from '../models/CreateGradeLevelDto';
 import type { CreateTermOfStudyDto } from '../models/CreateTermOfStudyDto';
 import type { CreateUserDto } from '../models/CreateUserDto';
 import type { SigninUserDto } from '../models/SigninUserDto';
+import type { UpdateBookDto } from '../models/UpdateBookDto';
 import type { UpdateFieldOfStudyDto } from '../models/UpdateFieldOfStudyDto';
 import type { UpdateGradeLevelDto } from '../models/UpdateGradeLevelDto';
 import type { UpdateTermOfStudyDto } from '../models/UpdateTermOfStudyDto';
@@ -311,6 +313,88 @@ id: string,
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/term-of-study/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookControllerCreate(
+requestBody: CreateBookDto,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/book',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookControllerFindAll(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/book',
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookControllerFindOne(
+id: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/book/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @param requestBody 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookControllerUpdate(
+id: string,
+requestBody: UpdateBookDto,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/book/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookControllerRemove(
+id: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/book/{id}',
             path: {
                 'id': id,
             },

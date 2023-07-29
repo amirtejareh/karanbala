@@ -96,7 +96,7 @@ const FieldOfStudy = (props: any) => {
     const {
         handleSubmit,
         register,
-        formState: { errors: loginErrors },
+        formState: { errors },
     } = useForm();
 
     const handleCreateFieldOfStudy = async (data: any) => {

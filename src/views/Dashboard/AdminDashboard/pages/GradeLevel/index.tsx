@@ -6,23 +6,18 @@ import {
     Button,
     CircularProgress,
     Typography,
-    Table,
     IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import useCreateFieldOfStudy from "../../../../../hooks/field-of-study/useCreateFieldOfStudy";
 import { toast } from "react-toastify";
-import useGetFieldOfStudies from "../../../../../hooks/field-of-study/useGetFieldOfStudies";
-import { TableKit } from "../../../../../components/kit/Table";
 import { PrompModalKit } from "../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
-import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
-import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
-import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGradeLevel";
 import useUpdateGradeLevel from "../../../../../hooks/grade-level/useUpdateGradeLevel";
 import useGetGradeLevel from "../../../../../hooks/grade-level/useGetGradeLevel";
 import useDeleteGradeLevel from "../../../../../hooks/grade-level/useDeleteGradeLevel";
+import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGradeLevel";
+import { TableKit } from "../../../../../components/kit/Table";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -100,7 +95,7 @@ const GradeLevel = (props: any) => {
     const {
         handleSubmit,
         register,
-        formState: { errors: loginErrors },
+        formState: { errors },
     } = useForm();
 
     const handleCreateGradeLevel = async (data: any) => {
@@ -120,13 +115,13 @@ const GradeLevel = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>,
+                            </ul>
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>,
+                            </ul>
                         );
                     }
                 }
@@ -157,13 +152,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -171,7 +166,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
     return (
