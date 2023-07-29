@@ -10,6 +10,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AdminDashboardRoute from "../../../routes/adminRoute";
 import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
 import { store } from "../../../provider/store";
+import { userStore } from "../../../stores";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -38,13 +39,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 const AdminDashboard = () => {
-    const user: any = useSelector((state: MainReducerInterface) => state.user);
+    const user: any = userStore((state) => state);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
 
-    useEffect(() => {}, [user]);
     const classes = useStyles();
     const navigate = useNavigate();
     const handleLogout = () => {

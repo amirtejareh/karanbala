@@ -1,35 +1,23 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { MainReducerInterface } from "../provider/reducer/main.reducer";
-import { store } from "../provider/store";
-import { ActionInterface, ActionTypeEnum } from "../provider/action.interface";
 import jwt_decode from "jwt-decode";
 import { OpenAPI } from "../services/core/OpenAPI";
+import { authStore, userStore } from "../stores";
 
 interface MainLayoutComponentProps {
     children: React.ReactNode;
 }
 
 const MainLayoutComponent = ({ children }: MainLayoutComponentProps) => {
-    const auth = useSelector((state: MainReducerInterface) => state.auth);
-    const token: any = auth.token ?? localStorage.getItem("token");
+    const { accessToken } = authStore((state) => state);
+    const userData: any = userStore((state) => state);
 
     useEffect(() => {
-        if (token) {
-            var decoded = jwt_decode(token ?? "");
-
-            OpenAPI.TOKEN = token;
-            store.dispatch<ActionInterface<any>>({
-                type: ActionTypeEnum.SetUserToken,
-                payload: token,
-            });
-
-            store.dispatch<ActionInterface<any>>({
-                type: ActionTypeEnum.SetUserData,
-                payload: decoded,
-            });
+        if (accessToken && userData.user === null) {
+            const user = jwt_decode(accessToken ?? "");
+            OpenAPI.TOKEN = accessToken;
+            userData.setUser(user);
         }
-    }, [token]);
+    }, [accessToken, userData]);
 
     return <>{children}</>;
 };
