@@ -2,14 +2,14 @@ import React from "react";
 import { useQuery } from "react-query";
 import { DefaultService } from "../../services";
 
-const useGetFieldOfStudies = () => {
+const useGetGradeLevels = () => {
     return useQuery(
-        ["Get-All-Field-Of-Studies"],
+        ["Get-All-Grade-Levels"],
         async () => {
-            return await DefaultService.fieldOfStudyControllerFindAll();
+            return await DefaultService.gradeLevelControllerFindAll();
         },
         { refetchOnWindowFocus: false }
     );
 };
 
-export default useGetFieldOfStudies;
+export default useGetGradeLevels;

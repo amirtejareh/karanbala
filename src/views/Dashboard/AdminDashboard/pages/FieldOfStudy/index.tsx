@@ -6,8 +6,12 @@ import {
     Button,
     CircularProgress,
     Typography,
-    Table,
     IconButton,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -19,6 +23,8 @@ import { PrompModalKit } from "../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
 import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
 import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
+import { SelectKit } from "../../../../../components/kit/Select";
+import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -47,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.main,
     },
     formField: {
-        margin: "1rem",
+        margin: "2rem 0",
         width: "100%",
     },
     formButton: {
@@ -69,6 +75,12 @@ const FieldOfStudy = (props: any) => {
     const fieldOfStudies = useGetFieldOfStudies();
 
     const deleteFieldOfStudy = useDeleteFieldOfStudy();
+
+    const getGradeLevels = useGetGradeLevels();
+
+    useEffect(() => {
+        getGradeLevels.refetch();
+    }, []);
 
     const handleDeleteFieldOfstudy = (id: string) => {
         deleteFieldOfStudy.mutate(id, {
@@ -96,6 +108,7 @@ const FieldOfStudy = (props: any) => {
     const {
         handleSubmit,
         register,
+        clearErrors,
         formState: { errors },
     } = useForm();
 
@@ -170,6 +183,18 @@ const FieldOfStudy = (props: any) => {
             }
         );
     };
+    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setGradeLevelIds(event.target.value as any);
+    };
+
+    useEffect(() => {
+        toast.error(errors["gradeLevels"]?.message?.toString());
+        toast.error(errors["title"]?.message?.toString());
+        clearErrors();
+    }, [errors["gradeLevels"]?.message, errors["title"]?.message]);
+
     return (
         <Box className={classes.container}>
             <Box>
@@ -196,6 +221,27 @@ const FieldOfStudy = (props: any) => {
                             }
                         }}
                     />
+
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب رشته</InputLabel>
+                        <Select
+                            value={gradeLevelIds ?? []}
+                            {...register("gradeLevels", {
+                                required: "انتخاب پایه های تحصیلی اجباری است",
+                            })}
+                            onChange={handleChange}
+                            multiple
+                        >
+                            {!getGradeLevels?.isLoading &&
+                                getGradeLevels?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
 
                     <Button
                         variant="contained"

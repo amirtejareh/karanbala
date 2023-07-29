@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { PrompModalKit } from "../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
 import useUpdateGradeLevel from "../../../../../hooks/grade-level/useUpdateGradeLevel";
-import useGetGradeLevel from "../../../../../hooks/grade-level/useGetGradeLevel";
+import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
 import useDeleteGradeLevel from "../../../../../hooks/grade-level/useDeleteGradeLevel";
 import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGradeLevel";
 import { TableKit } from "../../../../../components/kit/Table";
@@ -65,7 +65,7 @@ const GradeLevel = (props: any) => {
     const createGradeLevel = useCreateGradeLevel();
     const updateGradeLevel = useUpdateGradeLevel();
 
-    const gradeLevels = useGetGradeLevel();
+    const gradeLevels = useGetGradeLevels();
 
     const deleteGradeLevel = useDeleteGradeLevel();
 
