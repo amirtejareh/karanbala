@@ -20,6 +20,7 @@ import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGrade
 import { TableKit } from "../../../../../components/kit/Table";
 import GradeLevelImage from "../../../../../assets/images/user.jpg";
 import { EditDarkSvg } from "../../../../../assets";
+import getGradeLevelsImage from "../../../../../hooks/grade-level/getGradeLevelsImage";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -91,15 +92,15 @@ const GradeLevel = (props: any) => {
         });
     };
 
+    const [gradeLevelsImage, setGradeLevelsImage] = useState("");
+
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
     const titleInputRef = useRef<any>(null);
-    const [preview, setPreview] = useState();
+    const [preview, setPreview] = useState<any>();
     const [selectedFile, setSelectedFile] = useState<any>();
     const imageRef = useRef<any>();
-
-    const [imageBlob, setImageBlob] = useState(null);
 
     const descriptionInputRef = useRef<any>(null);
 
@@ -116,12 +117,21 @@ const GradeLevel = (props: any) => {
         }
 
         const objectUrl: any = URL.createObjectURL(selectedFile);
+        console.log(objectUrl);
 
         setPreview(objectUrl);
 
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl);
     }, [selectedFile]);
+
+    const [getImageData, setImageData] = useState("");
+
+    useEffect(() => {
+        if (getImageData && getImageData !== undefined) {
+            getGradeLevelsImage(getImageData).then((response) => setSelectedFile(response));
+        }
+    }, [getImageData]);
 
     const {
         handleSubmit,
@@ -130,9 +140,7 @@ const GradeLevel = (props: any) => {
         clearErrors,
     } = useForm();
 
-    const { ref, onChange, ...rest } = register("image", {
-        required: "تصویر توضیحات اجباری است",
-    });
+    const { ref, onChange, ...rest } = register("image");
 
     useEffect(() => {
         toast.error(errors["description"]?.message?.toString());
@@ -368,10 +376,14 @@ const GradeLevel = (props: any) => {
                                                         id: item._id,
                                                     });
 
+                                                    setImageData(item.image.split("/")[2]);
+
                                                     titleInputRef.current.focus();
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
                                                     }, 1000);
+
+                                                    setGradeLevelsImage(item.image.split("/")[2]);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
