@@ -13,4 +13,8 @@ export type UpdateGradeLevelDto = {
      */
     description?: string;
     image?: Blob;
+    /**
+     * id of th grade level
+     */
+    id: string;
 };

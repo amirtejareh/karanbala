@@ -116,7 +116,6 @@ const GradeLevel = (props: any) => {
         }
 
         const objectUrl: any = URL.createObjectURL(selectedFile);
-        console.log(objectUrl);
 
         setPreview(objectUrl);
 
@@ -282,7 +281,7 @@ const GradeLevel = (props: any) => {
                     />
 
                     <Box display={"flex"} position={"relative"} borderRadius={"100%"} mb={3}>
-                        {selectedFile ? (
+                        {selectedFile || preview ? (
                             <Box
                                 component={"img"}
                                 src={preview ?? ""}
@@ -309,8 +308,9 @@ const GradeLevel = (props: any) => {
                                 position: "absolute",
                                 bottom: -10,
                             }}
+                            onClick={() => imageRef.current.click()}
                         >
-                            <EditDarkSvg onClick={() => imageRef.current.click()} />
+                            <EditDarkSvg />
                             <input
                                 {...rest}
                                 type="file"
@@ -369,14 +369,14 @@ const GradeLevel = (props: any) => {
                                                         id: item._id,
                                                     });
 
-                                                    setImageData(item.image.split("/")[2]);
-
                                                     titleInputRef.current.focus();
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
                                                     }, 1000);
 
-                                                    setGradeLevelsImage(item.image.split("/")[2]);
+                                                    setPreview(
+                                                        "http://localhost:3000/" + item.image
+                                                    );
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
