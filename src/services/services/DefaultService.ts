@@ -174,21 +174,6 @@ export class DefaultService {
     }
 
     /**
-     * @param filename
-     * @returns any
-     * @throws ApiError
-     */
-    public static gradeLevelControllerGetImage(filename: string): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: "GET",
-            url: "/grade-level/image/{filename}",
-            path: {
-                filename: filename,
-            },
-        });
-    }
-
-    /**
      * @param id
      * @returns any
      * @throws ApiError

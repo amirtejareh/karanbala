@@ -20,7 +20,6 @@ import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGrade
 import { TableKit } from "../../../../../components/kit/Table";
 import GradeLevelImage from "../../../../../assets/images/user.jpg";
 import { EditDarkSvg } from "../../../../../assets";
-import getGradeLevelsImage from "../../../../../hooks/grade-level/getGradeLevelsImage";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -127,12 +126,6 @@ const GradeLevel = (props: any) => {
 
     const [getImageData, setImageData] = useState("");
 
-    useEffect(() => {
-        if (getImageData && getImageData !== undefined) {
-            getGradeLevelsImage(getImageData).then((response) => setSelectedFile(response));
-        }
-    }, [getImageData]);
-
     const {
         handleSubmit,
         register,
@@ -168,13 +161,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -182,7 +175,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
 
@@ -217,13 +210,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -231,7 +224,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
     return (
