@@ -8,4 +8,9 @@ export type UpdateGradeLevelDto = {
      * Title of th grade level
      */
     title?: string;
+    /**
+     * Description of th grade level
+     */
+    description?: string;
+    image?: Blob;
 };

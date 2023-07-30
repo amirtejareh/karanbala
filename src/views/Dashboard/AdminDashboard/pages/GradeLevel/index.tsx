@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Theme,
     Box,
@@ -91,12 +91,28 @@ const GradeLevel = (props: any) => {
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+    const titleInputRef = useRef<any>(null);
+
+    const descriptionInputRef = useRef<any>(null);
+
+    const [descriptionValue, setDescriptionValue] = useState({
+        doUpdate: false,
+        data: "",
+        id: null,
+    });
 
     const {
         handleSubmit,
         register,
         formState: { errors },
+        clearErrors,
     } = useForm();
+
+    useEffect(() => {
+        toast.error(errors["description"]?.message?.toString());
+        toast.error(errors["title"]?.message?.toString());
+        clearErrors();
+    }, [errors["description"]?.message, errors["title"]?.message]);
 
     const handleCreateGradeLevel = async (data: any) => {
         setLoading(true);
@@ -115,13 +131,13 @@ const GradeLevel = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -136,7 +152,7 @@ const GradeLevel = (props: any) => {
         setLoading(true);
 
         updateGradeLevel.mutate(
-            { id: value.id, title: value.data },
+            { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
@@ -144,6 +160,7 @@ const GradeLevel = (props: any) => {
                         gradeLevels.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
+                        setDescriptionValue({ doUpdate: false, data: "", id: null });
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -152,13 +169,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -166,7 +183,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     return (
@@ -187,11 +204,38 @@ const GradeLevel = (props: any) => {
                         {...register("title", {
                             required: "لطفا نام پایه تحصیلی را وارد کنید",
                         })}
+                        inputRef={titleInputRef}
                         onChange={(e) => {
                             if (value.doUpdate) {
                                 setValue({ doUpdate: true, data: e.target.value, id: value.id });
                             } else {
                                 setValue({ doUpdate: false, data: e.target.value, id: null });
+                            }
+                        }}
+                    />
+
+                    <TextField
+                        label="توضیحات پایه تحصیلی"
+                        variant="outlined"
+                        className={classes.formField}
+                        value={descriptionValue.data}
+                        {...register("description", {
+                            required: "لطفا توضیحات پایه تحصیلی را وارد کنید",
+                        })}
+                        inputRef={descriptionInputRef}
+                        onChange={(e) => {
+                            if (descriptionValue.doUpdate) {
+                                setDescriptionValue({
+                                    doUpdate: true,
+                                    data: e.target.value,
+                                    id: value.id,
+                                });
+                            } else {
+                                setDescriptionValue({
+                                    doUpdate: false,
+                                    data: e.target.value,
+                                    id: null,
+                                });
                             }
                         }}
                     />
@@ -233,6 +277,16 @@ const GradeLevel = (props: any) => {
                                                         data: item.title,
                                                         id: item._id,
                                                     });
+                                                    setDescriptionValue({
+                                                        doUpdate: true,
+                                                        data: item.description,
+                                                        id: item._id,
+                                                    });
+
+                                                    titleInputRef.current.focus();
+                                                    setTimeout(() => {
+                                                        descriptionInputRef.current.focus();
+                                                    }, 1000);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />

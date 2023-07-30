@@ -4,7 +4,7 @@ import { DefaultService } from "../../services";
 
 const useUpdateGradeLevel = () => {
     return useMutation((request: any) => {
-        return DefaultService.gradeLevelControllerUpdate(request.id, { title: request.title });
+        return DefaultService.gradeLevelControllerUpdate(request.id, request);
     });
 };
 
