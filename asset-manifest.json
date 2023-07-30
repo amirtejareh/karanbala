@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/karanbala/static/css/main.36e648e5.css",
-    "main.js": "/karanbala/static/js/main.c2d715b0.js",
+    "main.js": "/karanbala/static/js/main.f9719b5b.js",
     "static/css/567.c2227bf7.chunk.css": "/karanbala/static/css/567.c2227bf7.chunk.css",
-    "static/js/567.940128e6.chunk.js": "/karanbala/static/js/567.940128e6.chunk.js",
-    "static/js/731.d3c473ae.chunk.js": "/karanbala/static/js/731.d3c473ae.chunk.js",
+    "static/js/567.9ab515e6.chunk.js": "/karanbala/static/js/567.9ab515e6.chunk.js",
+    "static/js/63.4c71a514.chunk.js": "/karanbala/static/js/63.4c71a514.chunk.js",
     "static/js/30.7fbc4822.chunk.js": "/karanbala/static/js/30.7fbc4822.chunk.js",
     "static/js/816.b8c96256.chunk.js": "/karanbala/static/js/816.b8c96256.chunk.js",
     "static/js/396.c409a748.chunk.js": "/karanbala/static/js/396.c409a748.chunk.js",
-    "static/js/342.c094c1d9.chunk.js": "/karanbala/static/js/342.c094c1d9.chunk.js",
+    "static/js/342.4f6890d8.chunk.js": "/karanbala/static/js/342.4f6890d8.chunk.js",
     "static/media/login.svg": "/karanbala/static/media/login.e945c2522308e757c597c5f824bed892.svg",
     "static/media/karanbalaBanner.svg": "/karanbala/static/media/karanbalaBanner.56453aaf0db1ab33cb906f46efef619c.svg",
     "static/media/learning.svg": "/karanbala/static/media/learning.55711bb9611a633edc8baff230b233cf.svg",
@@ -56,6 +56,7 @@
     "static/media/IRANSansWeb(FaNum)_Bold.woff2": "/karanbala/static/media/IRANSansWeb(FaNum)_Bold.424eca1112ae72643ee8.woff2",
     "static/media/IRANSansWeb(FaNum)_Black.woff2": "/karanbala/static/media/IRANSansWeb(FaNum)_Black.aca84f753ff041f9bbd6.woff2",
     "static/media/IRANSansWeb(FaNum)_Medium.woff2": "/karanbala/static/media/IRANSansWeb(FaNum)_Medium.ed4ac452b05d496237b8.woff2",
+    "static/media/user.jpg": "/karanbala/static/media/user.68f03813418404ef4cd3.jpg",
     "static/media/karanbalaBooklet.svg": "/karanbala/static/media/karanbalaBooklet.28d42a5855f062199b38fb5d0bb3e9d4.svg",
     "static/media/sanat.svg": "/karanbala/static/media/sanat.f8c662afa4219866e637fa9f28bec654.svg",
     "static/media/excel.svg": "/karanbala/static/media/excel.915b9794fc375732d818943d52374b8e.svg",
@@ -143,6 +144,7 @@
     "static/media/Iconly_Light-outline_Document.svg": "/karanbala/static/media/Iconly_Light-outline_Document.dd3ecfcadae55479e2712aefe174cc51.svg",
     "static/media/close.svg": "/karanbala/static/media/close.d0d82b69173e9e6e2284c41c22530d3b.svg",
     "static/media/iconly-light-outline-document.svg": "/karanbala/static/media/iconly-light-outline-document.2751070c1980b6d40364c43033a02b04.svg",
+    "static/media/editDark.svg": "/karanbala/static/media/editDark.dca168e772aa7db31f92de15371dde7c.svg",
     "static/media/aparat.svg": "/karanbala/static/media/aparat.798402d2bf393e79c0138b10aa1aaceb.svg",
     "static/media/iconly-light-outline-paper-plus.svg": "/karanbala/static/media/iconly-light-outline-paper-plus.894fb1595f045bfa24eb88458685ad78.svg",
     "static/media/CheckedTrue.svg": "/karanbala/static/media/CheckedTrue.291e0de5b3f2a1822e743c30ba07adf4.svg",
@@ -217,6 +219,6 @@
   },
   "entrypoints": [
     "static/css/main.36e648e5.css",
-    "static/js/main.c2d715b0.js"
+    "static/js/main.f9719b5b.js"
   ]
 }
