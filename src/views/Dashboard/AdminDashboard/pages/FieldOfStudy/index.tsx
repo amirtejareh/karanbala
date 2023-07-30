@@ -23,8 +23,8 @@ import { PrompModalKit } from "../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
 import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
 import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
-import { SelectKit } from "../../../../../components/kit/Select";
 import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
+import useFindOneFieldOfStudy from "../../../../../hooks/field-of-study/useFindOneFieldOfStudy";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -63,24 +63,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 const FieldOfStudy = (props: any) => {
     const classes = useStyles();
-    useEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    }, []);
-
     const [loading, setLoading] = useState(false);
-
+    const [page, setPage] = useState<number>(1);
+    const [pageSize] = useState<number>(10);
+    const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
     const createFieldOfStudy = useCreateFieldOfStudy();
     const updateFieldOfStudy = useUpdateFieldOfStudy();
+
+    const findOneFieldOfStudy: any = useFindOneFieldOfStudy(value.id ?? "0");
 
     const fieldOfStudies = useGetFieldOfStudies();
 
     const deleteFieldOfStudy = useDeleteFieldOfStudy();
 
     const getGradeLevels = useGetGradeLevels();
-
-    useEffect(() => {
-        getGradeLevels.refetch();
-    }, []);
 
     const handleDeleteFieldOfstudy = (id: string) => {
         deleteFieldOfStudy.mutate(id, {
@@ -100,10 +96,9 @@ const FieldOfStudy = (props: any) => {
             },
         });
     };
-
-    const [page, setPage] = useState<number>(1);
-    const [pageSize] = useState<number>(10);
-    const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+    useEffect(() => {
+        getGradeLevels.refetch();
+    }, []);
 
     const {
         handleSubmit,
@@ -186,8 +181,26 @@ const FieldOfStudy = (props: any) => {
     const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
 
     const handleChange = (event: SelectChangeEvent) => {
+        console.log(event.target.value);
+
         setGradeLevelIds(event.target.value as any);
     };
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
+
+    useEffect(() => {
+        if (value.doUpdate) {
+            findOneFieldOfStudy.refetch();
+        }
+    }, [value.doUpdate]);
+
+    useEffect(() => {
+        if (!findOneFieldOfStudy.isLoading && findOneFieldOfStudy.data) {
+            setGradeLevelIds(findOneFieldOfStudy.data.gradeLevels);
+        }
+    }, [findOneFieldOfStudy.isLoading]);
 
     useEffect(() => {
         toast.error(errors["gradeLevels"]?.message?.toString());
@@ -262,7 +275,7 @@ const FieldOfStudy = (props: any) => {
             </Box>
             <Box className={classes.fieldOfStudy}>
                 <Typography>لیست رشته های تحصیلی</Typography>
-                {!fieldOfStudies.isLoading ? (
+                {!fieldOfStudies.isLoading && fieldOfStudies?.data.length > 0 ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
