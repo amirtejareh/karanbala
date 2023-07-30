@@ -7,5 +7,9 @@ export type UpdateFieldOfStudyDto = {
     /**
      * Title of th field of study
      */
-    title?: string;
+    title: string;
+    /**
+     * Grade levels
+     */
+    gradeLevels: Array<string>;
 };

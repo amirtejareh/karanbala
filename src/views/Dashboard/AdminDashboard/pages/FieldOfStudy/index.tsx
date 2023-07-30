@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Theme,
     Box,
@@ -23,7 +23,6 @@ import { PrompModalKit } from "../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
 import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
 import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
-import { SelectKit } from "../../../../../components/kit/Select";
 import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -68,6 +67,8 @@ const FieldOfStudy = (props: any) => {
     }, []);
 
     const [loading, setLoading] = useState(false);
+    const inputRef = useRef<any>(null);
+    const selectRef = useRef<any>(null);
 
     const createFieldOfStudy = useCreateFieldOfStudy();
     const updateFieldOfStudy = useUpdateFieldOfStudy();
@@ -129,13 +130,13 @@ const FieldOfStudy = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -150,7 +151,7 @@ const FieldOfStudy = (props: any) => {
         setLoading(true);
 
         updateFieldOfStudy.mutate(
-            { id: value.id, title: value.data },
+            { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
@@ -158,6 +159,7 @@ const FieldOfStudy = (props: any) => {
                         fieldOfStudies.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
+                        setGradeLevelIds(null);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -166,13 +168,13 @@ const FieldOfStudy = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -180,7 +182,7 @@ const FieldOfStudy = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
@@ -213,6 +215,7 @@ const FieldOfStudy = (props: any) => {
                         {...register("title", {
                             required: "لطفا نام رشته تحصیلی را وارد کنید",
                         })}
+                        inputRef={inputRef}
                         onChange={(e) => {
                             if (value.doUpdate) {
                                 setValue({ doUpdate: true, data: e.target.value, id: value.id });
@@ -229,6 +232,7 @@ const FieldOfStudy = (props: any) => {
                             {...register("gradeLevels", {
                                 required: "انتخاب پایه های تحصیلی اجباری است",
                             })}
+                            inputRef={selectRef}
                             onChange={handleChange}
                             multiple
                         >
@@ -280,6 +284,11 @@ const FieldOfStudy = (props: any) => {
                                                         data: item.title,
                                                         id: item._id,
                                                     });
+                                                    setGradeLevelIds(item.gradeLevels);
+                                                    inputRef.current.focus();
+                                                    setTimeout(() => {
+                                                        selectRef.current.focus();
+                                                    }, 1000);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
