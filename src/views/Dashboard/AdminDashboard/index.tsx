@@ -48,11 +48,8 @@ const AdminDashboard = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        store.dispatch<ActionInterface<any>>({
-            type: ActionTypeEnum.SetUserToken,
-            payload: null,
-        });
+        localStorage.removeItem("auth-storage");
+        user.setUser(null);
         navigate("/");
     };
     return (

@@ -11,6 +11,7 @@ import { ReactComponent as SearchSvg } from "./images/Iconly_Light-outline_Searc
 import { ReactComponent as StarOutlineSvg } from "./images/Iconly_Light-outline_Star.svg";
 import { ReactComponent as GreenFlashSvg } from "./images/flash-green.svg";
 import { ReactComponent as EditSvg } from "./images/iconly-broken-edit.svg";
+import { ReactComponent as EditDarkSvg } from "./images/editDark.svg";
 import { ReactComponent as DangerCircleSvg } from "./images/dangerCircle.svg";
 import { ReactComponent as MessageLightSvg } from "./images/Iconly_Light-outline_Message.svg";
 import { ReactComponent as LogoutLightSvg } from "./images/Iconly_Light-outline_Logout.svg";
@@ -358,4 +359,5 @@ export {
     TableArrowNegative10,
     DepositSvg,
     FailedDepositSvg,
+    EditDarkSvg,
 };

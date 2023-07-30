@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Theme,
     Box,
@@ -64,9 +64,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 const FieldOfStudy = (props: any) => {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
+
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+
+    const inputRef = useRef<any>(null);
+    const selectRef = useRef<any>(null);
+
     const createFieldOfStudy = useCreateFieldOfStudy();
     const updateFieldOfStudy = useUpdateFieldOfStudy();
 
@@ -145,7 +150,7 @@ const FieldOfStudy = (props: any) => {
         setLoading(true);
 
         updateFieldOfStudy.mutate(
-            { id: value.id, title: value.data },
+            { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
@@ -153,6 +158,7 @@ const FieldOfStudy = (props: any) => {
                         fieldOfStudies.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
+                        setGradeLevelIds(null);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -226,6 +232,7 @@ const FieldOfStudy = (props: any) => {
                         {...register("title", {
                             required: "لطفا نام رشته تحصیلی را وارد کنید",
                         })}
+                        inputRef={inputRef}
                         onChange={(e) => {
                             if (value.doUpdate) {
                                 setValue({ doUpdate: true, data: e.target.value, id: value.id });
@@ -242,6 +249,7 @@ const FieldOfStudy = (props: any) => {
                             {...register("gradeLevels", {
                                 required: "انتخاب پایه های تحصیلی اجباری است",
                             })}
+                            inputRef={selectRef}
                             onChange={handleChange}
                             multiple
                         >
@@ -293,6 +301,11 @@ const FieldOfStudy = (props: any) => {
                                                         data: item.title,
                                                         id: item._id,
                                                     });
+                                                    setGradeLevelIds(item.gradeLevels);
+                                                    inputRef.current.focus();
+                                                    setTimeout(() => {
+                                                        selectRef.current.focus();
+                                                    }, 1000);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />

@@ -4,7 +4,9 @@ import { DefaultService } from "../../services";
 
 const useUpdateFieldOfStudy = () => {
     return useMutation((request: any) => {
-        return DefaultService.fieldOfStudyControllerUpdate(request.id, { title: request.title });
+        return DefaultService.fieldOfStudyControllerUpdate(request.id, {
+            ...request,
+        });
     });
 };
 
