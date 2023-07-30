@@ -18,6 +18,8 @@ import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevel
 import useDeleteGradeLevel from "../../../../../hooks/grade-level/useDeleteGradeLevel";
 import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGradeLevel";
 import { TableKit } from "../../../../../components/kit/Table";
+import GradeLevelImage from "../../../../../assets/images/user.jpg";
+import { EditDarkSvg } from "../../../../../assets";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -54,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
     },
 }));
+
 const GradeLevel = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
@@ -92,6 +95,11 @@ const GradeLevel = (props: any) => {
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
     const titleInputRef = useRef<any>(null);
+    const [preview, setPreview] = useState();
+    const [selectedFile, setSelectedFile] = useState<any>();
+    const imageRef = useRef<any>();
+
+    const [imageBlob, setImageBlob] = useState(null);
 
     const descriptionInputRef = useRef<any>(null);
 
@@ -101,6 +109,20 @@ const GradeLevel = (props: any) => {
         id: null,
     });
 
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined);
+            return;
+        }
+
+        const objectUrl: any = URL.createObjectURL(selectedFile);
+
+        setPreview(objectUrl);
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
+
     const {
         handleSubmit,
         register,
@@ -108,44 +130,62 @@ const GradeLevel = (props: any) => {
         clearErrors,
     } = useForm();
 
+    const { ref, onChange, ...rest } = register("image", {
+        required: "تصویر توضیحات اجباری است",
+    });
+
     useEffect(() => {
         toast.error(errors["description"]?.message?.toString());
         toast.error(errors["title"]?.message?.toString());
+        toast.error(errors["image"]?.message?.toString());
         clearErrors();
-    }, [errors["description"]?.message, errors["title"]?.message]);
+    }, [errors["description"]?.message, errors["title"]?.message, errors["image"]?.message]);
 
     const handleCreateGradeLevel = async (data: any) => {
         setLoading(true);
 
-        createGradeLevel.mutate(data, {
-            onSuccess: async (result: { message: string; statusCode: number }) => {
-                if (result.statusCode == 200) {
-                    setLoading(false);
-                    gradeLevels.refetch();
-                    toast.success(result.message);
-                } else {
-                    setLoading(false);
-                    if (Array.isArray(result.message)) {
-                        toast.error(
-                            <ul>
-                                {result.message.map((msg: string) => (
-                                    <li key={msg}>{msg}</li>
-                                ))}
-                            </ul>,
-                        );
+        createGradeLevel.mutate(
+            { ...data, image: data.image[0] },
+            {
+                onSuccess: async (result: { message: string; statusCode: number }) => {
+                    if (result.statusCode == 200) {
+                        setLoading(false);
+                        gradeLevels.refetch();
+                        toast.success(result.message);
                     } else {
-                        toast.error(
-                            <ul>
-                                <li key={result.message}>{result.message}</li>
-                            </ul>,
-                        );
+                        setLoading(false);
+                        if (Array.isArray(result.message)) {
+                            toast.error(
+                                <ul>
+                                    {result.message.map((msg: string) => (
+                                        <li key={msg}>{msg}</li>
+                                    ))}
+                                </ul>,
+                            );
+                        } else {
+                            toast.error(
+                                <ul>
+                                    <li key={result.message}>{result.message}</li>
+                                </ul>,
+                            );
+                        }
                     }
-                }
+                },
+                onError: async (e: any) => {
+                    toast.error(e.message);
+                },
             },
-            onError: async (e: any) => {
-                toast.error(e.message);
-            },
-        });
+        );
+    };
+
+    const onSelectFile = (e: any) => {
+        if (!imageRef.current.files || imageRef.current.files.length === 0) {
+            setSelectedFile(undefined);
+            return;
+        }
+
+        // I've kept this example simple by using the first image instead of multiple
+        setSelectedFile(imageRef.current.files[0]);
     };
 
     const handleUpdateGradeLevel = async (data: any) => {
@@ -240,6 +280,51 @@ const GradeLevel = (props: any) => {
                         }}
                     />
 
+                    <Box display={"flex"} position={"relative"} borderRadius={"100%"} mb={3}>
+                        {selectedFile ? (
+                            <Box
+                                component={"img"}
+                                src={preview ?? ""}
+                                alt={"test flag"}
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <Box
+                                component={"img"}
+                                src={GradeLevelImage}
+                                alt={"User flag"}
+                                width={100}
+                                height={100}
+                            />
+                        )}
+                        <IconButton
+                            sx={{
+                                backgroundColor: "#FCF0FF",
+                                width: 28,
+                                height: 28,
+                                borderRadius: "8px",
+                                p: 0.5,
+                                position: "absolute",
+                                bottom: -10,
+                            }}
+                        >
+                            <EditDarkSvg onClick={() => imageRef.current.click()} />
+                            <input
+                                {...rest}
+                                type="file"
+                                ref={(e) => {
+                                    ref(e);
+                                    imageRef.current = e;
+                                }}
+                                hidden
+                                onChange={(e) => {
+                                    onSelectFile(e);
+                                    onChange(e);
+                                }}
+                            />
+                        </IconButton>
+                    </Box>
                     <Button
                         variant="contained"
                         color="primary"
