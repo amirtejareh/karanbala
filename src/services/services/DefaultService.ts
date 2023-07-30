@@ -204,8 +204,8 @@ export class DefaultService {
             path: {
                 id: id,
             },
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
