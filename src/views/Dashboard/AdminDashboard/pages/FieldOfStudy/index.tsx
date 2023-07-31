@@ -129,13 +129,13 @@ const FieldOfStudy = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -167,13 +167,13 @@ const FieldOfStudy = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -181,14 +181,12 @@ const FieldOfStudy = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
 
     const handleChange = (event: SelectChangeEvent) => {
-        console.log(event.target.value);
-
         setGradeLevelIds(event.target.value as any);
     };
 

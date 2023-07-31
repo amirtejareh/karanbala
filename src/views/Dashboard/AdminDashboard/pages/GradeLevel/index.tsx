@@ -7,6 +7,11 @@ import {
     CircularProgress,
     Typography,
     IconButton,
+    InputLabel,
+    FormControl,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -21,6 +26,8 @@ import { TableKit } from "../../../../../components/kit/Table";
 import GradeLevelImage from "../../../../../assets/images/user.jpg";
 import { EditDarkSvg } from "../../../../../assets";
 import { OpenAPI } from "../../../../../services/core/OpenAPI";
+import useGetBooks from "../../../../../hooks/book/useGetBooks";
+import useGetTermOfStudies from "../../../../../hooks/term-of-study/useGetTermOfStudies";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -49,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.main,
     },
     formField: {
-        margin: "1rem",
+        margin: "1rem 0",
         width: "100%",
     },
     formButton: {
@@ -92,7 +99,15 @@ const GradeLevel = (props: any) => {
         });
     };
 
-    const [gradeLevelsImage, setGradeLevelsImage] = useState("");
+    const handleBookChange = (event: SelectChangeEvent) => {
+        setBookIds(event.target.value as any);
+    };
+    const handleTermOfStudyChange = (event: SelectChangeEvent) => {
+        setTermOfStudyIds(event.target.value as any);
+    };
+
+    const getBooks = useGetBooks();
+    const getTermOfStudiess = useGetTermOfStudies();
 
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
@@ -101,8 +116,12 @@ const GradeLevel = (props: any) => {
     const [preview, setPreview] = useState<any>();
     const [selectedFile, setSelectedFile] = useState<any>();
     const imageRef = useRef<any>();
+    const selectBookRef = useRef<any>();
+    const selectTermOfStudyRef = useRef<any>();
 
     const descriptionInputRef = useRef<any>(null);
+    const [bookIds, setBookIds] = React.useState<any>([]);
+    const [termOfStudyIds, setTermOfStudyIds] = React.useState<any>([]);
 
     const [descriptionValue, setDescriptionValue] = useState({
         doUpdate: false,
@@ -124,8 +143,12 @@ const GradeLevel = (props: any) => {
         return () => URL.revokeObjectURL(objectUrl);
     }, [selectedFile]);
 
-    const [getImageData, setImageData] = useState("");
-
+    useEffect(() => {
+        getBooks.refetch();
+    }, []);
+    useEffect(() => {
+        getTermOfStudiess.refetch();
+    }, []);
     const {
         handleSubmit,
         register,
@@ -139,8 +162,16 @@ const GradeLevel = (props: any) => {
         toast.error(errors["description"]?.message?.toString());
         toast.error(errors["title"]?.message?.toString());
         toast.error(errors["image"]?.message?.toString());
+        toast.error(errors["terms"]?.message?.toString());
+        toast.error(errors["books"]?.message?.toString());
         clearErrors();
-    }, [errors["description"]?.message, errors["title"]?.message, errors["image"]?.message]);
+    }, [
+        errors["description"]?.message,
+        errors["title"]?.message,
+        errors["image"]?.message,
+        errors["terms"]?.message,
+        errors["books"]?.message,
+    ]);
 
     const handleCreateGradeLevel = async (data: any) => {
         setLoading(true);
@@ -202,6 +233,8 @@ const GradeLevel = (props: any) => {
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
+                        setBookIds(null);
+                        setTermOfStudyIds(null);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -280,6 +313,46 @@ const GradeLevel = (props: any) => {
                             }
                         }}
                     />
+
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
+                        <Select
+                            value={bookIds ?? []}
+                            {...register("books")}
+                            inputRef={selectBookRef}
+                            onChange={handleBookChange}
+                            multiple
+                        >
+                            {!getBooks?.isLoading &&
+                                getBooks?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب ترم</InputLabel>
+                        <Select
+                            value={termOfStudyIds ?? []}
+                            {...register("terms")}
+                            inputRef={selectTermOfStudyRef}
+                            onChange={handleTermOfStudyChange}
+                            multiple
+                        >
+                            {!getTermOfStudiess?.isLoading &&
+                                getTermOfStudiess?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
 
                     <Box display={"flex"} position={"relative"} borderRadius={"100%"} mb={3}>
                         {selectedFile || preview ? (
@@ -370,10 +443,19 @@ const GradeLevel = (props: any) => {
                                                         id: item._id,
                                                     });
 
+                                                    setBookIds(item.books);
+                                                    setTermOfStudyIds(item.terms);
+
                                                     titleInputRef.current.focus();
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
                                                     }, 1000);
+                                                    setTimeout(() => {
+                                                        selectBookRef.current.focus();
+                                                    }, 1100);
+                                                    setTimeout(() => {
+                                                        selectTermOfStudyRef.current.focus();
+                                                    }, 1100);
 
                                                     setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}
