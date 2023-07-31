@@ -20,6 +20,7 @@ import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGrade
 import { TableKit } from "../../../../../components/kit/Table";
 import GradeLevelImage from "../../../../../assets/images/user.jpg";
 import { EditDarkSvg } from "../../../../../assets";
+import { OpenAPI } from "../../../../../services/core/OpenAPI";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -160,13 +161,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -174,7 +175,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
 
@@ -209,13 +210,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -223,7 +224,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     return (
@@ -374,9 +375,7 @@ const GradeLevel = (props: any) => {
                                                         descriptionInputRef.current.focus();
                                                     }, 1000);
 
-                                                    setPreview(
-                                                        "http://localhost:3000/" + item.image
-                                                    );
+                                                    setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
