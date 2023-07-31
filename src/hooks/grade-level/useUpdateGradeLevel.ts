@@ -1,7 +1,6 @@
 import React from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { DefaultService } from "../../services";
-import { id } from "date-fns-jalali/locale";
 
 const useUpdateGradeLevel = () => {
     return useMutation((request: any) => {
