@@ -101,7 +101,7 @@ const Book = (props: any) => {
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
     const getBooks = useGetBooks();
-    const getTermOfStudiess = useGetTermOfStudies();
+    const getGradeLevels = useGetGradeLevels();
 
     const {
         handleSubmit,
@@ -225,8 +225,8 @@ const Book = (props: any) => {
                             onChange={handleGradeLevelChange}
                             multiple
                         >
-                            {!getTermOfStudiess?.isLoading &&
-                                getTermOfStudiess?.data.map((element: any) => {
+                            {!getGradeLevels?.isLoading &&
+                                getGradeLevels?.data.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
