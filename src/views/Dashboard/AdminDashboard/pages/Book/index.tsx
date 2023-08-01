@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Theme,
     Box,
@@ -6,21 +6,26 @@ import {
     Button,
     CircularProgress,
     Typography,
-    Table,
     IconButton,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import useCreateFieldOfStudy from "../../../../../hooks/field-of-study/useCreateFieldOfStudy";
 import { toast } from "react-toastify";
-import useGetFieldOfStudies from "../../../../../hooks/field-of-study/useGetFieldOfStudies";
 import { TableKit } from "../../../../../components/kit/Table";
 import { PrompModalKit } from "../../../../../components/kit/Modal";
-import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
+import { DeleteLightSvg, EditDarkSvg, EditLightSvg } from "../../../../../assets";
 import useCreateBook from "../../../../../hooks/book/useCreateBook";
 import useUpdateBook from "../../../../../hooks/book/useUpdateBook";
 import useGetBooks from "../../../../../hooks/book/useGetBooks";
 import useDeleteBook from "../../../../../hooks/book/useDeleteBook";
+import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
+import BookImage from "../../../../../assets/images/user.jpg";
+import { OpenAPI } from "../../../../../services/core/OpenAPI";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -67,6 +72,7 @@ const Book = (props: any) => {
 
     const createBook = useCreateBook();
     const updateBook = useUpdateBook();
+    const selectGradeLevelRef = useRef<any>();
 
     const Books = useGetBooks();
 
@@ -94,59 +100,64 @@ const Book = (props: any) => {
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+    const [preview, setPreview] = useState<any>();
+    const [selectedFile, setSelectedFile] = useState<any>();
+    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
+    const getGradeLevels = useGetGradeLevels();
+    const imageRef = useRef<any>();
+
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined);
+            return;
+        }
+
+        const objectUrl: any = URL.createObjectURL(selectedFile);
+
+        setPreview(objectUrl);
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
+
+    const handleGradeLevelChange = (event: SelectChangeEvent) => {
+        setGradeLevelIds(event.target.value as any);
+    };
+    const descriptionInputRef = useRef<any>(null);
+
+    const [descriptionValue, setDescriptionValue] = useState({
+        doUpdate: false,
+        data: "",
+        id: null,
+    });
+
+    const onSelectFile = (e: any) => {
+        if (!imageRef.current.files || imageRef.current.files.length === 0) {
+            setSelectedFile(undefined);
+            return;
+        }
+
+        setSelectedFile(imageRef.current.files[0]);
+    };
 
     const {
         handleSubmit,
         register,
         formState: { errors },
     } = useForm();
+    const { ref, onChange, ...rest } = register("image");
 
     const handleCreateBook = async (data: any) => {
         setLoading(true);
 
-        createBook.mutate(data, {
-            onSuccess: async (result: { message: string; statusCode: number }) => {
-                if (result.statusCode == 200) {
-                    setLoading(false);
-                    Books.refetch();
-                    toast.success(result.message);
-                } else {
-                    setLoading(false);
-                    if (Array.isArray(result.message)) {
-                        toast.error(
-                            <ul>
-                                {result.message.map((msg: string) => (
-                                    <li key={msg}>{msg}</li>
-                                ))}
-                            </ul>
-                        );
-                    } else {
-                        toast.error(
-                            <ul>
-                                <li key={result.message}>{result.message}</li>
-                            </ul>
-                        );
-                    }
-                }
-            },
-            onError: async (e: any) => {
-                toast.error(e.message);
-            },
-        });
-    };
-
-    const handleUpdateBook = async (data: any) => {
-        setLoading(true);
-
-        updateBook.mutate(
-            { id: value.id, title: value.data },
+        createBook.mutate(
+            { ...data, image: data.image[0] },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
                         Books.refetch();
                         toast.success(result.message);
-                        setValue({ doUpdate: false, data: "", id: null });
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -155,13 +166,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -169,7 +180,46 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
+        );
+    };
+
+    const handleUpdateBook = async (data: any) => {
+        setLoading(true);
+
+        updateBook.mutate(
+            { id: value.id, ...data },
+            {
+                onSuccess: async (result: { message: string; statusCode: number }) => {
+                    if (result.statusCode == 200) {
+                        setLoading(false);
+                        Books.refetch();
+                        toast.success(result.message);
+                        setValue({ doUpdate: false, data: "", id: null });
+                        setDescriptionValue({ doUpdate: false, data: "", id: null });
+                    } else {
+                        setLoading(false);
+                        if (Array.isArray(result.message)) {
+                            toast.error(
+                                <ul>
+                                    {result.message.map((msg: string) => (
+                                        <li key={msg}>{msg}</li>
+                                    ))}
+                                </ul>,
+                            );
+                        } else {
+                            toast.error(
+                                <ul>
+                                    <li key={result.message}>{result.message}</li>
+                                </ul>,
+                            );
+                        }
+                    }
+                },
+                onError: async (e: any) => {
+                    toast.error(e.message);
+                },
+            },
         );
     };
     return (
@@ -183,7 +233,7 @@ const Book = (props: any) => {
                     }
                 >
                     <TextField
-                        label="عنوان کتاب تحصیلی"
+                        label="عنوان کتاب "
                         variant="outlined"
                         className={classes.formField}
                         value={value.data}
@@ -198,6 +248,99 @@ const Book = (props: any) => {
                             }
                         }}
                     />
+
+                    <TextField
+                        label="توضیحات  کتاب"
+                        variant="outlined"
+                        className={classes.formField}
+                        value={descriptionValue.data}
+                        {...register("description", {
+                            required: "لطفا توضیحات کتاب را وارد کنید",
+                        })}
+                        inputRef={descriptionInputRef}
+                        onChange={(e) => {
+                            if (descriptionValue.doUpdate) {
+                                setDescriptionValue({
+                                    doUpdate: true,
+                                    data: e.target.value,
+                                    id: value.id,
+                                });
+                            } else {
+                                setDescriptionValue({
+                                    doUpdate: false,
+                                    data: e.target.value,
+                                    id: null,
+                                });
+                            }
+                        }}
+                    />
+
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
+                        <Select
+                            value={gradeLevelIds ?? []}
+                            {...register("gradeLevels")}
+                            inputRef={selectGradeLevelRef}
+                            onChange={handleGradeLevelChange}
+                            multiple
+                        >
+                            {!getGradeLevels?.isLoading &&
+                                getGradeLevels?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
+                    <Box display={"flex"} position={"relative"} borderRadius={"100%"} mb={3}>
+                        {selectedFile || preview ? (
+                            <Box
+                                component={"img"}
+                                src={preview ?? ""}
+                                alt={"test flag"}
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <Box
+                                component={"img"}
+                                src={BookImage}
+                                alt={"User flag"}
+                                width={100}
+                                height={100}
+                            />
+                        )}
+                        <IconButton
+                            sx={{
+                                backgroundColor: "#FCF0FF",
+                                width: 28,
+                                height: 28,
+                                borderRadius: "8px",
+                                p: 0.5,
+                                position: "absolute",
+                                bottom: -10,
+                            }}
+                            onClick={() => imageRef.current.click()}
+                        >
+                            <EditDarkSvg />
+                            <input
+                                {...rest}
+                                type="file"
+                                ref={(e) => {
+                                    ref(e);
+                                    imageRef.current = e;
+                                }}
+                                hidden
+                                onChange={(e) => {
+                                    onSelectFile(e);
+                                    onChange(e);
+                                }}
+                            />
+                        </IconButton>
+                    </Box>
 
                     <Button
                         variant="contained"
@@ -236,6 +379,23 @@ const Book = (props: any) => {
                                                         data: item.title,
                                                         id: item._id,
                                                     });
+                                                    setDescriptionValue({
+                                                        doUpdate: true,
+                                                        data: item.description,
+                                                        id: item._id,
+                                                    });
+
+                                                    setGradeLevelIds(item.gradeLevels);
+
+                                                    setTimeout(() => {
+                                                        selectGradeLevelRef.current.focus();
+                                                    }, 1110);
+
+                                                    setTimeout(() => {
+                                                        descriptionInputRef.current.focus();
+                                                    }, 1120);
+
+                                                    setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />

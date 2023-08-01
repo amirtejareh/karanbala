@@ -5,7 +5,8 @@
 
 export type UpdateBookDto = {
     /**
-     * Title of th book
+     * Title of the book
      */
-    title?: string;
+    title: string;
+    image: Blob;
 };

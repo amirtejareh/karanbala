@@ -23,8 +23,6 @@ import { PrompModalKit } from "../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
 import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
 import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
-import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
-import useFindOneFieldOfStudy from "../../../../../hooks/field-of-study/useFindOneFieldOfStudy";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -70,18 +68,13 @@ const FieldOfStudy = (props: any) => {
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
 
     const inputRef = useRef<any>(null);
-    const selectRef = useRef<any>(null);
 
     const createFieldOfStudy = useCreateFieldOfStudy();
     const updateFieldOfStudy = useUpdateFieldOfStudy();
 
-    const findOneFieldOfStudy: any = useFindOneFieldOfStudy(value.id ?? "0");
-
     const fieldOfStudies = useGetFieldOfStudies();
 
     const deleteFieldOfStudy = useDeleteFieldOfStudy();
-
-    const getGradeLevels = useGetGradeLevels();
 
     const handleDeleteFieldOfstudy = (id: string) => {
         deleteFieldOfStudy.mutate(id, {
@@ -101,9 +94,6 @@ const FieldOfStudy = (props: any) => {
             },
         });
     };
-    useEffect(() => {
-        getGradeLevels.refetch();
-    }, []);
 
     const {
         handleSubmit,
@@ -158,7 +148,6 @@ const FieldOfStudy = (props: any) => {
                         fieldOfStudies.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
-                        setGradeLevelIds(null);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -184,33 +173,15 @@ const FieldOfStudy = (props: any) => {
             },
         );
     };
-    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setGradeLevelIds(event.target.value as any);
-    };
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
 
     useEffect(() => {
-        if (value.doUpdate) {
-            findOneFieldOfStudy.refetch();
-        }
-    }, [value.doUpdate]);
-
-    useEffect(() => {
-        if (!findOneFieldOfStudy.isLoading && findOneFieldOfStudy.data) {
-            setGradeLevelIds(findOneFieldOfStudy.data.gradeLevels);
-        }
-    }, [findOneFieldOfStudy.isLoading]);
-
-    useEffect(() => {
-        toast.error(errors["gradeLevels"]?.message?.toString());
         toast.error(errors["title"]?.message?.toString());
         clearErrors();
-    }, [errors["gradeLevels"]?.message, errors["title"]?.message]);
+    }, [errors["title"]?.message]);
 
     return (
         <Box className={classes.container}>
@@ -239,28 +210,6 @@ const FieldOfStudy = (props: any) => {
                             }
                         }}
                     />
-
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
-                        <Select
-                            value={gradeLevelIds ?? []}
-                            {...register("gradeLevels", {
-                                required: "انتخاب پایه های تحصیلی اجباری است",
-                            })}
-                            inputRef={selectRef}
-                            onChange={handleChange}
-                            multiple
-                        >
-                            {!getGradeLevels?.isLoading &&
-                                getGradeLevels?.data.map((element: any) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
 
                     <Button
                         variant="contained"
@@ -299,11 +248,7 @@ const FieldOfStudy = (props: any) => {
                                                         data: item.title,
                                                         id: item._id,
                                                     });
-                                                    setGradeLevelIds(item.gradeLevels);
                                                     inputRef.current.focus();
-                                                    setTimeout(() => {
-                                                        selectRef.current.focus();
-                                                    }, 1000);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />

@@ -74,7 +74,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static fieldOfStudyControllerCreate(
-        requestBody: CreateFieldOfStudyDto
+        requestBody: CreateFieldOfStudyDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
@@ -118,7 +118,7 @@ export class DefaultService {
      */
     public static fieldOfStudyControllerUpdate(
         id: string,
-        requestBody: UpdateFieldOfStudyDto
+        requestBody: UpdateFieldOfStudyDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
@@ -152,7 +152,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static gradeLevelControllerCreate(
-        requestBody: CreateGradeLevelDto
+        requestBody: CreateGradeLevelDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
@@ -196,7 +196,7 @@ export class DefaultService {
      */
     public static gradeLevelControllerUpdate(
         id: string,
-        requestBody: UpdateGradeLevelDto
+        requestBody: UpdateGradeLevelDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
@@ -230,7 +230,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static termOfStudyControllerCreate(
-        requestBody: CreateTermOfStudyDto
+        requestBody: CreateTermOfStudyDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
@@ -274,7 +274,7 @@ export class DefaultService {
      */
     public static termOfStudyControllerUpdate(
         id: string,
-        requestBody: UpdateTermOfStudyDto
+        requestBody: UpdateTermOfStudyDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
@@ -311,8 +311,8 @@ export class DefaultService {
         return __request(OpenAPI, {
             method: "POST",
             url: "/book",
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -350,7 +350,7 @@ export class DefaultService {
      */
     public static bookControllerUpdate(
         id: string,
-        requestBody: UpdateBookDto
+        requestBody: UpdateBookDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
@@ -358,8 +358,8 @@ export class DefaultService {
             path: {
                 id: id,
             },
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 

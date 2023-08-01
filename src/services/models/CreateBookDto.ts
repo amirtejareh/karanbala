@@ -5,7 +5,8 @@
 
 export type CreateBookDto = {
     /**
-     * Title of th book
+     * Title of the book
      */
     title: string;
+    image: Blob;
 };

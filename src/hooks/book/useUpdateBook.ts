@@ -1,10 +1,13 @@
 import React from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { DefaultService } from "../../services";
 
 const useUpdateBook = () => {
     return useMutation((request: any) => {
-        return DefaultService.bookControllerUpdate(request.id, { title: request.title });
+        return DefaultService.bookControllerUpdate(request.id, {
+            ...request,
+            image: request.image[0],
+        });
     });
 };
 

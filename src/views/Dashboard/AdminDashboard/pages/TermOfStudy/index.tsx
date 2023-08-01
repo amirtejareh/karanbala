@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Theme,
     Box,
@@ -6,8 +6,12 @@ import {
     Button,
     CircularProgress,
     Typography,
-    Table,
     IconButton,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -19,6 +23,8 @@ import useCreateTermOfStudy from "../../../../../hooks/term-of-study/useCreateTe
 import useUpdateTermOfStudy from "../../../../../hooks/term-of-study/useUpdateTermOfStudy";
 import useDeleteTermOfStudy from "../../../../../hooks/term-of-study/useDeleteTermOfStudy";
 import useGetTermOfStudies from "../../../../../hooks/term-of-study/useGetTermOfStudies";
+import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
+import useGetBooks from "../../../../../hooks/book/useGetBooks";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -55,13 +61,15 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
     },
 }));
-const TermOfStudy = (props: any) => {
+const Book = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
 
     const [loading, setLoading] = useState(false);
+    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
+    const [bookIds, setBookIds] = React.useState<any>([]);
 
     const createTermOfStudy = useCreateTermOfStudy();
     const updateTermOfStudy = useUpdateTermOfStudy();
@@ -92,6 +100,8 @@ const TermOfStudy = (props: any) => {
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+    const getBooks = useGetBooks();
+    const getTermOfStudiess = useGetTermOfStudies();
 
     const {
         handleSubmit,
@@ -99,6 +109,15 @@ const TermOfStudy = (props: any) => {
         formState: { errors },
     } = useForm();
 
+    const selectGradeLevelRef = useRef<any>();
+    const selectBookRef = useRef<any>();
+
+    const handleGradeLevelChange = (event: SelectChangeEvent) => {
+        setGradeLevelIds(event.target.value as any);
+    };
+    const handleBookChange = (event: SelectChangeEvent) => {
+        setBookIds(event.target.value as any);
+    };
     const handleCreateTermOfStudy = async (data: any) => {
         setLoading(true);
 
@@ -116,13 +135,13 @@ const TermOfStudy = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -153,13 +172,13 @@ const TermOfStudy = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -167,7 +186,7 @@ const TermOfStudy = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     return (
@@ -197,6 +216,45 @@ const TermOfStudy = (props: any) => {
                         }}
                     />
 
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
+                        <Select
+                            value={gradeLevelIds ?? []}
+                            {...register("gradeLevels")}
+                            inputRef={selectGradeLevelRef}
+                            onChange={handleGradeLevelChange}
+                            multiple
+                        >
+                            {!getTermOfStudiess?.isLoading &&
+                                getTermOfStudiess?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
+                        <Select
+                            value={bookIds ?? []}
+                            {...register("books")}
+                            inputRef={selectBookRef}
+                            onChange={handleBookChange}
+                            multiple
+                        >
+                            {!getBooks?.isLoading &&
+                                getBooks?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
                     <Button
                         variant="contained"
                         color="primary"
@@ -234,6 +292,11 @@ const TermOfStudy = (props: any) => {
                                                         data: item.title,
                                                         id: item._id,
                                                     });
+                                                    setGradeLevelIds(item.gradeLevels);
+
+                                                    setTimeout(() => {
+                                                        selectGradeLevelRef.current.focus();
+                                                    }, 1110);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
@@ -275,4 +338,4 @@ const TermOfStudy = (props: any) => {
     );
 };
 
-export default TermOfStudy;
+export default Book;
