@@ -407,11 +407,11 @@ const PointAndTest = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible, seasons?.seasons]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -458,7 +458,7 @@ const PointAndTest = () => {
                 return acc;
             }, {})
         );
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -466,7 +466,7 @@ const PointAndTest = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, [seasonVisible]);
+    }, []);
 
     const numbers: any = {
         1: "اول",

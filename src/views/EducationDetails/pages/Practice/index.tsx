@@ -164,7 +164,9 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const Practice = () => {
+    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
+
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
@@ -400,11 +402,11 @@ const Practice = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible, seasons?.seasons]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -451,7 +453,7 @@ const Practice = () => {
                 return acc;
             }, {})
         );
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -459,7 +461,7 @@ const Practice = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, [seasons?.seasons, seasonVisible]);
+    }, []);
 
     const numbers: any = {
         1: "اول",

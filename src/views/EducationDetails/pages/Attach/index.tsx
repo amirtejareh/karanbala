@@ -7,8 +7,13 @@ import {
     ArrowLeftSvg,
     ArrowRightSvg,
     ArrowUpSvg,
+    KaranbalaExamSvg,
     KaranbalaLogoTextSvg,
+    PointAndTestSvg,
+    QuestionsSvg,
+    QuizSvg,
     ShowSvg,
+    TextBookSvg,
 } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
@@ -164,9 +169,11 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const Attach = () => {
+    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
+
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
-    const [, setChildrenEpisodeVisible] = useState<any>({});
+    const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
     const [episodes, setEpisodes] = useState<any>({});
 
@@ -362,11 +369,11 @@ const Attach = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible, seasons?.seasons]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -413,7 +420,7 @@ const Attach = () => {
                 return acc;
             }, {})
         );
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -421,7 +428,7 @@ const Attach = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, [seasons?.seasons, seasonVisible]);
+    }, []);
 
     const numbers: any = {
         1: "اول",

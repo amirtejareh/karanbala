@@ -407,11 +407,11 @@ const Questions = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible, seasons?.seasons]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -458,15 +458,15 @@ const Questions = () => {
                 return acc;
             }, {})
         );
-    }, [seasons?.seasons, seasonVisible]);
+    }, []);
 
     useEffect(() => {
-        setSeasonVisible(() => {
+        setSeasonVisible((prev: any) => {
             return {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, [seasons?.seasons, seasonVisible]);
+    }, []);
 
     const numbers: any = {
         1: "اول",
@@ -801,7 +801,7 @@ const Questions = () => {
                                                                                         </Box>
 
                                                                                         <Typography variant="subtitle2">
-                                                                                            {element ===
+                                                                                            {element ==
                                                                                             1 ? (
                                                                                                 <>
                                                                                                     درسنامه

@@ -15,6 +15,8 @@ import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
+import { IconButtonKit } from "../../../../components/kit/IconButton";
+import { CheckboxKit } from "../../../../components/kit/Checkbox";
 import { ModalKit } from "../../../../components/kit/Modal";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
@@ -164,6 +166,8 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const ModalExam = () => {
+    const theme: ThemeOptions = useTheme();
+
     return (
         <Box>
             <Box>
@@ -236,10 +240,10 @@ const Exam = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
 
-    const [, setParentEpisodeVisible] = useState<any>({});
-    const [, setChildrenEpisodeVisible] = useState<any>({});
+    const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
+    const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
-    const [, setEpisodes] = useState<any>({});
+    const [episodes, setEpisodes] = useState<any>({});
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const courses = [
@@ -472,11 +476,11 @@ const Exam = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible, seasons?.seasons]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -523,7 +527,7 @@ const Exam = () => {
                 return acc;
             }, {})
         );
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -531,7 +535,7 @@ const Exam = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, [seasons?.seasons, seasonVisible]);
+    }, []);
 
     const numbers: any = {
         1: "اول",

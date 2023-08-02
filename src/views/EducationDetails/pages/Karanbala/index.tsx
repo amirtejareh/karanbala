@@ -475,11 +475,11 @@ const Karanbala = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible, seasons?.seasons]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -526,7 +526,7 @@ const Karanbala = () => {
                 return acc;
             }, {})
         );
-    }, [seasons?.seasons]);
+    }, []);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -534,7 +534,7 @@ const Karanbala = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, [seasons?.seasons, seasonVisible]);
+    }, []);
 
     const numbers: any = {
         1: "اول",
@@ -561,7 +561,7 @@ const Karanbala = () => {
                 title={<>آزمون مورد نظر را انتخاب کنید</>}
                 maxWidth={"xs"}
             >
-                {() => <ModalQuiz />}
+                {({ handleApproved }: any) => <ModalQuiz />}
             </ModalKit>
             <Box
                 margin={"0.75rem 3.25rem 0 3.25rem"}
