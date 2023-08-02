@@ -4,14 +4,23 @@
 /* eslint-disable */
 
 export type { CreateBookDto } from './models/CreateBookDto';
+export type { CreateChapterDto } from './models/CreateChapterDto';
 export type { CreateFieldOfStudyDto } from './models/CreateFieldOfStudyDto';
 export type { CreateGradeLevelDto } from './models/CreateGradeLevelDto';
 export type { CreateTermOfStudyDto } from './models/CreateTermOfStudyDto';
 export type { CreateUserDto } from './models/CreateUserDto';
 export type { SigninUserDto } from './models/SigninUserDto';
 export type { UpdateBookDto } from './models/UpdateBookDto';
+export type { UpdateChapterDto } from './models/UpdateChapterDto';
 export type { UpdateFieldOfStudyDto } from './models/UpdateFieldOfStudyDto';
 export type { UpdateGradeLevelDto } from './models/UpdateGradeLevelDto';
 export type { UpdateTermOfStudyDto } from './models/UpdateTermOfStudyDto';
 
-export { DefaultService } from './services/DefaultService';
+export { AuthService } from './services/AuthService';
+export { BookService } from './services/BookService';
+export { ChapterService } from './services/ChapterService';
+export { FieldOfStudyService } from './services/FieldOfStudyService';
+export { GradeLevelService } from './services/GradeLevelService';
+export { HomeService } from './services/HomeService';
+export { TermOfStudyService } from './services/TermOfStudyService';
+export { UserService } from './services/UserService';

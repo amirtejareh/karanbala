@@ -174,13 +174,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -188,7 +188,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
 
@@ -213,6 +213,7 @@ const GradeLevel = (props: any) => {
                         gradeLevels.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
+                        setPreview(undefined);
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
                         setFieldOfStudyIds(null);
                     } else {
@@ -223,13 +224,13 @@ const GradeLevel = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -237,7 +238,7 @@ const GradeLevel = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
     // const findOneFieldOfStudy: any = useFindOneFieldOfStudy(value.id ?? "0");
@@ -324,13 +325,19 @@ const GradeLevel = (props: any) => {
 
                     <Box display={"flex"} position={"relative"} borderRadius={"100%"} mb={3}>
                         {selectedFile || preview ? (
-                            <Box
-                                component={"img"}
-                                src={preview ?? ""}
-                                alt={"test flag"}
-                                width={100}
-                                height={100}
-                            />
+                            <>
+                                <Box
+                                    component={"img"}
+                                    src={
+                                        preview.split("/")[3] === "undefined"
+                                            ? GradeLevelImage
+                                            : preview
+                                    }
+                                    alt={"test flag"}
+                                    width={100}
+                                    height={100}
+                                />
+                            </>
                         ) : (
                             <Box
                                 component={"img"}

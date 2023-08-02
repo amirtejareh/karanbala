@@ -137,7 +137,7 @@ const ModalLoginOrSignup = () => {
                         setLoading(false);
 
                         toast.success(
-                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید.",
+                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید."
                         );
                         setValue("login");
                     } else {
@@ -149,13 +149,13 @@ const ModalLoginOrSignup = () => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -188,6 +188,7 @@ const ModalLoginOrSignup = () => {
                         <TextField
                             label="رمز عبور"
                             variant="outlined"
+                            autoComplete="off"
                             className={classes.formField}
                             type="password"
                             InputProps={{
@@ -229,6 +230,7 @@ const ModalLoginOrSignup = () => {
                             variant="outlined"
                             className={classes.formField}
                             type="password"
+                            autoComplete="off"
                             InputProps={{
                                 ...signupRegister("password", {
                                     required: "لطفا رمز عبور را وارد کنید",

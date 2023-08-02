@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { DefaultService } from "../../services";
+import { GradeLevelService } from "../../services";
 
 const useDeleteGradeLevel = () => {
     return useMutation((request: string) => {
-        return DefaultService.gradeLevelControllerRemove(request);
+        return GradeLevelService.gradeLevelControllerRemove(request);
     });
 };
 

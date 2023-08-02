@@ -1,6 +1,7 @@
-import { Navigate } from "react-router-dom";
-import { ActionInterface, ActionTypeEnum } from "../../provider/action.interface";
-import { store } from "../../provider/store";
+import { Navigate, useNavigate } from "react-router-dom";
+import { authStore, userStore } from "../../stores";
+import jwt_decode from "jwt-decode";
+import { useEffect } from "react";
 
 interface AuthorizedRouteProps {
     route: {
@@ -14,6 +15,22 @@ interface AuthorizedRouteProps {
 }
 
 const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, children }) => {
+    const user: any = userStore((state) => state);
+    const { accessToken } = authStore((state) => state);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const decodedToken: { sub: string; username: string; exp: number; iat: number } =
+            jwt_decode(accessToken ?? localStorage.getItem("auth-storage"));
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        if (currentTime > decodedToken.exp) {
+            localStorage.removeItem("auth-storage");
+            user.setUser(null);
+
+            navigate("/");
+        }
+    }, [accessToken, navigate]);
+
     const hasRequiredRole = userRole?.roles?.some((role: any) => {
         return (
             route.requiredRoles.includes(role.title) &&
@@ -24,11 +41,8 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
     });
 
     if (!hasRequiredRole && hasRequiredRole !== undefined) {
-        localStorage.removeItem("token");
-        store.dispatch<ActionInterface<any>>({
-            type: ActionTypeEnum.SetUserToken,
-            payload: null,
-        });
+        localStorage.removeItem("auth-storage");
+        user.setUser(null);
 
         return <Navigate to={"/"} />;
     }

@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { DefaultService } from "../../services";
+import { GradeLevelService } from "../../services";
 
 const useUpdateGradeLevel = () => {
     return useMutation((request: any) => {
-        return DefaultService.gradeLevelControllerUpdate(request.id, {
+        return GradeLevelService.gradeLevelControllerUpdate(request.id, {
             ...request,
             image: request.image[0],
         });

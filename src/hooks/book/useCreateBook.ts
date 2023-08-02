@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { DefaultService } from "../../services";
+import { BookService } from "../../services";
 
 const useCreateBook = () => {
     return useMutation((request: any) => {
-        return DefaultService.bookControllerCreate({ ...request });
+        return BookService.bookControllerCreate({ ...request });
     });
 };
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation, useQuery } from "react-query";
-import { DefaultService } from "../services";
+import { AuthService } from "../services";
 
 const useLogin = () => {
     return useMutation((request: any) => {
-        return DefaultService.authControllerSinginUser({ ...request });
+        return AuthService.authControllerSinginUser({ ...request });
     });
 };
 

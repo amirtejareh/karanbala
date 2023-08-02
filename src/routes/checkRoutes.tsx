@@ -10,7 +10,6 @@ const CheckRoutes = () => {
 
     useEffect(() => {
         if (accessToken === undefined || accessToken === null) {
-            console.log("redirect to /");
             navigate("/");
         } else if (accessToken && userData === null) {
             userData.setUser(jwt_decode(accessToken));

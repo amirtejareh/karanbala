@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import AdminDashboard from "../views/Dashboard/AdminDashboard";
 import UserDashboard from "../views/Dashboard/UserDashboard";
-import { useSelector } from "react-redux";
-import { MainReducerInterface } from "../provider/reducer/main.reducer";
+
 import MainLayoutComponent from "../components/MainLayoutComponent";
 import AuthorizedRoute from "../components/AuthorizedRoute";
 import { userStore } from "../stores";

@@ -1,4 +1,4 @@
-import create, { StateCreator } from "zustand";
+import { create, StateCreator } from "zustand";
 import { persist, PersistOptions, createJSONStorage } from "zustand/middleware";
 
 export type AuthState = {
@@ -8,7 +8,7 @@ export type AuthState = {
 
 type AuthPersist = (
     config: StateCreator<AuthState>,
-    options: PersistOptions<AuthState>,
+    options: PersistOptions<AuthState>
 ) => StateCreator<AuthState>;
 
 export const authStore = create<AuthState>(
@@ -20,8 +20,8 @@ export const authStore = create<AuthState>(
         {
             name: "auth-storage",
             storage: createJSONStorage(() => localStorage),
-        },
-    ),
+        }
+    )
 );
 
 export default authStore;

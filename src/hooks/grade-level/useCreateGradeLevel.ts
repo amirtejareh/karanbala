@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation, useQuery } from "react-query";
-import { DefaultService } from "../../services";
+import { GradeLevelService } from "../../services";
 
 const useCreateGradeLevel = () => {
     return useMutation((request: any) => {
-        return DefaultService.gradeLevelControllerCreate({ ...request });
+        return GradeLevelService.gradeLevelControllerCreate({ ...request });
     });
 };
 

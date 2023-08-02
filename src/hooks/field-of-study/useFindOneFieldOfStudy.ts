@@ -1,12 +1,12 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { DefaultService } from "../../services";
+import { FieldOfStudyService } from "../../services";
 
 const useFindOneFieldOfStudy = (request: string) => {
     return useQuery(
         ["Get-One-Field-Of-Studies"],
         async () => {
-            return await DefaultService.fieldOfStudyControllerFindOne(request);
+            return await FieldOfStudyService.fieldOfStudyControllerFindOne(request);
         },
         {
             refetchOnWindowFocus: false,

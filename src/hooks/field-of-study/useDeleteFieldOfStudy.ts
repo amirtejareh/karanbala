@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { DefaultService } from "../../services";
+import { FieldOfStudyService } from "../../services";
 
 const useDeleteFieldOfStudy = () => {
     return useMutation((request: string) => {
-        return DefaultService.fieldOfStudyControllerRemove(request);
+        return FieldOfStudyService.fieldOfStudyControllerRemove(request);
     });
 };
 

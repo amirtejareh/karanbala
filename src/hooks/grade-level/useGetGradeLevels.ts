@@ -1,12 +1,12 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { DefaultService } from "../../services";
+import { GradeLevelService } from "../../services";
 
 const useGetGradeLevels = () => {
     return useQuery(
         ["Get-All-Grade-Levels"],
         async () => {
-            return await DefaultService.gradeLevelControllerFindAll();
+            return await GradeLevelService.gradeLevelControllerFindAll();
         },
         { refetchOnWindowFocus: false }
     );

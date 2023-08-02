@@ -166,13 +166,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -180,7 +180,7 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
 
@@ -197,6 +197,7 @@ const Book = (props: any) => {
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
+                        setPreview(undefined);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -205,13 +206,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -219,7 +220,7 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
     return (
@@ -297,13 +298,17 @@ const Book = (props: any) => {
 
                     <Box display={"flex"} position={"relative"} borderRadius={"100%"} mb={3}>
                         {selectedFile || preview ? (
-                            <Box
-                                component={"img"}
-                                src={preview ?? ""}
-                                alt={"test flag"}
-                                width={100}
-                                height={100}
-                            />
+                            <>
+                                <Box
+                                    component={"img"}
+                                    src={
+                                        preview.split("/")[3] === "undefined" ? BookImage : preview
+                                    }
+                                    alt={"test flag"}
+                                    width={100}
+                                    height={100}
+                                />
+                            </>
                         ) : (
                             <Box
                                 component={"img"}

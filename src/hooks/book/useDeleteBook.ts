@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { DefaultService } from "../../services";
+import { BookService } from "../../services";
 
 const useDeleteBook = () => {
     return useMutation((request: string) => {
-        return DefaultService.bookControllerRemove(request);
+        return BookService.bookControllerRemove(request);
     });
 };
 

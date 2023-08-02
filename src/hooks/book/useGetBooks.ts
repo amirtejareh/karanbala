@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { DefaultService } from "../../services";
+import { BookService } from "../../services";
 
 const useGetBooks = () => {
     return useQuery(
         ["Get-All-Books"],
         async () => {
-            return await DefaultService.bookControllerFindAll();
+            return await BookService.bookControllerFindAll();
         },
-        { refetchOnWindowFocus: false },
+        { refetchOnWindowFocus: false }
     );
 };
 
