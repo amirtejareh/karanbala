@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
-import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import {
     ArrowDownSvg,
     ArrowLeftSvg,
     ArrowRightSvg,
     ArrowUpSvg,
-    KaranbalaExamSvg,
     KaranbalaLogoTextSvg,
-    PointAndTestSvg,
-    QuestionsSvg,
-    QuizSvg,
     ShowSvg,
-    TextBookSvg,
 } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
@@ -169,11 +163,10 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const Example = () => {
-    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
 
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
-    const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
+    const [, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
     const [episodes, setEpisodes] = useState<any>({});
 
@@ -341,11 +334,11 @@ const Example = () => {
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
         }
-    }, [seasonVisible]);
+    }, [seasonVisible, seasons?.seasons]);
 
     useEffect(() => {
         setEpisodes(seasons?.seasons[1]?.lessons);
-    }, []);
+    }, [seasons?.seasons]);
 
     useEffect(() => {
         const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
@@ -392,7 +385,7 @@ const Example = () => {
                 return acc;
             }, {})
         );
-    }, []);
+    }, [seasons?.seasons]);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -400,20 +393,7 @@ const Example = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, []);
-
-    const numbers: any = {
-        1: "اول",
-        2: "دوم",
-        3: "سوم",
-        4: "چهارم",
-        5: "پنجم",
-        6: "ششم",
-        7: "هفتم",
-        8: "هشتم",
-        9: "نهم",
-        10: "دهم",
-    };
+    }, [seasons?.seasons, seasonVisible]);
 
     const episode: any = {
         1: "تالیفی",

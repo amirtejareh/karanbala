@@ -54,7 +54,7 @@
         "zustand": "^4.3.9"
     },
     "scripts": {
-        "start": "env-cmd -f local.env react-scripts start",
+        "start": "set \"GENERATE_SOURCEMAP=false\" &&env-cmd -f local.env react-scripts start",
         "start:mac": "env-cmd -f local.env react-scripts start",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",

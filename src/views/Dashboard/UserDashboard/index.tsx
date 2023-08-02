@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import { Theme, Box, Typography, IconButton } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useSelector } from "react-redux";
-import { MainReducerInterface } from "../../../provider/reducer/main.reducer";
 import { MenuCreator } from "../../../components/MenuCreator";
 import { useNavigate } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { userDashboardMenuItems } from "../../../utils/menuItems/userDashboardMenuItems";
 import UserDashboardRoute from "../../../routes/userRoute";
-import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
-import { store } from "../../../provider/store";
 import { userStore } from "../../../stores";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,11 +42,8 @@ const UserDashboard = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const handleLogout = () => {
-        // localStorage.removeItem("token");
-        // store.dispatch<ActionInterface<any>>({
-        //     type: ActionTypeEnum.SetUserToken,
-        //     payload: null,
-        // });
+        localStorage.removeItem("auth-storage");
+        user.setUser(null);
         navigate("/");
     };
     return (

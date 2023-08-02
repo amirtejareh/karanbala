@@ -466,7 +466,7 @@ const PointAndTest = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, []);
+    }, [seasonVisible]);
 
     const numbers: any = {
         1: "اول",
@@ -779,19 +779,19 @@ const PointAndTest = () => {
                                                                                         }
                                                                                     >
                                                                                         <Box>
-                                                                                            {element ==
+                                                                                            {element ===
                                                                                             1 ? (
                                                                                                 <TextBookSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               2 ? (
                                                                                                 <KaranbalaExamSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               3 ? (
                                                                                                 <QuizSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               4 ? (
                                                                                                 <PointAndTestSvg />
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               5 ? (
                                                                                                 <QuestionsSvg />
                                                                                             ) : (
@@ -800,31 +800,31 @@ const PointAndTest = () => {
                                                                                         </Box>
 
                                                                                         <Typography variant="subtitle2">
-                                                                                            {element ==
+                                                                                            {element ===
                                                                                             1 ? (
                                                                                                 <>
                                                                                                     درسنامه
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               2 ? (
                                                                                                 <>
                                                                                                     کران
                                                                                                     بالا
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               3 ? (
                                                                                                 <>
                                                                                                     آزمون
                                                                                                     انتخابی
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               4 ? (
                                                                                                 <>
                                                                                                     نکته
                                                                                                     و
                                                                                                     تست
                                                                                                 </>
-                                                                                            ) : element ==
+                                                                                            ) : element ===
                                                                                               5 ? (
                                                                                                 <>
                                                                                                     سوالات
