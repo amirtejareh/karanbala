@@ -18,6 +18,8 @@ export class GradeLevelService {
     public static gradeLevelControllerCreate(
         requestBody: CreateGradeLevelDto
     ): CancelablePromise<any> {
+        console.log("befoe sendingf", requestBody);
+
         return __request(OpenAPI, {
             method: "POST",
             url: "/grade-level",

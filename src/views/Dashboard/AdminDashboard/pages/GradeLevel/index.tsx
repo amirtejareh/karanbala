@@ -329,7 +329,7 @@ const GradeLevel = (props: any) => {
                                 <Box
                                     component={"img"}
                                     src={
-                                        preview.split("/")[3] === "undefined"
+                                        String(preview).split("/")[3] === "undefined"
                                             ? GradeLevelImage
                                             : preview
                                     }
