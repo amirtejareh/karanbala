@@ -31,10 +31,7 @@ export const adminDashboardMenuItems = [
                             title: "کتاب",
                             to: "/pv/karanbala/admin/book",
                         },
-                        {
-                            title: "ترم تحصیلی",
-                            to: "/pv/karanbala/admin/term-of-study",
-                        },
+
                         {
                             title: "فصل",
                             to: "/pv/karanbala/admin/chapter",
