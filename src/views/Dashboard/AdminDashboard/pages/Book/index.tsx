@@ -73,6 +73,7 @@ const Book = (props: any) => {
     const createBook = useCreateBook();
     const updateBook = useUpdateBook();
     const selectGradeLevelRef = useRef<any>();
+    const inputBookRef = useRef<any>();
 
     const Books = useGetBooks();
 
@@ -197,7 +198,8 @@ const Book = (props: any) => {
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
-                        setPreview(undefined);
+                        setGradeLevelIds(null);
+                        setPreview(OpenAPI.BASE + "/" + undefined);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -237,6 +239,7 @@ const Book = (props: any) => {
                         label="عنوان کتاب "
                         variant="outlined"
                         className={classes.formField}
+                        inputRef={inputBookRef}
                         value={value.data}
                         {...register("title", {
                             required: "لطفا نام کتاب را وارد کنید",
@@ -302,7 +305,9 @@ const Book = (props: any) => {
                                 <Box
                                     component={"img"}
                                     src={
-                                        preview.split("/")[3] === "undefined" ? BookImage : preview
+                                        String(preview).split("/")[3] === "undefined"
+                                            ? BookImage
+                                            : preview
                                     }
                                     alt={"test flag"}
                                     width={100}
@@ -393,12 +398,14 @@ const Book = (props: any) => {
                                                     setGradeLevelIds(item.gradeLevels);
 
                                                     setTimeout(() => {
-                                                        selectGradeLevelRef.current.focus();
-                                                    }, 1110);
-
+                                                        inputBookRef.current.focus();
+                                                    }, 100);
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
-                                                    }, 1120);
+                                                    }, 200);
+                                                    setTimeout(() => {
+                                                        selectGradeLevelRef.current.focus();
+                                                    }, 300);
 
                                                     setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}

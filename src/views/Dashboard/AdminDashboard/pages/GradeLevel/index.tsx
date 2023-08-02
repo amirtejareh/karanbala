@@ -213,9 +213,9 @@ const GradeLevel = (props: any) => {
                         gradeLevels.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
-                        setPreview(undefined);
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
                         setFieldOfStudyIds(null);
+                        setPreview(OpenAPI.BASE + "/" + undefined);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -423,11 +423,11 @@ const GradeLevel = (props: any) => {
                                                     titleInputRef.current.focus();
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
-                                                    }, 1000);
+                                                    }, 100);
 
                                                     setTimeout(() => {
                                                         selectFieldOfStudyRef.current.focus();
-                                                    }, 1110);
+                                                    }, 200);
 
                                                     setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}

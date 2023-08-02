@@ -98,10 +98,12 @@ const Chapter = (props: any) => {
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
-    const [gradeLevelIds, setGradeLevelIds] = useState<any>();
+    const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
 
-    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(gradeLevelIds);
+    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
+        gradeLevelIds?.length == 0 ? null : gradeLevelIds
+    );
 
     useEffect(() => {
         if (gradeLevelIds) {
@@ -114,9 +116,16 @@ const Chapter = (props: any) => {
     const {
         handleSubmit,
         register,
+        clearErrors,
         formState: { errors },
     } = useForm();
 
+    useEffect(() => {
+        toast.error(errors["books"]?.message?.toString());
+        toast.error(errors["title"]?.message?.toString());
+        toast.error(errors["gradeLevels"]?.message?.toString());
+        clearErrors();
+    }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
     const selectGradeLevelRef = useRef<any>();
     const inputChapterRef = useRef<any>();
 
@@ -176,6 +185,8 @@ const Chapter = (props: any) => {
                         chapters.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
+                        setGradeLevelIds(null);
+                        setBookIds(null);
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -239,7 +250,7 @@ const Chapter = (props: any) => {
                             multiple
                         >
                             {!getGradeLevels?.isLoading &&
-                                getGradeLevels?.data.map((element: any) => {
+                                getGradeLevels?.data?.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
@@ -260,7 +271,7 @@ const Chapter = (props: any) => {
                         >
                             {!getBooksBasedOnGradeLevels?.isLoading &&
                                 getBooksBasedOnGradeLevels?.data != undefined &&
-                                getBooksBasedOnGradeLevels?.data.map((element) => {
+                                getBooksBasedOnGradeLevels?.data?.map((element) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
@@ -311,13 +322,13 @@ const Chapter = (props: any) => {
 
                                                     setTimeout(() => {
                                                         inputChapterRef.current.focus();
-                                                    }, 1000);
+                                                    }, 100);
                                                     setTimeout(() => {
                                                         selectGradeLevelRef.current.focus();
-                                                    }, 1001);
+                                                    }, 200);
                                                     setTimeout(() => {
                                                         selectBookRef.current.focus();
-                                                    }, 1002);
+                                                    }, 300);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
