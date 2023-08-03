@@ -37,6 +37,10 @@ export const adminDashboardMenuItems = [
                             to: "/pv/karanbala/admin/chapter",
                         },
                         {
+                            title: "بخش",
+                            to: "/pv/karanbala/admin/section",
+                        },
+                        {
                             title: "موضوع",
                             to: "/pv/karanbala/admin/subject",
                         },

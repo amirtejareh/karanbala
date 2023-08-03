@@ -9,6 +9,7 @@ import Book from "../views/Dashboard/AdminDashboard/pages/Book";
 import Chapter from "../views/Dashboard/AdminDashboard/pages/Chapter";
 import Subject from "../views/Dashboard/AdminDashboard/pages/Subject";
 import GradeLevel from "../views/Dashboard/AdminDashboard/pages/GradeLevel";
+import Section from "../views/Dashboard/AdminDashboard/pages/Section";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -73,6 +74,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <Chapter />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/section"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <Section />
                     </AuthorizedRoute>
                 }
             />
