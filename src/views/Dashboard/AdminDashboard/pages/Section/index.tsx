@@ -71,14 +71,14 @@ const Section = (props: any) => {
     const [loading, setLoading] = useState(false);
 
     const createSection = useCreateSection();
-    const updateChapter = useUpdateSection();
+    const updateSection = useUpdateSection();
 
     const sections = useGetSections();
 
-    const deleteChapter = useDeleteSection();
+    const deleteSection = useDeleteSection();
 
-    const handleDeleteChapter = (id: string) => {
-        deleteChapter.mutate(id, {
+    const handleDeleteSection = (id: string) => {
+        deleteSection.mutate(id, {
             onSuccess: async (result: {
                 message: string;
                 statusCode: number;
@@ -118,9 +118,7 @@ const Section = (props: any) => {
     }, [gradeLevelIds]);
 
     useEffect(() => {
-        if (bookIds) {
-            getChaptersBasedOnBooks.refetch();
-        }
+        getChaptersBasedOnBooks.refetch();
     }, [bookIds]);
 
     const getGradeLevels = useGetGradeLevels();
@@ -142,15 +140,16 @@ const Section = (props: any) => {
     const inputSectionRef = useRef<any>();
 
     const selectBookRef = useRef<any>();
-    const selectChapterRef = useRef<any>();
+    const selectSectionRef = useRef<any>();
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
+        setBookIds(null);
     };
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
     };
 
-    const handleChapterChange = (event: SelectChangeEvent) => {
+    const handleSectionChange = (event: SelectChangeEvent) => {
         setChapterIds(event.target.value as any);
     };
 
@@ -195,7 +194,7 @@ const Section = (props: any) => {
     const handleUpdateSection = async (data: any) => {
         setLoading(true);
 
-        updateChapter.mutate(
+        updateSection.mutate(
             { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
@@ -305,8 +304,8 @@ const Section = (props: any) => {
                         <Select
                             value={chapterIds ?? []}
                             {...register("chapters")}
-                            inputRef={selectChapterRef}
-                            onChange={handleChapterChange}
+                            inputRef={selectSectionRef}
+                            onChange={handleSectionChange}
                             multiple
                         >
                             {!getChaptersBasedOnBooks?.isLoading &&
@@ -372,8 +371,8 @@ const Section = (props: any) => {
                                                         selectBookRef.current.focus();
                                                     }, 300);
                                                     setTimeout(() => {
-                                                        selectChapterRef.current.focus();
-                                                    }, 300);
+                                                        selectSectionRef.current.focus();
+                                                    }, 400);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
@@ -383,7 +382,7 @@ const Section = (props: any) => {
                                                     description={
                                                         "آیا از حذف بخش مورد نظر مطمئن  هستید؟"
                                                     }
-                                                    onConfirm={() => handleDeleteChapter(item._id)}
+                                                    onConfirm={() => handleDeleteSection(item._id)}
                                                     approved={"بله"}
                                                     denied={"خیر"}
                                                 >
