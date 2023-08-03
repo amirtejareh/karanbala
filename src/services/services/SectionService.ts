@@ -2,23 +2,23 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateChapterDto } from "../models/CreateChapterDto";
-import type { UpdateChapterDto } from "../models/UpdateChapterDto";
+import type { CreateSectionDto } from "../models/CreateSectionDto";
+import type { UpdateSectionDto } from "../models/UpdateSectionDto";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 
-export class ChapterService {
+export class SectionService {
     /**
      * @param requestBody
      * @returns any
      * @throws ApiError
      */
-    public static chapterControllerCreate(requestBody: CreateChapterDto): CancelablePromise<any> {
+    public static sectionControllerCreate(requestBody: CreateSectionDto): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
-            url: "/chapter",
+            url: "/section",
             body: requestBody,
             mediaType: "application/json",
         });
@@ -28,27 +28,10 @@ export class ChapterService {
      * @returns any
      * @throws ApiError
      */
-    public static chapterControllerFindAll(): CancelablePromise<any> {
+    public static sectionControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/chapter",
-        });
-    }
-
-    /**
-     * @param booklId
-     * @returns any
-     * @throws ApiError
-     */
-    public static chapterControllerFindChaptersBasedOnBooks(
-        booklId: Array<string>
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: "GET",
-            url: "/chapter/withBooks/{booklId}",
-            path: {
-                booklId: booklId,
-            },
+            url: "/section",
         });
     }
 
@@ -57,10 +40,10 @@ export class ChapterService {
      * @returns any
      * @throws ApiError
      */
-    public static chapterControllerFindOne(id: string): CancelablePromise<any> {
+    public static sectionControllerFindOne(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/chapter/{id}",
+            url: "/section/{id}",
             path: {
                 id: id,
             },
@@ -73,13 +56,13 @@ export class ChapterService {
      * @returns any
      * @throws ApiError
      */
-    public static chapterControllerUpdate(
+    public static sectionControllerUpdate(
         id: string,
-        requestBody: UpdateChapterDto
+        requestBody: UpdateSectionDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
-            url: "/chapter/{id}",
+            url: "/section/{id}",
             path: {
                 id: id,
             },
@@ -93,10 +76,10 @@ export class ChapterService {
      * @returns any
      * @throws ApiError
      */
-    public static chapterControllerRemove(id: string): CancelablePromise<any> {
+    public static sectionControllerRemove(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "DELETE",
-            url: "/chapter/{id}",
+            url: "/section/{id}",
             path: {
                 id: id,
             },
