@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UpdateChapterDto = {
+export type CreateSubjectDto = {
     /**
-     * Title of the chapter
+     * Title of the subject
      */
-    title?: string;
+    title: string;
 };
