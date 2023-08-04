@@ -19,14 +19,20 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
     const { accessToken } = authStore((state) => state);
     const navigate = useNavigate();
     useEffect(() => {
-        const decodedToken: { sub: string; username: string; exp: number; iat: number } =
-            jwt_decode(accessToken ?? localStorage.getItem("auth-storage"));
-        const currentTime = Math.floor(Date.now() / 1000);
+        if (accessToken) {
+            const decodedToken: { sub: string; username: string; exp: number; iat: number } =
+                jwt_decode(accessToken ?? localStorage.getItem("auth-storage"));
+            const currentTime = Math.floor(Date.now() / 1000);
 
-        if (currentTime > decodedToken.exp) {
+            if (currentTime > decodedToken.exp) {
+                localStorage.removeItem("auth-storage");
+                user.setUser(null);
+
+                navigate("/");
+            }
+        } else {
             localStorage.removeItem("auth-storage");
             user.setUser(null);
-
             navigate("/");
         }
     }, [accessToken, navigate]);

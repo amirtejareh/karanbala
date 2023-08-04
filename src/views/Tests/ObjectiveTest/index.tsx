@@ -203,7 +203,7 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box>
                 <Box>
-                    <ButtonKit variant="contained">
+                    <ButtonKit variant="contained" onClick={() => navigate("report")}>
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
                 </Box>
@@ -213,7 +213,7 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box>
                 <Box>
-                    <ButtonKit variant="contained">
+                    <ButtonKit variant="contained" onClick={() => navigate("report")}>
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
                 </Box>
@@ -223,7 +223,7 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box>
                 <Box>
-                    <ButtonKit variant="contained">
+                    <ButtonKit variant="contained" onClick={() => navigate("report")}>
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
                 </Box>

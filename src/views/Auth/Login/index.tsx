@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Theme, Box, Typography, TextField, CircularProgress } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
@@ -121,6 +121,11 @@ const LoginView = React.forwardRef((props, ref: any) => {
             },
         });
     };
+    useEffect(() => {
+        toast.error(loginErrors["username"]?.message?.toString());
+        toast.error(loginErrors["password"]?.message?.toString());
+        clearErrors();
+    }, [loginErrors["username"]?.message, loginErrors["password"]?.message]);
 
     return (
         <Box className={classes.container}>
