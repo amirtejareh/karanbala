@@ -96,7 +96,7 @@ interface ICheckboxProps extends CheckboxProps {
     height?: number;
 }
 
-const CheckboxKit: React.FC<ICheckboxProps> = (props) => {
+const CheckboxKit: React.FC<ICheckboxProps> = React.forwardRef((props, ref) => {
     const { width, height, simple, label, error, secondary, ...rest } = props;
     const classes = useStyles({ simple, secondary, width, height });
 
@@ -111,6 +111,7 @@ const CheckboxKit: React.FC<ICheckboxProps> = (props) => {
                     checkedIcon={<CheckedSvg className={clsx(classes.icon, classes.checkedIcon)} />}
                     icon={<span className={classes.icon} />}
                     inputProps={{ "aria-label": "decorative checkbox" }}
+                    ref={ref}
                     {...rest}
                 />
             }
@@ -122,7 +123,7 @@ const CheckboxKit: React.FC<ICheckboxProps> = (props) => {
             }
         />
     );
-};
+});
 
 export default CheckboxKit;
 

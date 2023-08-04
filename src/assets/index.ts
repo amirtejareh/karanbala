@@ -184,6 +184,8 @@ import TableArrowNegative8 from "./images/TableArrowNegative8.svg";
 import TableArrowNegative9 from "./images/TableArrowNegative9.svg";
 import TableArrowNegative10 from "./images/TableArrowNegative10.svg";
 
+import AuthBackground from './images/authBackground.png'
+
 export {
     NoteSvgIcon,
     PortfoDetailSvgIcon,
@@ -360,4 +362,5 @@ export {
     DepositSvg,
     FailedDepositSvg,
     EditDarkSvg,
+    AuthBackground
 };
