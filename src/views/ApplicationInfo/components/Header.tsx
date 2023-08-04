@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, TextField, Theme, Typography, Button, CircularProgress } from "@mui/material";
+import {
+    Box,
+    TextField,
+    Theme,
+    Typography,
+    Button,
+    CircularProgress,
+    Popover,
+} from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
@@ -137,7 +145,7 @@ const ModalLoginOrSignup = () => {
                         setLoading(false);
 
                         toast.success(
-                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید."
+                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید.",
                         );
                         setValue("login");
                     } else {
@@ -149,13 +157,13 @@ const ModalLoginOrSignup = () => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -294,6 +302,16 @@ const Header = () => {
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+    const [popoverAnchor, setPopoverAnchor] = useState<any>(null);
+
+    const handlePopoverOpen = (event: any) => {
+        setPopoverAnchor(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setPopoverAnchor(null);
+    };
+
     return (
         <>
             <ModalKit
@@ -338,12 +356,52 @@ const Header = () => {
                 <Box className={classes.signUp}>
                     <ButtonKit
                         variant="contained"
-                        onClick={() => {
-                            setModalOpen(true);
-                        }}
+                        onClick={handlePopoverOpen}
+                        // onClick={() => {
+                        //     navigate("/auth/login");
+                        //     // setModalOpen(true);
+                        // }}
                     >
                         <Typography variant="subtitle1">ورود / ثبت نام</Typography>
                     </ButtonKit>
+                    <Popover
+                        open={Boolean(popoverAnchor)}
+                        anchorEl={popoverAnchor}
+                        onClose={handlePopoverClose}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "center",
+                        }}
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                        }}
+                    >
+                        <Box
+                            p={2}
+                            sx={{
+                                alignItems: "center",
+                                display: "grid",
+                            }}
+                        >
+                            <ButtonKit
+                                onClick={() => {
+                                    navigate("/auth/login");
+                                    handlePopoverClose(); // با کلیک روی دکمه ورود، popover بسته می‌شود
+                                }}
+                            >
+                                <Typography variant="subtitle1">ورود</Typography>
+                            </ButtonKit>
+                            <ButtonKit
+                                onClick={() => {
+                                    navigate("/auth/signup");
+                                    handlePopoverClose(); // با کلیک روی دکمه ثبت نام، popover بسته می‌شود
+                                }}
+                            >
+                                <Typography variant="subtitle1">ثبت نام</Typography>
+                            </ButtonKit>
+                        </Box>
+                    </Popover>
                 </Box>
             </Box>
             <Box
