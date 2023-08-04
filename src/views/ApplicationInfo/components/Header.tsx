@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     TextField,
@@ -25,6 +25,7 @@ import jwt_decode from "jwt-decode";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { authStore, userStore } from "../../../stores";
+import { OpenAPI } from "../../../services/core/OpenAPI";
 
 const sharedStyle = createStyles({
     sharedRule: {
@@ -300,12 +301,30 @@ const ModalLoginOrSignup = () => {
 const Header = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+
+    const { accessToken } = authStore((state) => state);
+    const userData: any = userStore((state) => state);
+
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const [popoverAnchor, setPopoverAnchor] = useState<any>(null);
+    useEffect(() => {
+        if (accessToken && userData.user === null) {
+            const user = jwt_decode(accessToken ?? "");
+            OpenAPI.TOKEN = accessToken;
+
+            userData.setUser(user);
+        } else {
+            OpenAPI.TOKEN = accessToken;
+        }
+    }, [accessToken, userData]);
 
     const handlePopoverOpen = (event: any) => {
-        setPopoverAnchor(event.currentTarget);
+        if (userData.user) {
+            navigate("/auth/check");
+        } else {
+            setPopoverAnchor(event.currentTarget);
+        }
     };
 
     const handlePopoverClose = () => {
@@ -354,15 +373,10 @@ const Header = () => {
                     </ButtonKit>
                 </Box>
                 <Box className={classes.signUp}>
-                    <ButtonKit
-                        variant="contained"
-                        onClick={handlePopoverOpen}
-                        // onClick={() => {
-                        //     navigate("/auth/login");
-                        //     // setModalOpen(true);
-                        // }}
-                    >
-                        <Typography variant="subtitle1">ورود / ثبت نام</Typography>
+                    <ButtonKit variant="contained" onClick={handlePopoverOpen}>
+                        <Typography variant="subtitle1">
+                            {userData.user ? `داشبورد` : `ورود / ثبت نام`}
+                        </Typography>
                     </ButtonKit>
                     <Popover
                         open={Boolean(popoverAnchor)}
