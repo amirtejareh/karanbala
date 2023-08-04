@@ -1,5 +1,13 @@
-import React, { useState } from "react";
-import { Box, TextField, Theme, Typography, Button, CircularProgress } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+    Box,
+    TextField,
+    Theme,
+    Typography,
+    Button,
+    CircularProgress,
+    Popover,
+} from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
@@ -17,6 +25,7 @@ import jwt_decode from "jwt-decode";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { authStore, userStore } from "../../../stores";
+import { OpenAPI } from "../../../services/core/OpenAPI";
 
 const sharedStyle = createStyles({
     sharedRule: {
@@ -137,7 +146,7 @@ const ModalLoginOrSignup = () => {
                         setLoading(false);
 
                         toast.success(
-                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید."
+                            "ثبت نام با موفقیت انجام شد. لطفا وارد حساب کاربری خود شوید.",
                         );
                         setValue("login");
                     } else {
@@ -149,13 +158,13 @@ const ModalLoginOrSignup = () => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -292,7 +301,35 @@ const ModalLoginOrSignup = () => {
 const Header = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+
+    const { accessToken } = authStore((state) => state);
+    const userData: any = userStore((state) => state);
+
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+    const [popoverAnchor, setPopoverAnchor] = useState<any>(null);
+    useEffect(() => {
+        if (accessToken && userData.user === null) {
+            const user = jwt_decode(accessToken ?? "");
+            OpenAPI.TOKEN = accessToken;
+
+            userData.setUser(user);
+        } else {
+            OpenAPI.TOKEN = accessToken;
+        }
+    }, [accessToken, userData]);
+
+    const handlePopoverOpen = (event: any) => {
+        if (userData.user) {
+            navigate("/auth/check");
+        } else {
+            setPopoverAnchor(event.currentTarget);
+        }
+    };
+
+    const handlePopoverClose = () => {
+        setPopoverAnchor(null);
+    };
 
     return (
         <>
@@ -336,14 +373,49 @@ const Header = () => {
                     </ButtonKit>
                 </Box>
                 <Box className={classes.signUp}>
-                    <ButtonKit
-                        variant="contained"
-                        onClick={() => {
-                            setModalOpen(true);
+                    <ButtonKit variant="contained" onClick={handlePopoverOpen}>
+                        <Typography variant="subtitle1">
+                            {userData.user ? `داشبورد` : `ورود / ثبت نام`}
+                        </Typography>
+                    </ButtonKit>
+                    <Popover
+                        open={Boolean(popoverAnchor)}
+                        anchorEl={popoverAnchor}
+                        onClose={handlePopoverClose}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "center",
+                        }}
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
                         }}
                     >
-                        <Typography variant="subtitle1">ورود / ثبت نام</Typography>
-                    </ButtonKit>
+                        <Box
+                            p={2}
+                            sx={{
+                                alignItems: "center",
+                                display: "grid",
+                            }}
+                        >
+                            <ButtonKit
+                                onClick={() => {
+                                    navigate("/auth/login");
+                                    handlePopoverClose(); // با کلیک روی دکمه ورود، popover بسته می‌شود
+                                }}
+                            >
+                                <Typography variant="subtitle1">ورود</Typography>
+                            </ButtonKit>
+                            <ButtonKit
+                                onClick={() => {
+                                    navigate("/auth/signup");
+                                    handlePopoverClose(); // با کلیک روی دکمه ثبت نام، popover بسته می‌شود
+                                }}
+                            >
+                                <Typography variant="subtitle1">ثبت نام</Typography>
+                            </ButtonKit>
+                        </Box>
+                    </Popover>
                 </Box>
             </Box>
             <Box

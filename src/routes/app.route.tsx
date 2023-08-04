@@ -5,6 +5,7 @@ import CheckRoutes from "./checkRoutes";
 
 const PublicRoutes = React.lazy(() => import("./publicRoutes"));
 const PrivateRoutes = React.lazy(() => import("./privateRoutes"));
+const AuthRoutes = React.lazy(() => import("./authRoutes"));
 const Loading = () => {
     return <Typography>Loading...</Typography>;
 };
@@ -15,6 +16,7 @@ const AppRoute = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path={"/auth/check"} element={<CheckRoutes />} />
+                    <Route path={"/auth/*"} element={<AuthRoutes />} />
                     <Route path={"/pub/*"} element={<PublicRoutes />} />
                     <Route path={"/pv/*"} element={<PrivateRoutes />} />
                     <Route path="/" element={<Navigate to="/pub/karanbala" />} />

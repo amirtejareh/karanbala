@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { userDashboardMenuItems } from "../../../utils/menuItems/userDashboardMenuItems";
 import UserDashboardRoute from "../../../routes/userRoute";
-import { userStore } from "../../../stores";
+import { userStore, authStore } from "../../../stores";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 const UserDashboard = () => {
     const user: any = userStore((state) => state);
+    const { setAccessToken } = authStore((state) => state);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -42,7 +43,7 @@ const UserDashboard = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem("auth-storage");
+        setAccessToken("");
         user.setUser(null);
         navigate("/");
     };

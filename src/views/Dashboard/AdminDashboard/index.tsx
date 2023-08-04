@@ -10,7 +10,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AdminDashboardRoute from "../../../routes/adminRoute";
 import { ActionInterface, ActionTypeEnum } from "../../../provider/action.interface";
 import { store } from "../../../provider/store";
-import { userStore } from "../../../stores";
+import { authStore, userStore } from "../../../stores";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 const AdminDashboard = () => {
     const user: any = userStore((state) => state);
+    const { setAccessToken } = authStore((state) => state);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -48,7 +49,7 @@ const AdminDashboard = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem("auth-storage");
+        setAccessToken("");
         user.setUser(null);
         navigate("/");
     };
