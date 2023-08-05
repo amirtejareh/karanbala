@@ -51,6 +51,7 @@ const AdminDashboard = () => {
     const handleLogout = () => {
         setAccessToken("");
         user.setUser(null);
+        localStorage.removeItem("auth-storage");
         navigate("/");
     };
     return (
