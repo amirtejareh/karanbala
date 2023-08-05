@@ -203,7 +203,7 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box>
                 <Box>
-                    <ButtonKit variant="contained" onClick={() => navigate("report")}>
+                    <ButtonKit variant="contained">
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
                 </Box>
@@ -213,7 +213,7 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box>
                 <Box>
-                    <ButtonKit variant="contained" onClick={() => navigate("report")}>
+                    <ButtonKit variant="contained">
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
                 </Box>
@@ -223,23 +223,26 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box>
                 <Box>
-                    <ButtonKit variant="contained" onClick={() => navigate("report")}>
+                    <ButtonKit variant="contained">
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
                 </Box>
             </Box>
-            <Box
-                bgcolor={theme?.palette?.grey[100]}
-                display={"flex"}
-                justifyContent={"center"}
-                borderRadius={"1rem"}
-                padding={"2rem"}
-                margin={"2rem 0"}
-            >
-                <Box>
-                    <Typography variant="subtitle1">کارنامه-تحلیل-نمودارهای پیشرفت</Typography>
+            <ButtonKit sx={{ width: "100%" }} onClick={() => navigate("report")}>
+                <Box
+                    bgcolor={theme?.palette?.grey[100]}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    borderRadius={"1rem"}
+                    padding={"2rem"}
+                    margin={"2rem 0"}
+                    width={"100%"}
+                >
+                    <Box>
+                        <Typography variant="subtitle1">کارنامه-تحلیل-نمودارهای پیشرفت</Typography>
+                    </Box>
                 </Box>
-            </Box>
+            </ButtonKit>
             <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0"}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography fontSize={"3.2rem"} variant="subtitle1">
