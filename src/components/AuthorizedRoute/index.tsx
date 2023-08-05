@@ -15,8 +15,8 @@ interface AuthorizedRouteProps {
 }
 
 const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, children }) => {
-    const user: any = userStore((state) => state);
-    const { accessToken } = authStore((state) => state);
+    const { accessToken, setAccessToken } = authStore((state) => state);
+    const { setUser } = userStore((state) => state);
     const navigate = useNavigate();
     useEffect(() => {
         if (accessToken) {
@@ -26,14 +26,10 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
 
             if (currentTime > decodedToken.exp) {
                 localStorage.removeItem("auth-storage");
-                user.setUser(null);
-
+                setUser(null);
+                setAccessToken(null);
                 navigate("/");
             }
-        } else {
-            localStorage.removeItem("auth-storage");
-            user.setUser(null);
-            navigate("/");
         }
     }, [accessToken, navigate]);
 
@@ -48,7 +44,8 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
 
     if (!hasRequiredRole && hasRequiredRole !== undefined) {
         localStorage.removeItem("auth-storage");
-        user.setUser(null);
+        setUser(null);
+        setAccessToken(null);
 
         return <Navigate to={"/"} />;
     }
