@@ -7,8 +7,8 @@ import {
     CircularProgress,
     Typography,
     IconButton,
-    InputLabel,
     FormControl,
+    InputLabel,
     Select,
     MenuItem,
     SelectChangeEvent,
@@ -16,17 +16,16 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { PrompModalKit } from "../../../../../components/kit/Modal";
-import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
-import useUpdateGradeLevel from "../../../../../hooks/grade-level/useUpdateGradeLevel";
-import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
-import useDeleteGradeLevel from "../../../../../hooks/grade-level/useDeleteGradeLevel";
-import useCreateGradeLevel from "../../../../../hooks/grade-level/useCreateGradeLevel";
-import { TableKit } from "../../../../../components/kit/Table";
-import GradeLevelImage from "../../../../../assets/images/user.jpg";
-import { EditDarkSvg } from "../../../../../assets";
-import { OpenAPI } from "../../../../../services/core/OpenAPI";
-import useGetFieldOfStudies from "../../../../../hooks/field-of-study/useGetFieldOfStudies";
+import { TableKit } from "../../../../../../components/kit/Table";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import { DeleteLightSvg, EditDarkSvg, EditLightSvg } from "../../../../../../assets";
+import useCreateBook from "../../../../../../hooks/book/useCreateBook";
+import useUpdateBook from "../../../../../../hooks/book/useUpdateBook";
+import useGetBooks from "../../../../../../hooks/book/useGetBooks";
+import useDeleteBook from "../../../../../../hooks/book/useDeleteBook";
+import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
+import BookImage from "../../../../../../assets/images/user.jpg";
+import { OpenAPI } from "../../../../../../services/core/OpenAPI";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -55,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.main,
     },
     formField: {
-        margin: "1rem 0",
+        margin: "1rem",
         width: "100%",
     },
     formButton: {
@@ -63,8 +62,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
     },
 }));
-
-const GradeLevel = (props: any) => {
+const Book = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -72,15 +70,17 @@ const GradeLevel = (props: any) => {
 
     const [loading, setLoading] = useState(false);
 
-    const createGradeLevel = useCreateGradeLevel();
-    const updateGradeLevel = useUpdateGradeLevel();
+    const createBook = useCreateBook();
+    const updateBook = useUpdateBook();
+    const selectGradeLevelRef = useRef<any>();
+    const inputBookRef = useRef<any>();
 
-    const gradeLevels = useGetGradeLevels();
+    const Books = useGetBooks();
 
-    const deleteGradeLevel = useDeleteGradeLevel();
+    const deleteBook = useDeleteBook();
 
-    const handleDeleteGradeLevel = (id: string) => {
-        deleteGradeLevel.mutate(id, {
+    const handleDeleteBook = (id: string) => {
+        deleteBook.mutate(id, {
             onSuccess: async (result: {
                 message: string;
                 statusCode: number;
@@ -88,7 +88,7 @@ const GradeLevel = (props: any) => {
             }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    gradeLevels.refetch();
+                    Books.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -101,25 +101,11 @@ const GradeLevel = (props: any) => {
     const [page, setPage] = useState<number>(1);
     const [pageSize] = useState<number>(10);
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
-    const titleInputRef = useRef<any>(null);
     const [preview, setPreview] = useState<any>();
     const [selectedFile, setSelectedFile] = useState<any>();
+    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
+    const getGradeLevels = useGetGradeLevels();
     const imageRef = useRef<any>();
-    const selectFieldOfStudyRef = useRef<any>();
-    const descriptionInputRef = useRef<any>(null);
-
-    const [fieldOfStudyIds, setFieldOfStudyIds] = React.useState<any>([]);
-    const getFieldOfStudies = useGetFieldOfStudies();
-
-    const handleFieldOfStudyChange = (event: SelectChangeEvent) => {
-        setFieldOfStudyIds(event.target.value as any);
-    };
-
-    const [descriptionValue, setDescriptionValue] = useState({
-        doUpdate: false,
-        data: "",
-        id: null,
-    });
 
     useEffect(() => {
         if (!selectedFile) {
@@ -135,36 +121,43 @@ const GradeLevel = (props: any) => {
         return () => URL.revokeObjectURL(objectUrl);
     }, [selectedFile]);
 
-    useEffect(() => {
-        getFieldOfStudies.refetch();
-    }, []);
+    const handleGradeLevelChange = (event: SelectChangeEvent) => {
+        setGradeLevelIds(event.target.value as any);
+    };
+    const descriptionInputRef = useRef<any>(null);
+
+    const [descriptionValue, setDescriptionValue] = useState({
+        doUpdate: false,
+        data: "",
+        id: null,
+    });
+
+    const onSelectFile = (e: any) => {
+        if (!imageRef.current.files || imageRef.current.files.length === 0) {
+            setSelectedFile(undefined);
+            return;
+        }
+
+        setSelectedFile(imageRef.current.files[0]);
+    };
 
     const {
         handleSubmit,
         register,
         formState: { errors },
-        clearErrors,
     } = useForm();
-
     const { ref, onChange, ...rest } = register("image");
 
-    useEffect(() => {
-        toast.error(errors["description"]?.message?.toString());
-        toast.error(errors["title"]?.message?.toString());
-        toast.error(errors["image"]?.message?.toString());
-        clearErrors();
-    }, [errors["description"]?.message, errors["title"]?.message, errors["image"]?.message]);
-
-    const handleCreateGradeLevel = async (data: any) => {
+    const handleCreateBook = async (data: any) => {
         setLoading(true);
 
-        createGradeLevel.mutate(
+        createBook.mutate(
             { ...data, image: data.image[0] },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        gradeLevels.refetch();
+                        Books.refetch();
                         toast.success(result.message);
                     } else {
                         setLoading(false);
@@ -192,29 +185,20 @@ const GradeLevel = (props: any) => {
         );
     };
 
-    const onSelectFile = (e: any) => {
-        if (!imageRef.current.files || imageRef.current.files.length === 0) {
-            setSelectedFile(undefined);
-            return;
-        }
-
-        setSelectedFile(imageRef.current.files[0]);
-    };
-
-    const handleUpdateGradeLevel = async (data: any) => {
+    const handleUpdateBook = async (data: any) => {
         setLoading(true);
 
-        updateGradeLevel.mutate(
+        updateBook.mutate(
             { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        gradeLevels.refetch();
+                        Books.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
-                        setFieldOfStudyIds(null);
+                        setGradeLevelIds(null);
                         setPreview(OpenAPI.BASE + "/" + undefined);
                     } else {
                         setLoading(false);
@@ -241,33 +225,25 @@ const GradeLevel = (props: any) => {
             }
         );
     };
-    // const findOneFieldOfStudy: any = useFindOneFieldOfStudy(value.id ?? "0");
-
-    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setGradeLevelIds(event.target.value as any);
-    };
-
     return (
         <Box className={classes.container}>
             <Box>
                 <form
                     onSubmit={
                         value.doUpdate
-                            ? handleSubmit(handleUpdateGradeLevel)
-                            : handleSubmit(handleCreateGradeLevel)
+                            ? handleSubmit(handleUpdateBook)
+                            : handleSubmit(handleCreateBook)
                     }
                 >
                     <TextField
-                        label="عنوان پایه تحصیلی"
+                        label="عنوان کتاب "
                         variant="outlined"
                         className={classes.formField}
+                        inputRef={inputBookRef}
                         value={value.data}
                         {...register("title", {
-                            required: "لطفا نام پایه تحصیلی را وارد کنید",
+                            required: "لطفا نام کتاب را وارد کنید",
                         })}
-                        inputRef={titleInputRef}
                         onChange={(e) => {
                             if (value.doUpdate) {
                                 setValue({ doUpdate: true, data: e.target.value, id: value.id });
@@ -278,12 +254,12 @@ const GradeLevel = (props: any) => {
                     />
 
                     <TextField
-                        label="توضیحات پایه تحصیلی"
+                        label="توضیحات  کتاب"
                         variant="outlined"
                         className={classes.formField}
                         value={descriptionValue.data}
                         {...register("description", {
-                            required: "لطفا توضیحات پایه تحصیلی را وارد کنید",
+                            required: "لطفا توضیحات کتاب را وارد کنید",
                         })}
                         inputRef={descriptionInputRef}
                         onChange={(e) => {
@@ -304,16 +280,16 @@ const GradeLevel = (props: any) => {
                     />
 
                     <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب رشته</InputLabel>
+                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
                         <Select
-                            value={fieldOfStudyIds ?? []}
-                            {...register("fieldOfStudies")}
-                            inputRef={selectFieldOfStudyRef}
-                            onChange={handleFieldOfStudyChange}
+                            value={gradeLevelIds ?? []}
+                            {...register("gradeLevels")}
+                            inputRef={selectGradeLevelRef}
+                            onChange={handleGradeLevelChange}
                             multiple
                         >
-                            {!getFieldOfStudies?.isLoading &&
-                                getFieldOfStudies?.data.map((element: any) => {
+                            {!getGradeLevels?.isLoading &&
+                                getGradeLevels?.data.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
@@ -330,7 +306,7 @@ const GradeLevel = (props: any) => {
                                     component={"img"}
                                     src={
                                         String(preview).split("/")[3] === "undefined"
-                                            ? GradeLevelImage
+                                            ? BookImage
                                             : preview
                                     }
                                     alt={"test flag"}
@@ -341,7 +317,7 @@ const GradeLevel = (props: any) => {
                         ) : (
                             <Box
                                 component={"img"}
-                                src={GradeLevelImage}
+                                src={BookImage}
                                 alt={"User flag"}
                                 width={100}
                                 height={100}
@@ -375,6 +351,7 @@ const GradeLevel = (props: any) => {
                             />
                         </IconButton>
                     </Box>
+
                     <Button
                         variant="contained"
                         color="primary"
@@ -393,12 +370,12 @@ const GradeLevel = (props: any) => {
                 </form>
             </Box>
             <Box className={classes.fieldOfStudy}>
-                <Typography>لیست پایه های تحصیلی</Typography>
-                {!gradeLevels.isLoading ? (
+                <Typography>لیست کتاب‌ها</Typography>
+                {!Books.isLoading ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-                        rows={gradeLevels?.data.map((item: any, index: any) => {
+                        rows={Books?.data.map((item: any, index: any) => {
                             return {
                                 id: item._id,
                                 data: {
@@ -418,16 +395,17 @@ const GradeLevel = (props: any) => {
                                                         id: item._id,
                                                     });
 
-                                                    setFieldOfStudyIds(item.fieldOfStudies);
+                                                    setGradeLevelIds(item.gradeLevels);
 
-                                                    titleInputRef.current.focus();
+                                                    setTimeout(() => {
+                                                        inputBookRef.current.focus();
+                                                    }, 100);
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
-                                                    }, 100);
-
-                                                    setTimeout(() => {
-                                                        selectFieldOfStudyRef.current.focus();
                                                     }, 200);
+                                                    setTimeout(() => {
+                                                        selectGradeLevelRef.current.focus();
+                                                    }, 300);
 
                                                     setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}
@@ -436,12 +414,8 @@ const GradeLevel = (props: any) => {
                                             </IconButton>
                                             <IconButton>
                                                 <PrompModalKit
-                                                    description={
-                                                        "آیا از حذف پایه تحصیلی مطمئن  هستید؟"
-                                                    }
-                                                    onConfirm={() =>
-                                                        handleDeleteGradeLevel(item._id)
-                                                    }
+                                                    description={"آیا از حذف کتاب مطمئن  هستید؟"}
+                                                    onConfirm={() => handleDeleteBook(item._id)}
                                                     approved={"بله"}
                                                     denied={"خیر"}
                                                 >
@@ -471,4 +445,4 @@ const GradeLevel = (props: any) => {
     );
 };
 
-export default GradeLevel;
+export default Book;

@@ -3,13 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import AuthorizedRoute from "../components/AuthorizedRoute";
 import { useSelector } from "react-redux";
 import { MainReducerInterface } from "../provider/reducer/main.reducer";
-import FieldOfStudy from "../views/Dashboard/AdminDashboard/pages/FieldOfStudy";
-import Dashboard from "../views/Dashboard/AdminDashboard/pages/Dashboard";
-import Book from "../views/Dashboard/AdminDashboard/pages/Book";
-import Chapter from "../views/Dashboard/AdminDashboard/pages/Chapter";
-import Subject from "../views/Dashboard/AdminDashboard/pages/Subject";
-import GradeLevel from "../views/Dashboard/AdminDashboard/pages/GradeLevel";
-import Section from "../views/Dashboard/AdminDashboard/pages/Section";
+import FieldOfStudy from "../views/Dashboard/AdminDashboard/pages/content-management/FieldOfStudy";
+import Dashboard from "../views/Dashboard/AdminDashboard/pages/content-management/Dashboard";
+import Book from "../views/Dashboard/AdminDashboard/pages/content-management/Book";
+import Chapter from "../views/Dashboard/AdminDashboard/pages/content-management/Chapter";
+import Subject from "../views/Dashboard/AdminDashboard/pages/content-management/Subject";
+import GradeLevel from "../views/Dashboard/AdminDashboard/pages/content-management/GradeLevel";
+import Section from "../views/Dashboard/AdminDashboard/pages/content-management/Section";
+import ObjectiveTest from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTest";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -121,6 +122,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <Dashboard />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/objective-test"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <ObjectiveTest />
                     </AuthorizedRoute>
                 }
             />

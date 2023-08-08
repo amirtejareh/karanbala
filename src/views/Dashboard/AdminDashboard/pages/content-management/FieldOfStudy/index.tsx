@@ -7,22 +7,17 @@ import {
     CircularProgress,
     Typography,
     IconButton,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    SelectChangeEvent,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import useCreateFieldOfStudy from "../../../../../hooks/field-of-study/useCreateFieldOfStudy";
 import { toast } from "react-toastify";
-import useGetFieldOfStudies from "../../../../../hooks/field-of-study/useGetFieldOfStudies";
-import { TableKit } from "../../../../../components/kit/Table";
-import { PrompModalKit } from "../../../../../components/kit/Modal";
-import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
-import useDeleteFieldOfStudy from "../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
-import useUpdateFieldOfStudy from "../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
+import useCreateFieldOfStudy from "../../../../../../hooks/field-of-study/useCreateFieldOfStudy";
+import useUpdateFieldOfStudy from "../../../../../../hooks/field-of-study/useUpdateFieldOfStudy";
+import useGetFieldOfStudies from "../../../../../../hooks/field-of-study/useGetFieldOfStudies";
+import useDeleteFieldOfStudy from "../../../../../../hooks/field-of-study/useDeleteFieldOfStudy";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import { TableKit } from "../../../../../../components/kit/Table";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -119,13 +114,13 @@ const FieldOfStudy = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>,
+                            </ul>
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>,
+                            </ul>
                         );
                     }
                 }
@@ -156,13 +151,13 @@ const FieldOfStudy = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>,
+                                </ul>
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>,
+                                </ul>
                             );
                         }
                     }
@@ -170,7 +165,7 @@ const FieldOfStudy = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            },
+            }
         );
     };
 

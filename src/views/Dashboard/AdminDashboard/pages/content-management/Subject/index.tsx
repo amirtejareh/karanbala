@@ -16,15 +16,17 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { TableKit } from "../../../../../components/kit/Table";
-import { PrompModalKit } from "../../../../../components/kit/Modal";
-import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
-import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
-import useCreateChapter from "../../../../../hooks/chapter/useCreateChapter";
-import useUpdateChapter from "../../../../../hooks/chapter/useUpdateChapter";
-import useDeleteChapter from "../../../../../hooks/chapter/useDeleteChapter";
-import useGetChapters from "../../../../../hooks/chapter/useGetChapters";
-import useGetBooksBasedOnGradeLevels from "../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
+import useCreateSubject from "../../../../../../hooks/subject/useCreateSubject";
+import useUpdateSubject from "../../../../../../hooks/subject/useUpdateSubject";
+import useGetSubjects from "../../../../../../hooks/subject/useGetSubjects";
+import useDeleteSubject from "../../../../../../hooks/subject/useDeleteSubject";
+import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
+import useGetTermOfStudies from "../../../../../../hooks/term-of-study/useGetTermOfStudies";
+import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
+import { TableKit } from "../../../../../../components/kit/Table";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
     },
 }));
-const Chapter = (props: any) => {
+const Subject = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -69,15 +71,15 @@ const Chapter = (props: any) => {
 
     const [loading, setLoading] = useState(false);
 
-    const createChapter = useCreateChapter();
-    const updateChapter = useUpdateChapter();
+    const createSubject = useCreateSubject();
+    const updateSubject = useUpdateSubject();
 
-    const chapters = useGetChapters();
+    const subjects = useGetSubjects();
 
-    const deleteChapter = useDeleteChapter();
+    const deleteSubject = useDeleteSubject();
 
-    const handleDeleteChapter = (id: string) => {
-        deleteChapter.mutate(id, {
+    const handleDeleteSubject = (id: string) => {
+        deleteSubject.mutate(id, {
             onSuccess: async (result: {
                 message: string;
                 statusCode: number;
@@ -85,7 +87,7 @@ const Chapter = (props: any) => {
             }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    chapters.refetch();
+                    subjects.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -100,9 +102,19 @@ const Chapter = (props: any) => {
     const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
+    const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
+    const [termOfStudyIds, setTermOfStudyIds] = React.useState<any>();
+    const getTermOfStudies = useGetTermOfStudies();
+    useEffect(() => {
+        getTermOfStudies.refetch();
+    }, []);
 
     const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds
+    );
+
+    const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
+        bookIds?.length == 0 ? null : bookIds
     );
 
     useEffect(() => {
@@ -110,6 +122,10 @@ const Chapter = (props: any) => {
             getBooksBasedOnGradeLevels.refetch();
         }
     }, [gradeLevelIds]);
+
+    useEffect(() => {
+        getChaptersBasedOnBooks.refetch();
+    }, [bookIds]);
 
     const getGradeLevels = useGetGradeLevels();
 
@@ -127,26 +143,40 @@ const Chapter = (props: any) => {
         clearErrors();
     }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
     const selectGradeLevelRef = useRef<any>();
-    const inputChapterRef = useRef<any>();
+    const inputSubjectRef = useRef<any>();
 
     const selectBookRef = useRef<any>();
+    const selectChaptertRef = useRef<any>();
+    const selectTermOfStudyRef = useRef<any>();
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
+        setChapterIds(null);
+        setBookIds(null);
     };
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
     };
-    const handleCreateChapter = async (data: any) => {
+
+    const handleChapterChange = (event: SelectChangeEvent) => {
+        setChapterIds(event.target.value as any);
+    };
+
+    const handleTermOfStudyChange = (event: SelectChangeEvent) => {
+        setTermOfStudyIds(event.target.value as any);
+    };
+
+    const handleCreateSubject = async (data: any) => {
         setLoading(true);
 
-        createChapter.mutate(data, {
+        createSubject.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
                     setGradeLevelIds(null);
                     setValue({ doUpdate: false, data: "", id: null });
                     setBookIds(null);
-                    chapters.refetch();
+                    setChapterIds(null);
+                    subjects.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -173,16 +203,16 @@ const Chapter = (props: any) => {
         });
     };
 
-    const handleUpdateChapter = async (data: any) => {
+    const handleUpdateSubject = async (data: any) => {
         setLoading(true);
 
-        updateChapter.mutate(
+        updateSubject.mutate(
             { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        chapters.refetch();
+                        subjects.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setGradeLevelIds(null);
@@ -218,19 +248,19 @@ const Chapter = (props: any) => {
                 <form
                     onSubmit={
                         value.doUpdate
-                            ? handleSubmit(handleUpdateChapter)
-                            : handleSubmit(handleCreateChapter)
+                            ? handleSubmit(handleUpdateSubject)
+                            : handleSubmit(handleCreateSubject)
                     }
                 >
                     <TextField
-                        label="عنوان فصل "
+                        label="عنوان موضوع "
                         variant="outlined"
                         className={classes.formField}
                         value={value.data}
                         {...register("title", {
-                            required: "لطفا نام فصل را وارد کنید",
+                            required: "لطفا نام موضوع را وارد کنید",
                         })}
-                        inputRef={inputChapterRef}
+                        inputRef={inputSubjectRef}
                         onChange={(e) => {
                             if (value.doUpdate) {
                                 setValue({ doUpdate: true, data: e.target.value, id: value.id });
@@ -280,6 +310,49 @@ const Chapter = (props: any) => {
                                 })}
                         </Select>
                     </FormControl>
+
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
+                        <Select
+                            value={chapterIds ?? []}
+                            {...register("chapters")}
+                            inputRef={selectChaptertRef}
+                            onChange={handleChapterChange}
+                            multiple
+                        >
+                            {!getChaptersBasedOnBooks?.isLoading &&
+                                getChaptersBasedOnBooks?.data != undefined &&
+                                getChaptersBasedOnBooks?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب ترم</InputLabel>
+                        <Select
+                            value={termOfStudyIds ?? []}
+                            {...register("terms")}
+                            inputRef={selectTermOfStudyRef}
+                            onChange={handleTermOfStudyChange}
+                            multiple
+                        >
+                            {!getTermOfStudies?.isLoading &&
+                                getTermOfStudies?.data != undefined &&
+                                getTermOfStudies?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
                     <Button
                         variant="contained"
                         color="primary"
@@ -298,12 +371,12 @@ const Chapter = (props: any) => {
                 </form>
             </Box>
             <Box className={classes.fieldOfStudy}>
-                <Typography>لیست فصل‌ها</Typography>
-                {!chapters.isLoading ? (
+                <Typography>لیست موضوع‌ها</Typography>
+                {!subjects.isLoading ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-                        rows={chapters?.data.map((item: any, index: any) => {
+                        rows={subjects?.data.map((item: any, index: any) => {
                             return {
                                 id: item._id,
                                 data: {
@@ -319,9 +392,10 @@ const Chapter = (props: any) => {
                                                     });
                                                     setGradeLevelIds(item.gradeLevels);
                                                     setBookIds(item.books.map((id) => id));
+                                                    setChapterIds(item.chapters.map((id) => id));
 
                                                     setTimeout(() => {
-                                                        inputChapterRef.current.focus();
+                                                        inputSubjectRef.current.focus();
                                                     }, 100);
                                                     setTimeout(() => {
                                                         selectGradeLevelRef.current.focus();
@@ -329,6 +403,12 @@ const Chapter = (props: any) => {
                                                     setTimeout(() => {
                                                         selectBookRef.current.focus();
                                                     }, 300);
+                                                    setTimeout(() => {
+                                                        selectChaptertRef.current.focus();
+                                                    }, 350);
+                                                    setTimeout(() => {
+                                                        selectTermOfStudyRef.current.focus();
+                                                    }, 400);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
@@ -336,9 +416,9 @@ const Chapter = (props: any) => {
                                             <IconButton>
                                                 <PrompModalKit
                                                     description={
-                                                        "آیا از حذف فصل مورد نظر مطمئن  هستید؟"
+                                                        "آیا از حذف موضوع مورد نظر مطمئن  هستید؟"
                                                     }
-                                                    onConfirm={() => handleDeleteChapter(item._id)}
+                                                    onConfirm={() => handleDeleteSubject(item._id)}
                                                     approved={"بله"}
                                                     denied={"خیر"}
                                                 >
@@ -368,4 +448,4 @@ const Chapter = (props: any) => {
     );
 };
 
-export default Chapter;
+export default Subject;

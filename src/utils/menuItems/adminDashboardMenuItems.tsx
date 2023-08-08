@@ -46,6 +46,15 @@ export const adminDashboardMenuItems = [
                         },
                     ],
                 },
+                {
+                    title: "مدیریت آزمون",
+                    submenu: [
+                        {
+                            title: "آزمون تستی",
+                            to: "/pv/karanbala/admin/objective-test",
+                        },
+                    ],
+                },
             ],
         },
     },

@@ -16,17 +16,16 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { TableKit } from "../../../../../components/kit/Table";
-import { PrompModalKit } from "../../../../../components/kit/Modal";
-import { DeleteLightSvg, EditLightSvg } from "../../../../../assets";
-import useGetGradeLevels from "../../../../../hooks/grade-level/useGetGradeLevels";
-import useCreateSubject from "../../../../../hooks/subject/useCreateSubject";
-import useUpdateSubject from "../../../../../hooks/subject/useUpdateSubject";
-import useDeleteSubject from "../../../../../hooks/subject/useDeleteSubject";
-import useGetSubjects from "../../../../../hooks/subject/useGetSubjects";
-import useGetBooksBasedOnGradeLevels from "../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
-import useGetChaptersBasedOnBooks from "../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
-import useGetTermOfStudies from "../../../../../hooks/term-of-study/useGetTermOfStudies";
+import useCreateSection from "../../../../../../hooks/section/useCreateSection";
+import useUpdateSection from "../../../../../../hooks/section/useUpdateSection";
+import useGetSections from "../../../../../../hooks/section/useGetSections";
+import useDeleteSection from "../../../../../../hooks/section/useDeleteSection";
+import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
+import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
+import { TableKit } from "../../../../../../components/kit/Table";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -63,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
     },
 }));
-const Subject = (props: any) => {
+const Section = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -71,15 +70,15 @@ const Subject = (props: any) => {
 
     const [loading, setLoading] = useState(false);
 
-    const createSubject = useCreateSubject();
-    const updateSubject = useUpdateSubject();
+    const createSection = useCreateSection();
+    const updateSection = useUpdateSection();
 
-    const subjects = useGetSubjects();
+    const sections = useGetSections();
 
-    const deleteSubject = useDeleteSubject();
+    const deleteSection = useDeleteSection();
 
-    const handleDeleteSubject = (id: string) => {
-        deleteSubject.mutate(id, {
+    const handleDeleteSection = (id: string) => {
+        deleteSection.mutate(id, {
             onSuccess: async (result: {
                 message: string;
                 statusCode: number;
@@ -87,7 +86,7 @@ const Subject = (props: any) => {
             }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    subjects.refetch();
+                    sections.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -103,11 +102,6 @@ const Subject = (props: any) => {
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
-    const [termOfStudyIds, setTermOfStudyIds] = React.useState<any>();
-    const getTermOfStudies = useGetTermOfStudies();
-    useEffect(() => {
-        getTermOfStudies.refetch();
-    }, []);
 
     const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds
@@ -143,32 +137,26 @@ const Subject = (props: any) => {
         clearErrors();
     }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
     const selectGradeLevelRef = useRef<any>();
-    const inputSubjectRef = useRef<any>();
+    const inputSectionRef = useRef<any>();
 
     const selectBookRef = useRef<any>();
-    const selectChaptertRef = useRef<any>();
-    const selectTermOfStudyRef = useRef<any>();
+    const selectSectionRef = useRef<any>();
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
-        setChapterIds(null);
         setBookIds(null);
     };
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
     };
 
-    const handleChapterChange = (event: SelectChangeEvent) => {
+    const handleSectionChange = (event: SelectChangeEvent) => {
         setChapterIds(event.target.value as any);
     };
 
-    const handleTermOfStudyChange = (event: SelectChangeEvent) => {
-        setTermOfStudyIds(event.target.value as any);
-    };
-
-    const handleCreateSubject = async (data: any) => {
+    const handleCreateSection = async (data: any) => {
         setLoading(true);
 
-        createSubject.mutate(data, {
+        createSection.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
@@ -176,7 +164,7 @@ const Subject = (props: any) => {
                     setValue({ doUpdate: false, data: "", id: null });
                     setBookIds(null);
                     setChapterIds(null);
-                    subjects.refetch();
+                    sections.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -203,16 +191,16 @@ const Subject = (props: any) => {
         });
     };
 
-    const handleUpdateSubject = async (data: any) => {
+    const handleUpdateSection = async (data: any) => {
         setLoading(true);
 
-        updateSubject.mutate(
+        updateSection.mutate(
             { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        subjects.refetch();
+                        sections.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setGradeLevelIds(null);
@@ -248,19 +236,19 @@ const Subject = (props: any) => {
                 <form
                     onSubmit={
                         value.doUpdate
-                            ? handleSubmit(handleUpdateSubject)
-                            : handleSubmit(handleCreateSubject)
+                            ? handleSubmit(handleUpdateSection)
+                            : handleSubmit(handleCreateSection)
                     }
                 >
                     <TextField
-                        label="عنوان موضوع "
+                        label="عنوان بخش "
                         variant="outlined"
                         className={classes.formField}
                         value={value.data}
                         {...register("title", {
-                            required: "لطفا نام موضوع را وارد کنید",
+                            required: "لطفا نام بخش را وارد کنید",
                         })}
-                        inputRef={inputSubjectRef}
+                        inputRef={inputSectionRef}
                         onChange={(e) => {
                             if (value.doUpdate) {
                                 setValue({ doUpdate: true, data: e.target.value, id: value.id });
@@ -316,34 +304,13 @@ const Subject = (props: any) => {
                         <Select
                             value={chapterIds ?? []}
                             {...register("chapters")}
-                            inputRef={selectChaptertRef}
-                            onChange={handleChapterChange}
+                            inputRef={selectSectionRef}
+                            onChange={handleSectionChange}
                             multiple
                         >
                             {!getChaptersBasedOnBooks?.isLoading &&
                                 getChaptersBasedOnBooks?.data != undefined &&
                                 getChaptersBasedOnBooks?.data?.map((element) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب ترم</InputLabel>
-                        <Select
-                            value={termOfStudyIds ?? []}
-                            {...register("terms")}
-                            inputRef={selectTermOfStudyRef}
-                            onChange={handleTermOfStudyChange}
-                            multiple
-                        >
-                            {!getTermOfStudies?.isLoading &&
-                                getTermOfStudies?.data != undefined &&
-                                getTermOfStudies?.data?.map((element) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
@@ -371,12 +338,12 @@ const Subject = (props: any) => {
                 </form>
             </Box>
             <Box className={classes.fieldOfStudy}>
-                <Typography>لیست موضوع‌ها</Typography>
-                {!subjects.isLoading ? (
+                <Typography>لیست بخش‌ها</Typography>
+                {!sections.isLoading ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-                        rows={subjects?.data.map((item: any, index: any) => {
+                        rows={sections?.data.map((item: any, index: any) => {
                             return {
                                 id: item._id,
                                 data: {
@@ -395,7 +362,7 @@ const Subject = (props: any) => {
                                                     setChapterIds(item.chapters.map((id) => id));
 
                                                     setTimeout(() => {
-                                                        inputSubjectRef.current.focus();
+                                                        inputSectionRef.current.focus();
                                                     }, 100);
                                                     setTimeout(() => {
                                                         selectGradeLevelRef.current.focus();
@@ -404,10 +371,7 @@ const Subject = (props: any) => {
                                                         selectBookRef.current.focus();
                                                     }, 300);
                                                     setTimeout(() => {
-                                                        selectChaptertRef.current.focus();
-                                                    }, 350);
-                                                    setTimeout(() => {
-                                                        selectTermOfStudyRef.current.focus();
+                                                        selectSectionRef.current.focus();
                                                     }, 400);
                                                 }}
                                             >
@@ -416,9 +380,9 @@ const Subject = (props: any) => {
                                             <IconButton>
                                                 <PrompModalKit
                                                     description={
-                                                        "آیا از حذف موضوع مورد نظر مطمئن  هستید؟"
+                                                        "آیا از حذف بخش مورد نظر مطمئن  هستید؟"
                                                     }
-                                                    onConfirm={() => handleDeleteSubject(item._id)}
+                                                    onConfirm={() => handleDeleteSection(item._id)}
                                                     approved={"بله"}
                                                     denied={"خیر"}
                                                 >
@@ -448,4 +412,4 @@ const Subject = (props: any) => {
     );
 };
 
-export default Subject;
+export default Section;
