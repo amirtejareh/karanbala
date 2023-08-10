@@ -14,7 +14,7 @@ import {
     IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
@@ -25,7 +25,10 @@ import useCreateObjectiveTest from "../../../../../../hooks/objective-test/useCr
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import RichTextEditor from "../../../../../../utils/ReactQuill";
-import { DeleteLightSvg, PlusIconSvg } from "../../../../../../assets";
+import { CalendarDarkSvg, DeleteLightSvg, PlusIconSvg } from "../../../../../../assets";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -71,6 +74,7 @@ const ObjectiveTest = (props: any) => {
         handleSubmit,
         register,
         clearErrors,
+        control,
         formState: { errors },
     } = useForm();
 
@@ -86,6 +90,7 @@ const ObjectiveTest = (props: any) => {
     const [examNumber, setExamNumber] = React.useState<any>();
     const [correctAnswer, setCorrectAnswer] = React.useState<any>();
     const [editors, setEditors] = useState([]);
+    const [value, setValue] = useState<any>(new Date());
 
     const Quill = ReactQuill.Quill;
     const Font = Quill.import("formats/font");
@@ -242,6 +247,18 @@ const ObjectiveTest = (props: any) => {
         );
     };
 
+    const [selectedStartDate, setselectedStartDate] = useState(null);
+    const [selectedEndDate, setselectedEndDate] = useState(null);
+
+    const handleStartDateChange = (date) => {
+        setselectedStartDate(date);
+    };
+    const handleEndDateChange = (date) => {
+        setselectedEndDate(date);
+    };
+
+    const CustomTextField = (props) => <TextField {...props} />;
+
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
@@ -265,7 +282,6 @@ const ObjectiveTest = (props: any) => {
                                 })}
                         </Select>
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
@@ -286,7 +302,6 @@ const ObjectiveTest = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
                         <Select
@@ -307,7 +322,6 @@ const ObjectiveTest = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
                         <Select
@@ -328,7 +342,6 @@ const ObjectiveTest = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
                         <Select
@@ -349,7 +362,6 @@ const ObjectiveTest = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">سختی سوال</InputLabel>
                         <Select
@@ -370,7 +382,6 @@ const ObjectiveTest = (props: any) => {
                             </MenuItem>
                         </Select>
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">نوع سوال</InputLabel>
                         <Select
@@ -420,7 +431,6 @@ const ObjectiveTest = (props: any) => {
                             </MenuItem>
                         </Select>
                     </FormControl>
-
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">ذخیره سوال در</InputLabel>
                         <Select
@@ -438,7 +448,6 @@ const ObjectiveTest = (props: any) => {
                             </MenuItem>
                         </Select>
                     </FormControl>
-
                     <TextField
                         {...register("examNumber", {
                             required: "لطفا شماره آزمون را وارد کنید",
@@ -450,6 +459,46 @@ const ObjectiveTest = (props: any) => {
                         label="لطفا شماره آزمون را وارد کنید"
                         {...register("examNumber")}
                     />
+
+                    <Box className={classes.specialField}>
+                        <Controller
+                            name="start"
+                            defaultValue={value}
+                            control={control}
+                            render={({ field: { onChange, ...restField } }) => (
+                                <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
+                                    <DateTimePicker
+                                        label="تاریخ شروع آزمون"
+                                        value={selectedStartDate}
+                                        onChange={handleStartDateChange}
+                                        components={{
+                                            OpenPickerIcon: CalendarDarkSvg,
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            )}
+                        />
+                    </Box>
+
+                    <Box className={classes.specialField}>
+                        <Controller
+                            name="end"
+                            defaultValue={value}
+                            control={control}
+                            render={({ field: { onChange, ...restField } }) => (
+                                <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
+                                    <DateTimePicker
+                                        label="تاریخ اتمام آزمون"
+                                        value={selectedEndDate}
+                                        onChange={handleEndDateChange}
+                                        components={{
+                                            OpenPickerIcon: CalendarDarkSvg,
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            )}
+                        />
+                    </Box>
                     <Box className={classes.specialField}>
                         <Button variant="outlined" onClick={handleAddEditor}>
                             <Box className={classes.specialField}>
@@ -458,7 +507,6 @@ const ObjectiveTest = (props: any) => {
                             <Typography> ایجاد سوال</Typography>
                         </Button>
                     </Box>
-
                     {editors.map((editor, index) => (
                         <Box
                             gap={"10px"}
@@ -498,7 +546,6 @@ const ObjectiveTest = (props: any) => {
                             </IconButton>
                         </Box>
                     ))}
-
                     <Button
                         variant="contained"
                         color="primary"

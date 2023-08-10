@@ -6,6 +6,7 @@ import { ReactComponent as FilterSvg } from "./images/iconly-light-outline-filte
 import { ReactComponent as LogoutSvg } from "./images/iconly-light-outline-logout.svg";
 import { ReactComponent as MessageSvg } from "./images/iconly-light-outline-message.svg";
 import { ReactComponent as NotificationSvg } from "./images/iconly-light-outline-notification.svg";
+import { ReactComponent as CalendarDarkSvg } from "./images/calendarDark.svg";
 import { ReactComponent as PinSvg } from "./images/pin.svg";
 import { ReactComponent as SearchSvg } from "./images/Iconly_Light-outline_Search.svg";
 import { ReactComponent as StarOutlineSvg } from "./images/Iconly_Light-outline_Star.svg";
@@ -184,7 +185,7 @@ import TableArrowNegative8 from "./images/TableArrowNegative8.svg";
 import TableArrowNegative9 from "./images/TableArrowNegative9.svg";
 import TableArrowNegative10 from "./images/TableArrowNegative10.svg";
 
-import AuthBackground from './images/authBackground.png'
+import AuthBackground from "./images/authBackground.png";
 
 export {
     NoteSvgIcon,
@@ -360,7 +361,8 @@ export {
     TableArrowNegative9,
     TableArrowNegative10,
     DepositSvg,
+    CalendarDarkSvg,
     FailedDepositSvg,
     EditDarkSvg,
-    AuthBackground
+    AuthBackground,
 };

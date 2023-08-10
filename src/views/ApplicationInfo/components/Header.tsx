@@ -4,7 +4,6 @@ import { makeStyles, createStyles } from "@mui/styles";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg } from "../../../assets";
 import { ButtonKit } from "../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
-import "react-tabs/style/react-tabs.css";
 import jwt_decode from "jwt-decode";
 import { authStore, userStore } from "../../../stores";
 import { OpenAPI } from "../../../services/core/OpenAPI";
