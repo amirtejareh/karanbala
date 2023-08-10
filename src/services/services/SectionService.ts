@@ -85,4 +85,21 @@ export class SectionService {
             },
         });
     }
+
+    /**
+     * @param chapterId
+     * @returns any
+     * @throws ApiError
+     */
+    public static sectionControllerFindSectionsBasedOnChapters(
+        chapterId: Array<string>
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/section/withChapters/{chapterId}",
+            path: {
+                chapterId: chapterId,
+            },
+        });
+    }
 }

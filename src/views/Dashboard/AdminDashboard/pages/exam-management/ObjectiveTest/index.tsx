@@ -3,18 +3,19 @@ import {
     Theme,
     Box,
     Typography,
-    TextField,
     FormControl,
     InputLabel,
     Select,
     Button,
     CircularProgress,
     MenuItem,
+    SelectChangeEvent,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import { EditLightSvg } from "../../../../../../assets";
-import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
+import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
+import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -64,6 +65,46 @@ const ObjectiveTest = (props: any) => {
     } = useForm();
 
     const [loading, setLoading] = useState(false);
+    const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
+    const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
+    const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
+    const [termOfStudyIds, setTermOfStudyIds] = React.useState<any>();
+
+    const selectGradeLevelRef = useRef<any>();
+    const selectBookRef = useRef<any>();
+    const selectChaptertRef = useRef<any>();
+
+    const getGradeLevels = useGetGradeLevels();
+    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
+        gradeLevelIds?.length == 0 ? null : gradeLevelIds
+    );
+    const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
+        bookIds?.length == 0 ? null : bookIds
+    );
+
+    const handleGradeLevelChange = (event: SelectChangeEvent) => {
+        setGradeLevelIds(event.target.value as any);
+        setChapterIds(null);
+        setBookIds(null);
+    };
+
+    const handleBookChange = (event: SelectChangeEvent) => {
+        setBookIds(event.target.value as any);
+    };
+
+    const handleChapterChange = (event: SelectChangeEvent) => {
+        setChapterIds(event.target.value as any);
+    };
+
+    useEffect(() => {
+        if (gradeLevelIds) {
+            getBooksBasedOnGradeLevels.refetch();
+        }
+    }, [gradeLevelIds]);
+
+    useEffect(() => {
+        getChaptersBasedOnBooks.refetch();
+    }, [bookIds]);
 
     return (
         <Box className={classes.container}>
@@ -72,17 +113,64 @@ const ObjectiveTest = (props: any) => {
                     <form>
                         <FormControl className={classes.formField} fullWidth>
                             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
-                            <Select></Select>
+                            <Select
+                                value={gradeLevelIds ?? []}
+                                {...register("gradeLevels")}
+                                inputRef={selectGradeLevelRef}
+                                onChange={handleGradeLevelChange}
+                                multiple
+                            >
+                                {!getGradeLevels?.isLoading &&
+                                    getGradeLevels?.data?.map((element: any) => {
+                                        return (
+                                            <MenuItem key={element._id} value={element._id}>
+                                                {element.title}
+                                            </MenuItem>
+                                        );
+                                    })}
+                            </Select>
                         </FormControl>
 
                         <FormControl className={classes.formField} fullWidth>
                             <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
-                            <Select></Select>
+                            <Select
+                                value={bookIds ?? []}
+                                {...register("books")}
+                                inputRef={selectBookRef}
+                                onChange={handleBookChange}
+                                multiple
+                            >
+                                {!getBooksBasedOnGradeLevels?.isLoading &&
+                                    getBooksBasedOnGradeLevels?.data != undefined &&
+                                    getBooksBasedOnGradeLevels?.data?.map((element) => {
+                                        return (
+                                            <MenuItem key={element._id} value={element._id}>
+                                                {element.title}
+                                            </MenuItem>
+                                        );
+                                    })}
+                            </Select>{" "}
                         </FormControl>
 
                         <FormControl className={classes.formField} fullWidth>
                             <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
-                            <Select></Select>
+                            <Select
+                                value={chapterIds ?? []}
+                                {...register("chapters")}
+                                inputRef={selectChaptertRef}
+                                onChange={handleChapterChange}
+                                multiple
+                            >
+                                {!getChaptersBasedOnBooks?.isLoading &&
+                                    getChaptersBasedOnBooks?.data != undefined &&
+                                    getChaptersBasedOnBooks?.data?.map((element) => {
+                                        return (
+                                            <MenuItem key={element._id} value={element._id}>
+                                                {element.title}
+                                            </MenuItem>
+                                        );
+                                    })}
+                            </Select>{" "}
                         </FormControl>
 
                         <FormControl className={classes.formField} fullWidth>

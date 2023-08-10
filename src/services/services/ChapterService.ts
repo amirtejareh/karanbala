@@ -36,18 +36,18 @@ export class ChapterService {
     }
 
     /**
-     * @param booklId
+     * @param bookId
      * @returns any
      * @throws ApiError
      */
     public static chapterControllerFindChaptersBasedOnBooks(
-        booklId: Array<string>
+        bookId: Array<string>
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/chapter/withBooks/{booklId}",
+            url: "/chapter/withBooks/{bookId}",
             path: {
-                booklId: booklId,
+                bookId: bookId,
             },
         });
     }
