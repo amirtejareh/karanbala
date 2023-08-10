@@ -85,4 +85,21 @@ export class SubjectService {
             },
         });
     }
+
+    /**
+     * @param sectionId
+     * @returns any
+     * @throws ApiError
+     */
+    public static subjectControllerFindSubjectsBasedOnSections(
+        sectionId: Array<string>
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/subject/withSections/{sectionId}",
+            path: {
+                sectionId: sectionId,
+            },
+        });
+    }
 }

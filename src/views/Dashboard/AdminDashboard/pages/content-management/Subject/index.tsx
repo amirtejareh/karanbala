@@ -27,6 +27,8 @@ import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLe
 import { TableKit } from "../../../../../../components/kit/Table";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
 import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
+import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -103,8 +105,18 @@ const Subject = (props: any) => {
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
+    const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
     const [termOfStudyIds, setTermOfStudyIds] = React.useState<any>();
     const getTermOfStudies = useGetTermOfStudies();
+
+    const selectGradeLevelRef = useRef<any>();
+    const inputSubjectRef = useRef<any>();
+
+    const selectBookRef = useRef<any>();
+    const selectChaptertRef = useRef<any>();
+    const selectSectionRef = useRef<any>();
+    const selectTermOfStudyRef = useRef<any>();
+
     useEffect(() => {
         getTermOfStudies.refetch();
     }, []);
@@ -117,6 +129,10 @@ const Subject = (props: any) => {
         bookIds?.length == 0 ? null : bookIds
     );
 
+    const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
+        chapterIds?.length == 0 ? null : chapterIds
+    );
+
     useEffect(() => {
         if (gradeLevelIds) {
             getBooksBasedOnGradeLevels.refetch();
@@ -126,6 +142,10 @@ const Subject = (props: any) => {
     useEffect(() => {
         getChaptersBasedOnBooks.refetch();
     }, [bookIds]);
+
+    useEffect(() => {
+        getSectionsBasedOnChapters.refetch();
+    }, [chapterIds]);
 
     const getGradeLevels = useGetGradeLevels();
 
@@ -142,16 +162,12 @@ const Subject = (props: any) => {
         toast.error(errors["gradeLevels"]?.message?.toString());
         clearErrors();
     }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
-    const selectGradeLevelRef = useRef<any>();
-    const inputSubjectRef = useRef<any>();
 
-    const selectBookRef = useRef<any>();
-    const selectChaptertRef = useRef<any>();
-    const selectTermOfStudyRef = useRef<any>();
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
         setChapterIds(null);
         setBookIds(null);
+        setSectionIds(null);
     };
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
@@ -159,6 +175,10 @@ const Subject = (props: any) => {
 
     const handleChapterChange = (event: SelectChangeEvent) => {
         setChapterIds(event.target.value as any);
+    };
+
+    const handleSectionChange = (event: SelectChangeEvent) => {
+        setSectionIds(event.target.value as any);
     };
 
     const handleTermOfStudyChange = (event: SelectChangeEvent) => {
@@ -176,6 +196,7 @@ const Subject = (props: any) => {
                     setValue({ doUpdate: false, data: "", id: null });
                     setBookIds(null);
                     setChapterIds(null);
+                    setSectionIds(null);
                     subjects.refetch();
                     toast.success(result.message);
                 } else {
@@ -333,6 +354,27 @@ const Subject = (props: any) => {
                     </FormControl>
 
                     <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
+                        <Select
+                            value={sectionIds ?? []}
+                            {...register("sections")}
+                            inputRef={selectSectionRef}
+                            onChange={handleSectionChange}
+                            multiple
+                        >
+                            {!getSectionsBasedOnChapters?.isLoading &&
+                                getSectionsBasedOnChapters?.data != undefined &&
+                                getSectionsBasedOnChapters?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
+                    <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب ترم</InputLabel>
                         <Select
                             value={termOfStudyIds ?? []}
@@ -393,6 +435,7 @@ const Subject = (props: any) => {
                                                     setGradeLevelIds(item.gradeLevels);
                                                     setBookIds(item.books.map((id) => id));
                                                     setChapterIds(item.chapters.map((id) => id));
+                                                    setSectionIds(item.sections.map((id) => id));
 
                                                     setTimeout(() => {
                                                         inputSubjectRef.current.focus();
@@ -409,6 +452,10 @@ const Subject = (props: any) => {
                                                     setTimeout(() => {
                                                         selectTermOfStudyRef.current.focus();
                                                     }, 400);
+
+                                                    setTimeout(() => {
+                                                        selectSectionRef.current.focus();
+                                                    }, 450);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />

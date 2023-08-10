@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -68,11 +69,13 @@ const ObjectiveTest = (props: any) => {
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
+    const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
     const [termOfStudyIds, setTermOfStudyIds] = React.useState<any>();
 
     const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
     const selectChaptertRef = useRef<any>();
+    const selectSectionRef = useRef<any>();
 
     const getGradeLevels = useGetGradeLevels();
     const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
@@ -82,10 +85,15 @@ const ObjectiveTest = (props: any) => {
         bookIds?.length == 0 ? null : bookIds
     );
 
+    const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
+        chapterIds?.length == 0 ? null : chapterIds
+    );
+
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
         setChapterIds(null);
         setBookIds(null);
+        setSectionIds(null);
     };
 
     const handleBookChange = (event: SelectChangeEvent) => {
@@ -94,6 +102,10 @@ const ObjectiveTest = (props: any) => {
 
     const handleChapterChange = (event: SelectChangeEvent) => {
         setChapterIds(event.target.value as any);
+    };
+
+    const handleSectionChange = (event: SelectChangeEvent) => {
+        setSectionIds(event.target.value as any);
     };
 
     useEffect(() => {
@@ -105,6 +117,10 @@ const ObjectiveTest = (props: any) => {
     useEffect(() => {
         getChaptersBasedOnBooks.refetch();
     }, [bookIds]);
+
+    useEffect(() => {
+        getSectionsBasedOnChapters.refetch();
+    }, [chapterIds]);
 
     return (
         <Box className={classes.container}>
@@ -175,7 +191,23 @@ const ObjectiveTest = (props: any) => {
 
                         <FormControl className={classes.formField} fullWidth>
                             <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
-                            <Select></Select>
+                            <Select
+                                value={sectionIds ?? []}
+                                {...register("sections")}
+                                inputRef={selectSectionRef}
+                                onChange={handleSectionChange}
+                                multiple
+                            >
+                                {!getSectionsBasedOnChapters?.isLoading &&
+                                    getSectionsBasedOnChapters?.data != undefined &&
+                                    getSectionsBasedOnChapters?.data?.map((element) => {
+                                        return (
+                                            <MenuItem key={element._id} value={element._id}>
+                                                {element.title}
+                                            </MenuItem>
+                                        );
+                                    })}
+                            </Select>{" "}
                         </FormControl>
 
                         <FormControl className={classes.formField} fullWidth>
