@@ -30,6 +30,11 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
                 setAccessToken(null);
                 navigate("/");
             }
+        } else {
+            localStorage.removeItem("auth-storage");
+            setUser(null);
+            setAccessToken(null);
+            navigate("/");
         }
     }, [accessToken, navigate]);
 

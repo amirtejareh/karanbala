@@ -12,16 +12,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         margin: "32px 52px",
     },
-    contentWrapper: {},
-    content: {
-        margin: "16px 0",
-        padding: "2px 0",
-        float: "right",
-    },
+
     menu: {
         margin: "0 0 0 150px ",
         width: "200px",
-        float: "right",
     },
     button: {
         color: theme.palette.text.primary,
@@ -69,11 +63,11 @@ const UserDashboard = () => {
                 </Box>
             </Box>
 
-            <Box className={classes.contentWrapper}>
+            <Box display={"flex"} mt={"50px"} gap={"100px"} flexWrap={"wrap"}>
                 <Box className={classes.menu}>
                     <MenuCreator items={userDashboardMenuItems} />
                 </Box>
-                <Box className={classes.content}>
+                <Box>
                     <UserDashboardRoute />
                 </Box>
             </Box>

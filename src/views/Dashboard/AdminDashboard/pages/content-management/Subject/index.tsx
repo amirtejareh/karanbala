@@ -28,13 +28,13 @@ import { TableKit } from "../../../../../../components/kit/Table";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
 import { PrompModalKit } from "../../../../../../components/kit/Modal";
 import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
-import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
         display: "flex",
         gap: "10px",
-        justifyContent: "space-around",
+        flexWrap: "wrap",
+        maxWidth: "600px",
     },
     fieldOfStudy: {
         margin: "0 50px",
@@ -264,8 +264,8 @@ const Subject = (props: any) => {
         );
     };
     return (
-        <Box className={classes.container}>
-            <Box>
+        <Box display={"flex"}>
+            <Box className={classes.container}>
                 <form
                     onSubmit={
                         value.doUpdate
