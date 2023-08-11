@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { ButtonKit } from "../../../components/kit/Button";
 import { KaranbalaLogoTextSvg } from "../../../assets";
+import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveTests";
+import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
+import { toPersianDate } from "../../../utils/helper";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -12,6 +15,100 @@ const ObjectiveTest = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
+    interface ObjectiveTestData {
+        _id: string;
+        number?: string;
+        duration?: string;
+        start?: string;
+        type?: string;
+        createdAt?: string;
+        updatedAt?: string;
+    }
+
+    const [currentActiveObjectiveTestId, setCurrentActiveObjectiveTestId] = useState("0");
+    const [currentActiveObjectiveTestData, setCurrentActiveObjectiveTestData] =
+        useState<ObjectiveTestData>();
+
+    const getObjectiveTests = useGetObjectiveTests();
+    const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
+
+    useEffect(() => {
+        if (currentActiveObjectiveTestId !== "0") {
+            getObjectiveTest.refetch();
+        }
+    }, [currentActiveObjectiveTestId]);
+
+    useEffect(() => {
+        if (!getObjectiveTest.isLoading) {
+            setCurrentActiveObjectiveTestData(getObjectiveTest.data);
+        }
+    }, [getObjectiveTest.data]);
+
+    useEffect(() => {
+        getObjectiveTests.refetch();
+    }, []);
+
+    useEffect(() => {
+        if (!getObjectiveTests.isLoading) {
+            if (getObjectiveTests.data.length > 0) {
+                setCurrentActiveObjectiveTestData(getObjectiveTests.data[0]);
+            }
+        }
+    }, [getObjectiveTests.data]);
+
+    const handleObjectiveTestClick = (objectiveTestId: string) => {
+        setCurrentActiveObjectiveTestId(objectiveTestId);
+    };
+
+    const [startObjectiveTest, setStartObjectiveTest] = useState(false);
+    const [countDown, setCountDown] = useState<number>();
+    let timer: NodeJS.Timeout;
+    useEffect(() => {
+        if (startObjectiveTest) {
+            const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
+            setCountDown(durationInSeconds);
+
+            timer = setInterval(() => {
+                setCountDown((prevCountDown) => prevCountDown - 1);
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [startObjectiveTest]);
+
+    useEffect(() => {
+        if (countDown < 0) {
+            setStartObjectiveTest(false);
+        }
+    }, [countDown]);
+
+    // تبدیل زمان به فرمت ساعت:دقیقه:ثانیه
+    const formatTime = (timeInSeconds: number) => {
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        const seconds = timeInSeconds % 60;
+
+        return `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    };
+
+    const checkStartObjectiveTest = (): boolean => {
+        if (currentActiveObjectiveTestData?.duration) {
+            if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
+                console.log("startObjectiveTest", startObjectiveTest);
+
+                if (!startObjectiveTest) {
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+        return true;
+    };
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
@@ -38,24 +135,32 @@ const ObjectiveTest = () => {
                         display={"flex"}
                         gap={"0.5rem"}
                     >
-                        <ButtonKit variant="contained">
-                            <Typography>1</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>2</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>3</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>4</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>5</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>6</Typography>
-                        </ButtonKit>
+                        {!getObjectiveTests.isLoading ? (
+                            <>
+                                {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
+                                    getObjectiveTests.data.map(
+                                        (objectiveTest: ObjectiveTestData) => (
+                                            <ButtonKit
+                                                onClick={() => {
+                                                    handleObjectiveTestClick(objectiveTest._id);
+                                                }}
+                                                variant="contained"
+                                            >
+                                                <Typography>{objectiveTest.number}</Typography>
+                                            </ButtonKit>
+                                        )
+                                    )
+                                ) : (
+                                    <Box>
+                                        <Typography>در حال حاضر آزمون فعالی وجود ندارد</Typography>
+                                    </Box>
+                                )}
+                            </>
+                        ) : (
+                            <Box>
+                                <Typography>در حال بارگزاری آزمون</Typography>
+                            </Box>
+                        )}
                     </Box>
                 </Box>
                 <Box
@@ -68,7 +173,7 @@ const ObjectiveTest = () => {
                     margin={"2rem 0"}
                 >
                     <Typography fontSize={"3.6rem"} variant="subtitle1">
-                        آزمون شماره ۷
+                        آزمون شماره {currentActiveObjectiveTestData?.number}
                     </Typography>
                 </Box>
                 <Box margin={"2rem 0"} textAlign={"right"} flexGrow={1} flexWrap={"wrap"}>
@@ -84,24 +189,30 @@ const ObjectiveTest = () => {
                         gap={"0.5rem"}
                         justifyContent={"end"}
                     >
-                        <ButtonKit variant="contained">
-                            <Typography>1</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>2</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>3</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>4</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>5</Typography>
-                        </ButtonKit>
-                        <ButtonKit variant="contained">
-                            <Typography>6</Typography>
-                        </ButtonKit>
+                        {!getObjectiveTests.isLoading ? (
+                            <>
+                                {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
+                                    getObjectiveTests.data.map((objectiveTest) => (
+                                        <ButtonKit
+                                            onClick={() => {
+                                                handleObjectiveTestClick(objectiveTest._id);
+                                            }}
+                                            variant="contained"
+                                        >
+                                            <Typography>{objectiveTest.number}</Typography>
+                                        </ButtonKit>
+                                    ))
+                                ) : (
+                                    <Box>
+                                        <Typography>در حال حاضر آزمون فعالی وجود ندارد</Typography>
+                                    </Box>
+                                )}
+                            </>
+                        ) : (
+                            <Box>
+                                <Typography>در حال بارگزاری آزمون</Typography>
+                            </Box>
+                        )}
                     </Box>
                 </Box>
             </Box>
@@ -118,11 +229,22 @@ const ObjectiveTest = () => {
                 </Box>
                 <Box display={"flex"}>
                     <Typography>مدت پاسخگویی: </Typography>
-                    <Typography>۸۰ دقیقه</Typography>
+                    <Typography>
+                        {currentActiveObjectiveTestData?.duration
+                            ? currentActiveObjectiveTestData?.duration + " دقیقه"
+                            : ""}{" "}
+                    </Typography>
                 </Box>
                 <Box display={"flex"}>
                     <Typography>زمان فعال شدن آزمون: </Typography>
-                    <Typography>چهارشنبه ۲۱ تیرماه ۱۴۰۲ - ساعت ۱۴:۴۵</Typography>
+                    <Typography>
+                        {" "}
+                        {toPersianDate({
+                            value: currentActiveObjectiveTestData?.start,
+                            format: "YYYY-MM-DD",
+                        })}
+                    </Typography>
+                    {/* <Typography>چهارشنبه ۲۱ تیرماه ۱۴۰۲ - ساعت ۱۴:۴۵</Typography> */}
                 </Box>{" "}
             </Box>
             <Box
@@ -249,7 +371,12 @@ const ObjectiveTest = () => {
                         ریاضیات
                     </Typography>
                     <Typography fontSize={"1.8rem"} variant="caption">
-                        زمان باقیمانده: ۲۳:۴۵
+                        زمان باقیمانده:{" "}
+                        {startObjectiveTest
+                            ? formatTime(countDown || 0)
+                            : formatTime(
+                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
+                              ) || 0}
                     </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
@@ -272,13 +399,22 @@ const ObjectiveTest = () => {
                 </Box>
                 <Box borderBottom={"1px solid grey"} padding={"0 0 2rem 0"}></Box>
                 <Box margin={"3rem 0"} display={"flex"} gap={"1rem"} justifyContent={"center"}>
-                    <ButtonKit variant="contained">
+                    <ButtonKit
+                        disabled={checkStartObjectiveTest()}
+                        onClick={() => {
+                            setStartObjectiveTest(true);
+                        }}
+                        variant="contained"
+                    >
+                        <Typography>شروع آزمون</Typography>
+                    </ButtonKit>
+                    <ButtonKit disabled={!startObjectiveTest} variant="contained">
                         <Typography>سوال بعدی</Typography>
                     </ButtonKit>
-                    <ButtonKit variant="outlined">
+                    <ButtonKit disabled={!startObjectiveTest} variant="outlined">
                         <Typography>سوال قبلی</Typography>
                     </ButtonKit>
-                    <ButtonKit variant="outlined">
+                    <ButtonKit disabled={!startObjectiveTest} variant="outlined">
                         <Typography>اتمام آزمون</Typography>
                     </ButtonKit>
                 </Box>
@@ -290,12 +426,19 @@ const ObjectiveTest = () => {
                     padding={"2rem"}
                 >
                     <Box display={"flex"}>
-                        <Typography>آزمون: </Typography>
-                        <Typography>آزمون شماره ۸</Typography>
+                        <Typography>
+                            {" "}
+                            آزمون شماره {currentActiveObjectiveTestData?.number}
+                        </Typography>
                     </Box>
                     <Box display={"flex"}>
+                        <Typography>زمان فعال شدن آزمون: </Typography>
                         <Typography>
-                            زمان فعال شدن آزمون: چهارشنبه ۲۱ تیرماه ۱۴۰۲ - ساعت ۱۴:۴۵
+                            {" "}
+                            {toPersianDate({
+                                value: currentActiveObjectiveTestData?.start,
+                                format: "YYYY-MM-DD",
+                            })}
                         </Typography>
                     </Box>
                 </Box>

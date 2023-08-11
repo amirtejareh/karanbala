@@ -84,6 +84,7 @@ const ObjectiveTest = (props: any) => {
     const [loading, setLoading] = useState(false);
 
     const [number, setnumber] = React.useState<any>();
+    const [duration, setDuration] = React.useState<any>();
 
     const createObjectiveTest = useCreateObjectiveTest();
 
@@ -149,10 +150,20 @@ const ObjectiveTest = (props: any) => {
                         })}
                         value={number}
                         className={classes.formField}
-                        onChange={() => setnumber(Number(number))}
+                        onChange={() => setnumber(number)}
                         variant="outlined"
                         label="لطفا شماره آزمون را وارد کنید"
-                        {...register("number")}
+                    />
+                    <TextField
+                        {...register("duration", {
+                            required: "لطفا مدت زمان آزمون را مشخص کنید",
+                        })}
+                        type="number"
+                        value={duration}
+                        className={classes.formField}
+                        onChange={() => setnumber(Number(duration))}
+                        variant="outlined"
+                        label="لطفا مدت زمان آزمون را مشخص کنید"
                     />
                     <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">نوع آزمون</InputLabel>
