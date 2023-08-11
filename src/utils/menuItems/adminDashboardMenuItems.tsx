@@ -50,8 +50,12 @@ export const adminDashboardMenuItems = [
                     title: "مدیریت آزمون",
                     submenu: [
                         {
-                            title: "آزمون تستی",
+                            title: "ایجاد آزمون",
                             to: "/pv/karanbala/admin/objective-test",
+                        },
+                        {
+                            title: "ایجاد شناسنامه سوال",
+                            to: "/pv/karanbala/admin/question",
                         },
                     ],
                 },

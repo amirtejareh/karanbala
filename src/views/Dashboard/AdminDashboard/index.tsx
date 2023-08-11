@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
     menu: {
         margin: "0 0 0 150px ",
-        width: "200px",
+        width: "300px",
     },
     button: {
         color: theme.palette.text.primary,

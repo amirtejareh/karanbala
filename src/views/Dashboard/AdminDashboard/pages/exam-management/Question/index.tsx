@@ -1,0 +1,370 @@
+import React, { useEffect, useRef, useState } from "react";
+import {
+    Theme,
+    Box,
+    Typography,
+    Button,
+    CircularProgress,
+    FormControl,
+    MenuItem,
+    SelectChangeEvent,
+    InputLabel,
+    Select,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
+import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
+import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
+import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
+import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+
+const useStyles = makeStyles((theme: Theme) => ({
+    container: {
+        display: "flex",
+        gap: "10px",
+        flexWrap: "wrap",
+        maxWidth: "600px",
+    },
+    objectiveTest: {
+        margin: "0 50px",
+    },
+    formContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem",
+        margin: "1rem",
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: "5px",
+        boxShadow: `0px 1px 2px ${theme.palette.primary.main}`,
+    },
+    formTitle: {
+        marginBottom: "2rem",
+        fontSize: "2rem",
+        fontWeight: "bold",
+        color: theme.palette.primary.main,
+    },
+    formField: {
+        margin: "1rem",
+        width: "100%",
+    },
+    editorField: {
+        margin: "2rem 0",
+    },
+    specialField: {
+        margin: "1rem",
+    },
+}));
+const Question = (props: any) => {
+    const classes = useStyles();
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
+    const {
+        handleSubmit,
+        register,
+        clearErrors,
+        control,
+        formState: { errors },
+    } = useForm();
+
+    const [loading, setLoading] = useState(false);
+    const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
+    const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
+    const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
+    const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
+    const [subjectIds, setSubjectIds] = React.useState<any>(sectionIds);
+    const [questionDifficulty, setQuestionDifficulty] = React.useState<any>();
+    const [questionType, setQuestionType] = React.useState<any>();
+    const [correctAnswer, setCorrectAnswer] = React.useState<any>();
+    const [editors, setEditors] = useState([]);
+
+    const Quill = ReactQuill.Quill;
+    const Font = Quill.import("formats/font");
+    Font.whitelist = ["IRANSans", "Ubuntu", "Raleway", "Roboto"];
+    Quill.register(Font, true);
+
+    const selectGradeLevelRef = useRef<any>();
+    const selectBookRef = useRef<any>();
+    const selectChaptertRef = useRef<any>();
+    const selectSectionRef = useRef<any>();
+    const selectSubjectRef = useRef<any>();
+
+    const getGradeLevels = useGetGradeLevels();
+    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
+        gradeLevelIds?.length == 0 ? null : gradeLevelIds
+    );
+    const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
+        bookIds?.length == 0 ? null : bookIds
+    );
+
+    const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
+        chapterIds?.length == 0 ? null : chapterIds
+    );
+
+    const getSubjectsBasedOnSections = useGetSubjectsBasedOnSections(
+        sectionIds?.length == 0 ? null : sectionIds
+    );
+
+    const handleGradeLevelChange = (event: SelectChangeEvent) => {
+        setGradeLevelIds(event.target.value as any);
+        setChapterIds(null);
+        setBookIds(null);
+        setSectionIds(null);
+        setSubjectIds(null);
+    };
+
+    const handleBookChange = (event: SelectChangeEvent) => {
+        setBookIds(event.target.value as any);
+    };
+
+    const handleChapterChange = (event: SelectChangeEvent) => {
+        setChapterIds(event.target.value as any);
+    };
+
+    const handleSectionChange = (event: SelectChangeEvent) => {
+        setSectionIds(event.target.value as any);
+    };
+
+    const handleSubjectChange = (event: SelectChangeEvent) => {
+        setSubjectIds(event.target.value as any);
+    };
+
+    useEffect(() => {
+        if (gradeLevelIds) {
+            getBooksBasedOnGradeLevels.refetch();
+        }
+    }, [gradeLevelIds]);
+
+    useEffect(() => {
+        getChaptersBasedOnBooks.refetch();
+    }, [bookIds]);
+
+    useEffect(() => {
+        getSectionsBasedOnChapters.refetch();
+    }, [chapterIds]);
+
+    useEffect(() => {
+        getSubjectsBasedOnSections.refetch();
+    }, [sectionIds]);
+
+    useEffect(() => {
+        const quill: any = document.querySelector(".ql-editor");
+        if (quill) {
+            quill.style.textAlign = "right";
+        }
+    }, [editors]);
+
+    useEffect(() => {
+        toast.error(errors["questionType"]?.message?.toString());
+        toast.error(errors["questionNumber"]?.message?.toString());
+        toast.error(errors["examType"]?.message?.toString());
+        toast.error(errors["examNumber"]?.message?.toString());
+        toast.error(errors["correctAnswer"]?.message?.toString());
+        clearErrors();
+    }, [
+        errors["questionType"]?.message,
+        errors["questionNumber"]?.message,
+        errors["examType"]?.message,
+        errors["examNumber"]?.message,
+        errors["correctAnswer"]?.message,
+    ]);
+
+    return (
+        <Box display={"flex"}>
+            <Box className={classes.container}>
+                <form onSubmit={() => {}}>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
+                        <Select
+                            value={gradeLevelIds ?? []}
+                            {...register("gradeLevels")}
+                            inputRef={selectGradeLevelRef}
+                            onChange={handleGradeLevelChange}
+                            multiple
+                        >
+                            {!getGradeLevels?.isLoading &&
+                                getGradeLevels?.data?.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
+                        <Select
+                            value={bookIds ?? []}
+                            {...register("books")}
+                            inputRef={selectBookRef}
+                            onChange={handleBookChange}
+                            multiple
+                        >
+                            {!getBooksBasedOnGradeLevels?.isLoading &&
+                                getBooksBasedOnGradeLevels?.data != undefined &&
+                                getBooksBasedOnGradeLevels?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>{" "}
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
+                        <Select
+                            value={chapterIds ?? []}
+                            {...register("chapters")}
+                            inputRef={selectChaptertRef}
+                            onChange={handleChapterChange}
+                            multiple
+                        >
+                            {!getChaptersBasedOnBooks?.isLoading &&
+                                getChaptersBasedOnBooks?.data != undefined &&
+                                getChaptersBasedOnBooks?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>{" "}
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
+                        <Select
+                            value={sectionIds ?? []}
+                            {...register("sections")}
+                            inputRef={selectSectionRef}
+                            onChange={handleSectionChange}
+                            multiple
+                        >
+                            {!getSectionsBasedOnChapters?.isLoading &&
+                                getSectionsBasedOnChapters?.data != undefined &&
+                                getSectionsBasedOnChapters?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>{" "}
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
+                        <Select
+                            value={subjectIds ?? []}
+                            {...register("subjects")}
+                            inputRef={selectSubjectRef}
+                            onChange={handleSubjectChange}
+                            multiple
+                        >
+                            {!getSubjectsBasedOnSections?.isLoading &&
+                                getSubjectsBasedOnSections?.data != undefined &&
+                                getSubjectsBasedOnSections?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>{" "}
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">سختی سوال</InputLabel>
+                        <Select
+                            value={questionDifficulty}
+                            onChange={(e) => setQuestionDifficulty(e.target.value)}
+                            {...register("questionDifficulty", {
+                                required: "لطفا سختی آزمون را مشخص کنید",
+                            })}
+                        >
+                            <MenuItem key={1} value={"easy"}>
+                                ساده
+                            </MenuItem>
+                            <MenuItem key={1} value={"average"}>
+                                متوسط
+                            </MenuItem>
+                            <MenuItem key={1} value={"hard"}>
+                                دشوار
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">نوع سوال</InputLabel>
+                        <Select
+                            value={questionType}
+                            onChange={(e) => setQuestionType(e.target.value)}
+                            {...register("questionType", {
+                                required: "لطفا نوع آزمون را مشخص کنید",
+                            })}
+                        >
+                            <MenuItem key={1} value={"conceptional"}>
+                                مفهومی
+                            </MenuItem>
+                            <MenuItem key={2} value={"computational"}>
+                                محاسباتی
+                            </MenuItem>
+                            <MenuItem key={3} value={"trick"}>
+                                دام دار
+                            </MenuItem>
+                            <MenuItem key={4} value={"memorizational"}>
+                                حفظی
+                            </MenuItem>
+                            <MenuItem key={4} value={"challenging"}>
+                                چالشی
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">گزیه درست</InputLabel>
+                        <Select
+                            value={correctAnswer}
+                            onChange={(e) => setCorrectAnswer(e.target.value)}
+                            {...register("correctAnswer", {
+                                required: "لطفا گزینه صحیح را مشخص کنید",
+                            })}
+                        >
+                            <MenuItem key={1} value={1}>
+                                1
+                            </MenuItem>
+                            <MenuItem key={2} value={2}>
+                                2
+                            </MenuItem>
+                            <MenuItem key={3} value={3}>
+                                3
+                            </MenuItem>
+                            <MenuItem key={4} value={4}>
+                                4
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.specialField}
+                        disabled={loading}
+                        type="submit"
+                    >
+                        {loading ? <CircularProgress size={24} /> : "ذخیره"}
+                    </Button>
+                </form>
+            </Box>
+
+            <Box className={classes.objectiveTest}>
+                <Typography>لیست آزمون‌های تستی</Typography>
+            </Box>
+        </Box>
+    );
+};
+
+export default Question;

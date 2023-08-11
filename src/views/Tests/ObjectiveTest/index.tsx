@@ -133,7 +133,7 @@ const ObjectiveTest = () => {
                 flexWrap={"wrap"}
                 sx={{
                     "& >div p": {
-                        width: "200px",
+                        width: "300px",
                     },
                     "& > div": {
                         display: "flex",
