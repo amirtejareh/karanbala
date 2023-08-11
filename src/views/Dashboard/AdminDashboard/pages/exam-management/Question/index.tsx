@@ -187,9 +187,21 @@ const Question = (props: any) => {
     const createQuestion = useCreateQuestion();
 
     const handleCreateQuestion = async (data: any) => {
-        setLoading(true);
+        if (
+            options.option1 == "" ||
+            options.option2 == "" ||
+            options.option3 == "" ||
+            options.option4 == ""
+        ) {
+            return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
+        }
 
-        data.question = editors;
+        if (quillEditorValue == "") {
+            return toast.error("حداقل یک سوال باید ایجاد شود");
+        }
+        data.options = options;
+        data.question = quillEditorValue;
+        setLoading(true);
 
         createQuestion.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
@@ -223,6 +235,20 @@ const Question = (props: any) => {
                 toast.error(e.message);
             },
         });
+    };
+
+    const [options, setOptions] = useState({
+        option1: "",
+        option2: "",
+        option3: "",
+        option4: "",
+    });
+
+    const handleEditorChange = (newValue, editorName) => {
+        setOptions((prevOptions) => ({
+            ...prevOptions,
+            [editorName]: newValue,
+        }));
     };
 
     return (
@@ -420,12 +446,46 @@ const Question = (props: any) => {
                         <TextField type="text" {...register("number")} label="شماره سوال" />
                     </FormControl>
                     <FormControl className={classes.formField}>
+                        <Typography>سوال</Typography>
+
                         <RichTextEditor
-                            {...register("question")}
                             value={quillEditorValue}
                             setValue={(newValue) => setQuillEditorValue(newValue)}
                         />
                     </FormControl>
+                    <FormControl className={classes.formField}>
+                        <Typography>گزینه اول</Typography>
+                        <RichTextEditor
+                            value={options.option1}
+                            setValue={(value) => handleEditorChange(value, "option1")}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formField}>
+                        <Typography>گزینه دوم</Typography>
+
+                        <RichTextEditor
+                            value={options.option2}
+                            setValue={(value) => handleEditorChange(value, "option2")}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formField}>
+                        <Typography>گزینه سوم</Typography>
+
+                        <RichTextEditor
+                            value={options.option3}
+                            setValue={(value) => handleEditorChange(value, "option3")}
+                        />
+                    </FormControl>
+
+                    <FormControl className={classes.formField}>
+                        <Typography>گزینه چهارم</Typography>
+
+                        <RichTextEditor
+                            value={options.option4}
+                            setValue={(value) => handleEditorChange(value, "option4")}
+                        />
+                    </FormControl>
+
                     <Button
                         variant="contained"
                         color="primary"
