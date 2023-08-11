@@ -379,7 +379,7 @@ const Question = (props: any) => {
                             value={questionDifficulty}
                             onChange={(e) => setQuestionDifficulty(e.target.value)}
                             {...register("questionDifficulty", {
-                                required: "لطفا سختی آزمون را مشخص کنید",
+                                required: "لطفا سختی سوال را مشخص کنید",
                             })}
                         >
                             <MenuItem key={1} value={"easy"}>
@@ -399,7 +399,7 @@ const Question = (props: any) => {
                             value={type}
                             onChange={(e) => settype(e.target.value)}
                             {...register("type", {
-                                required: "لطفا نوع آزمون را مشخص کنید",
+                                required: "لطفا نوع سوال را مشخص کنید",
                             })}
                         >
                             <MenuItem key={1} value={"conceptional"}>
