@@ -419,7 +419,15 @@ const ObjectiveTest = () => {
                     <ButtonKit disabled={!startObjectiveTest} variant="outlined">
                         <Typography>سوال قبلی</Typography>
                     </ButtonKit>
-                    <ButtonKit disabled={!startObjectiveTest} variant="outlined">
+                    <ButtonKit
+                        onClick={() => {
+                            if (startObjectiveTest) {
+                                setStartObjectiveTest(false);
+                            }
+                        }}
+                        disabled={!startObjectiveTest}
+                        variant="outlined"
+                    >
                         <Typography>اتمام آزمون</Typography>
                     </ButtonKit>
                 </Box>
