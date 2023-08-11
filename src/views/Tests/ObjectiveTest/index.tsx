@@ -8,6 +8,7 @@ import { KaranbalaLogoTextSvg } from "../../../assets";
 import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveTests";
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
 import { toPersianDate } from "../../../utils/helper";
+import jMoment from "jalali-moment";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -61,6 +62,7 @@ const ObjectiveTest = () => {
     };
 
     const [startObjectiveTest, setStartObjectiveTest] = useState(false);
+    const [startObjectiveTestDate, setStartObjectiveTestDate] = useState<any>();
     const [countDown, setCountDown] = useState<number>();
     let timer: NodeJS.Timeout;
     useEffect(() => {
@@ -109,6 +111,16 @@ const ObjectiveTest = () => {
         }
         return true;
     };
+
+    useEffect(() => {
+        jMoment.locale("fa");
+        if (currentActiveObjectiveTestData?.start) {
+            const dateTime = new Date(currentActiveObjectiveTestData?.start);
+            const jDate = jMoment(dateTime).format("dddd jD MMMM jYYYY - ساعت: HH:mm:ss");
+            setStartObjectiveTestDate(jDate);
+        }
+    }, [currentActiveObjectiveTestData]);
+
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
@@ -237,14 +249,7 @@ const ObjectiveTest = () => {
                 </Box>
                 <Box display={"flex"}>
                     <Typography>زمان فعال شدن آزمون: </Typography>
-                    <Typography>
-                        {" "}
-                        {toPersianDate({
-                            value: currentActiveObjectiveTestData?.start,
-                            format: "YYYY-MM-DD",
-                        })}
-                    </Typography>
-                    {/* <Typography>چهارشنبه ۲۱ تیرماه ۱۴۰۲ - ساعت ۱۴:۴۵</Typography> */}
+                    <Typography>{startObjectiveTestDate ?? ""}</Typography>
                 </Box>{" "}
             </Box>
             <Box
@@ -433,13 +438,7 @@ const ObjectiveTest = () => {
                     </Box>
                     <Box display={"flex"}>
                         <Typography>زمان فعال شدن آزمون: </Typography>
-                        <Typography>
-                            {" "}
-                            {toPersianDate({
-                                value: currentActiveObjectiveTestData?.start,
-                                format: "YYYY-MM-DD",
-                            })}
-                        </Typography>
+                        <Typography>{startObjectiveTestDate ?? ""}</Typography>
                     </Box>
                 </Box>
             </Box>
