@@ -10,6 +10,7 @@ import {
     SelectChangeEvent,
     InputLabel,
     Select,
+    TextField,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -21,6 +22,9 @@ import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBo
 import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+import useGetObjectiveTests from "../../../../../../hooks/objective-test/useGetObjectiveTests";
+import RichTextEditor from "../../../../../../utils/ReactQuill";
+import useCreateQuestion from "../../../../../../hooks/question/useCreateQuestion";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -74,13 +78,15 @@ const Question = (props: any) => {
     } = useForm();
 
     const [loading, setLoading] = useState(false);
+    const [quillEditorValue, setQuillEditorValue] = useState<any>();
+    const [objectiveTestIds, setObjectiveTestIds] = useState<any>([]);
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
     const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
     const [subjectIds, setSubjectIds] = React.useState<any>(sectionIds);
     const [questionDifficulty, setQuestionDifficulty] = React.useState<any>();
-    const [questionType, setQuestionType] = React.useState<any>();
+    const [type, settype] = React.useState<any>();
     const [correctAnswer, setCorrectAnswer] = React.useState<any>();
     const [editors, setEditors] = useState([]);
 
@@ -89,6 +95,7 @@ const Question = (props: any) => {
     Font.whitelist = ["IRANSans", "Ubuntu", "Raleway", "Roboto"];
     Quill.register(Font, true);
 
+    const selectObjectiveTestRef = useRef<any>();
     const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
     const selectChaptertRef = useRef<any>();
@@ -96,6 +103,7 @@ const Question = (props: any) => {
     const selectSubjectRef = useRef<any>();
 
     const getGradeLevels = useGetGradeLevels();
+    const getObjectiveTests = useGetObjectiveTests();
     const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds
     );
@@ -117,6 +125,9 @@ const Question = (props: any) => {
         setBookIds(null);
         setSectionIds(null);
         setSubjectIds(null);
+    };
+    const handleObjectiveTestChange = (event: SelectChangeEvent) => {
+        setObjectiveTestIds(event.target.value as any);
     };
 
     const handleBookChange = (event: SelectChangeEvent) => {
@@ -161,25 +172,83 @@ const Question = (props: any) => {
     }, [editors]);
 
     useEffect(() => {
-        toast.error(errors["questionType"]?.message?.toString());
-        toast.error(errors["questionNumber"]?.message?.toString());
-        toast.error(errors["examType"]?.message?.toString());
-        toast.error(errors["examNumber"]?.message?.toString());
+        toast.error(errors["type"]?.message?.toString());
+        toast.error(errors["number"]?.message?.toString());
+        toast.error(errors["objectiveTests"]?.message?.toString());
         toast.error(errors["correctAnswer"]?.message?.toString());
         clearErrors();
     }, [
-        errors["questionType"]?.message,
-        errors["questionNumber"]?.message,
-        errors["examType"]?.message,
-        errors["examNumber"]?.message,
+        errors["type"]?.message,
+        errors["number"]?.message,
+        errors["objectiveTests"]?.message,
         errors["correctAnswer"]?.message,
     ]);
+
+    const createQuestion = useCreateQuestion();
+
+    const handleCreateQuestion = async (data: any) => {
+        setLoading(true);
+
+        data.question = editors;
+
+        createQuestion.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
+                    setGradeLevelIds(null);
+                    setBookIds(null);
+                    setChapterIds(null);
+                    setSectionIds(null);
+                    toast.success(result.message);
+                } else {
+                    setLoading(false);
+                    if (Array.isArray(result.message)) {
+                        toast.error(
+                            <ul>
+                                {result.message.map((msg: string) => (
+                                    <li key={msg}>{msg}</li>
+                                ))}
+                            </ul>
+                        );
+                    } else {
+                        toast.error(
+                            <ul>
+                                <li key={result.message}>{result.message}</li>
+                            </ul>
+                        );
+                    }
+                }
+            },
+            onError: async (e: any) => {
+                toast.error(e.message);
+            },
+        });
+    };
 
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
-                <form onSubmit={() => {}}>
-                    <FormControl className={classes.formField} fullWidth>
+                <form onSubmit={handleSubmit(handleCreateQuestion)}>
+                    <FormControl className={classes.formField}>
+                        <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
+                        <Select
+                            value={objectiveTestIds ?? []}
+                            {...register("objectiveTests")}
+                            inputRef={selectObjectiveTestRef}
+                            onChange={handleObjectiveTestChange}
+                            multiple
+                        >
+                            {!getObjectiveTests?.isLoading &&
+                                getObjectiveTests?.data?.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.number}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
                         <Select
                             value={gradeLevelIds ?? []}
@@ -198,7 +267,7 @@ const Question = (props: any) => {
                                 })}
                         </Select>
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
                             value={bookIds ?? []}
@@ -218,7 +287,7 @@ const Question = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
                         <Select
                             value={chapterIds ?? []}
@@ -238,7 +307,7 @@ const Question = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
                         <Select
                             value={sectionIds ?? []}
@@ -258,7 +327,7 @@ const Question = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
                         <Select
                             value={subjectIds ?? []}
@@ -278,7 +347,7 @@ const Question = (props: any) => {
                                 })}
                         </Select>{" "}
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">سختی سوال</InputLabel>
                         <Select
                             value={questionDifficulty}
@@ -298,12 +367,12 @@ const Question = (props: any) => {
                             </MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">نوع سوال</InputLabel>
                         <Select
-                            value={questionType}
-                            onChange={(e) => setQuestionType(e.target.value)}
-                            {...register("questionType", {
+                            value={type}
+                            onChange={(e) => settype(e.target.value)}
+                            {...register("type", {
                                 required: "لطفا نوع آزمون را مشخص کنید",
                             })}
                         >
@@ -324,7 +393,7 @@ const Question = (props: any) => {
                             </MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl className={classes.formField} fullWidth>
+                    <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">گزیه درست</InputLabel>
                         <Select
                             value={correctAnswer}
@@ -347,7 +416,16 @@ const Question = (props: any) => {
                             </MenuItem>
                         </Select>
                     </FormControl>
-
+                    <FormControl className={classes.formField}>
+                        <TextField type="text" {...register("number")} label="شماره سوال" />
+                    </FormControl>
+                    <FormControl className={classes.formField}>
+                        <RichTextEditor
+                            {...register("question")}
+                            value={quillEditorValue}
+                            setValue={(newValue) => setQuillEditorValue(newValue)}
+                        />
+                    </FormControl>
                     <Button
                         variant="contained"
                         color="primary"
