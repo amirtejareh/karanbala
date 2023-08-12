@@ -107,13 +107,13 @@ const ObjectiveTest = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -161,7 +161,7 @@ const ObjectiveTest = (props: any) => {
                         type="number"
                         value={duration}
                         className={classes.formField}
-                        onChange={() => setnumber(Number(duration))}
+                        onChange={() => setDuration(duration)}
                         variant="outlined"
                         label="لطفا مدت زمان آزمون را مشخص کنید"
                     />
