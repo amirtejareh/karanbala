@@ -61,6 +61,11 @@ const useStyles = makeStyles((theme: Theme) => ({
         margin: "1rem",
         width: "100%",
     },
+    durationField: {
+        margin: "1rem",
+        width: "100%",
+        display: "none",
+    },
     editorField: {
         margin: "2rem 0",
     },
@@ -77,19 +82,23 @@ const ObjectiveTest = (props: any) => {
         handleSubmit,
         register,
         clearErrors,
+        unregister,
         control,
         formState: { errors },
     } = useForm();
 
+    const selectGradeLevelRef = useRef<any>();
+
     const [loading, setLoading] = useState(false);
 
-    const [number, setnumber] = React.useState<any>();
-    const [duration, setDuration] = React.useState<any>();
+    const durationRef = useRef<any>(null);
+
+    const [number, setNumber] = React.useState<any>(1);
 
     const createObjectiveTest = useCreateObjectiveTest();
 
     const [value, setValue] = useState<any>(new Date());
-    const [type, setType] = useState<any>();
+    const [type, setType] = useState<string>("main");
 
     const handleCreateObjectiveTest = async (data: any) => {
         setLoading(true);
@@ -123,56 +132,80 @@ const ObjectiveTest = (props: any) => {
             },
         });
     };
+    const [gradeLevelId, setGradeLevelId] = React.useState<any>();
+    const getGradeLevels = useGetGradeLevels();
+    const [selectedStartDate, setSelectedStartDate] = useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
 
-    const [selectedStartDate, setselectedStartDate] = useState(null);
-    const [selectedEndDate, setselectedEndDate] = useState(null);
-
-    const handleStartDateChange = (date) => {
-        setselectedStartDate(date);
-    };
-    const handleEndDateChange = (date) => {
-        setselectedEndDate(date);
+    const handleGradeLevelChange = (event: SelectChangeEvent) => {
+        setGradeLevelId(event.target.value as any);
     };
 
     useEffect(() => {
-        toast.error(errors["type"]?.message?.toString());
+        if (durationRef && durationRef.current) {
+            if (type === "main") {
+                durationRef.current.style.display = "none";
+            } else {
+                durationRef.current.style.display = "block";
+            }
+        }
+    }, [type]);
+
+    useEffect(() => {
+        toast.error(errors["gradeLevel"]?.message?.toString());
         toast.error(errors["number"]?.message?.toString());
+        toast.error(errors["type"]?.message?.toString());
+        toast.error(errors["duration"]?.message?.toString());
         clearErrors();
-    }, [errors["type"]?.message, errors["number"]?.message]);
+    }, [
+        errors["type"]?.message,
+        errors["number"]?.message,
+        errors["gradeLevel"]?.message,
+        errors["duration"]?.message,
+    ]);
 
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
                 <form onSubmit={handleSubmit(handleCreateObjectiveTest)}>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
+                        <Select
+                            value={gradeLevelId ?? ""}
+                            {...register("gradeLevel", {
+                                required: "انتخاب پایه اجباری است",
+                            })}
+                            inputRef={selectGradeLevelRef}
+                            onChange={handleGradeLevelChange}
+                        >
+                            {!getGradeLevels?.isLoading &&
+                                getGradeLevels?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+
                     <TextField
                         {...register("number", {
                             required: "لطفا شماره آزمون را وارد کنید",
                         })}
-                        value={number}
                         className={classes.formField}
-                        onChange={() => setnumber(number)}
                         variant="outlined"
                         label="لطفا شماره آزمون را وارد کنید"
                     />
-                    <TextField
-                        {...register("duration", {
-                            required: "لطفا مدت زمان آزمون را مشخص کنید",
-                        })}
-                        type="number"
-                        value={duration}
-                        className={classes.formField}
-                        onChange={() => setnumber(Number(duration))}
-                        variant="outlined"
-                        label="لطفا مدت زمان آزمون را مشخص کنید"
-                    />
+
                     <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">نوع آزمون</InputLabel>
                         <Select
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
                             {...register("type", {
                                 required: "لطفا نوع آزمون را مشخص کنید",
                             })}
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
                         >
                             <MenuItem key={1} value={"main"}>
                                 آزمون اصلی
@@ -183,17 +216,34 @@ const ObjectiveTest = (props: any) => {
                         </Select>
                     </FormControl>
 
+                    {type === "remedial" && (
+                        <TextField
+                            type="number"
+                            className={`${classes.formField} ${classes.durationField}`}
+                            variant="outlined"
+                            label="لطفا مدت زمان آزمون را به دقیقه مشخص کنید"
+                            {...register("duration", {
+                                required: "مدت زمان آزمون را مشخص کنید",
+                            })}
+                            ref={(e) => {
+                                register("duration").ref(e);
+                                durationRef.current = e;
+                            }}
+                        />
+                    )}
                     <Box className={classes.specialField}>
                         <Controller
                             name="start"
-                            defaultValue={value}
                             control={control}
                             render={({ field: { onChange, ...restField } }) => (
                                 <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
                                     <DateTimePicker
                                         label="تاریخ شروع آزمون"
                                         value={selectedStartDate}
-                                        onChange={handleStartDateChange}
+                                        onChange={(e) => {
+                                            onChange(e);
+                                            setSelectedStartDate(e);
+                                        }}
                                         components={{
                                             OpenPickerIcon: CalendarDarkSvg,
                                         }}
@@ -206,14 +256,16 @@ const ObjectiveTest = (props: any) => {
                     <Box className={classes.specialField}>
                         <Controller
                             name="end"
-                            defaultValue={value}
                             control={control}
                             render={({ field: { onChange, ...restField } }) => (
                                 <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
                                     <DateTimePicker
                                         label="تاریخ اتمام آزمون"
                                         value={selectedEndDate}
-                                        onChange={handleEndDateChange}
+                                        onChange={(e) => {
+                                            onChange(e);
+                                            setSelectedEndDate(e);
+                                        }}
                                         components={{
                                             OpenPickerIcon: CalendarDarkSvg,
                                         }}
