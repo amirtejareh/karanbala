@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         display: "flex",
         gap: "10px",
-        justifyContent: "space-around",
+        flexWrap: "wrap",
+        maxWidth: "600px",
     },
     fieldOfStudy: {
         margin: "0 50px",
@@ -213,8 +214,8 @@ const Chapter = (props: any) => {
         );
     };
     return (
-        <Box className={classes.container}>
-            <Box>
+        <Box display={"flex"}>
+            <Box className={classes.container}>
                 <form
                     onSubmit={
                         value.doUpdate

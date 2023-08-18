@@ -11,6 +11,7 @@ import Subject from "../views/Dashboard/AdminDashboard/pages/content-management/
 import GradeLevel from "../views/Dashboard/AdminDashboard/pages/content-management/GradeLevel";
 import Section from "../views/Dashboard/AdminDashboard/pages/content-management/Section";
 import ObjectiveTest from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTest";
+import Question from "../views/Dashboard/AdminDashboard/pages/exam-management/Question";
 import BookIntro from "../views/Dashboard/AdminDashboard/pages/educational-management/BookIntro";
 import LearningMaterial from "../views/Dashboard/AdminDashboard/pages/educational-management/LearningMaterial";
 import EssayQuestions from "../views/Dashboard/AdminDashboard/pages/educational-management/EssayQuestions";
@@ -142,6 +143,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <ObjectiveTest />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/question"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <Question />
                     </AuthorizedRoute>
                 }
             />

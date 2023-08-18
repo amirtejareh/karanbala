@@ -230,3 +230,7 @@ input:-webkit-autofill {
 .Toastify__toast > button > svg {
     display: none;
 }
+
+.quill_fontFamily .ql-editor {
+    font-family: "IRANSans";
+}

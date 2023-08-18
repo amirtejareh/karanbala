@@ -28,17 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         margin: "32px 52px",
         alignItems: "center",
     },
-    contentWrapper: {},
-    content: {
-        margin: "16px 0",
-        padding: "2px 0",
-        float: "right",
-    },
-    menu: {
-        margin: "0 0 0 150px ",
-        width: "200px",
-        float: "right",
-    },
+
     button: {
         color: theme.palette.text.primary,
     },
@@ -53,8 +43,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: "center",
     },
     formField: {
-        // margin: "1rem 0",
-        // margin
         width: "100%",
     },
 }));

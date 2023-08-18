@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Theme, Box, Typography, IconButton } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useSelector } from "react-redux";
-import { MainReducerInterface } from "../../../provider/reducer/main.reducer";
 import { MenuCreator } from "../../../components/MenuCreator";
 import { adminDashboardMenuItems } from "../../../utils/menuItems/adminDashboardMenuItems";
 import { useNavigate } from "react-router-dom";
@@ -14,18 +12,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         margin: "32px 52px",
     },
-    contentWrapper: {
-        float: "right",
-    },
-    content: {
-        margin: "16px 0",
-        padding: "2px 0",
-        float: "right",
-    },
+
     menu: {
         margin: "0 0 0 150px ",
-        width: "200px",
-        float: "right",
+        width: "300px",
     },
     button: {
         color: theme.palette.text.primary,
@@ -74,11 +64,11 @@ const AdminDashboard = () => {
                 </Box>
             </Box>
 
-            <Box className={classes.contentWrapper}>
+            <Box display={"flex"} mt={"50px"} gap={"100px"} flexWrap={"wrap"}>
                 <Box className={classes.menu}>
                     <MenuCreator items={adminDashboardMenuItems} />
                 </Box>
-                <Box className={classes.content}>
+                <Box>
                     <AdminDashboardRoute />
                 </Box>
             </Box>

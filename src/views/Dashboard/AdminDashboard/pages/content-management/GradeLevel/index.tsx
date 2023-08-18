@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     container: {
         display: "flex",
         gap: "10px",
-        justifyContent: "space-around",
+        flexWrap: "wrap",
+        maxWidth: "600px",
     },
     fieldOfStudy: {
         margin: "0 50px",
@@ -242,17 +243,10 @@ const GradeLevel = (props: any) => {
             }
         );
     };
-    // const findOneFieldOfStudy: any = useFindOneFieldOfStudy(value.id ?? "0");
-
-    const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setGradeLevelIds(event.target.value as any);
-    };
 
     return (
-        <Box className={classes.container}>
-            <Box>
+        <Box display={"flex"}>
+            <Box className={classes.container}>
                 <form
                     onSubmit={
                         value.doUpdate

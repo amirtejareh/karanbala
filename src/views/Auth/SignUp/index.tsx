@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     menu: {
         margin: "0 0 0 150px ",
-        width: "200px",
+        width: "300px",
         float: "right",
     },
     button: {
@@ -149,13 +149,13 @@ const SignUpView = React.forwardRef((props, ref: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>,
+                            </ul>
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>,
+                            </ul>
                         );
                     }
                 }
