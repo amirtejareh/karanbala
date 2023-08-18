@@ -11,6 +11,10 @@ import Subject from "../views/Dashboard/AdminDashboard/pages/content-management/
 import GradeLevel from "../views/Dashboard/AdminDashboard/pages/content-management/GradeLevel";
 import Section from "../views/Dashboard/AdminDashboard/pages/content-management/Section";
 import ObjectiveTest from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTest";
+import BookIntro from "../views/Dashboard/AdminDashboard/pages/educational-management/BookIntro";
+import LearningMaterial from "../views/Dashboard/AdminDashboard/pages/educational-management/LearningMaterial";
+import EssayQuestions from "../views/Dashboard/AdminDashboard/pages/educational-management/EssayQuestions";
+import TipAndTest from "../views/Dashboard/AdminDashboard/pages/educational-management/TipAndTest";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -138,6 +142,69 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <ObjectiveTest />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/book-intro"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <BookIntro />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/learning-material"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <LearningMaterial />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/essay-questions"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <EssayQuestions />
+                    </AuthorizedRoute>
+                }
+            />
+            <Route
+                path="/tip-test"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <TipAndTest />
                     </AuthorizedRoute>
                 }
             />

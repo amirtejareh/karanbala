@@ -47,6 +47,27 @@ export const adminDashboardMenuItems = [
                     ],
                 },
                 {
+                    title: "مدیریت آموزش",
+                    submenu: [
+                        {
+                            title: "معرفی کتاب",
+                            to: "/pv/karanbala/admin/book-intro",
+                        },
+                        {
+                            title: "درس نامه",
+                            to: "/pv/karanbala/admin/learning-material",
+                        },
+                        {
+                            title: "سوالات تشریحی",
+                            to: "/pv/karanbala/admin/essay-questions",
+                        },
+                        {
+                            title: "نکته و تست",
+                            to: "/pv/karanbala/admin/tip-test",
+                        },
+                    ],
+                },
+                {
                     title: "مدیریت آزمون",
                     submenu: [
                         {
