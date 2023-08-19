@@ -22,7 +22,7 @@ import { CalendarDarkSvg } from "../../../../../../assets";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
-import useGetObjectiveTests from "../../../../../../hooks/objective-test/useGetObjectiveTests";
+import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/useGetMainObjectiveTests";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -88,9 +88,9 @@ const ObjectiveTestManagement = (props: any) => {
         setObjectiveTestId(event.target.value as any);
     };
 
-    const getObjectiveTests = useGetObjectiveTests();
+    const getMainObjectiveTests = useGetMainObjectiveTests();
 
-    console.log(getObjectiveTests);
+    console.log(getMainObjectiveTests);
 
     return (
         <Box display={"flex"}>
@@ -106,8 +106,8 @@ const ObjectiveTestManagement = (props: any) => {
                             inputRef={selectObjectiveTestRef}
                             onChange={handleObjectiveTestChange}
                         >
-                            {!getObjectiveTests?.isLoading &&
-                                getObjectiveTests?.data.map((element: any) => {
+                            {!getMainObjectiveTests?.isLoading &&
+                                getMainObjectiveTests?.data.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.number}

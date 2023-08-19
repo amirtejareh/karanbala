@@ -85,4 +85,21 @@ export class QuestionService {
             },
         });
     }
+
+    /**
+     * @param objectiveTestId
+     * @returns any
+     * @throws ApiError
+     */
+    public static questionControllerFindBooksBasedOnObjectiveTests(
+        objectiveTestId: Array<string>
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/withMainObjectiveTestId/{objectiveTestId}",
+            path: {
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
 }
