@@ -9,8 +9,11 @@ export type UpdateObjectiveTestManagementDto = {
 };
 
 export namespace UpdateObjectiveTestManagementDto {
+
     export enum examType {
-        MAIN = "main",
-        REMEDIAL = "remedial",
+        MAIN = 'main',
+        REMEDIAL = 'remedial',
     }
+
+
 }

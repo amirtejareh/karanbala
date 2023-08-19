@@ -38,6 +38,17 @@ export class ObjectiveTestService {
     }
 
     /**
+     * @returns any
+     * @throws ApiError
+     */
+    public static objectiveTestControllerFindMainObjectiveTest(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/objectiveTest/mainTest",
+        });
+    }
+
+    /**
      * @param id
      * @returns any
      * @throws ApiError

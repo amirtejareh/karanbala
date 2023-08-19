@@ -22,6 +22,7 @@ import { CalendarDarkSvg } from "../../../../../../assets";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
+import useGetObjectiveTests from "../../../../../../hooks/objective-test/useGetObjectiveTests";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -80,13 +81,40 @@ const ObjectiveTestManagement = (props: any) => {
         formState: { errors },
     } = useForm();
 
+    const [objectiveTestId, setObjectiveTestId] = React.useState<any>();
+    const selectObjectiveTestRef = useRef<any>();
+
+    const handleObjectiveTestChange = (event: SelectChangeEvent) => {
+        setObjectiveTestId(event.target.value as any);
+    };
+
+    const getObjectiveTests = useGetObjectiveTests();
+
+    console.log(getObjectiveTests);
+
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
                 <form>
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
-                        <Select></Select>
+                        <Select
+                            value={objectiveTestId ?? ""}
+                            {...register("objectiveTest", {
+                                required: "انتخاب آزمون اجباری است",
+                            })}
+                            inputRef={selectObjectiveTestRef}
+                            onChange={handleObjectiveTestChange}
+                        >
+                            {!getObjectiveTests?.isLoading &&
+                                getObjectiveTests?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.number}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
                     </FormControl>
 
                     <FormControl className={classes.formField} fullWidth>
