@@ -5,7 +5,7 @@ const useGetObjectiveTestManagements = () => {
     return useQuery(
         ["Get-All-Objective-Test-Managements"],
         async () => {
-            return await ObjectiveTestManagements.objectiveTestControllerFindAll();
+            return await Objec.objectiveTestControllerFindAll();
         },
         { refetchOnWindowFocus: false }
     );

@@ -2,104 +2,112 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateSubjectDto } from "../models/CreateSubjectDto";
-import type { UpdateSubjectDto } from "../models/UpdateSubjectDto";
+import type { CreateSubjectDto } from '../models/CreateSubjectDto';
+import type { UpdateSubjectDto } from '../models/UpdateSubjectDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class SubjectService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
-    public static subjectControllerCreate(requestBody: CreateSubjectDto): CancelablePromise<any> {
+    public static subjectControllerCreate(
+requestBody: CreateSubjectDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/subject",
+            method: 'POST',
+            url: '/subject',
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static subjectControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/subject",
+            method: 'GET',
+            url: '/subject',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static subjectControllerFindOne(id: string): CancelablePromise<any> {
+    public static subjectControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/subject/{id}",
+            method: 'GET',
+            url: '/subject/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static subjectControllerUpdate(
-        id: string,
-        requestBody: UpdateSubjectDto
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateSubjectDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/subject/{id}",
+            method: 'PATCH',
+            url: '/subject/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static subjectControllerRemove(id: string): CancelablePromise<any> {
+    public static subjectControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/subject/{id}",
+            method: 'DELETE',
+            url: '/subject/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param sectionId
-     * @returns any
+     * @param sectionId 
+     * @returns any 
      * @throws ApiError
      */
     public static subjectControllerFindSubjectsBasedOnSections(
-        sectionId: Array<string>
-    ): CancelablePromise<any> {
+sectionId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/subject/withSections/{sectionId}",
+            method: 'GET',
+            url: '/subject/withSections/{sectionId}',
             path: {
-                sectionId: sectionId,
+                'sectionId': sectionId,
             },
         });
     }
+
 }
