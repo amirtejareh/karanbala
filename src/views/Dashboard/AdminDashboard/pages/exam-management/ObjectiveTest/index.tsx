@@ -16,15 +16,9 @@ import {
 import { makeStyles } from "@mui/styles";
 import { Controller, useForm } from "react-hook-form";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
-import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
-import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
-import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
-import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 import { toast } from "react-toastify";
 import useCreateObjectiveTest from "../../../../../../hooks/objective-test/useCreateObjectiveTest";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import RichTextEditor from "../../../../../../utils/ReactQuill";
 import { CalendarDarkSvg, DeleteLightSvg, PlusIconSvg } from "../../../../../../assets";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -82,7 +76,6 @@ const ObjectiveTest = (props: any) => {
         handleSubmit,
         register,
         clearErrors,
-        unregister,
         control,
         formState: { errors },
     } = useForm();
