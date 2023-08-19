@@ -92,7 +92,7 @@ export class QuestionService {
      * @throws ApiError
      */
     public static questionControllerFindBooksBasedOnObjectiveTests(
-        objectiveTestId: Array<string>
+        objectiveTestId: string
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",

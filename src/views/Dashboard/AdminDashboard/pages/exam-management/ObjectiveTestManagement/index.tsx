@@ -23,6 +23,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/useGetMainObjectiveTests";
+import useGetBooksBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBooksBasedOnObjectiveTestId";
+import useCreateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useCreateObjectiveTestManagement";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -83,19 +85,62 @@ const ObjectiveTestManagement = (props: any) => {
 
     const [objectiveTestId, setObjectiveTestId] = React.useState<any>();
     const selectObjectiveTestRef = useRef<any>();
+    const [loading, setLoading] = useState(false);
+
+    const [bookId, setBookId] = React.useState<any>();
+    const selectBookRef = useRef<any>();
 
     const handleObjectiveTestChange = (event: SelectChangeEvent) => {
         setObjectiveTestId(event.target.value as any);
     };
 
+    const handleBookChange = (event: SelectChangeEvent) => {
+        setBookId(event.target.value as any);
+    };
+
     const getMainObjectiveTests = useGetMainObjectiveTests();
+    const getBooksBasedOnObjectiveTestId = useGetBooksBasedOnObjectiveTestId(objectiveTestId);
+    const createObjectiveTestManagement = useCreateObjectiveTestManagement();
+    useEffect(() => {
+        getBooksBasedOnObjectiveTestId.refetch();
+    }, [objectiveTestId]);
 
-    console.log(getMainObjectiveTests);
+    const handleCreateObjectiveTestManagement = async (data: any) => {
+        setLoading(true);
+        createObjectiveTestManagement.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
 
+                    toast.success(result.message);
+                } else {
+                    setLoading(false);
+                    if (Array.isArray(result.message)) {
+                        toast.error(
+                            <ul>
+                                {result.message.map((msg: string) => (
+                                    <li key={msg}>{msg}</li>
+                                ))}
+                            </ul>
+                        );
+                    } else {
+                        toast.error(
+                            <ul>
+                                <li key={result.message}>{result.message}</li>
+                            </ul>
+                        );
+                    }
+                }
+            },
+            onError: async (e: any) => {
+                toast.error(e.message);
+            },
+        });
+    };
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
-                <form>
+                <form onSubmit={handleSubmit(handleCreateObjectiveTestManagement)}>
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
                         <Select
@@ -119,7 +164,23 @@ const ObjectiveTestManagement = (props: any) => {
 
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
-                        <Select></Select>
+                        <Select
+                            value={bookId ?? ""}
+                            {...register("book", {
+                                required: "انتخاب کتاب اجباری است",
+                            })}
+                            inputRef={selectBookRef}
+                            onChange={handleBookChange}
+                        >
+                            {!getBooksBasedOnObjectiveTestId?.isLoading &&
+                                getBooksBasedOnObjectiveTestId?.data.map((element: any) => {
+                                    return element.books.map((book) => (
+                                        <MenuItem key={book._id} value={book._id}>
+                                            {book.title}
+                                        </MenuItem>
+                                    ));
+                                })}
+                        </Select>{" "}
                     </FormControl>
 
                     <Box className={classes.specialField}>
