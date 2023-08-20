@@ -11,7 +11,8 @@ import {
     MenuItem,
     SelectChangeEvent,
     TextField,
-    IconButton,
+    FormGroup,
+    FormControlLabel,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Controller, useForm } from "react-hook-form";
@@ -23,6 +24,7 @@ import { CalendarDarkSvg, DeleteLightSvg, PlusIconSvg } from "../../../../../../
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
+import Checkbox from "../../../../../../components/kit/Checkbox/Checkbox";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -189,6 +191,7 @@ const ObjectiveTest = (props: any) => {
                         className={classes.formField}
                         variant="outlined"
                         label="لطفا شماره آزمون را وارد کنید"
+                        type="number"
                     />
 
                     <FormControl className={classes.formField}>
@@ -265,6 +268,13 @@ const ObjectiveTest = (props: any) => {
                                     />
                                 </LocalizationProvider>
                             )}
+                        />
+                    </Box>
+
+                    <Box className={classes.specialField}>
+                        <FormControlLabel
+                            control={<Checkbox {...register("isPublished", {})} />}
+                            label="انتشار"
                         />
                     </Box>
 
