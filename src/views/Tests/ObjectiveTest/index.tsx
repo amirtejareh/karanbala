@@ -75,8 +75,8 @@ const ObjectiveTest = () => {
                 const durationInSeconds = Number(
                     jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
                         new Date(currentActiveObjectiveTestData?.start),
-                        "minutes"
-                    ) * 60
+                        "minutes",
+                    ) * 60,
                 );
                 setCountDown(durationInSeconds);
             }
@@ -118,22 +118,25 @@ const ObjectiveTest = () => {
             }
             return true;
         }
-        jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-            new Date(currentActiveObjectiveTestData?.start),
-            "minutes"
-        );
 
         if (
             Number(
                 jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
                     new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
-                )
+                    "minutes",
+                ),
             ) != 0
         ) {
+            if (
+                jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date()) ||
+                jMoment(new Date(currentActiveObjectiveTestData?.end)) < jMoment(new Date())
+            ) {
+                return true;
+            }
             if (!startObjectiveTest) {
                 return false;
             }
+
             return true;
         }
 
@@ -188,7 +191,7 @@ const ObjectiveTest = () => {
                                             >
                                                 <Typography>{objectiveTest.number}</Typography>
                                             </ButtonKit>
-                                        )
+                                        ),
                                     )
                                 ) : (
                                     <Box>
@@ -275,7 +278,7 @@ const ObjectiveTest = () => {
                                 ? currentActiveObjectiveTestData?.duration + " دقیقه"
                                 : jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
                                       new Date(currentActiveObjectiveTestData?.start),
-                                      "minutes"
+                                      "minutes",
                                   ) + "دقیقه"
                             : ""}
                     </Typography>
@@ -415,13 +418,13 @@ const ObjectiveTest = () => {
                             ? formatTime(countDown || 0)
                             : currentActiveObjectiveTestData?.duration
                             ? formatTime(
-                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
+                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60,
                               ) || 0
                             : formatTime(
                                   jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
                                       new Date(currentActiveObjectiveTestData?.start),
-                                      "minutes"
-                                  ) * 60
+                                      "minutes",
+                                  ) * 60,
                               )}
                     </Typography>
                 </Box>
