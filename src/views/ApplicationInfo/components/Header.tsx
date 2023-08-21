@@ -75,8 +75,6 @@ const Header = () => {
     const { accessToken } = authStore((state) => state);
     const userData: any = userStore((state) => state);
 
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
-
     const [popoverAnchor, setPopoverAnchor] = useState<any>(null);
     useEffect(() => {
         if (accessToken && userData.user === null) {
@@ -89,11 +87,11 @@ const Header = () => {
         }
     }, [accessToken, userData]);
 
-    const handlePopoverOpen = (event: any) => {
+    const handleLogin = (event: any) => {
         if (userData.user) {
             navigate("/auth/check");
         } else {
-            setPopoverAnchor(event.currentTarget);
+            navigate("/auth/login");
         }
     };
 
@@ -133,49 +131,11 @@ const Header = () => {
                     </ButtonKit>
                 </Box>
                 <Box className={classes.signUp}>
-                    <ButtonKit variant="contained" onClick={handlePopoverOpen}>
+                    <ButtonKit variant="contained" onClick={handleLogin}>
                         <Typography variant="subtitle1">
                             {userData.user ? `داشبورد` : `ورود / ثبت نام`}
                         </Typography>
                     </ButtonKit>
-                    <Popover
-                        open={Boolean(popoverAnchor)}
-                        anchorEl={popoverAnchor}
-                        onClose={handlePopoverClose}
-                        anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "center",
-                        }}
-                        transformOrigin={{
-                            vertical: "top",
-                            horizontal: "center",
-                        }}
-                    >
-                        <Box
-                            p={2}
-                            sx={{
-                                alignItems: "center",
-                                display: "grid",
-                            }}
-                        >
-                            <ButtonKit
-                                onClick={() => {
-                                    navigate("/auth/login");
-                                    handlePopoverClose(); // با کلیک روی دکمه ورود، popover بسته می‌شود
-                                }}
-                            >
-                                <Typography variant="subtitle1">ورود</Typography>
-                            </ButtonKit>
-                            <ButtonKit
-                                onClick={() => {
-                                    navigate("/auth/signup");
-                                    handlePopoverClose(); // با کلیک روی دکمه ثبت نام، popover بسته می‌شود
-                                }}
-                            >
-                                <Typography variant="subtitle1">ثبت نام</Typography>
-                            </ButtonKit>
-                        </Box>
-                    </Popover>
                 </Box>
             </Box>
             <Box
