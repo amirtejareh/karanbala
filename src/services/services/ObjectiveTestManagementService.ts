@@ -2,25 +2,25 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateObjectiveTestDto } from "../models/CreateObjectiveTestDto";
-import type { UpdateObjectiveTestDto } from "../models/UpdateObjectiveTestDto";
+import type { CreateObjectiveTestManagementDto } from "../models/CreateObjectiveTestManagementDto";
+import type { UpdateObjectiveTestManagementDto } from "../models/UpdateObjectiveTestManagementDto";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 
-export class ObjectiveTestService {
+export class ObjectiveTestManagementService {
     /**
      * @param requestBody
      * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerCreate(
-        requestBody: CreateObjectiveTestDto
+    public static objectiveTestManagementControllerCreate(
+        requestBody: CreateObjectiveTestManagementDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
-            url: "/objectiveTest",
+            url: "/objectiveTestManagement",
             body: requestBody,
             mediaType: "application/json",
         });
@@ -30,21 +30,10 @@ export class ObjectiveTestService {
      * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerFindAll(): CancelablePromise<any> {
+    public static objectiveTestManagementControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/objectiveTest",
-        });
-    }
-
-    /**
-     * @returns any
-     * @throws ApiError
-     */
-    public static objectiveTestControllerFindMainObjectiveTest(): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: "GET",
-            url: "/objectiveTest/mainTest",
+            url: "/objectiveTestManagement",
         });
     }
 
@@ -53,10 +42,10 @@ export class ObjectiveTestService {
      * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerFindOne(id: string): CancelablePromise<any> {
+    public static objectiveTestManagementControllerFindOne(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/objectiveTest/{id}",
+            url: "/objectiveTestManagement/{id}",
             path: {
                 id: id,
             },
@@ -69,13 +58,13 @@ export class ObjectiveTestService {
      * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerUpdate(
+    public static objectiveTestManagementControllerUpdate(
         id: string,
-        requestBody: UpdateObjectiveTestDto
+        requestBody: UpdateObjectiveTestManagementDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
-            url: "/objectiveTest/{id}",
+            url: "/objectiveTestManagement/{id}",
             path: {
                 id: id,
             },
@@ -89,10 +78,10 @@ export class ObjectiveTestService {
      * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerRemove(id: string): CancelablePromise<any> {
+    public static objectiveTestManagementControllerRemove(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "DELETE",
-            url: "/objectiveTest/{id}",
+            url: "/objectiveTestManagement/{id}",
             path: {
                 id: id,
             },

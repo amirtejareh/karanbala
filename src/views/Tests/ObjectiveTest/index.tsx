@@ -7,7 +7,6 @@ import { ButtonKit } from "../../../components/kit/Button";
 import { KaranbalaLogoTextSvg } from "../../../assets";
 import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveTests";
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
-import { toPersianDate } from "../../../utils/helper";
 import jMoment from "jalali-moment";
 
 const ObjectiveTest = () => {
@@ -21,6 +20,7 @@ const ObjectiveTest = () => {
         number?: string;
         duration?: string;
         start?: string;
+        end?: string;
         type?: string;
         createdAt?: string;
         updatedAt?: string;
@@ -58,6 +58,7 @@ const ObjectiveTest = () => {
     }, [getObjectiveTests.data]);
 
     const handleObjectiveTestClick = (objectiveTestId: string) => {
+        setStartObjectiveTest(false);
         setCurrentActiveObjectiveTestId(objectiveTestId);
     };
 
@@ -67,8 +68,18 @@ const ObjectiveTest = () => {
     let timer: NodeJS.Timeout;
     useEffect(() => {
         if (startObjectiveTest) {
-            const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
-            setCountDown(durationInSeconds);
+            if (currentActiveObjectiveTestData?.duration) {
+                const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
+                setCountDown(durationInSeconds);
+            } else {
+                const durationInSeconds = Number(
+                    jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                        new Date(currentActiveObjectiveTestData?.start),
+                        "minutes"
+                    ) * 60
+                );
+                setCountDown(durationInSeconds);
+            }
 
             timer = setInterval(() => {
                 setCountDown((prevCountDown) => prevCountDown - 1);
@@ -100,8 +111,6 @@ const ObjectiveTest = () => {
     const checkStartObjectiveTest = (): boolean => {
         if (currentActiveObjectiveTestData?.duration) {
             if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
-                console.log("startObjectiveTest", startObjectiveTest);
-
                 if (!startObjectiveTest) {
                     return false;
                 }
@@ -109,6 +118,25 @@ const ObjectiveTest = () => {
             }
             return true;
         }
+        jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+            new Date(currentActiveObjectiveTestData?.start),
+            "minutes"
+        );
+
+        if (
+            Number(
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                    new Date(currentActiveObjectiveTestData?.start),
+                    "minutes"
+                )
+            ) != 0
+        ) {
+            if (!startObjectiveTest) {
+                return false;
+            }
+            return true;
+        }
+
         return true;
     };
 
@@ -123,7 +151,7 @@ const ObjectiveTest = () => {
 
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
-            <Box display={"flex"} justifyContent={"end"}>
+            <Box display={"fflex"} justifyContent={"end"}>
                 <ButtonKit onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
@@ -242,9 +270,14 @@ const ObjectiveTest = () => {
                 <Box display={"flex"}>
                     <Typography>مدت پاسخگویی: </Typography>
                     <Typography>
-                        {currentActiveObjectiveTestData?.duration
-                            ? currentActiveObjectiveTestData?.duration + " دقیقه"
-                            : ""}{" "}
+                        {currentActiveObjectiveTestData
+                            ? currentActiveObjectiveTestData?.duration
+                                ? currentActiveObjectiveTestData?.duration + " دقیقه"
+                                : jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                                      new Date(currentActiveObjectiveTestData?.start),
+                                      "minutes"
+                                  ) + "دقیقه"
+                            : ""}
                     </Typography>
                 </Box>
                 <Box display={"flex"}>
@@ -267,6 +300,7 @@ const ObjectiveTest = () => {
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
+                        width: "100%",
                     },
                 }}
             >
@@ -379,9 +413,16 @@ const ObjectiveTest = () => {
                         زمان باقیمانده:{" "}
                         {startObjectiveTest
                             ? formatTime(countDown || 0)
-                            : formatTime(
+                            : currentActiveObjectiveTestData?.duration
+                            ? formatTime(
                                   (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
-                              ) || 0}
+                              ) || 0
+                            : formatTime(
+                                  jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                                      new Date(currentActiveObjectiveTestData?.start),
+                                      "minutes"
+                                  ) * 60
+                              )}
                     </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>

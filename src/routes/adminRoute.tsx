@@ -12,6 +12,7 @@ import GradeLevel from "../views/Dashboard/AdminDashboard/pages/content-manageme
 import Section from "../views/Dashboard/AdminDashboard/pages/content-management/Section";
 import ObjectiveTest from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTest";
 import Question from "../views/Dashboard/AdminDashboard/pages/exam-management/Question";
+import ObjectiveTestManagement from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTestManagement";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -139,6 +140,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <ObjectiveTest />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/objective-test-management"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <ObjectiveTestManagement />
                     </AuthorizedRoute>
                 }
             />

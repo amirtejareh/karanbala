@@ -11,20 +11,20 @@ import {
     MenuItem,
     SelectChangeEvent,
     TextField,
-    FormGroup,
-    FormControlLabel,
+    IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Controller, useForm } from "react-hook-form";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import { toast } from "react-toastify";
-import useCreateObjectiveTest from "../../../../../../hooks/objective-test/useCreateObjectiveTest";
 import "react-quill/dist/quill.snow.css";
-import { CalendarDarkSvg, DeleteLightSvg, PlusIconSvg } from "../../../../../../assets";
+import { CalendarDarkSvg } from "../../../../../../assets";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
-import Checkbox from "../../../../../../components/kit/Checkbox/Checkbox";
+import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/useGetMainObjectiveTests";
+import useGetBooksBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBooksBasedOnObjectiveTestId";
+import useCreateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useCreateObjectiveTestManagement";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexWrap: "wrap",
         maxWidth: "600px",
     },
-    objectiveTest: {
+    ObjectiveTestManagement: {
         margin: "0 50px",
     },
     formContainer: {
@@ -69,11 +69,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         margin: "1rem",
     },
 }));
-const ObjectiveTest = (props: any) => {
+const ObjectiveTestManagement = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
+
     const {
         handleSubmit,
         register,
@@ -82,22 +83,31 @@ const ObjectiveTest = (props: any) => {
         formState: { errors },
     } = useForm();
 
-    const selectGradeLevelRef = useRef<any>();
-
+    const [objectiveTestId, setObjectiveTestId] = React.useState<any>();
+    const selectObjectiveTestRef = useRef<any>();
     const [loading, setLoading] = useState(false);
 
-    const durationRef = useRef<any>(null);
+    const [bookId, setBookId] = React.useState<any>();
+    const selectBookRef = useRef<any>();
 
-    const [number, setNumber] = React.useState<any>(1);
+    const handleObjectiveTestChange = (event: SelectChangeEvent) => {
+        setObjectiveTestId(event.target.value as any);
+    };
 
-    const createObjectiveTest = useCreateObjectiveTest();
+    const handleBookChange = (event: SelectChangeEvent) => {
+        setBookId(event.target.value as any);
+    };
 
-    const [value, setValue] = useState<any>(new Date());
-    const [type, setType] = useState<string>("main");
+    const getMainObjectiveTests = useGetMainObjectiveTests();
+    const getBooksBasedOnObjectiveTestId = useGetBooksBasedOnObjectiveTestId(objectiveTestId);
+    const createObjectiveTestManagement = useCreateObjectiveTestManagement();
+    useEffect(() => {
+        getBooksBasedOnObjectiveTestId.refetch();
+    }, [objectiveTestId]);
 
-    const handleCreateObjectiveTest = async (data: any) => {
+    const handleCreateObjectiveTestManagement = async (data: any) => {
         setLoading(true);
-        createObjectiveTest.mutate(data, {
+        createObjectiveTestManagement.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
@@ -111,13 +121,13 @@ const ObjectiveTest = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>,
+                            </ul>
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>,
+                            </ul>
                         );
                     }
                 }
@@ -127,106 +137,52 @@ const ObjectiveTest = (props: any) => {
             },
         });
     };
-    const [gradeLevelId, setGradeLevelId] = React.useState<any>();
-    const getGradeLevels = useGetGradeLevels();
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
-
-    const handleGradeLevelChange = (event: SelectChangeEvent) => {
-        setGradeLevelId(event.target.value as any);
-    };
-
-    useEffect(() => {
-        if (durationRef && durationRef.current) {
-            if (type === "main") {
-                durationRef.current.style.display = "none";
-            } else {
-                durationRef.current.style.display = "block";
-            }
-        }
-    }, [type]);
-
-    useEffect(() => {
-        toast.error(errors["gradeLevel"]?.message?.toString());
-        toast.error(errors["number"]?.message?.toString());
-        toast.error(errors["type"]?.message?.toString());
-        toast.error(errors["duration"]?.message?.toString());
-        clearErrors();
-    }, [
-        errors["type"]?.message,
-        errors["number"]?.message,
-        errors["gradeLevel"]?.message,
-        errors["duration"]?.message,
-    ]);
-
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
-                <form onSubmit={handleSubmit(handleCreateObjectiveTest)}>
+                <form onSubmit={handleSubmit(handleCreateObjectiveTestManagement)}>
                     <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
+                        <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
                         <Select
-                            value={gradeLevelId ?? ""}
-                            {...register("gradeLevel", {
-                                required: "انتخاب پایه اجباری است",
+                            value={objectiveTestId ?? ""}
+                            {...register("objectiveTest", {
+                                required: "انتخاب آزمون اجباری است",
                             })}
-                            inputRef={selectGradeLevelRef}
-                            onChange={handleGradeLevelChange}
+                            inputRef={selectObjectiveTestRef}
+                            onChange={handleObjectiveTestChange}
                         >
-                            {!getGradeLevels?.isLoading &&
-                                getGradeLevels?.data.map((element: any) => {
+                            {!getMainObjectiveTests?.isLoading &&
+                                getMainObjectiveTests?.data.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
+                                            {element.number}
                                         </MenuItem>
                                     );
                                 })}
                         </Select>
                     </FormControl>
 
-                    <TextField
-                        {...register("number", {
-                            required: "لطفا شماره آزمون را وارد کنید",
-                        })}
-                        className={classes.formField}
-                        variant="outlined"
-                        label="لطفا شماره آزمون را وارد کنید"
-                        type="number"
-                    />
-
-                    <FormControl className={classes.formField}>
-                        <InputLabel id="demo-simple-select-label">نوع آزمون</InputLabel>
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
-                            {...register("type", {
-                                required: "لطفا نوع آزمون را مشخص کنید",
+                            value={bookId ?? ""}
+                            {...register("book", {
+                                required: "انتخاب کتاب اجباری است",
                             })}
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
+                            inputRef={selectBookRef}
+                            onChange={handleBookChange}
                         >
-                            <MenuItem key={1} value={"main"}>
-                                آزمون اصلی
-                            </MenuItem>
-                            <MenuItem key={2} value={"remedial"}>
-                                آزمون رفع اشکال
-                            </MenuItem>
-                        </Select>
+                            {!getBooksBasedOnObjectiveTestId?.isLoading &&
+                                getBooksBasedOnObjectiveTestId?.data.map((element: any) => {
+                                    return element.books.map((book) => (
+                                        <MenuItem key={book._id} value={book._id}>
+                                            {book.title}
+                                        </MenuItem>
+                                    ));
+                                })}
+                        </Select>{" "}
                     </FormControl>
 
-                    {type === "remedial" && (
-                        <TextField
-                            type="number"
-                            className={`${classes.formField} ${classes.durationField}`}
-                            variant="outlined"
-                            label="لطفا مدت زمان آزمون را به دقیقه مشخص کنید"
-                            {...register("duration", {
-                                required: "مدت زمان آزمون را مشخص کنید",
-                            })}
-                            ref={(e) => {
-                                register("duration").ref(e);
-                                durationRef.current = e;
-                            }}
-                        />
-                    )}
                     <Box className={classes.specialField}>
                         <Controller
                             name="start"
@@ -235,10 +191,8 @@ const ObjectiveTest = (props: any) => {
                                 <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
                                     <DateTimePicker
                                         label="تاریخ شروع آزمون"
-                                        value={selectedStartDate}
                                         onChange={(e) => {
                                             onChange(e);
-                                            setSelectedStartDate(e);
                                         }}
                                         components={{
                                             OpenPickerIcon: CalendarDarkSvg,
@@ -257,10 +211,8 @@ const ObjectiveTest = (props: any) => {
                                 <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
                                     <DateTimePicker
                                         label="تاریخ اتمام آزمون"
-                                        value={selectedEndDate}
                                         onChange={(e) => {
                                             onChange(e);
-                                            setSelectedEndDate(e);
                                         }}
                                         components={{
                                             OpenPickerIcon: CalendarDarkSvg,
@@ -271,30 +223,22 @@ const ObjectiveTest = (props: any) => {
                         />
                     </Box>
 
-                    <Box className={classes.specialField}>
-                        <FormControlLabel
-                            control={<Checkbox {...register("isPublished", {})} />}
-                            label="انتشار"
-                        />
-                    </Box>
-
                     <Button
                         variant="contained"
                         color="primary"
                         className={classes.specialField}
-                        disabled={loading}
                         type="submit"
                     >
-                        {loading ? <CircularProgress size={24} /> : "ذخیره"}
+                        {"ذخیره"}
                     </Button>
                 </form>
             </Box>
 
-            <Box className={classes.objectiveTest}>
+            <Box className={classes.ObjectiveTestManagement}>
                 <Typography>لیست آزمون‌های تستی</Typography>
             </Box>
         </Box>
     );
 };
 
-export default ObjectiveTest;
+export default ObjectiveTestManagement;
