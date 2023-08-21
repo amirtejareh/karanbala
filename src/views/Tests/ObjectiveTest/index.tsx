@@ -72,12 +72,7 @@ const ObjectiveTest = () => {
                 const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
                 setCountDown(durationInSeconds);
             } else {
-                const durationInSeconds = Number(
-                    jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                        new Date(currentActiveObjectiveTestData?.start),
-                        "minutes",
-                    ) * 60,
-                );
+                const durationInSeconds = Number(calculateExamElapseTime());
                 setCountDown(durationInSeconds);
             }
 
@@ -123,8 +118,8 @@ const ObjectiveTest = () => {
             Number(
                 jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
                     new Date(currentActiveObjectiveTestData?.start),
-                    "minutes",
-                ),
+                    "minutes"
+                )
             ) != 0
         ) {
             if (
@@ -152,6 +147,37 @@ const ObjectiveTest = () => {
         }
     }, [currentActiveObjectiveTestData]);
 
+    const calculateExamDurationTime = () => {
+        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                    new Date(currentActiveObjectiveTestData?.start),
+                    "minutes"
+                ) + "دقیقه"
+            );
+        } else {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") +
+                "دقیقه"
+            );
+        }
+    };
+
+    const calculateExamElapseTime = () => {
+        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                    new Date(currentActiveObjectiveTestData?.start),
+                    "minutes"
+                ) * 60
+            );
+        } else {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") *
+                60
+            );
+        }
+    };
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"fflex"} justifyContent={"end"}>
@@ -191,7 +217,7 @@ const ObjectiveTest = () => {
                                             >
                                                 <Typography>{objectiveTest.number}</Typography>
                                             </ButtonKit>
-                                        ),
+                                        )
                                     )
                                 ) : (
                                     <Box>
@@ -276,10 +302,7 @@ const ObjectiveTest = () => {
                         {currentActiveObjectiveTestData
                             ? currentActiveObjectiveTestData?.duration
                                 ? currentActiveObjectiveTestData?.duration + " دقیقه"
-                                : jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                                      new Date(currentActiveObjectiveTestData?.start),
-                                      "minutes",
-                                  ) + "دقیقه"
+                                : calculateExamDurationTime()
                             : ""}
                     </Typography>
                 </Box>
@@ -418,14 +441,9 @@ const ObjectiveTest = () => {
                             ? formatTime(countDown || 0)
                             : currentActiveObjectiveTestData?.duration
                             ? formatTime(
-                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60,
+                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
                               ) || 0
-                            : formatTime(
-                                  jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                                      new Date(currentActiveObjectiveTestData?.start),
-                                      "minutes",
-                                  ) * 60,
-                              )}
+                            : formatTime(calculateExamElapseTime())}
                     </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
