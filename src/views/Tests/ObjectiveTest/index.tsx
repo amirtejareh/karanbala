@@ -340,36 +340,6 @@ const ObjectiveTest = () => {
                     <Typography>ریاضیات</Typography>
                     <Typography>سوالات (۱ تا ۲۰)</Typography>
                 </Box>
-                <Box
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                    flexBasis={"22%"}
-                >
-                    <Typography>زیست شناسی</Typography>
-                    <Typography>سوالات (۲۱ تا ۴۰)</Typography>
-                </Box>
-                <Box
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                    flexBasis={"22%"}
-                >
-                    <Typography>زیست شناسی</Typography>
-                    <Typography>سوالات (۲۱ تا ۴۰)</Typography>
-                </Box>
-                <Box
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                    flexBasis={"22%"}
-                >
-                    <Typography>زیست شناسی</Typography>
-                    <Typography>سوالات (۲۱ تا ۴۰)</Typography>
-                </Box>
             </Box>
             <Box
                 display={"flex"}

@@ -38,6 +38,23 @@ export class ObjectiveTestManagementService {
     }
 
     /**
+     * @param objectiveTestId
+     * @returns any
+     * @throws ApiError
+     */
+    public static objectiveTestManagementControllerFindAllObjectiveTestsBasedOnTheSameObjectiveTestNumber(
+        objectiveTestId: string
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/objectiveTestManagement/withObjectiveTests/{objectiveTestId}",
+            path: {
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
+
+    /**
      * @param id
      * @returns any
      * @throws ApiError
