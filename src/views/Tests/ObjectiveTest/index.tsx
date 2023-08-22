@@ -8,6 +8,7 @@ import { KaranbalaLogoTextSvg } from "../../../assets";
 import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveTests";
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
 import jMoment from "jalali-moment";
+import useGetObjectiveTestsBasedNumber from "../../../hooks/objective-test-management/useGetObjectiveTestsBasedNumber";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -32,10 +33,16 @@ const ObjectiveTest = () => {
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
+    const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
+        currentActiveObjectiveTestId
+    );
 
     useEffect(() => {
         if (currentActiveObjectiveTestId !== "0") {
             getObjectiveTest.refetch();
+        }
+        if (currentActiveObjectiveTestId !== "0") {
+            getObjectiveTestBasedOnNumber.refetch();
         }
     }, [currentActiveObjectiveTestId]);
 
@@ -330,16 +337,18 @@ const ObjectiveTest = () => {
                     },
                 }}
             >
-                <Box
-                    flexBasis={"22%"}
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                >
-                    <Typography>ریاضیات</Typography>
-                    <Typography>سوالات (۱ تا ۲۰)</Typography>
-                </Box>
+                {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest) => (
+                    <Box
+                        flexBasis={"22%"}
+                        borderRadius={"1rem"}
+                        padding={"2.7rem 10.9rem"}
+                        bgcolor={theme?.palette?.grey[100]}
+                        textAlign={"center"}
+                    >
+                        <Typography>{objectiveTest?.books[0]?.title}</Typography>
+                        <Typography>سوالات (۱ تا ۲۰)</Typography>
+                    </Box>
+                ))}
             </Box>
             <Box
                 display={"flex"}
