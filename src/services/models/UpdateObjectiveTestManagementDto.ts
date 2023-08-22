@@ -3,11 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ObjectiveTest } from "./ObjectiveTest";
-
 export type UpdateObjectiveTestManagementDto = {
     book?: Array<string>;
-    objectiveTest?: ObjectiveTest;
+    objectiveTest?: Array<string>;
     books: Array<string>;
     examType: UpdateObjectiveTestManagementDto.examType;
 };

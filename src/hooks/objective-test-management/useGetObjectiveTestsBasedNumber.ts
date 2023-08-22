@@ -6,8 +6,6 @@ const useGetObjectiveTestsBasedNumber = (number: string) => {
     return useQuery(
         ["Get-All-Objective-Tests-Based-On-Number"],
         async () => {
-            console.log(number);
-
             return await ObjectiveTestManagementService.objectiveTestManagementControllerGetObjectiveTestsBasedNumber(
                 number
             );

@@ -3,9 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ObjectiveTest } from "./ObjectiveTest";
-
 export type CreateObjectiveTestManagementDto = {
     book: Array<string>;
-    objectiveTest: ObjectiveTest;
+    objectiveTest: Array<string>;
 };

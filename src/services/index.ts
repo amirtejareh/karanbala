@@ -14,7 +14,6 @@ export type { CreateSectionDto } from "./models/CreateSectionDto";
 export type { CreateSubjectDto } from "./models/CreateSubjectDto";
 export type { CreateTermOfStudyDto } from "./models/CreateTermOfStudyDto";
 export type { CreateUserDto } from "./models/CreateUserDto";
-export type { ObjectiveTest } from "./models/ObjectiveTest";
 export type { SigninUserDto } from "./models/SigninUserDto";
 export type { UpdateBookDto } from "./models/UpdateBookDto";
 export type { UpdateChapterDto } from "./models/UpdateChapterDto";
