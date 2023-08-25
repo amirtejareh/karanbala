@@ -9,6 +9,7 @@ import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveT
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
 import jMoment from "jalali-moment";
 import useGetObjectiveTestsBasedNumber from "../../../hooks/objective-test-management/useGetObjectiveTestsBasedNumber";
+import useGetQuestionsBasedOnBook from "../../../hooks/question/useGetQuestionsBasedOnBook";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -22,6 +23,7 @@ const ObjectiveTest = () => {
         duration?: string;
         start?: string;
         end?: string;
+        books: [{ _id: string }];
         type?: string;
         createdAt?: string;
         updatedAt?: string;
@@ -36,12 +38,27 @@ const ObjectiveTest = () => {
     const [countDown, setCountDown] = useState<number>();
     const [limit, setLimit] = useState(1);
     const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
+    const [currentActiveBook, setCurrentActiveBook] = useState<ObjectiveTestData>();
+
+    const getQuestionsBasedOnBook = useGetQuestionsBasedOnBook(
+        page,
+        limit,
+        currentActiveBook?.books[0]?._id
+    );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
         currentActiveObjectiveTestId
     );
+
+    useEffect(() => {
+        if (!getQuestionsBasedOnBook?.isLoading && getQuestionsBasedOnBook?.data) {
+            setPage(getQuestionsBasedOnBook?.data?.currentPage);
+            setTotalPage(getQuestionsBasedOnBook?.data?.totalPages);
+        }
+    }, [getQuestionsBasedOnBook?.data]);
 
     useEffect(() => {
         if (currentActiveObjectiveTestId !== "0") {
@@ -148,7 +165,13 @@ const ObjectiveTest = () => {
             .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     };
 
-    const [currentActiveBook, setCurrentActiveBook] = useState<ObjectiveTestData>();
+    useEffect(() => {
+        if (currentActiveBook) {
+            if (!getQuestionsBasedOnBook.isLoading) {
+                getQuestionsBasedOnBook.refetch();
+            }
+        }
+    }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
 
     const checkIfTestStarts = (objectiveTest) => {
         if (
@@ -225,10 +248,11 @@ const ObjectiveTest = () => {
                             <>
                                 {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
                                     getObjectiveTests.data.map(
-                                        (objectiveTest: ObjectiveTestData) => {
+                                        (objectiveTest: ObjectiveTestData, index) => {
                                             if (objectiveTest.isPublished)
                                                 return (
                                                     <ButtonKit
+                                                        key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
                                                                 objectiveTest._id
@@ -286,10 +310,11 @@ const ObjectiveTest = () => {
                             <>
                                 {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
                                     getObjectiveTests.data.map(
-                                        (objectiveTest: ObjectiveTestData) => {
+                                        (objectiveTest: ObjectiveTestData, index) => {
                                             if (objectiveTest.isPublished)
                                                 return (
                                                     <ButtonKit
+                                                        key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
                                                                 objectiveTest._id
@@ -363,8 +388,9 @@ const ObjectiveTest = () => {
                     },
                 }}
             >
-                {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest) => (
+                {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest, index) => (
                     <ButtonKit
+                        key={index}
                         sx={{
                             flexBasis: "22%",
                             borderRadius: "1rem",
@@ -445,7 +471,9 @@ const ObjectiveTest = () => {
             <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0"}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography fontSize={"3.2rem"} variant="subtitle1">
-                        ریاضیات
+                        {getQuestionsBasedOnBook?.data && (
+                            <>{getQuestionsBasedOnBook?.data?.questions[0]?.books[0]?.title}</>
+                        )}
                     </Typography>
                     <Typography fontSize={"1.8rem"} variant="caption">
                         زمان باقیمانده:{" "}
@@ -456,7 +484,23 @@ const ObjectiveTest = () => {
                 </Box>
 
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
-                    <Typography>۱- سوال مربوط به آزمون</Typography>
+                    <Typography>
+                        {getQuestionsBasedOnBook?.data && (
+                            <>
+                                <Box component={"span"}>
+                                    {getQuestionsBasedOnBook?.data?.questions[0]?.number}-{" "}
+                                </Box>
+                                <Box
+                                    component={"span"}
+                                    sx={{ "& p": { display: "inline" } }}
+                                    dangerouslySetInnerHTML={{
+                                        __html: getQuestionsBasedOnBook?.data?.questions[0]
+                                            .question,
+                                    }}
+                                ></Box>
+                            </>
+                        )}
+                    </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
                     <FormControl>
@@ -466,10 +510,33 @@ const ObjectiveTest = () => {
                             defaultValue="جواب ۱"
                             name="radio-buttons-group"
                         >
-                            <FormControlLabel value="جواب ۱" control={<Radio />} label="جواب ۱" />
-                            <FormControlLabel value="جواب ۲" control={<Radio />} label="جواب ۲" />
-                            <FormControlLabel value="جواب ۳" control={<Radio />} label="جواب ۳" />
-                            <FormControlLabel value="جواب ۴" control={<Radio />} label="جواب ۴" />
+                            {getQuestionsBasedOnBook?.data && (
+                                <>
+                                    {getQuestionsBasedOnBook?.data?.questions[0]?.options?.map(
+                                        (options) => {
+                                            return Object.values(options).map(
+                                                (option: any, index) => {
+                                                    return (
+                                                        <Box key={index}>
+                                                            <FormControlLabel
+                                                                value={index}
+                                                                control={<Radio />}
+                                                                label={
+                                                                    <Box
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: option,
+                                                                        }}
+                                                                    ></Box>
+                                                                }
+                                                            />
+                                                        </Box>
+                                                    );
+                                                }
+                                            );
+                                        }
+                                    )}
+                                </>
+                            )}
                         </RadioGroup>
                     </FormControl>
                 </Box>
@@ -484,10 +551,30 @@ const ObjectiveTest = () => {
                     >
                         <Typography>شروع آزمون</Typography>
                     </ButtonKit>
-                    <ButtonKit disabled={!startObjectiveTest} variant="contained">
+                    <ButtonKit
+                        onClick={() => {
+                            console.log(page, "page");
+                            console.log(totalPage, "totalPage");
+                            console.log(page <= totalPage, "page <= totalPage");
+
+                            if (page <= totalPage) {
+                                setPage(page + 1);
+                            }
+                        }}
+                        disabled={!startObjectiveTest}
+                        variant="contained"
+                    >
                         <Typography>سوال بعدی</Typography>
                     </ButtonKit>
-                    <ButtonKit disabled={!startObjectiveTest} variant="outlined">
+                    <ButtonKit
+                        onClick={() => {
+                            if (page >= 1) {
+                                setPage(page - 1);
+                            }
+                        }}
+                        disabled={!startObjectiveTest}
+                        variant="outlined"
+                    >
                         <Typography>سوال قبلی</Typography>
                     </ButtonKit>
                     <ButtonKit

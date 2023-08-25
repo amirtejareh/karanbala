@@ -57,7 +57,7 @@ export class QuestionService {
     public static questionControllerFindQuestionsBasedOnBooks(
         page: number,
         limit: number,
-        bookId: Array<string>
+        bookId: string
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
