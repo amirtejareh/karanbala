@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -29,7 +29,7 @@ const ObjectiveTest = () => {
         updatedAt?: string;
         isPublished: boolean;
     }
-    let timer: NodeJS.Timeout;
+    let timer;
     const [currentActiveObjectiveTestId, setCurrentActiveObjectiveTestId] = useState("0");
     const [currentActiveObjectiveTestData, setCurrentActiveObjectiveTestData] =
         useState<ObjectiveTestData>();
@@ -55,7 +55,6 @@ const ObjectiveTest = () => {
 
     useEffect(() => {
         if (!getQuestionsBasedOnBook?.isLoading && getQuestionsBasedOnBook?.data) {
-            setPage(getQuestionsBasedOnBook?.data?.currentPage);
             setTotalPage(getQuestionsBasedOnBook?.data?.totalPages);
         }
     }, [getQuestionsBasedOnBook?.data]);
@@ -98,6 +97,9 @@ const ObjectiveTest = () => {
 
     const calculateExamElapseTime = () => {
         if (currentActiveBook) {
+            console.log(jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date()));
+            console.log(jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "minutes") * 60);
+
             if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
                 return (
                     jMoment(new Date(currentActiveBook?.end)).diff(
@@ -112,6 +114,8 @@ const ObjectiveTest = () => {
 
         return 0;
     };
+
+    const [date, setDate] = useState(new Date());
 
     const handleObjectiveTestClick = (objectiveTestId: string) => {
         setStartObjectiveTest(false);
@@ -133,8 +137,9 @@ const ObjectiveTest = () => {
             );
         }
     };
-
     useEffect(() => {
+        let timerId = null;
+
         if (startObjectiveTest) {
             if (currentActiveObjectiveTestData?.duration) {
                 const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
@@ -144,16 +149,34 @@ const ObjectiveTest = () => {
                 setCountDown(durationInSeconds);
             }
 
-            timer = setInterval(() => {
-                checkIfTestStarts(currentActiveBook);
-                setCountDown((prevCountDown) => prevCountDown - 1);
+            timerId = setInterval(() => {
+                setCountDown((prevCountDown) => {
+                    const newCountDown = prevCountDown - 1;
+
+                    if (newCountDown === 0) {
+                        clearInterval(timerId);
+                    }
+
+                    return newCountDown;
+                });
             }, 1000);
         }
 
         return () => {
-            clearInterval(timer);
+            clearInterval(timerId);
         };
     }, [startObjectiveTest]);
+
+    useEffect(() => {
+        let timerId = null;
+
+        timerId = setInterval(() => {
+            setDate(new Date());
+        }, 5000);
+        return () => {
+            clearInterval(timerId);
+        };
+    }, []);
 
     const formatTime = (timeInSeconds: number) => {
         const hours = Math.floor(timeInSeconds / 3600);
@@ -174,6 +197,11 @@ const ObjectiveTest = () => {
     }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
 
     const checkIfTestStarts = (objectiveTest) => {
+        console.log(
+            jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
+                jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
+        );
+
         if (
             jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
             jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
@@ -217,6 +245,38 @@ const ObjectiveTest = () => {
 
         return true;
     };
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const handleRadioChange = ({ _id }, event) => {
+        const optionValue = event.target.value;
+        const optionIndex = selectedOptions.findIndex((option) => option.id === _id);
+
+        if (optionIndex !== -1) {
+            const updatedOptions = [...selectedOptions];
+            updatedOptions[optionIndex].value = optionValue;
+            setSelectedOptions(updatedOptions);
+        } else {
+            setSelectedOptions([...selectedOptions, { _id, value: optionValue }]);
+        }
+    };
+
+    const handleNextQuestion = ({ _id }) => {
+        console.log(selectedOptions);
+
+        const targetId = _id;
+        const defaultValue = "-";
+
+        const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
+
+        if (optionIndex === -1) {
+            setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
+        }
+    };
+
+    useEffect(() => {
+        formatTime(calculateExamElapseTime());
+    }, [date]);
 
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
@@ -399,7 +459,9 @@ const ObjectiveTest = () => {
                             textAlign: "center",
                         }}
                         disabled={checkIfTestStarts(objectiveTest)}
-                        onClick={() => setCurrentActiveBook(objectiveTest)}
+                        onClick={() => {
+                            setCurrentActiveBook(objectiveTest);
+                        }}
                     >
                         <Box>
                             {" "}
@@ -471,9 +533,10 @@ const ObjectiveTest = () => {
             <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0"}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography fontSize={"3.2rem"} variant="subtitle1">
-                        {getQuestionsBasedOnBook?.data && (
-                            <>{getQuestionsBasedOnBook?.data?.questions[0]?.books[0]?.title}</>
-                        )}
+                        {getQuestionsBasedOnBook?.data &&
+                            getQuestionsBasedOnBook?.data?.questions && (
+                                <>{getQuestionsBasedOnBook?.data?.questions[0]?.books[0]?.title}</>
+                            )}
                     </Typography>
                     <Typography fontSize={"1.8rem"} variant="caption">
                         زمان باقیمانده:{" "}
@@ -485,21 +548,22 @@ const ObjectiveTest = () => {
 
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
                     <Typography>
-                        {getQuestionsBasedOnBook?.data && (
-                            <>
-                                <Box component={"span"}>
-                                    {getQuestionsBasedOnBook?.data?.questions[0]?.number}-{" "}
-                                </Box>
-                                <Box
-                                    component={"span"}
-                                    sx={{ "& p": { display: "inline" } }}
-                                    dangerouslySetInnerHTML={{
-                                        __html: getQuestionsBasedOnBook?.data?.questions[0]
-                                            .question,
-                                    }}
-                                ></Box>
-                            </>
-                        )}
+                        {getQuestionsBasedOnBook?.data &&
+                            getQuestionsBasedOnBook?.data?.questions && (
+                                <>
+                                    <Box component={"span"}>
+                                        {getQuestionsBasedOnBook?.data?.questions[0]?.number}-{" "}
+                                    </Box>
+                                    <Box
+                                        component={"span"}
+                                        sx={{ "& p": { display: "inline" } }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: getQuestionsBasedOnBook?.data?.questions[0]
+                                                .question,
+                                        }}
+                                    ></Box>
+                                </>
+                            )}
                     </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
@@ -509,34 +573,38 @@ const ObjectiveTest = () => {
                             aria-labelledby="demo-radio-buttons-group-label"
                             defaultValue="جواب ۱"
                             name="radio-buttons-group"
+                            onChange={(e) =>
+                                handleRadioChange(getQuestionsBasedOnBook?.data?.questions[0], e)
+                            }
                         >
-                            {getQuestionsBasedOnBook?.data && (
-                                <>
-                                    {getQuestionsBasedOnBook?.data?.questions[0]?.options?.map(
-                                        (options) => {
-                                            return Object.values(options).map(
-                                                (option: any, index) => {
-                                                    return (
-                                                        <Box key={index}>
-                                                            <FormControlLabel
-                                                                value={index}
-                                                                control={<Radio />}
-                                                                label={
-                                                                    <Box
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html: option,
-                                                                        }}
-                                                                    ></Box>
-                                                                }
-                                                            />
-                                                        </Box>
-                                                    );
-                                                }
-                                            );
-                                        }
-                                    )}
-                                </>
-                            )}
+                            {getQuestionsBasedOnBook?.data &&
+                                getQuestionsBasedOnBook?.data?.questions && (
+                                    <>
+                                        {getQuestionsBasedOnBook?.data?.questions[0]?.options?.map(
+                                            (options) => {
+                                                return Object.values(options).map(
+                                                    (option: any, index) => {
+                                                        return (
+                                                            <Box key={index}>
+                                                                <FormControlLabel
+                                                                    value={index}
+                                                                    control={<Radio />}
+                                                                    label={
+                                                                        <Box
+                                                                            dangerouslySetInnerHTML={{
+                                                                                __html: option,
+                                                                            }}
+                                                                        ></Box>
+                                                                    }
+                                                                />
+                                                            </Box>
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        )}
+                                    </>
+                                )}
                         </RadioGroup>
                     </FormControl>
                 </Box>
@@ -553,11 +621,11 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                     <ButtonKit
                         onClick={() => {
-                            console.log(page, "page");
-                            console.log(totalPage, "totalPage");
-                            console.log(page <= totalPage, "page <= totalPage");
-
-                            if (page <= totalPage) {
+                            if (page == totalPage) {
+                                handleNextQuestion(getQuestionsBasedOnBook?.data?.questions[0]);
+                            }
+                            if (page < totalPage) {
+                                handleNextQuestion(getQuestionsBasedOnBook?.data?.questions[0]);
                                 setPage(page + 1);
                             }
                         }}
@@ -568,7 +636,7 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                     <ButtonKit
                         onClick={() => {
-                            if (page >= 1) {
+                            if (page > 1) {
                                 setPage(page - 1);
                             }
                         }}
