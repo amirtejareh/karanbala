@@ -27,16 +27,45 @@ export class QuestionService {
     /**
      * @param page
      * @param limit
+     * @param objectiveTestId
      * @returns any
      * @throws ApiError
      */
-    public static questionControllerFindAll(page: number, limit: number): CancelablePromise<any> {
+    public static questionControllerFindAll(
+        page: number,
+        limit: number,
+        objectiveTestId: string
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
             url: "/question",
             query: {
                 page: page,
                 limit: limit,
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
+
+    /**
+     * @param page
+     * @param limit
+     * @param bookId
+     * @returns any
+     * @throws ApiError
+     */
+    public static questionControllerFindQuestionsBasedOnBooks(
+        page: number,
+        limit: number,
+        bookId: Array<string>
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/withBooks/{BookId}",
+            query: {
+                page: page,
+                limit: limit,
+                BookId: bookId,
             },
         });
     }

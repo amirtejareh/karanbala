@@ -34,6 +34,8 @@ const ObjectiveTest = () => {
     const [startObjectiveTest, setStartObjectiveTest] = useState(false);
     const [startObjectiveTestDate, setStartObjectiveTestDate] = useState<any>();
     const [countDown, setCountDown] = useState<number>();
+    const [limit, setLimit] = useState(1);
+    const [page, setPage] = useState(1);
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);

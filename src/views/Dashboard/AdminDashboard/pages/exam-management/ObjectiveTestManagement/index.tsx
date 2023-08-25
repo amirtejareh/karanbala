@@ -99,6 +99,7 @@ const ObjectiveTestManagement = (props: any) => {
     };
 
     const getMainObjectiveTests = useGetMainObjectiveTests();
+
     const getBooksBasedOnObjectiveTestId = useGetBooksBasedOnObjectiveTestId(objectiveTestId);
     const createObjectiveTestManagement = useCreateObjectiveTestManagement();
     useEffect(() => {
@@ -173,12 +174,12 @@ const ObjectiveTestManagement = (props: any) => {
                             onChange={handleBookChange}
                         >
                             {!getBooksBasedOnObjectiveTestId?.isLoading &&
-                                getBooksBasedOnObjectiveTestId?.data.map((element: any) => {
-                                    return element.books.map((book) => (
+                                getBooksBasedOnObjectiveTestId?.data.map((book: any) => {
+                                    return (
                                         <MenuItem key={book._id} value={book._id}>
                                             {book.title}
                                         </MenuItem>
-                                    ));
+                                    );
                                 })}
                         </Select>{" "}
                     </FormControl>
