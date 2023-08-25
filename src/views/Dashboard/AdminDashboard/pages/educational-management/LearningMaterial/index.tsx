@@ -364,27 +364,6 @@ const LearningMaterial = (props: any) => {
                     </FormControl>
 
                     <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب ترم</InputLabel>
-                        <Select
-                            value={termOfStudyIds ?? []}
-                            {...register("terms")}
-                            inputRef={selectTermOfStudyRef}
-                            onChange={handleTermOfStudyChange}
-                            multiple
-                        >
-                            {!getTermOfStudies?.isLoading &&
-                                getTermOfStudies?.data != undefined &&
-                                getTermOfStudies?.data?.map((element) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
                         <Select
                             value={termOfStudyIds ?? []}

@@ -21,7 +21,7 @@ const App = () => {
                 });
             },
         }),
-        []
+        [],
     );
     const queryClient = new QueryClient();
 
