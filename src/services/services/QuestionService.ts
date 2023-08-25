@@ -25,13 +25,19 @@ export class QuestionService {
     }
 
     /**
+     * @param page
+     * @param limit
      * @returns any
      * @throws ApiError
      */
-    public static questionControllerFindAll(): CancelablePromise<any> {
+    public static questionControllerFindAll(page: number, limit: number): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
             url: "/question",
+            query: {
+                page: page,
+                limit: limit,
+            },
         });
     }
 

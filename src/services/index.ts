@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { Book } from "./models/Book";
 export type { CreateBookDto } from "./models/CreateBookDto";
 export type { CreateChapterDto } from "./models/CreateChapterDto";
 export type { CreateFieldOfStudyDto } from "./models/CreateFieldOfStudyDto";
@@ -14,13 +15,14 @@ export type { CreateSectionDto } from "./models/CreateSectionDto";
 export type { CreateSubjectDto } from "./models/CreateSubjectDto";
 export type { CreateTermOfStudyDto } from "./models/CreateTermOfStudyDto";
 export type { CreateUserDto } from "./models/CreateUserDto";
+export type { ObjectiveTest } from "./models/ObjectiveTest";
 export type { SigninUserDto } from "./models/SigninUserDto";
 export type { UpdateBookDto } from "./models/UpdateBookDto";
 export type { UpdateChapterDto } from "./models/UpdateChapterDto";
 export type { UpdateFieldOfStudyDto } from "./models/UpdateFieldOfStudyDto";
 export type { UpdateGradeLevelDto } from "./models/UpdateGradeLevelDto";
 export { UpdateObjectiveTestDto } from "./models/UpdateObjectiveTestDto";
-export { UpdateObjectiveTestManagementDto } from "./models/UpdateObjectiveTestManagementDto";
+export type { UpdateObjectiveTestManagementDto } from "./models/UpdateObjectiveTestManagementDto";
 export { UpdateQuestionDto } from "./models/UpdateQuestionDto";
 export type { UpdateSectionDto } from "./models/UpdateSectionDto";
 export type { UpdateSubjectDto } from "./models/UpdateSubjectDto";

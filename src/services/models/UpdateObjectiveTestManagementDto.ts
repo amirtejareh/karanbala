@@ -3,16 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UpdateObjectiveTestManagementDto = {
-    book?: Array<string>;
-    objectiveTest?: Array<string>;
-    books: Array<string>;
-    examType: UpdateObjectiveTestManagementDto.examType;
-};
+import type { Book } from "./Book";
+import type { ObjectiveTest } from "./ObjectiveTest";
 
-export namespace UpdateObjectiveTestManagementDto {
-    export enum examType {
-        MAIN = "main",
-        REMEDIAL = "remedial",
-    }
-}
+export type UpdateObjectiveTestManagementDto = {
+    books?: Book;
+    objectiveTest?: ObjectiveTest;
+};

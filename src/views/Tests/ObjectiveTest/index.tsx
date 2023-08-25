@@ -25,11 +25,15 @@ const ObjectiveTest = () => {
         type?: string;
         createdAt?: string;
         updatedAt?: string;
+        isPublished: boolean;
     }
-
+    let timer: NodeJS.Timeout;
     const [currentActiveObjectiveTestId, setCurrentActiveObjectiveTestId] = useState("0");
     const [currentActiveObjectiveTestData, setCurrentActiveObjectiveTestData] =
         useState<ObjectiveTestData>();
+    const [startObjectiveTest, setStartObjectiveTest] = useState(false);
+    const [startObjectiveTestDate, setStartObjectiveTestDate] = useState<any>();
+    const [countDown, setCountDown] = useState<number>();
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
@@ -44,7 +48,7 @@ const ObjectiveTest = () => {
         if (currentActiveObjectiveTestId !== "0") {
             getObjectiveTestBasedOnNumber.refetch();
         }
-    }, [currentActiveObjectiveTestId]);
+    }, [currentActiveObjectiveTestId, getObjectiveTest?.data, getObjectiveTestBasedOnNumber?.data]);
 
     useEffect(() => {
         if (!getObjectiveTest.isLoading) {
@@ -57,95 +61,6 @@ const ObjectiveTest = () => {
     }, []);
 
     useEffect(() => {
-        if (!getObjectiveTests.isLoading) {
-            if (getObjectiveTests.data.length > 0) {
-                setCurrentActiveObjectiveTestData(getObjectiveTests.data[0]);
-            }
-        }
-    }, [getObjectiveTests.data]);
-
-    const handleObjectiveTestClick = (objectiveTestId: string) => {
-        setStartObjectiveTest(false);
-        setCurrentActiveObjectiveTestId(objectiveTestId);
-    };
-
-    const [startObjectiveTest, setStartObjectiveTest] = useState(false);
-    const [startObjectiveTestDate, setStartObjectiveTestDate] = useState<any>();
-    const [countDown, setCountDown] = useState<number>();
-    let timer: NodeJS.Timeout;
-    useEffect(() => {
-        if (startObjectiveTest) {
-            if (currentActiveObjectiveTestData?.duration) {
-                const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
-                setCountDown(durationInSeconds);
-            } else {
-                const durationInSeconds = Number(calculateExamElapseTime());
-                setCountDown(durationInSeconds);
-            }
-
-            timer = setInterval(() => {
-                setCountDown((prevCountDown) => prevCountDown - 1);
-            }, 1000);
-        }
-
-        return () => {
-            clearInterval(timer);
-        };
-    }, [startObjectiveTest]);
-
-    useEffect(() => {
-        if (countDown < 0) {
-            setStartObjectiveTest(false);
-        }
-    }, [countDown]);
-
-    // تبدیل زمان به فرمت ساعت:دقیقه:ثانیه
-    const formatTime = (timeInSeconds: number) => {
-        const hours = Math.floor(timeInSeconds / 3600);
-        const minutes = Math.floor((timeInSeconds % 3600) / 60);
-        const seconds = timeInSeconds % 60;
-
-        return `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    };
-
-    const checkStartObjectiveTest = (): boolean => {
-        if (currentActiveObjectiveTestData?.duration) {
-            if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
-                if (!startObjectiveTest) {
-                    return false;
-                }
-                return true;
-            }
-            return true;
-        }
-
-        if (
-            Number(
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
-                )
-            ) != 0
-        ) {
-            if (
-                jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date()) ||
-                jMoment(new Date(currentActiveObjectiveTestData?.end)) < jMoment(new Date())
-            ) {
-                return true;
-            }
-            if (!startObjectiveTest) {
-                return false;
-            }
-
-            return true;
-        }
-
-        return true;
-    };
-
-    useEffect(() => {
         jMoment.locale("fa");
         if (currentActiveObjectiveTestData?.start) {
             const dateTime = new Date(currentActiveObjectiveTestData?.start);
@@ -153,6 +68,36 @@ const ObjectiveTest = () => {
             setStartObjectiveTestDate(jDate);
         }
     }, [currentActiveObjectiveTestData]);
+
+    useEffect(() => {
+        if (!getObjectiveTests.isLoading) {
+            if (getObjectiveTests.data.length > 0) {
+                setCurrentActiveObjectiveTestData(getObjectiveTests.data[0]);
+            }
+        }
+    }, [getObjectiveTests.data]);
+
+    const calculateExamElapseTime = () => {
+        if (currentActiveBook) {
+            if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
+                return (
+                    jMoment(new Date(currentActiveBook?.end)).diff(
+                        new Date(currentActiveBook?.start),
+                        "minutes"
+                    ) * 60
+                );
+            } else {
+                return jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "minutes") * 60;
+            }
+        }
+
+        return 0;
+    };
+
+    const handleObjectiveTestClick = (objectiveTestId: string) => {
+        setStartObjectiveTest(false);
+        setCurrentActiveObjectiveTestId(objectiveTestId);
+    };
 
     const calculateExamDurationTime = () => {
         if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
@@ -170,21 +115,84 @@ const ObjectiveTest = () => {
         }
     };
 
-    const calculateExamElapseTime = () => {
-        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
-                ) * 60
-            );
-        } else {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") *
-                60
-            );
+    useEffect(() => {
+        if (startObjectiveTest) {
+            if (currentActiveObjectiveTestData?.duration) {
+                const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
+                setCountDown(durationInSeconds);
+            } else {
+                const durationInSeconds = Number(calculateExamElapseTime());
+                setCountDown(durationInSeconds);
+            }
+
+            timer = setInterval(() => {
+                checkIfTestStarts(currentActiveBook);
+                setCountDown((prevCountDown) => prevCountDown - 1);
+            }, 1000);
         }
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [startObjectiveTest]);
+
+    const formatTime = (timeInSeconds: number) => {
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        const seconds = timeInSeconds % 60;
+
+        return `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     };
+
+    const [currentActiveBook, setCurrentActiveBook] = useState<ObjectiveTestData>();
+
+    const checkIfTestStarts = (objectiveTest) => {
+        if (
+            jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
+            jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
+        ) {
+            return false;
+        }
+        return true;
+    };
+
+    const checkStartObjectiveTest = (): boolean => {
+        if (currentActiveObjectiveTestData?.duration) {
+            if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
+                if (!startObjectiveTest) {
+                    return true;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        if (
+            Number(
+                jMoment(new Date(currentActiveBook?.end)).diff(
+                    new Date(currentActiveBook?.start),
+                    "minutes"
+                )
+            ) != 0
+        ) {
+            if (
+                jMoment(new Date(currentActiveBook?.start)) < jMoment(new Date()) &&
+                jMoment(new Date(currentActiveBook?.end)) > jMoment(new Date())
+            ) {
+                return false;
+            }
+            if (!startObjectiveTest) {
+                return true;
+            }
+
+            return true;
+        }
+
+        return true;
+    };
+
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"fflex"} justifyContent={"end"}>
@@ -215,16 +223,23 @@ const ObjectiveTest = () => {
                             <>
                                 {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
                                     getObjectiveTests.data.map(
-                                        (objectiveTest: ObjectiveTestData) => (
-                                            <ButtonKit
-                                                onClick={() => {
-                                                    handleObjectiveTestClick(objectiveTest._id);
-                                                }}
-                                                variant="contained"
-                                            >
-                                                <Typography>{objectiveTest.number}</Typography>
-                                            </ButtonKit>
-                                        )
+                                        (objectiveTest: ObjectiveTestData) => {
+                                            if (objectiveTest.isPublished)
+                                                return (
+                                                    <ButtonKit
+                                                        onClick={() => {
+                                                            handleObjectiveTestClick(
+                                                                objectiveTest._id
+                                                            );
+                                                        }}
+                                                        variant="contained"
+                                                    >
+                                                        <Typography>
+                                                            {objectiveTest.number}
+                                                        </Typography>
+                                                    </ButtonKit>
+                                                );
+                                        }
                                     )
                                 ) : (
                                     <Box>
@@ -268,16 +283,25 @@ const ObjectiveTest = () => {
                         {!getObjectiveTests.isLoading ? (
                             <>
                                 {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
-                                    getObjectiveTests.data.map((objectiveTest) => (
-                                        <ButtonKit
-                                            onClick={() => {
-                                                handleObjectiveTestClick(objectiveTest._id);
-                                            }}
-                                            variant="contained"
-                                        >
-                                            <Typography>{objectiveTest.number}</Typography>
-                                        </ButtonKit>
-                                    ))
+                                    getObjectiveTests.data.map(
+                                        (objectiveTest: ObjectiveTestData) => {
+                                            if (objectiveTest.isPublished)
+                                                return (
+                                                    <ButtonKit
+                                                        onClick={() => {
+                                                            handleObjectiveTestClick(
+                                                                objectiveTest._id
+                                                            );
+                                                        }}
+                                                        variant="contained"
+                                                    >
+                                                        <Typography>
+                                                            {objectiveTest.number}
+                                                        </Typography>
+                                                    </ButtonKit>
+                                                );
+                                        }
+                                    )
                                 ) : (
                                     <Box>
                                         <Typography>در حال حاضر آزمون فعالی وجود ندارد</Typography>
@@ -315,7 +339,7 @@ const ObjectiveTest = () => {
                 </Box>
                 <Box display={"flex"}>
                     <Typography>زمان فعال شدن آزمون: </Typography>
-                    <Typography>{startObjectiveTestDate ?? ""}</Typography>
+                    <Typography>{startObjectiveTestDate}</Typography>
                 </Box>{" "}
             </Box>
             <Box
@@ -338,16 +362,23 @@ const ObjectiveTest = () => {
                 }}
             >
                 {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest) => (
-                    <Box
-                        flexBasis={"22%"}
-                        borderRadius={"1rem"}
-                        padding={"2.7rem 10.9rem"}
-                        bgcolor={theme?.palette?.grey[100]}
-                        textAlign={"center"}
+                    <ButtonKit
+                        sx={{
+                            flexBasis: "22%",
+                            borderRadius: "1rem",
+                            padding: "2.7rem 10.9rem",
+                            bgcolor: theme?.palette?.grey[100],
+                            textAlign: "center",
+                        }}
+                        disabled={checkIfTestStarts(objectiveTest)}
+                        onClick={() => setCurrentActiveBook(objectiveTest)}
                     >
-                        <Typography>{objectiveTest?.books[0]?.title}</Typography>
-                        <Typography>سوالات (۱ تا ۲۰)</Typography>
-                    </Box>
+                        <Box>
+                            {" "}
+                            <Typography>{objectiveTest?.books[0]?.title}</Typography>
+                            <Typography>سوالات (۱ تا ۲۰)</Typography>
+                        </Box>
+                    </ButtonKit>
                 ))}
             </Box>
             <Box
@@ -418,13 +449,10 @@ const ObjectiveTest = () => {
                         زمان باقیمانده:{" "}
                         {startObjectiveTest
                             ? formatTime(countDown || 0)
-                            : currentActiveObjectiveTestData?.duration
-                            ? formatTime(
-                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
-                              ) || 0
                             : formatTime(calculateExamElapseTime())}
                     </Typography>
                 </Box>
+
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
                     <Typography>۱- سوال مربوط به آزمون</Typography>
                 </Box>

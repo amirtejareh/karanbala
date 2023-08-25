@@ -166,7 +166,7 @@ const ObjectiveTestManagement = (props: any) => {
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
                             value={bookId ?? ""}
-                            {...register("book", {
+                            {...register("books", {
                                 required: "انتخاب کتاب اجباری است",
                             })}
                             inputRef={selectBookRef}
