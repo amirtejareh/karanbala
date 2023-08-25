@@ -8,6 +8,7 @@ import { KaranbalaLogoTextSvg } from "../../../assets";
 import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveTests";
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
 import jMoment from "jalali-moment";
+import useGetObjectiveTestsBasedNumber from "../../../hooks/objective-test-management/useGetObjectiveTestsBasedNumber";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -32,10 +33,16 @@ const ObjectiveTest = () => {
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
+    const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
+        currentActiveObjectiveTestId
+    );
 
     useEffect(() => {
         if (currentActiveObjectiveTestId !== "0") {
             getObjectiveTest.refetch();
+        }
+        if (currentActiveObjectiveTestId !== "0") {
+            getObjectiveTestBasedOnNumber.refetch();
         }
     }, [currentActiveObjectiveTestId]);
 
@@ -72,12 +79,7 @@ const ObjectiveTest = () => {
                 const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
                 setCountDown(durationInSeconds);
             } else {
-                const durationInSeconds = Number(
-                    jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                        new Date(currentActiveObjectiveTestData?.start),
-                        "minutes"
-                    ) * 60
-                );
+                const durationInSeconds = Number(calculateExamElapseTime());
                 setCountDown(durationInSeconds);
             }
 
@@ -118,10 +120,6 @@ const ObjectiveTest = () => {
             }
             return true;
         }
-        jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-            new Date(currentActiveObjectiveTestData?.start),
-            "minutes"
-        );
 
         if (
             Number(
@@ -131,9 +129,16 @@ const ObjectiveTest = () => {
                 )
             ) != 0
         ) {
+            if (
+                jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date()) ||
+                jMoment(new Date(currentActiveObjectiveTestData?.end)) < jMoment(new Date())
+            ) {
+                return true;
+            }
             if (!startObjectiveTest) {
                 return false;
             }
+
             return true;
         }
 
@@ -149,6 +154,37 @@ const ObjectiveTest = () => {
         }
     }, [currentActiveObjectiveTestData]);
 
+    const calculateExamDurationTime = () => {
+        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                    new Date(currentActiveObjectiveTestData?.start),
+                    "minutes"
+                ) + "دقیقه"
+            );
+        } else {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") +
+                "دقیقه"
+            );
+        }
+    };
+
+    const calculateExamElapseTime = () => {
+        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                    new Date(currentActiveObjectiveTestData?.start),
+                    "minutes"
+                ) * 60
+            );
+        } else {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") *
+                60
+            );
+        }
+    };
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"fflex"} justifyContent={"end"}>
@@ -273,10 +309,7 @@ const ObjectiveTest = () => {
                         {currentActiveObjectiveTestData
                             ? currentActiveObjectiveTestData?.duration
                                 ? currentActiveObjectiveTestData?.duration + " دقیقه"
-                                : jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                                      new Date(currentActiveObjectiveTestData?.start),
-                                      "minutes"
-                                  ) + "دقیقه"
+                                : calculateExamDurationTime()
                             : ""}
                     </Typography>
                 </Box>
@@ -304,46 +337,18 @@ const ObjectiveTest = () => {
                     },
                 }}
             >
-                <Box
-                    flexBasis={"22%"}
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                >
-                    <Typography>ریاضیات</Typography>
-                    <Typography>سوالات (۱ تا ۲۰)</Typography>
-                </Box>
-                <Box
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                    flexBasis={"22%"}
-                >
-                    <Typography>زیست شناسی</Typography>
-                    <Typography>سوالات (۲۱ تا ۴۰)</Typography>
-                </Box>
-                <Box
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                    flexBasis={"22%"}
-                >
-                    <Typography>زیست شناسی</Typography>
-                    <Typography>سوالات (۲۱ تا ۴۰)</Typography>
-                </Box>
-                <Box
-                    borderRadius={"1rem"}
-                    padding={"2.7rem 10.9rem"}
-                    bgcolor={theme?.palette?.grey[100]}
-                    textAlign={"center"}
-                    flexBasis={"22%"}
-                >
-                    <Typography>زیست شناسی</Typography>
-                    <Typography>سوالات (۲۱ تا ۴۰)</Typography>
-                </Box>
+                {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest) => (
+                    <Box
+                        flexBasis={"22%"}
+                        borderRadius={"1rem"}
+                        padding={"2.7rem 10.9rem"}
+                        bgcolor={theme?.palette?.grey[100]}
+                        textAlign={"center"}
+                    >
+                        <Typography>{objectiveTest?.books[0]?.title}</Typography>
+                        <Typography>سوالات (۱ تا ۲۰)</Typography>
+                    </Box>
+                ))}
             </Box>
             <Box
                 display={"flex"}
@@ -417,12 +422,7 @@ const ObjectiveTest = () => {
                             ? formatTime(
                                   (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
                               ) || 0
-                            : formatTime(
-                                  jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                                      new Date(currentActiveObjectiveTestData?.start),
-                                      "minutes"
-                                  ) * 60
-                              )}
+                            : formatTime(calculateExamElapseTime())}
                     </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>

@@ -78,6 +78,10 @@ export const adminDashboardMenuItems = [
                             title: "ایجاد شناسنامه سوال",
                             to: "/pv/karanbala/admin/question",
                         },
+                        {
+                            title: "مدیریت آزمون",
+                            to: "/pv/karanbala/admin/objective-test-management",
+                        },
                     ],
                 },
             ],
