@@ -97,9 +97,6 @@ const ObjectiveTest = () => {
 
     const calculateExamElapseTime = () => {
         if (currentActiveBook) {
-            console.log(jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date()));
-            console.log(jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "minutes") * 60);
-
             if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
                 return (
                     jMoment(new Date(currentActiveBook?.end)).diff(
@@ -197,11 +194,6 @@ const ObjectiveTest = () => {
     }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
 
     const checkIfTestStarts = (objectiveTest) => {
-        console.log(
-            jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
-                jMoment(new Date(objectiveTest?.end)) > jMoment(new Date()),
-        );
-
         if (
             jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
             jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
@@ -262,8 +254,6 @@ const ObjectiveTest = () => {
     };
 
     const handleNextQuestion = ({ _id }) => {
-        console.log(selectedOptions);
-
         const targetId = _id;
         const defaultValue = "-";
 
