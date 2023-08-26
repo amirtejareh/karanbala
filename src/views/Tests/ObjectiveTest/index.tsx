@@ -29,7 +29,6 @@ const ObjectiveTest = () => {
         updatedAt?: string;
         isPublished: boolean;
     }
-    let timer;
     const [currentActiveObjectiveTestId, setCurrentActiveObjectiveTestId] = useState("0");
     const [currentActiveObjectiveTestData, setCurrentActiveObjectiveTestData] =
         useState<ObjectiveTestData>();
@@ -39,19 +38,144 @@ const ObjectiveTest = () => {
     const [limit, setLimit] = useState(1);
     const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
+    const [, setDate] = useState(new Date());
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
     const [currentActiveBook, setCurrentActiveBook] = useState<ObjectiveTestData>();
-
     const getQuestionsBasedOnBook = useGetQuestionsBasedOnBook(
         page,
         limit,
-        currentActiveBook?.books[0]?._id,
+        currentActiveBook?.books[0]?._id
     );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
-        currentActiveObjectiveTestId,
+        currentActiveObjectiveTestId
     );
+
+    const checkIfTestStarts = (objectiveTest) => {
+        if (
+            jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
+            jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
+        ) {
+            return false;
+        }
+        return true;
+    };
+
+    const checkStartObjectiveTest = (): boolean => {
+        if (currentActiveObjectiveTestData?.duration) {
+            if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
+                if (!startObjectiveTest) {
+                    return true;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        if (
+            Number(
+                jMoment(new Date(currentActiveBook?.end)).diff(
+                    new Date(currentActiveBook?.start),
+                    "seconds"
+                )
+            ) >= 0
+        ) {
+            if (
+                jMoment(new Date(currentActiveBook?.start)) < jMoment(new Date()) &&
+                jMoment(new Date(currentActiveBook?.end)) > jMoment(new Date())
+            ) {
+                return false;
+            }
+            if (!startObjectiveTest) {
+                return true;
+            }
+
+            return true;
+        }
+
+        return true;
+    };
+
+    const handleRadioChange = ({ _id }, event) => {
+        const optionValue = event.target.value;
+        const optionIndex = selectedOptions.findIndex((option) => option.id === _id);
+
+        if (optionIndex !== -1) {
+            const updatedOptions = [...selectedOptions];
+            updatedOptions[optionIndex].value = optionValue;
+            setSelectedOptions(updatedOptions);
+        } else {
+            setSelectedOptions([...selectedOptions, { _id, value: optionValue }]);
+        }
+    };
+
+    const handleNextQuestion = ({ _id }) => {
+        console.log(selectedOptions);
+
+        const targetId = _id;
+        const defaultValue = "-";
+
+        const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
+
+        if (optionIndex === -1) {
+            setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
+        }
+    };
+
+    const calculateExamElapseTime = () => {
+        if (currentActiveBook) {
+            if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
+                return jMoment(new Date(currentActiveBook?.end)).diff(
+                    new Date(currentActiveBook?.start),
+                    "seconds"
+                );
+            } else {
+                if (
+                    Number(jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "seconds")) >
+                    0
+                ) {
+                    return jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "seconds");
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        return 0;
+    };
+
+    const handleObjectiveTestClick = (objectiveTestId: string) => {
+        setStartObjectiveTest(false);
+        setCurrentActiveObjectiveTestId(objectiveTestId);
+    };
+
+    const calculateExamDurationTime = () => {
+        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
+                    new Date(currentActiveObjectiveTestData?.start),
+                    "minutes"
+                ) + "دقیقه"
+            );
+        } else {
+            return (
+                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") +
+                "دقیقه"
+            );
+        }
+    };
+
+    const formatTime = (timeInSeconds: number) => {
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        const seconds = timeInSeconds % 60;
+
+        return `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    };
 
     useEffect(() => {
         if (!getQuestionsBasedOnBook?.isLoading && getQuestionsBasedOnBook?.data) {
@@ -95,45 +219,6 @@ const ObjectiveTest = () => {
         }
     }, [getObjectiveTests.data]);
 
-    const calculateExamElapseTime = () => {
-        if (currentActiveBook) {
-            if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
-                return (
-                    jMoment(new Date(currentActiveBook?.end)).diff(
-                        new Date(currentActiveBook?.start),
-                        "minutes",
-                    ) * 60
-                );
-            } else {
-                return jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "minutes") * 60;
-            }
-        }
-
-        return 0;
-    };
-
-    const [date, setDate] = useState(new Date());
-
-    const handleObjectiveTestClick = (objectiveTestId: string) => {
-        setStartObjectiveTest(false);
-        setCurrentActiveObjectiveTestId(objectiveTestId);
-    };
-
-    const calculateExamDurationTime = () => {
-        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes",
-                ) + "دقیقه"
-            );
-        } else {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") +
-                "دقیقه"
-            );
-        }
-    };
     useEffect(() => {
         let timerId = null;
 
@@ -150,7 +235,10 @@ const ObjectiveTest = () => {
                 setCountDown((prevCountDown) => {
                     const newCountDown = prevCountDown - 1;
 
-                    if (newCountDown === 0) {
+                    if (newCountDown <= 0) {
+                        setStartObjectiveTest(false);
+                        setDate(new Date());
+                        checkStartObjectiveTest();
                         clearInterval(timerId);
                     }
 
@@ -169,21 +257,12 @@ const ObjectiveTest = () => {
 
         timerId = setInterval(() => {
             setDate(new Date());
+            checkStartObjectiveTest();
         }, 5000);
         return () => {
             clearInterval(timerId);
         };
     }, []);
-
-    const formatTime = (timeInSeconds: number) => {
-        const hours = Math.floor(timeInSeconds / 3600);
-        const minutes = Math.floor((timeInSeconds % 3600) / 60);
-        const seconds = timeInSeconds % 60;
-
-        return `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    };
 
     useEffect(() => {
         if (currentActiveBook) {
@@ -192,81 +271,6 @@ const ObjectiveTest = () => {
             }
         }
     }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
-
-    const checkIfTestStarts = (objectiveTest) => {
-        if (
-            jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
-            jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
-        ) {
-            return false;
-        }
-        return true;
-    };
-
-    const checkStartObjectiveTest = (): boolean => {
-        if (currentActiveObjectiveTestData?.duration) {
-            if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
-                if (!startObjectiveTest) {
-                    return true;
-                }
-                return true;
-            }
-            return true;
-        }
-
-        if (
-            Number(
-                jMoment(new Date(currentActiveBook?.end)).diff(
-                    new Date(currentActiveBook?.start),
-                    "minutes",
-                ),
-            ) != 0
-        ) {
-            if (
-                jMoment(new Date(currentActiveBook?.start)) < jMoment(new Date()) &&
-                jMoment(new Date(currentActiveBook?.end)) > jMoment(new Date())
-            ) {
-                return false;
-            }
-            if (!startObjectiveTest) {
-                return true;
-            }
-
-            return true;
-        }
-
-        return true;
-    };
-
-    const [selectedOptions, setSelectedOptions] = useState([]);
-
-    const handleRadioChange = ({ _id }, event) => {
-        const optionValue = event.target.value;
-        const optionIndex = selectedOptions.findIndex((option) => option.id === _id);
-
-        if (optionIndex !== -1) {
-            const updatedOptions = [...selectedOptions];
-            updatedOptions[optionIndex].value = optionValue;
-            setSelectedOptions(updatedOptions);
-        } else {
-            setSelectedOptions([...selectedOptions, { _id, value: optionValue }]);
-        }
-    };
-
-    const handleNextQuestion = ({ _id }) => {
-        const targetId = _id;
-        const defaultValue = "-";
-
-        const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
-
-        if (optionIndex === -1) {
-            setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
-        }
-    };
-
-    useEffect(() => {
-        formatTime(calculateExamElapseTime());
-    }, [date]);
 
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
@@ -296,7 +300,7 @@ const ObjectiveTest = () => {
                     >
                         {!getObjectiveTests.isLoading ? (
                             <>
-                                {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
+                                {getObjectiveTests.data && getObjectiveTests.data.length >= 0 ? (
                                     getObjectiveTests.data.map(
                                         (objectiveTest: ObjectiveTestData, index) => {
                                             if (objectiveTest.isPublished)
@@ -305,7 +309,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id,
+                                                                objectiveTest._id
                                                             );
                                                         }}
                                                         variant="contained"
@@ -315,7 +319,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        },
+                                        }
                                     )
                                 ) : (
                                     <Box>
@@ -367,7 +371,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id,
+                                                                objectiveTest._id
                                                             );
                                                         }}
                                                         variant="contained"
@@ -377,7 +381,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        },
+                                        }
                                     )
                                 ) : (
                                     <Box>
@@ -476,7 +480,7 @@ const ObjectiveTest = () => {
                     },
                 }}
             >
-                <Box>
+                {/* <Box>
                     <ButtonKit variant="contained">
                         <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
                     </ButtonKit>
@@ -485,27 +489,7 @@ const ObjectiveTest = () => {
                     <ButtonKit variant="contained">
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
-                    </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
-                    </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
-                    </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
-                    </ButtonKit>
-                </Box>
+                </Box> */}
             </Box>
             <ButtonKit sx={{ width: "100%" }} onClick={() => navigate("report")}>
                 <Box
@@ -591,9 +575,9 @@ const ObjectiveTest = () => {
                                                                 />
                                                             </Box>
                                                         );
-                                                    },
+                                                    }
                                                 );
-                                            },
+                                            }
                                         )}
                                     </>
                                 )}
