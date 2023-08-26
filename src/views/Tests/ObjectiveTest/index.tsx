@@ -47,10 +47,10 @@ const ObjectiveTest = () => {
     const getQuestionsBasedOnBook = useGetQuestionsBasedOnBook(
         page,
         limit,
-        currentActiveBook?.books[0]?._id
+        currentActiveBook?.books[0]?._id,
     );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
-        currentActiveObjectiveTestId
+        currentActiveObjectiveTestId,
     );
 
     useEffect(() => {
@@ -104,7 +104,7 @@ const ObjectiveTest = () => {
                 return (
                     jMoment(new Date(currentActiveBook?.end)).diff(
                         new Date(currentActiveBook?.start),
-                        "minutes"
+                        "minutes",
                     ) * 60
                 );
             } else {
@@ -127,7 +127,7 @@ const ObjectiveTest = () => {
             return (
                 jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
                     new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
+                    "minutes",
                 ) + "دقیقه"
             );
         } else {
@@ -199,7 +199,7 @@ const ObjectiveTest = () => {
     const checkIfTestStarts = (objectiveTest) => {
         console.log(
             jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
-                jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
+                jMoment(new Date(objectiveTest?.end)) > jMoment(new Date()),
         );
 
         if (
@@ -226,8 +226,8 @@ const ObjectiveTest = () => {
             Number(
                 jMoment(new Date(currentActiveBook?.end)).diff(
                     new Date(currentActiveBook?.start),
-                    "minutes"
-                )
+                    "minutes",
+                ),
             ) != 0
         ) {
             if (
@@ -315,7 +315,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id
+                                                                objectiveTest._id,
                                                             );
                                                         }}
                                                         variant="contained"
@@ -325,7 +325,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        }
+                                        },
                                     )
                                 ) : (
                                     <Box>
@@ -377,7 +377,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id
+                                                                objectiveTest._id,
                                                             );
                                                         }}
                                                         variant="contained"
@@ -387,7 +387,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        }
+                                        },
                                     )
                                 ) : (
                                     <Box>
@@ -461,6 +461,8 @@ const ObjectiveTest = () => {
                         disabled={checkIfTestStarts(objectiveTest)}
                         onClick={() => {
                             setCurrentActiveBook(objectiveTest);
+                            setPage(1);
+                            setTotalPage(1);
                         }}
                     >
                         <Box>
@@ -599,9 +601,9 @@ const ObjectiveTest = () => {
                                                                 />
                                                             </Box>
                                                         );
-                                                    }
+                                                    },
                                                 );
-                                            }
+                                            },
                                         )}
                                     </>
                                 )}
