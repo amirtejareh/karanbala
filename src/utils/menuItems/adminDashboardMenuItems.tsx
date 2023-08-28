@@ -28,6 +28,11 @@ export const adminDashboardMenuItems = [
                             to: "/pv/karanbala/admin/grade-level",
                         },
                         {
+                            title: "کتاب مرجع",
+                            to: "/pv/karanbala/admin/book-reference",
+                        },
+
+                        {
                             title: "کتاب",
                             to: "/pv/karanbala/admin/book",
                         },

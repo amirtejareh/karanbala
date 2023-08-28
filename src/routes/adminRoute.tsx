@@ -13,6 +13,7 @@ import Section from "../views/Dashboard/AdminDashboard/pages/content-management/
 import ObjectiveTest from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTest";
 import Question from "../views/Dashboard/AdminDashboard/pages/exam-management/Question";
 import ObjectiveTestManagement from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTestManagement";
+import BookReference from "../views/Dashboard/AdminDashboard/pages/content-management/BookReference";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -61,6 +62,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <Book />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/book-reference"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <BookReference />
                     </AuthorizedRoute>
                 }
             />
