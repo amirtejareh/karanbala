@@ -58,7 +58,7 @@ export class BookService {
      */
     public static bookControllerUpdate(
         id: string,
-        requestBody: UpdateBookDto
+        requestBody: UpdateBookDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
@@ -92,7 +92,7 @@ export class BookService {
      * @throws ApiError
      */
     public static bookControllerFindBooksBasedOnGradeLevels(
-        gradeLevelId: Array<string>
+        gradeLevelId: Array<string>,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",

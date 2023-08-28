@@ -2,139 +2,147 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateQuestionDto } from "../models/CreateQuestionDto";
-import type { UpdateQuestionDto } from "../models/UpdateQuestionDto";
+import type { CreateQuestionDto } from '../models/CreateQuestionDto';
+import type { UpdateQuestionDto } from '../models/UpdateQuestionDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class QuestionService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
-    public static questionControllerCreate(requestBody: CreateQuestionDto): CancelablePromise<any> {
+    public static questionControllerCreate(
+requestBody: CreateQuestionDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/question",
+            method: 'POST',
+            url: '/question',
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param page
-     * @param limit
-     * @param objectiveTestId
-     * @returns any
+     * @param page 
+     * @param limit 
+     * @param objectiveTestId 
+     * @returns any 
      * @throws ApiError
      */
     public static questionControllerFindAll(
-        page: number,
-        limit: number,
-        objectiveTestId: string
-    ): CancelablePromise<any> {
+page: number,
+limit: number,
+objectiveTestId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/question",
+            method: 'GET',
+            url: '/question',
             query: {
-                page: page,
-                limit: limit,
-                objectiveTestId: objectiveTestId,
+                'page': page,
+                'limit': limit,
+                'objectiveTestId': objectiveTestId,
             },
         });
     }
 
     /**
-     * @param page
-     * @param limit
-     * @param bookId
-     * @returns any
+     * @param page 
+     * @param limit 
+     * @param bookId 
+     * @returns any 
      * @throws ApiError
      */
     public static questionControllerFindQuestionsBasedOnBooks(
-        page: number,
-        limit: number,
-        bookId: string
-    ): CancelablePromise<any> {
+page: number,
+limit: number,
+bookId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/question/withBooks/{BookId}",
+            method: 'GET',
+            url: '/question/withBooks/{BookId}',
             query: {
-                page: page,
-                limit: limit,
-                BookId: bookId,
+                'page': page,
+                'limit': limit,
+                'BookId': bookId,
             },
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static questionControllerFindOne(id: string): CancelablePromise<any> {
+    public static questionControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/question/{id}",
+            method: 'GET',
+            url: '/question/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static questionControllerUpdate(
-        id: string,
-        requestBody: UpdateQuestionDto
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateQuestionDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/question/{id}",
+            method: 'PATCH',
+            url: '/question/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static questionControllerRemove(id: string): CancelablePromise<any> {
+    public static questionControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/question/{id}",
+            method: 'DELETE',
+            url: '/question/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param objectiveTestId
-     * @returns any
+     * @param objectiveTestId 
+     * @returns any 
      * @throws ApiError
      */
     public static questionControllerFindBooksBasedOnObjectiveTests(
-        objectiveTestId: string
-    ): CancelablePromise<any> {
+objectiveTestId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/question/withMainObjectiveTestId/{objectiveTestId}",
+            method: 'GET',
+            url: '/question/withMainObjectiveTestId/{objectiveTestId}',
             path: {
-                objectiveTestId: objectiveTestId,
+                'objectiveTestId': objectiveTestId,
             },
         });
     }
+
 }

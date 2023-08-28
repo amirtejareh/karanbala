@@ -16,7 +16,7 @@ export class ObjectiveTestManagementService {
      * @throws ApiError
      */
     public static objectiveTestManagementControllerCreate(
-        requestBody: CreateObjectiveTestManagementDto
+        requestBody: CreateObjectiveTestManagementDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
@@ -43,7 +43,7 @@ export class ObjectiveTestManagementService {
      * @throws ApiError
      */
     public static objectiveTestManagementControllerGetObjectiveTestsBasedNumber(
-        objectiveTestId: string
+        objectiveTestId: string,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
@@ -77,7 +77,7 @@ export class ObjectiveTestManagementService {
      */
     public static objectiveTestManagementControllerUpdate(
         id: string,
-        requestBody: UpdateObjectiveTestManagementDto
+        requestBody: UpdateObjectiveTestManagementDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",

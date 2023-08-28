@@ -2,26 +2,26 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateObjectiveTestDto } from '../models/CreateObjectiveTestDto';
-import type { UpdateObjectiveTestDto } from '../models/UpdateObjectiveTestDto';
+import type { CreateBookReferenceDto } from '../models/CreateBookReferenceDto';
+import type { UpdateBookReferenceDto } from '../models/UpdateBookReferenceDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class ObjectiveTestService {
+export class BookReferenceService {
 
     /**
      * @param requestBody 
      * @returns any 
      * @throws ApiError
      */
-    public static objectiveTestControllerCreate(
-requestBody: CreateObjectiveTestDto,
+    public static bookReferenceControllerCreate(
+requestBody: CreateBookReferenceDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/objectiveTest',
+            url: '/bookReference',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -31,21 +31,10 @@ requestBody: CreateObjectiveTestDto,
      * @returns any 
      * @throws ApiError
      */
-    public static objectiveTestControllerFindAll(): CancelablePromise<any> {
+    public static bookReferenceControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/objectiveTest',
-        });
-    }
-
-    /**
-     * @returns any 
-     * @throws ApiError
-     */
-    public static objectiveTestControllerFindMainObjectiveTest(): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/objectiveTest/mainTest',
+            url: '/bookReference',
         });
     }
 
@@ -54,12 +43,12 @@ requestBody: CreateObjectiveTestDto,
      * @returns any 
      * @throws ApiError
      */
-    public static objectiveTestControllerFindOne(
+    public static bookReferenceControllerFindOne(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/objectiveTest/{id}',
+            url: '/bookReference/{id}',
             path: {
                 'id': id,
             },
@@ -72,13 +61,13 @@ id: string,
      * @returns any 
      * @throws ApiError
      */
-    public static objectiveTestControllerUpdate(
+    public static bookReferenceControllerUpdate(
 id: string,
-requestBody: UpdateObjectiveTestDto,
+requestBody: UpdateBookReferenceDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/objectiveTest/{id}',
+            url: '/bookReference/{id}',
             path: {
                 'id': id,
             },
@@ -92,14 +81,31 @@ requestBody: UpdateObjectiveTestDto,
      * @returns any 
      * @throws ApiError
      */
-    public static objectiveTestControllerRemove(
+    public static bookReferenceControllerRemove(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/objectiveTest/{id}',
+            url: '/bookReference/{id}',
             path: {
                 'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param gradeLevelId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookReferenceControllerFindBookReferencesBasedOnGradeLevels(
+gradeLevelId: Array<string>,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/bookReference/withGradeLevels/{gradeLevelId}',
+            path: {
+                'gradeLevelId': gradeLevelId,
             },
         });
     }
