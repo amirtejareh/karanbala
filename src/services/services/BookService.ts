@@ -102,4 +102,21 @@ export class BookService {
             },
         });
     }
+
+    /**
+     * @param bookReferenceId
+     * @returns any
+     * @throws ApiError
+     */
+    public static bookControllerFindBooksBasedOnBookReferences(
+        bookReferenceId: Array<string>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/book/withBookReferences/{bookReferenceId}",
+            path: {
+                bookReferenceId: bookReferenceId,
+            },
+        });
+    }
 }

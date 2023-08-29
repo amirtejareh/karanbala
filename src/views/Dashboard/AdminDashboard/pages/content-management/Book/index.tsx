@@ -292,7 +292,7 @@ const Book = (props: any) => {
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب مرجع</InputLabel>
                         <Select
                             value={bookReferenceIds ?? []}
-                            {...register("bookReference")}
+                            {...register("bookReferences")}
                             inputRef={selectBookReferenceRef}
                             onChange={handleBookReferenceChange}
                             multiple
@@ -426,6 +426,8 @@ const Book = (props: any) => {
 
                                                     setGradeLevelIds(item.gradeLevels);
 
+                                                    setBookReferenceIds(item.bookReference);
+
                                                     setTimeout(() => {
                                                         inputBookRef.current.focus();
                                                     }, 100);
@@ -435,6 +437,9 @@ const Book = (props: any) => {
                                                     setTimeout(() => {
                                                         selectGradeLevelRef.current.focus();
                                                     }, 300);
+                                                    setTimeout(() => {
+                                                        selectBookReferenceRef.current.focus();
+                                                    }, 400);
 
                                                     setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}
