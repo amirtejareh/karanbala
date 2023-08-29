@@ -105,18 +105,18 @@ const Question = (props: any) => {
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
     const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
-        gradeLevelIds?.length == 0 ? null : gradeLevelIds
+        gradeLevelIds?.length == 0 ? null : gradeLevelIds,
     );
     const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
-        bookIds?.length == 0 ? null : bookIds
+        bookIds?.length == 0 ? null : bookIds,
     );
 
     const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
-        chapterIds?.length == 0 ? null : chapterIds
+        chapterIds?.length == 0 ? null : chapterIds,
     );
 
     const getSubjectsBasedOnSections = useGetSubjectsBasedOnSections(
-        sectionIds?.length == 0 ? null : sectionIds
+        sectionIds?.length == 0 ? null : sectionIds,
     );
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
@@ -220,13 +220,13 @@ const Question = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -293,6 +293,28 @@ const Question = (props: any) => {
                                 })}
                         </Select>
                     </FormControl>
+
+                    <FormControl className={classes.formField}>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب مرجع</InputLabel>
+                        <Select
+                            value={bookIds ?? []}
+                            {...register("bookReferences")}
+                            inputRef={selectBookRef}
+                            onChange={handleBookChange}
+                            multiple
+                        >
+                            {!getBooksBasedOnGradeLevels?.isLoading &&
+                                getBooksBasedOnGradeLevels?.data != undefined &&
+                                getBooksBasedOnGradeLevels?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>{" "}
+                    </FormControl>
+
                     <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
