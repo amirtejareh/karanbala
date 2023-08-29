@@ -26,6 +26,7 @@ import useDeleteBook from "../../../../../../hooks/book/useDeleteBook";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import BookImage from "../../../../../../assets/images/user.jpg";
 import { OpenAPI } from "../../../../../../services/core/OpenAPI";
+import useGetBookReferences from "../../../../../../hooks/book-reference/useGetBooksReference";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -74,6 +75,7 @@ const Book = (props: any) => {
     const createBook = useCreateBook();
     const updateBook = useUpdateBook();
     const selectGradeLevelRef = useRef<any>();
+    const selectBookReferenceRef = useRef<any>();
     const inputBookRef = useRef<any>();
 
     const Books = useGetBooks();
@@ -105,7 +107,9 @@ const Book = (props: any) => {
     const [preview, setPreview] = useState<any>();
     const [selectedFile, setSelectedFile] = useState<any>();
     const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
+    const [bookReferenceIds, setBookReferenceIds] = React.useState<any>([]);
     const getGradeLevels = useGetGradeLevels();
+    const getBookReferences = useGetBookReferences();
     const imageRef = useRef<any>();
 
     useEffect(() => {
@@ -124,6 +128,10 @@ const Book = (props: any) => {
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
+    };
+
+    const handleBookReferenceChange = (event: SelectChangeEvent) => {
+        setBookReferenceIds(event.target.value as any);
     };
     const descriptionInputRef = useRef<any>(null);
 
@@ -168,13 +176,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -182,7 +190,7 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
 
@@ -209,13 +217,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -223,7 +231,7 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     return (
@@ -279,6 +287,26 @@ const Book = (props: any) => {
                             }
                         }}
                     />
+
+                    <FormControl className={classes.formField} fullWidth>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب مرجع</InputLabel>
+                        <Select
+                            value={bookReferenceIds ?? []}
+                            {...register("bookReference")}
+                            inputRef={selectBookReferenceRef}
+                            onChange={handleBookReferenceChange}
+                            multiple
+                        >
+                            {!getBookReferences?.isLoading &&
+                                getBookReferences?.data.map((element: any) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
 
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
