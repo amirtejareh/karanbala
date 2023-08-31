@@ -9,7 +9,7 @@ import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveT
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
 import jMoment from "jalali-moment";
 import useGetObjectiveTestsBasedNumber from "../../../hooks/objective-test-management/useGetObjectiveTestsBasedNumber";
-import useGetQuestionsBasedOnBook from "../../../hooks/question/useGetQuestionsBasedOnBook";
+import useGetQuestionsBasedOnBookReference from "../../../hooks/question/useGetQuestionsBasedOnBookReference";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -23,7 +23,7 @@ const ObjectiveTest = () => {
         duration?: string;
         start?: string;
         end?: string;
-        books: [{ _id: string }];
+        bookReferences: [{ _id: string }];
         type?: string;
         createdAt?: string;
         updatedAt?: string;
@@ -44,14 +44,16 @@ const ObjectiveTest = () => {
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
     const [currentActiveBook, setCurrentActiveBook] = useState<ObjectiveTestData>();
-    const getQuestionsBasedOnBook = useGetQuestionsBasedOnBook(
+    const getQuestionsBasedOnBookReference = useGetQuestionsBasedOnBookReference(
         page,
         limit,
-        currentActiveBook?.books[0]?._id
+        currentActiveBook?.bookReferences[0]?._id
     );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
         currentActiveObjectiveTestId
     );
+
+    console.log(getQuestionsBasedOnBookReference);
 
     const checkIfTestStarts = (objectiveTest) => {
         if (
@@ -178,10 +180,13 @@ const ObjectiveTest = () => {
     };
 
     useEffect(() => {
-        if (!getQuestionsBasedOnBook?.isLoading && getQuestionsBasedOnBook?.data) {
-            setTotalPage(getQuestionsBasedOnBook?.data?.totalPages);
+        if (
+            !getQuestionsBasedOnBookReference?.isLoading &&
+            getQuestionsBasedOnBookReference?.data
+        ) {
+            setTotalPage(getQuestionsBasedOnBookReference?.data?.totalPages);
         }
-    }, [getQuestionsBasedOnBook?.data]);
+    }, [getQuestionsBasedOnBookReference?.data]);
 
     useEffect(() => {
         if (currentActiveObjectiveTestId !== "0") {
@@ -258,6 +263,7 @@ const ObjectiveTest = () => {
         timerId = setInterval(() => {
             setDate(new Date());
             checkStartObjectiveTest();
+            checkIfExamFinished();
         }, 5000);
         return () => {
             clearInterval(timerId);
@@ -266,11 +272,45 @@ const ObjectiveTest = () => {
 
     useEffect(() => {
         if (currentActiveBook) {
-            if (!getQuestionsBasedOnBook.isLoading) {
-                getQuestionsBasedOnBook.refetch();
+            if (!getQuestionsBasedOnBookReference.isLoading) {
+                getQuestionsBasedOnBookReference.refetch();
             }
         }
     }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
+
+    const [ifExamFinished, setIfExamFinished] = useState(false);
+    const checkIfExamFinished = () => {
+        let first;
+        let last;
+
+        getObjectiveTestBasedOnNumber?.data?.reduce((_, objectiveTest) => {
+            const { start, end } = objectiveTest;
+
+            if (!first) {
+                first = start;
+            }
+
+            last = end;
+
+            return null;
+        }, null);
+
+        const currentTime = new Date();
+
+        console.log(
+            currentTime < first || currentTime > last,
+            "currentTime < first || currentTime > last"
+        );
+
+        if (currentTime < first || currentTime > last) {
+            setIfExamFinished(false);
+            return false;
+        }
+
+        setIfExamFinished(true);
+
+        return true;
+    };
 
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
@@ -461,7 +501,7 @@ const ObjectiveTest = () => {
                     >
                         <Box>
                             {" "}
-                            <Typography>{objectiveTest?.books[0]?.title}</Typography>
+                            <Typography>{objectiveTest?.bookReferences[0]?.title}</Typography>
                             <Typography>سوالات (۱ تا ۲۰)</Typography>
                         </Box>
                     </ButtonKit>
@@ -509,9 +549,14 @@ const ObjectiveTest = () => {
             <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0"}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography fontSize={"3.2rem"} variant="subtitle1">
-                        {getQuestionsBasedOnBook?.data &&
-                            getQuestionsBasedOnBook?.data?.questions && (
-                                <>{getQuestionsBasedOnBook?.data?.questions[0]?.books[0]?.title}</>
+                        {getQuestionsBasedOnBookReference?.data &&
+                            getQuestionsBasedOnBookReference?.data?.questions && (
+                                <>
+                                    {
+                                        getQuestionsBasedOnBookReference?.data?.questions[0]
+                                            ?.bookReferences[0]?.title
+                                    }
+                                </>
                             )}
                     </Typography>
                     <Typography fontSize={"1.8rem"} variant="caption">
@@ -524,18 +569,22 @@ const ObjectiveTest = () => {
 
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
                     <Typography>
-                        {getQuestionsBasedOnBook?.data &&
-                            getQuestionsBasedOnBook?.data?.questions && (
+                        {getQuestionsBasedOnBookReference?.data &&
+                            getQuestionsBasedOnBookReference?.data?.questions && (
                                 <>
                                     <Box component={"span"}>
-                                        {getQuestionsBasedOnBook?.data?.questions[0]?.number}-{" "}
+                                        {
+                                            getQuestionsBasedOnBookReference?.data?.questions[0]
+                                                ?.number
+                                        }
+                                        -{" "}
                                     </Box>
                                     <Box
                                         component={"span"}
                                         sx={{ "& p": { display: "inline" } }}
                                         dangerouslySetInnerHTML={{
-                                            __html: getQuestionsBasedOnBook?.data?.questions[0]
-                                                .question,
+                                            __html: getQuestionsBasedOnBookReference?.data
+                                                ?.questions[0].question,
                                         }}
                                     ></Box>
                                 </>
@@ -550,13 +599,16 @@ const ObjectiveTest = () => {
                             defaultValue="جواب ۱"
                             name="radio-buttons-group"
                             onChange={(e) =>
-                                handleRadioChange(getQuestionsBasedOnBook?.data?.questions[0], e)
+                                handleRadioChange(
+                                    getQuestionsBasedOnBookReference?.data?.questions[0],
+                                    e
+                                )
                             }
                         >
-                            {getQuestionsBasedOnBook?.data &&
-                                getQuestionsBasedOnBook?.data?.questions && (
+                            {getQuestionsBasedOnBookReference?.data &&
+                                getQuestionsBasedOnBookReference?.data?.questions && (
                                     <>
-                                        {getQuestionsBasedOnBook?.data?.questions[0]?.options?.map(
+                                        {getQuestionsBasedOnBookReference?.data?.questions[0]?.options?.map(
                                             (options) => {
                                                 return Object.values(options).map(
                                                     (option: any, index) => {
@@ -598,10 +650,14 @@ const ObjectiveTest = () => {
                     <ButtonKit
                         onClick={() => {
                             if (page == totalPage) {
-                                handleNextQuestion(getQuestionsBasedOnBook?.data?.questions[0]);
+                                handleNextQuestion(
+                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                );
                             }
                             if (page < totalPage) {
-                                handleNextQuestion(getQuestionsBasedOnBook?.data?.questions[0]);
+                                handleNextQuestion(
+                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                );
                                 setPage(page + 1);
                             }
                         }}
@@ -621,15 +677,7 @@ const ObjectiveTest = () => {
                     >
                         <Typography>سوال قبلی</Typography>
                     </ButtonKit>
-                    <ButtonKit
-                        onClick={() => {
-                            if (startObjectiveTest) {
-                                setStartObjectiveTest(false);
-                            }
-                        }}
-                        disabled={!startObjectiveTest}
-                        variant="outlined"
-                    >
+                    <ButtonKit onClick={() => {}} disabled={!ifExamFinished} variant="outlined">
                         <Typography>اتمام آزمون</Typography>
                     </ButtonKit>
                 </Box>

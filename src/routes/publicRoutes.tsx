@@ -17,14 +17,32 @@ import Karanbala from "../views/EducationDetails/pages/Karanbala";
 import ObjectiveTest from "../views/Tests/ObjectiveTest";
 import SubjectiveTest from "../views/Tests/SubjectiveTest";
 import Report from "../views/Tests/ObjectiveTest/Report";
+import AuthorizedRoute from "../components/AuthorizedRoute";
+import { userStore } from "../stores";
 
 const PublicRoutes = () => {
+    const user: any = userStore((state) => state);
+
     return (
         <Routes>
             <Route path={"/karanbala"} element={<ApplicationInfoView />} />
             <Route path={"/karanbala/major-requirements"} element={<MajorRequirements />} />
             <Route path={"/karanbala/education-details"} element={<EducationDetails />} />
-            <Route path={"/karanbala/objective-test"} element={<ObjectiveTest />} />
+            <Route
+                path="/karanbala/objective-test"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin", "User"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <ObjectiveTest />
+                    </AuthorizedRoute>
+                }
+            />
             <Route path={"/karanbala/objective-test/report"} element={<Report />} />
             <Route path={"/karanbala/subjective-test"} element={<SubjectiveTest />} />
             <Route
