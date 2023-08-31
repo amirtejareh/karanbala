@@ -16,7 +16,7 @@ export class FieldOfStudyService {
      * @throws ApiError
      */
     public static fieldOfStudyControllerCreate(
-        requestBody: CreateFieldOfStudyDto,
+        requestBody: CreateFieldOfStudyDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
@@ -60,7 +60,7 @@ export class FieldOfStudyService {
      */
     public static fieldOfStudyControllerUpdate(
         id: string,
-        requestBody: UpdateFieldOfStudyDto,
+        requestBody: UpdateFieldOfStudyDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",

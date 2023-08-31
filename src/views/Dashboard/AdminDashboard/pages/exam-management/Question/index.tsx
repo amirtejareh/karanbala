@@ -25,6 +25,8 @@ import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetCh
 import useGetObjectiveTests from "../../../../../../hooks/objective-test/useGetObjectiveTests";
 import RichTextEditor from "../../../../../../utils/ReactQuill";
 import useCreateQuestion from "../../../../../../hooks/question/useCreateQuestion";
+import useGetBookReferencesBasedOnGradeLevels from "../../../../../../hooks/book-reference/useGetBookReferencesBasedOnGradeLevels";
+import useGetBooksBasedOnBookReferences from "../../../../../../hooks/book/useGetBooksBasedOnBookReferences";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -82,6 +84,7 @@ const Question = (props: any) => {
     const [objectiveTestIds, setObjectiveTestIds] = useState<any>([]);
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
+    const [bookReferenceIds, setBookReferenceIds] = React.useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
     const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
     const [subjectIds, setSubjectIds] = React.useState<any>(sectionIds);
@@ -98,31 +101,36 @@ const Question = (props: any) => {
     const selectObjectiveTestRef = useRef<any>();
     const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
+    const selectBookReferenceRef = useRef<any>();
     const selectChaptertRef = useRef<any>();
     const selectSectionRef = useRef<any>();
     const selectSubjectRef = useRef<any>();
 
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
-    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
-        gradeLevelIds?.length == 0 ? null : gradeLevelIds,
+    const getBooksBasedOnBookReferences = useGetBooksBasedOnBookReferences(
+        bookReferenceIds?.length == 0 ? null : bookReferenceIds
+    );
+    const getBookReferencesBasedOnGradeLevels = useGetBookReferencesBasedOnGradeLevels(
+        gradeLevelIds?.length == 0 ? null : gradeLevelIds
     );
     const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
-        bookIds?.length == 0 ? null : bookIds,
+        bookIds?.length == 0 ? null : bookIds
     );
 
     const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
-        chapterIds?.length == 0 ? null : chapterIds,
+        chapterIds?.length == 0 ? null : chapterIds
     );
 
     const getSubjectsBasedOnSections = useGetSubjectsBasedOnSections(
-        sectionIds?.length == 0 ? null : sectionIds,
+        sectionIds?.length == 0 ? null : sectionIds
     );
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
         setChapterIds(null);
         setBookIds(null);
+        setBookReferenceIds(null);
         setSectionIds(null);
         setSubjectIds(null);
     };
@@ -132,6 +140,10 @@ const Question = (props: any) => {
 
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
+    };
+
+    const handleBookReferenceChange = (event: SelectChangeEvent) => {
+        setBookReferenceIds(event.target.value as any);
     };
 
     const handleChapterChange = (event: SelectChangeEvent) => {
@@ -148,9 +160,15 @@ const Question = (props: any) => {
 
     useEffect(() => {
         if (gradeLevelIds) {
-            getBooksBasedOnGradeLevels.refetch();
+            getBookReferencesBasedOnGradeLevels.refetch();
         }
     }, [gradeLevelIds]);
+
+    useEffect(() => {
+        if (bookReferenceIds) {
+            getBooksBasedOnBookReferences.refetch();
+        }
+    }, [bookReferenceIds]);
 
     useEffect(() => {
         getChaptersBasedOnBooks.refetch();
@@ -220,13 +238,13 @@ const Question = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>,
+                            </ul>
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>,
+                            </ul>
                         );
                     }
                 }
@@ -297,15 +315,15 @@ const Question = (props: any) => {
                     <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب مرجع</InputLabel>
                         <Select
-                            value={bookIds ?? []}
+                            value={bookReferenceIds ?? []}
                             {...register("bookReferences")}
-                            inputRef={selectBookRef}
-                            onChange={handleBookChange}
+                            inputRef={selectBookReferenceRef}
+                            onChange={handleBookReferenceChange}
                             multiple
                         >
-                            {!getBooksBasedOnGradeLevels?.isLoading &&
-                                getBooksBasedOnGradeLevels?.data != undefined &&
-                                getBooksBasedOnGradeLevels?.data?.map((element) => {
+                            {!getBookReferencesBasedOnGradeLevels?.isLoading &&
+                                getBookReferencesBasedOnGradeLevels?.data != undefined &&
+                                getBookReferencesBasedOnGradeLevels?.data?.map((element) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
@@ -324,9 +342,9 @@ const Question = (props: any) => {
                             onChange={handleBookChange}
                             multiple
                         >
-                            {!getBooksBasedOnGradeLevels?.isLoading &&
-                                getBooksBasedOnGradeLevels?.data != undefined &&
-                                getBooksBasedOnGradeLevels?.data?.map((element) => {
+                            {!getBooksBasedOnBookReferences?.isLoading &&
+                                getBooksBasedOnBookReferences?.data != undefined &&
+                                getBooksBasedOnBookReferences?.data?.map((element) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}

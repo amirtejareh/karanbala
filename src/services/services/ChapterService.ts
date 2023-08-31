@@ -41,7 +41,7 @@ export class ChapterService {
      * @throws ApiError
      */
     public static chapterControllerFindChaptersBasedOnBooks(
-        bookId: Array<string>,
+        bookId: Array<string>
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
@@ -75,7 +75,7 @@ export class ChapterService {
      */
     public static chapterControllerUpdate(
         id: string,
-        requestBody: UpdateChapterDto,
+        requestBody: UpdateChapterDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",

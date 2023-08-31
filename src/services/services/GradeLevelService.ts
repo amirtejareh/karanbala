@@ -16,7 +16,7 @@ export class GradeLevelService {
      * @throws ApiError
      */
     public static gradeLevelControllerCreate(
-        requestBody: CreateGradeLevelDto,
+        requestBody: CreateGradeLevelDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
@@ -60,7 +60,7 @@ export class GradeLevelService {
      */
     public static gradeLevelControllerUpdate(
         id: string,
-        requestBody: UpdateGradeLevelDto,
+        requestBody: UpdateGradeLevelDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
