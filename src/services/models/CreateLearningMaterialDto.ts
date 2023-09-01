@@ -3,11 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Book } from './Book';
-import type { Chapter } from './Chapter';
-import type { GradeLevel } from './GradeLevel';
-import type { Section } from './Section';
-import type { Subject } from './Subject';
+import type { Book } from "./Book";
+import type { Chapter } from "./Chapter";
+import type { GradeLevel } from "./GradeLevel";
+import type { Section } from "./Section";
+import type { Subject } from "./Subject";
 
 export type CreateLearningMaterialDto = {
     /**
@@ -36,4 +36,3 @@ export type CreateLearningMaterialDto = {
     videos: Array<string>;
     pdfFiles: Blob;
 };
-

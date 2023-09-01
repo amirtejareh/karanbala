@@ -3,6 +3,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Chapter = {
-};
-
+export type Chapter = {};

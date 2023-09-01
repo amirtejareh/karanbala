@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -9,6 +9,7 @@ import useGetObjectiveTests from "../../../hooks/objective-test/useGetObjectiveT
 import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTest";
 import jMoment from "jalali-moment";
 import useGetObjectiveTestsBasedNumber from "../../../hooks/objective-test-management/useGetObjectiveTestsBasedNumber";
+import useGetQuestionsBasedOnBookReference from "../../../hooks/question/useGetQuestionsBasedOnBookReference";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -22,99 +23,53 @@ const ObjectiveTest = () => {
         duration?: string;
         start?: string;
         end?: string;
+        bookReferences: [{ _id: string }];
         type?: string;
         createdAt?: string;
         updatedAt?: string;
+        isPublished: boolean;
     }
-
     const [currentActiveObjectiveTestId, setCurrentActiveObjectiveTestId] = useState("0");
     const [currentActiveObjectiveTestData, setCurrentActiveObjectiveTestData] =
         useState<ObjectiveTestData>();
+    const [startObjectiveTest, setStartObjectiveTest] = useState(false);
+    const [startObjectiveTestDate, setStartObjectiveTestDate] = useState<any>();
+    const [countDown, setCountDown] = useState<number>();
+    const [limit, setLimit] = useState(1);
+    const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [, setDate] = useState(new Date());
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
+    const [currentActiveBook, setCurrentActiveBook] = useState<ObjectiveTestData>();
+    const getQuestionsBasedOnBookReference = useGetQuestionsBasedOnBookReference(
+        page,
+        limit,
+        currentActiveBook?.bookReferences[0]?._id
+    );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
         currentActiveObjectiveTestId
     );
 
-    useEffect(() => {
-        if (currentActiveObjectiveTestId !== "0") {
-            getObjectiveTest.refetch();
+    console.log(getQuestionsBasedOnBookReference);
+
+    const checkIfTestStarts = (objectiveTest) => {
+        if (
+            jMoment(new Date(objectiveTest?.start)) < jMoment(new Date()) &&
+            jMoment(new Date(objectiveTest?.end)) > jMoment(new Date())
+        ) {
+            return false;
         }
-        if (currentActiveObjectiveTestId !== "0") {
-            getObjectiveTestBasedOnNumber.refetch();
-        }
-    }, [currentActiveObjectiveTestId]);
-
-    useEffect(() => {
-        if (!getObjectiveTest.isLoading) {
-            setCurrentActiveObjectiveTestData(getObjectiveTest.data);
-        }
-    }, [getObjectiveTest.data]);
-
-    useEffect(() => {
-        getObjectiveTests.refetch();
-    }, []);
-
-    useEffect(() => {
-        if (!getObjectiveTests.isLoading) {
-            if (getObjectiveTests.data.length > 0) {
-                setCurrentActiveObjectiveTestData(getObjectiveTests.data[0]);
-            }
-        }
-    }, [getObjectiveTests.data]);
-
-    const handleObjectiveTestClick = (objectiveTestId: string) => {
-        setStartObjectiveTest(false);
-        setCurrentActiveObjectiveTestId(objectiveTestId);
-    };
-
-    const [startObjectiveTest, setStartObjectiveTest] = useState(false);
-    const [startObjectiveTestDate, setStartObjectiveTestDate] = useState<any>();
-    const [countDown, setCountDown] = useState<number>();
-    let timer: NodeJS.Timeout;
-    useEffect(() => {
-        if (startObjectiveTest) {
-            if (currentActiveObjectiveTestData?.duration) {
-                const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
-                setCountDown(durationInSeconds);
-            } else {
-                const durationInSeconds = Number(calculateExamElapseTime());
-                setCountDown(durationInSeconds);
-            }
-
-            timer = setInterval(() => {
-                setCountDown((prevCountDown) => prevCountDown - 1);
-            }, 1000);
-        }
-
-        return () => {
-            clearInterval(timer);
-        };
-    }, [startObjectiveTest]);
-
-    useEffect(() => {
-        if (countDown < 0) {
-            setStartObjectiveTest(false);
-        }
-    }, [countDown]);
-
-    // تبدیل زمان به فرمت ساعت:دقیقه:ثانیه
-    const formatTime = (timeInSeconds: number) => {
-        const hours = Math.floor(timeInSeconds / 3600);
-        const minutes = Math.floor((timeInSeconds % 3600) / 60);
-        const seconds = timeInSeconds % 60;
-
-        return `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        return true;
     };
 
     const checkStartObjectiveTest = (): boolean => {
         if (currentActiveObjectiveTestData?.duration) {
             if (parseInt(currentActiveObjectiveTestData?.duration) != 0) {
                 if (!startObjectiveTest) {
-                    return false;
+                    return true;
                 }
                 return true;
             }
@@ -123,20 +78,20 @@ const ObjectiveTest = () => {
 
         if (
             Number(
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
+                jMoment(new Date(currentActiveBook?.end)).diff(
+                    new Date(currentActiveBook?.start),
+                    "seconds"
                 )
-            ) != 0
+            ) >= 0
         ) {
             if (
-                jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date()) ||
-                jMoment(new Date(currentActiveObjectiveTestData?.end)) < jMoment(new Date())
+                jMoment(new Date(currentActiveBook?.start)) < jMoment(new Date()) &&
+                jMoment(new Date(currentActiveBook?.end)) > jMoment(new Date())
             ) {
-                return true;
+                return false;
             }
             if (!startObjectiveTest) {
-                return false;
+                return true;
             }
 
             return true;
@@ -145,14 +100,58 @@ const ObjectiveTest = () => {
         return true;
     };
 
-    useEffect(() => {
-        jMoment.locale("fa");
-        if (currentActiveObjectiveTestData?.start) {
-            const dateTime = new Date(currentActiveObjectiveTestData?.start);
-            const jDate = jMoment(dateTime).format("dddd jD MMMM jYYYY - ساعت: HH:mm:ss");
-            setStartObjectiveTestDate(jDate);
+    const handleRadioChange = ({ _id }, event) => {
+        const optionValue = event.target.value;
+        const optionIndex = selectedOptions.findIndex((option) => option.id === _id);
+
+        if (optionIndex !== -1) {
+            const updatedOptions = [...selectedOptions];
+            updatedOptions[optionIndex].value = optionValue;
+            setSelectedOptions(updatedOptions);
+        } else {
+            setSelectedOptions([...selectedOptions, { _id, value: optionValue }]);
         }
-    }, [currentActiveObjectiveTestData]);
+    };
+
+    const handleNextQuestion = ({ _id }) => {
+        console.log(selectedOptions);
+
+        const targetId = _id;
+        const defaultValue = "-";
+
+        const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
+
+        if (optionIndex === -1) {
+            setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
+        }
+    };
+
+    const calculateExamElapseTime = () => {
+        if (currentActiveBook) {
+            if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
+                return jMoment(new Date(currentActiveBook?.end)).diff(
+                    new Date(currentActiveBook?.start),
+                    "seconds"
+                );
+            } else {
+                if (
+                    Number(jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "seconds")) >
+                    0
+                ) {
+                    return jMoment(new Date(currentActiveBook?.end)).diff(new Date(), "seconds");
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        return 0;
+    };
+
+    const handleObjectiveTestClick = (objectiveTestId: string) => {
+        setStartObjectiveTest(false);
+        setCurrentActiveObjectiveTestId(objectiveTestId);
+    };
 
     const calculateExamDurationTime = () => {
         if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
@@ -170,21 +169,149 @@ const ObjectiveTest = () => {
         }
     };
 
-    const calculateExamElapseTime = () => {
-        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
-                ) * 60
-            );
-        } else {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") *
-                60
-            );
-        }
+    const formatTime = (timeInSeconds: number) => {
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        const seconds = timeInSeconds % 60;
+
+        return `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     };
+
+    useEffect(() => {
+        if (
+            !getQuestionsBasedOnBookReference?.isLoading &&
+            getQuestionsBasedOnBookReference?.data
+        ) {
+            setTotalPage(getQuestionsBasedOnBookReference?.data?.totalPages);
+        }
+    }, [getQuestionsBasedOnBookReference?.data]);
+
+    useEffect(() => {
+        if (currentActiveObjectiveTestId !== "0") {
+            getObjectiveTest.refetch();
+        }
+        if (currentActiveObjectiveTestId !== "0") {
+            getObjectiveTestBasedOnNumber.refetch();
+        }
+    }, [currentActiveObjectiveTestId, getObjectiveTest?.data, getObjectiveTestBasedOnNumber?.data]);
+
+    useEffect(() => {
+        if (!getObjectiveTest.isLoading) {
+            setCurrentActiveObjectiveTestData(getObjectiveTest.data);
+        }
+    }, [getObjectiveTest.data]);
+
+    useEffect(() => {
+        getObjectiveTests.refetch();
+    }, []);
+
+    useEffect(() => {
+        jMoment.locale("fa");
+        if (currentActiveObjectiveTestData?.start) {
+            const dateTime = new Date(currentActiveObjectiveTestData?.start);
+            const jDate = jMoment(dateTime).format("dddd jD MMMM jYYYY - ساعت: HH:mm:ss");
+            setStartObjectiveTestDate(jDate);
+        }
+    }, [currentActiveObjectiveTestData]);
+
+    useEffect(() => {
+        if (!getObjectiveTests.isLoading) {
+            if (getObjectiveTests.data.length > 0) {
+                setCurrentActiveObjectiveTestData(getObjectiveTests.data[0]);
+            }
+        }
+    }, [getObjectiveTests.data]);
+
+    useEffect(() => {
+        let timerId = null;
+
+        if (startObjectiveTest) {
+            if (currentActiveObjectiveTestData?.duration) {
+                const durationInSeconds = parseInt(currentActiveObjectiveTestData?.duration) * 60;
+                setCountDown(durationInSeconds);
+            } else {
+                const durationInSeconds = Number(calculateExamElapseTime());
+                setCountDown(durationInSeconds);
+            }
+
+            timerId = setInterval(() => {
+                setCountDown((prevCountDown) => {
+                    const newCountDown = prevCountDown - 1;
+
+                    if (newCountDown <= 0) {
+                        setStartObjectiveTest(false);
+                        setDate(new Date());
+                        checkStartObjectiveTest();
+                        clearInterval(timerId);
+                    }
+
+                    return newCountDown;
+                });
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(timerId);
+        };
+    }, [startObjectiveTest]);
+
+    useEffect(() => {
+        let timerId = null;
+
+        timerId = setInterval(() => {
+            setDate(new Date());
+            checkStartObjectiveTest();
+            checkIfExamFinished();
+        }, 5000);
+        return () => {
+            clearInterval(timerId);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (currentActiveBook) {
+            if (!getQuestionsBasedOnBookReference.isLoading) {
+                getQuestionsBasedOnBookReference.refetch();
+            }
+        }
+    }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
+
+    const [ifExamFinished, setIfExamFinished] = useState(false);
+    const checkIfExamFinished = () => {
+        let first;
+        let last;
+
+        getObjectiveTestBasedOnNumber?.data?.reduce((_, objectiveTest) => {
+            const { start, end } = objectiveTest;
+
+            if (!first) {
+                first = start;
+            }
+
+            last = end;
+
+            return null;
+        }, null);
+
+        const currentTime = new Date();
+
+        console.log(
+            currentTime < first || currentTime > last,
+            "currentTime < first || currentTime > last"
+        );
+
+        if (currentTime < first || currentTime > last) {
+            setIfExamFinished(false);
+            return false;
+        }
+
+        setIfExamFinished(true);
+
+        return true;
+    };
+
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"fflex"} justifyContent={"end"}>
@@ -213,18 +340,26 @@ const ObjectiveTest = () => {
                     >
                         {!getObjectiveTests.isLoading ? (
                             <>
-                                {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
+                                {getObjectiveTests.data && getObjectiveTests.data.length >= 0 ? (
                                     getObjectiveTests.data.map(
-                                        (objectiveTest: ObjectiveTestData) => (
-                                            <ButtonKit
-                                                onClick={() => {
-                                                    handleObjectiveTestClick(objectiveTest._id);
-                                                }}
-                                                variant="contained"
-                                            >
-                                                <Typography>{objectiveTest.number}</Typography>
-                                            </ButtonKit>
-                                        )
+                                        (objectiveTest: ObjectiveTestData, index) => {
+                                            if (objectiveTest.isPublished)
+                                                return (
+                                                    <ButtonKit
+                                                        key={index}
+                                                        onClick={() => {
+                                                            handleObjectiveTestClick(
+                                                                objectiveTest._id
+                                                            );
+                                                        }}
+                                                        variant="contained"
+                                                    >
+                                                        <Typography>
+                                                            {objectiveTest.number}
+                                                        </Typography>
+                                                    </ButtonKit>
+                                                );
+                                        }
                                     )
                                 ) : (
                                     <Box>
@@ -268,16 +403,26 @@ const ObjectiveTest = () => {
                         {!getObjectiveTests.isLoading ? (
                             <>
                                 {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
-                                    getObjectiveTests.data.map((objectiveTest) => (
-                                        <ButtonKit
-                                            onClick={() => {
-                                                handleObjectiveTestClick(objectiveTest._id);
-                                            }}
-                                            variant="contained"
-                                        >
-                                            <Typography>{objectiveTest.number}</Typography>
-                                        </ButtonKit>
-                                    ))
+                                    getObjectiveTests.data.map(
+                                        (objectiveTest: ObjectiveTestData, index) => {
+                                            if (objectiveTest.isPublished)
+                                                return (
+                                                    <ButtonKit
+                                                        key={index}
+                                                        onClick={() => {
+                                                            handleObjectiveTestClick(
+                                                                objectiveTest._id
+                                                            );
+                                                        }}
+                                                        variant="contained"
+                                                    >
+                                                        <Typography>
+                                                            {objectiveTest.number}
+                                                        </Typography>
+                                                    </ButtonKit>
+                                                );
+                                        }
+                                    )
                                 ) : (
                                     <Box>
                                         <Typography>در حال حاضر آزمون فعالی وجود ندارد</Typography>
@@ -315,7 +460,7 @@ const ObjectiveTest = () => {
                 </Box>
                 <Box display={"flex"}>
                     <Typography>زمان فعال شدن آزمون: </Typography>
-                    <Typography>{startObjectiveTestDate ?? ""}</Typography>
+                    <Typography>{startObjectiveTestDate}</Typography>
                 </Box>{" "}
             </Box>
             <Box
@@ -337,17 +482,29 @@ const ObjectiveTest = () => {
                     },
                 }}
             >
-                {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest) => (
-                    <Box
-                        flexBasis={"22%"}
-                        borderRadius={"1rem"}
-                        padding={"2.7rem 10.9rem"}
-                        bgcolor={theme?.palette?.grey[100]}
-                        textAlign={"center"}
+                {getObjectiveTestBasedOnNumber?.data?.map((objectiveTest, index) => (
+                    <ButtonKit
+                        key={index}
+                        sx={{
+                            flexBasis: "22%",
+                            borderRadius: "1rem",
+                            padding: "2.7rem 10.9rem",
+                            bgcolor: theme?.palette?.grey[100],
+                            textAlign: "center",
+                        }}
+                        disabled={checkIfTestStarts(objectiveTest)}
+                        onClick={() => {
+                            setCurrentActiveBook(objectiveTest);
+                            setPage(1);
+                            setTotalPage(1);
+                        }}
                     >
-                        <Typography>{objectiveTest?.books[0]?.title}</Typography>
-                        <Typography>سوالات (۱ تا ۲۰)</Typography>
-                    </Box>
+                        <Box>
+                            {" "}
+                            <Typography>{objectiveTest?.bookReferences[0]?.title}</Typography>
+                            <Typography>سوالات (۱ تا ۲۰)</Typography>
+                        </Box>
+                    </ButtonKit>
                 ))}
             </Box>
             <Box
@@ -363,7 +520,7 @@ const ObjectiveTest = () => {
                     },
                 }}
             >
-                <Box>
+                {/* <Box>
                     <ButtonKit variant="contained">
                         <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
                     </ButtonKit>
@@ -372,27 +529,7 @@ const ObjectiveTest = () => {
                     <ButtonKit variant="contained">
                         <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
                     </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
-                    </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
-                    </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
-                    </ButtonKit>
-                </Box>
-                <Box>
-                    <ButtonKit variant="contained">
-                        <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
-                    </ButtonKit>
-                </Box>
+                </Box> */}
             </Box>
             <ButtonKit sx={{ width: "100%" }} onClick={() => navigate("report")}>
                 <Box
@@ -412,21 +549,47 @@ const ObjectiveTest = () => {
             <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0"}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography fontSize={"3.2rem"} variant="subtitle1">
-                        ریاضیات
+                        {getQuestionsBasedOnBookReference?.data &&
+                            getQuestionsBasedOnBookReference?.data?.questions && (
+                                <>
+                                    {
+                                        getQuestionsBasedOnBookReference?.data?.questions[0]
+                                            ?.bookReferences[0]?.title
+                                    }
+                                </>
+                            )}
                     </Typography>
                     <Typography fontSize={"1.8rem"} variant="caption">
                         زمان باقیمانده:{" "}
                         {startObjectiveTest
                             ? formatTime(countDown || 0)
-                            : currentActiveObjectiveTestData?.duration
-                            ? formatTime(
-                                  (parseInt(currentActiveObjectiveTestData?.duration) || 0) * 60
-                              ) || 0
                             : formatTime(calculateExamElapseTime())}
                     </Typography>
                 </Box>
+
                 <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0 0 0"}>
-                    <Typography>۱- سوال مربوط به آزمون</Typography>
+                    <Typography>
+                        {getQuestionsBasedOnBookReference?.data &&
+                            getQuestionsBasedOnBookReference?.data?.questions && (
+                                <>
+                                    <Box component={"span"}>
+                                        {
+                                            getQuestionsBasedOnBookReference?.data?.questions[0]
+                                                ?.number
+                                        }
+                                        -{" "}
+                                    </Box>
+                                    <Box
+                                        component={"span"}
+                                        sx={{ "& p": { display: "inline" } }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: getQuestionsBasedOnBookReference?.data
+                                                ?.questions[0].question,
+                                        }}
+                                    ></Box>
+                                </>
+                            )}
+                    </Typography>
                 </Box>
                 <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
                     <FormControl>
@@ -435,11 +598,41 @@ const ObjectiveTest = () => {
                             aria-labelledby="demo-radio-buttons-group-label"
                             defaultValue="جواب ۱"
                             name="radio-buttons-group"
+                            onChange={(e) =>
+                                handleRadioChange(
+                                    getQuestionsBasedOnBookReference?.data?.questions[0],
+                                    e
+                                )
+                            }
                         >
-                            <FormControlLabel value="جواب ۱" control={<Radio />} label="جواب ۱" />
-                            <FormControlLabel value="جواب ۲" control={<Radio />} label="جواب ۲" />
-                            <FormControlLabel value="جواب ۳" control={<Radio />} label="جواب ۳" />
-                            <FormControlLabel value="جواب ۴" control={<Radio />} label="جواب ۴" />
+                            {getQuestionsBasedOnBookReference?.data &&
+                                getQuestionsBasedOnBookReference?.data?.questions && (
+                                    <>
+                                        {getQuestionsBasedOnBookReference?.data?.questions[0]?.options?.map(
+                                            (options) => {
+                                                return Object.values(options).map(
+                                                    (option: any, index) => {
+                                                        return (
+                                                            <Box key={index}>
+                                                                <FormControlLabel
+                                                                    value={index}
+                                                                    control={<Radio />}
+                                                                    label={
+                                                                        <Box
+                                                                            dangerouslySetInnerHTML={{
+                                                                                __html: option,
+                                                                            }}
+                                                                        ></Box>
+                                                                    }
+                                                                />
+                                                            </Box>
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        )}
+                                    </>
+                                )}
                         </RadioGroup>
                     </FormControl>
                 </Box>
@@ -454,21 +647,37 @@ const ObjectiveTest = () => {
                     >
                         <Typography>شروع آزمون</Typography>
                     </ButtonKit>
-                    <ButtonKit disabled={!startObjectiveTest} variant="contained">
+                    <ButtonKit
+                        onClick={() => {
+                            if (page == totalPage) {
+                                handleNextQuestion(
+                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                );
+                            }
+                            if (page < totalPage) {
+                                handleNextQuestion(
+                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                );
+                                setPage(page + 1);
+                            }
+                        }}
+                        disabled={!startObjectiveTest}
+                        variant="contained"
+                    >
                         <Typography>سوال بعدی</Typography>
-                    </ButtonKit>
-                    <ButtonKit disabled={!startObjectiveTest} variant="outlined">
-                        <Typography>سوال قبلی</Typography>
                     </ButtonKit>
                     <ButtonKit
                         onClick={() => {
-                            if (startObjectiveTest) {
-                                setStartObjectiveTest(false);
+                            if (page > 1) {
+                                setPage(page - 1);
                             }
                         }}
                         disabled={!startObjectiveTest}
                         variant="outlined"
                     >
+                        <Typography>سوال قبلی</Typography>
+                    </ButtonKit>
+                    <ButtonKit onClick={() => {}} disabled={!ifExamFinished} variant="outlined">
                         <Typography>اتمام آزمون</Typography>
                     </ButtonKit>
                 </Box>

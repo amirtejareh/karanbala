@@ -25,13 +25,71 @@ export class QuestionService {
     }
 
     /**
+     * @param page
+     * @param limit
+     * @param objectiveTestId
      * @returns any
      * @throws ApiError
      */
-    public static questionControllerFindAll(): CancelablePromise<any> {
+    public static questionControllerFindAll(
+        page: number,
+        limit: number,
+        objectiveTestId: string
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
             url: "/question",
+            query: {
+                page: page,
+                limit: limit,
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
+
+    /**
+     * @param page
+     * @param limit
+     * @param bookId
+     * @returns any
+     * @throws ApiError
+     */
+    public static questionControllerFindQuestionsBasedOnBooks(
+        page: number,
+        limit: number,
+        bookId: string
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/withBooks/{BookId}",
+            query: {
+                page: page,
+                limit: limit,
+                BookId: bookId,
+            },
+        });
+    }
+
+    /**
+     * @param page
+     * @param limit
+     * @param bookId
+     * @returns any
+     * @throws ApiError
+     */
+    public static questionControllerFindQuestionsBasedOnBookReferences(
+        page: number,
+        limit: number,
+        bookId: string
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/withBookReferencess/{BookReferenceId}",
+            query: {
+                page: page,
+                limit: limit,
+                BookId: bookId,
+            },
         });
     }
 
@@ -97,6 +155,40 @@ export class QuestionService {
         return __request(OpenAPI, {
             method: "GET",
             url: "/question/withMainObjectiveTestId/{objectiveTestId}",
+            path: {
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
+
+    /**
+     * @param objectiveTestId
+     * @returns any
+     * @throws ApiError
+     */
+    public static questionControllerFindQuestionsBasedOnObjectiveTests(
+        objectiveTestId: string
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/questionsWithObjectiveTestId/{objectiveTestId}",
+            path: {
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
+
+    /**
+     * @param objectiveTestId
+     * @returns any
+     * @throws ApiError
+     */
+    public static questionControllerFindBookReferencesBasedOnObjectiveTests(
+        objectiveTestId: string
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/bookReferencesWithMainObjectiveTestId/{objectiveTestId}",
             path: {
                 objectiveTestId: objectiveTestId,
             },

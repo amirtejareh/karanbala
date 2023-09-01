@@ -2,25 +2,27 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateBookDto } from "../models/CreateBookDto";
-import type { UpdateBookDto } from "../models/UpdateBookDto";
+import type { CreateTipAndTestDto } from "../models/CreateTipAndTestDto";
+import type { UpdateTipAndTestDto } from "../models/UpdateTipAndTestDto";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 
-export class BookService {
+export class TipAndTestService {
     /**
      * @param requestBody
      * @returns any
      * @throws ApiError
      */
-    public static bookControllerCreate(requestBody: CreateBookDto): CancelablePromise<any> {
+    public static tipAndTestControllerCreate(
+        requestBody: CreateTipAndTestDto
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
-            url: "/book",
-            formData: requestBody,
-            mediaType: "multipart/form-data",
+            url: "/tip-and-test",
+            body: requestBody,
+            mediaType: "application/json",
         });
     }
 
@@ -28,10 +30,10 @@ export class BookService {
      * @returns any
      * @throws ApiError
      */
-    public static bookControllerFindAll(): CancelablePromise<any> {
+    public static tipAndTestControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/book",
+            url: "/tip-and-test",
         });
     }
 
@@ -40,10 +42,10 @@ export class BookService {
      * @returns any
      * @throws ApiError
      */
-    public static bookControllerFindOne(id: string): CancelablePromise<any> {
+    public static tipAndTestControllerFindOne(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/book/{id}",
+            url: "/tip-and-test/{id}",
             path: {
                 id: id,
             },
@@ -56,18 +58,18 @@ export class BookService {
      * @returns any
      * @throws ApiError
      */
-    public static bookControllerUpdate(
+    public static tipAndTestControllerUpdate(
         id: string,
-        requestBody: UpdateBookDto
+        requestBody: UpdateTipAndTestDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
-            url: "/book/{id}",
+            url: "/tip-and-test/{id}",
             path: {
                 id: id,
             },
-            formData: requestBody,
-            mediaType: "multipart/form-data",
+            body: requestBody,
+            mediaType: "application/json",
         });
     }
 
@@ -76,10 +78,10 @@ export class BookService {
      * @returns any
      * @throws ApiError
      */
-    public static bookControllerRemove(id: string): CancelablePromise<any> {
+    public static tipAndTestControllerRemove(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "DELETE",
-            url: "/book/{id}",
+            url: "/tip-and-test/{id}",
             path: {
                 id: id,
             },
@@ -87,35 +89,18 @@ export class BookService {
     }
 
     /**
-     * @param gradeLevelId
+     * @param subjectsId
      * @returns any
      * @throws ApiError
      */
-    public static bookControllerFindBooksBasedOnGradeLevels(
-        gradeLevelId: Array<string>
+    public static tipAndTestControllerFindTipAndTestBasedOnSubject(
+        subjectsId: Array<string>
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/book/withGradeLevels/{gradeLevelId}",
+            url: "/tip-and-test/withSubjects/{subjectsId}",
             path: {
-                gradeLevelId: gradeLevelId,
-            },
-        });
-    }
-
-    /**
-     * @param bookReferenceId
-     * @returns any
-     * @throws ApiError
-     */
-    public static bookControllerFindBooksBasedOnBookReferences(
-        bookReferenceId: Array<string>
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: "GET",
-            url: "/book/withBookReferences/{bookReferenceId}",
-            path: {
-                bookReferenceId: bookReferenceId,
+                subjectsId: subjectsId,
             },
         });
     }

@@ -3,4 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ObjectiveTest = {};
+export type UpdateBookReferenceDto = {
+    /**
+     * Title of the book
+     */
+    title: string;
+};

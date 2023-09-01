@@ -24,7 +24,8 @@ import Communication from "../../assets/images/communication.png";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { ModalKit } from "../../components/kit/Modal";
-
+import { userStore } from "../../stores";
+import { toast } from "react-toastify";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     parentEducationBoxes: {
         "& > div": {
@@ -44,6 +45,7 @@ const EducationDetails = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
     const navigate = useNavigate();
+    const user: any = userStore((state) => state);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -64,7 +66,13 @@ const EducationDetails = () => {
                     padding={"1rem"}
                     borderRadius={"1rem"}
                     onClick={() => {
-                        navigate("/pub/karanbala/objective-test");
+                        if (user.user === null) {
+                            toast.error(
+                                "کاربر گرامی ابتدا می بایست در سایت ثبت نام کنید و آزمون مد نظر خود را مطابق با پایه خود خریداری نمایید"
+                            );
+                        } else {
+                            navigate("/pub/karanbala/objective-test");
+                        }
                     }}
                     sx={{ cursor: "pointer" }}
                 >

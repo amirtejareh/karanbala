@@ -19,14 +19,14 @@ import { toast } from "react-toastify";
 import { TableKit } from "../../../../../../components/kit/Table";
 import { PrompModalKit } from "../../../../../../components/kit/Modal";
 import { DeleteLightSvg, EditDarkSvg, EditLightSvg } from "../../../../../../assets";
-import useCreateBook from "../../../../../../hooks/book/useCreateBook";
-import useUpdateBook from "../../../../../../hooks/book/useUpdateBook";
-import useGetBooks from "../../../../../../hooks/book/useGetBooks";
-import useDeleteBook from "../../../../../../hooks/book/useDeleteBook";
+
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
-import BookImage from "../../../../../../assets/images/user.jpg";
+import BookReferenceImage from "../../../../../../assets/images/user.jpg";
 import { OpenAPI } from "../../../../../../services/core/OpenAPI";
+import useCreateBookReference from "../../../../../../hooks/book-reference/useCreateBookReference";
 import useGetBookReferences from "../../../../../../hooks/book-reference/useGetBooksReference";
+import useUpdateBookReference from "../../../../../../hooks/book-reference/useUpdateBookReference";
+import useDeleteBookReference from "../../../../../../hooks/book-reference/useDeleteBookReference";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
     },
 }));
-const Book = (props: any) => {
+const BookReference = (props: any) => {
     const classes = useStyles();
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -72,18 +72,17 @@ const Book = (props: any) => {
 
     const [loading, setLoading] = useState(false);
 
-    const createBook = useCreateBook();
-    const updateBook = useUpdateBook();
+    const createBookReference = useCreateBookReference();
+    const updateBookReference = useUpdateBookReference();
     const selectGradeLevelRef = useRef<any>();
-    const selectBookReferenceRef = useRef<any>();
-    const inputBookRef = useRef<any>();
+    const inputBookReferenceRef = useRef<any>();
 
-    const Books = useGetBooks();
+    const BookReferences = useGetBookReferences();
 
-    const deleteBook = useDeleteBook();
+    const deleteBookReference = useDeleteBookReference();
 
-    const handleDeleteBook = (id: string) => {
-        deleteBook.mutate(id, {
+    const handleDeleteBookReference = (id: string) => {
+        deleteBookReference.mutate(id, {
             onSuccess: async (result: {
                 message: string;
                 statusCode: number;
@@ -91,7 +90,7 @@ const Book = (props: any) => {
             }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    Books.refetch();
+                    BookReferences.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -107,9 +106,7 @@ const Book = (props: any) => {
     const [preview, setPreview] = useState<any>();
     const [selectedFile, setSelectedFile] = useState<any>();
     const [gradeLevelIds, setGradeLevelIds] = React.useState<any>([]);
-    const [bookReferenceIds, setBookReferenceIds] = React.useState<any>([]);
     const getGradeLevels = useGetGradeLevels();
-    const getBookReferences = useGetBookReferences();
     const imageRef = useRef<any>();
 
     useEffect(() => {
@@ -128,10 +125,6 @@ const Book = (props: any) => {
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
-    };
-
-    const handleBookReferenceChange = (event: SelectChangeEvent) => {
-        setBookReferenceIds(event.target.value as any);
     };
     const descriptionInputRef = useRef<any>(null);
 
@@ -157,16 +150,16 @@ const Book = (props: any) => {
     } = useForm();
     const { ref, onChange, ...rest } = register("image");
 
-    const handleCreateBook = async (data: any) => {
+    const handleCreateBookReference = async (data: any) => {
         setLoading(true);
 
-        createBook.mutate(
+        createBookReference.mutate(
             { ...data, image: data.image[0] },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        Books.refetch();
+                        BookReferences.refetch();
                         toast.success(result.message);
                     } else {
                         setLoading(false);
@@ -176,13 +169,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -190,20 +183,20 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
 
-    const handleUpdateBook = async (data: any) => {
+    const handleUpdateBookReference = async (data: any) => {
         setLoading(true);
 
-        updateBook.mutate(
+        updateBookReference.mutate(
             { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        Books.refetch();
+                        BookReferences.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setDescriptionValue({ doUpdate: false, data: "", id: null });
@@ -217,13 +210,13 @@ const Book = (props: any) => {
                                     {result.message.map((msg: string) => (
                                         <li key={msg}>{msg}</li>
                                     ))}
-                                </ul>
+                                </ul>,
                             );
                         } else {
                             toast.error(
                                 <ul>
                                     <li key={result.message}>{result.message}</li>
-                                </ul>
+                                </ul>,
                             );
                         }
                     }
@@ -231,7 +224,7 @@ const Book = (props: any) => {
                 onError: async (e: any) => {
                     toast.error(e.message);
                 },
-            }
+            },
         );
     };
     return (
@@ -240,15 +233,15 @@ const Book = (props: any) => {
                 <form
                     onSubmit={
                         value.doUpdate
-                            ? handleSubmit(handleUpdateBook)
-                            : handleSubmit(handleCreateBook)
+                            ? handleSubmit(handleUpdateBookReference)
+                            : handleSubmit(handleCreateBookReference)
                     }
                 >
                     <TextField
                         label="عنوان کتاب "
                         variant="outlined"
                         className={classes.formField}
-                        inputRef={inputBookRef}
+                        inputRef={inputBookReferenceRef}
                         value={value.data}
                         {...register("title", {
                             required: "لطفا نام کتاب را وارد کنید",
@@ -261,52 +254,6 @@ const Book = (props: any) => {
                             }
                         }}
                     />
-
-                    <TextField
-                        label="توضیحات  کتاب"
-                        variant="outlined"
-                        className={classes.formField}
-                        value={descriptionValue.data}
-                        {...register("description", {
-                            required: "لطفا توضیحات کتاب را وارد کنید",
-                        })}
-                        inputRef={descriptionInputRef}
-                        onChange={(e) => {
-                            if (descriptionValue.doUpdate) {
-                                setDescriptionValue({
-                                    doUpdate: true,
-                                    data: e.target.value,
-                                    id: value.id,
-                                });
-                            } else {
-                                setDescriptionValue({
-                                    doUpdate: false,
-                                    data: e.target.value,
-                                    id: null,
-                                });
-                            }
-                        }}
-                    />
-
-                    <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب کتاب مرجع</InputLabel>
-                        <Select
-                            value={bookReferenceIds ?? []}
-                            {...register("bookReferences")}
-                            inputRef={selectBookReferenceRef}
-                            onChange={handleBookReferenceChange}
-                            multiple
-                        >
-                            {!getBookReferences?.isLoading &&
-                                getBookReferences?.data.map((element: any) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
 
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
@@ -335,7 +282,7 @@ const Book = (props: any) => {
                                     component={"img"}
                                     src={
                                         String(preview).split("/")[3] === "undefined"
-                                            ? BookImage
+                                            ? BookReferenceImage
                                             : preview
                                     }
                                     alt={"test flag"}
@@ -346,7 +293,7 @@ const Book = (props: any) => {
                         ) : (
                             <Box
                                 component={"img"}
-                                src={BookImage}
+                                src={BookReferenceImage}
                                 alt={"User flag"}
                                 width={100}
                                 height={100}
@@ -400,11 +347,11 @@ const Book = (props: any) => {
             </Box>
             <Box className={classes.fieldOfStudy}>
                 <Typography>لیست کتاب‌ها</Typography>
-                {!Books.isLoading ? (
+                {!BookReferences.isLoading ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-                        rows={Books?.data.map((item: any, index: any) => {
+                        rows={BookReferences?.data.map((item: any, index: any) => {
                             return {
                                 id: item._id,
                                 data: {
@@ -426,10 +373,8 @@ const Book = (props: any) => {
 
                                                     setGradeLevelIds(item.gradeLevels);
 
-                                                    setBookReferenceIds(item.bookReferences);
-
                                                     setTimeout(() => {
-                                                        inputBookRef.current.focus();
+                                                        inputBookReferenceRef.current.focus();
                                                     }, 100);
                                                     setTimeout(() => {
                                                         descriptionInputRef.current.focus();
@@ -437,9 +382,6 @@ const Book = (props: any) => {
                                                     setTimeout(() => {
                                                         selectGradeLevelRef.current.focus();
                                                     }, 300);
-                                                    setTimeout(() => {
-                                                        selectBookReferenceRef.current.focus();
-                                                    }, 400);
 
                                                     setPreview(OpenAPI.BASE + "/" + item.image);
                                                 }}
@@ -449,7 +391,9 @@ const Book = (props: any) => {
                                             <IconButton>
                                                 <PrompModalKit
                                                     description={"آیا از حذف کتاب مطمئن  هستید؟"}
-                                                    onConfirm={() => handleDeleteBook(item._id)}
+                                                    onConfirm={() =>
+                                                        handleDeleteBookReference(item._id)
+                                                    }
                                                     approved={"بله"}
                                                     denied={"خیر"}
                                                 >
@@ -479,4 +423,4 @@ const Book = (props: any) => {
     );
 };
 
-export default Book;
+export default BookReference;

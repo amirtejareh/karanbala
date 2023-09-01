@@ -9,7 +9,7 @@ import type { GradeLevel } from "./GradeLevel";
 import type { Section } from "./Section";
 import type { Subject } from "./Subject";
 
-export type UpdateLearningMaterialDto = {
+export type UpdateKaranbalaDto = {
     /**
      * Grade level id
      */

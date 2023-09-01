@@ -2,25 +2,25 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateFieldOfStudyDto } from "../models/CreateFieldOfStudyDto";
-import type { UpdateFieldOfStudyDto } from "../models/UpdateFieldOfStudyDto";
+import type { CreateOnlineGradeReportDto } from "../models/CreateOnlineGradeReportDto";
+import type { UpdateOnlineGradeReportDto } from "../models/UpdateOnlineGradeReportDto";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 
-export class FieldOfStudyService {
+export class OnlineGradeReportService {
     /**
      * @param requestBody
      * @returns any
      * @throws ApiError
      */
-    public static fieldOfStudyControllerCreate(
-        requestBody: CreateFieldOfStudyDto
+    public static onlineGradeReportControllerCreate(
+        requestBody: CreateOnlineGradeReportDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "POST",
-            url: "/field-of-study",
+            url: "/online-grade-report",
             body: requestBody,
             mediaType: "application/json",
         });
@@ -30,10 +30,10 @@ export class FieldOfStudyService {
      * @returns any
      * @throws ApiError
      */
-    public static fieldOfStudyControllerFindAll(): CancelablePromise<any> {
+    public static onlineGradeReportControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/field-of-study",
+            url: "/online-grade-report",
         });
     }
 
@@ -42,10 +42,10 @@ export class FieldOfStudyService {
      * @returns any
      * @throws ApiError
      */
-    public static fieldOfStudyControllerFindOne(id: string): CancelablePromise<any> {
+    public static onlineGradeReportControllerFindOne(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/field-of-study/{id}",
+            url: "/online-grade-report/{id}",
             path: {
                 id: id,
             },
@@ -58,13 +58,13 @@ export class FieldOfStudyService {
      * @returns any
      * @throws ApiError
      */
-    public static fieldOfStudyControllerUpdate(
+    public static onlineGradeReportControllerUpdate(
         id: string,
-        requestBody: UpdateFieldOfStudyDto
+        requestBody: UpdateOnlineGradeReportDto
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "PATCH",
-            url: "/field-of-study/{id}",
+            url: "/online-grade-report/{id}",
             path: {
                 id: id,
             },
@@ -78,10 +78,10 @@ export class FieldOfStudyService {
      * @returns any
      * @throws ApiError
      */
-    public static fieldOfStudyControllerRemove(id: string): CancelablePromise<any> {
+    public static onlineGradeReportControllerRemove(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "DELETE",
-            url: "/field-of-study/{id}",
+            url: "/online-grade-report/{id}",
             path: {
                 id: id,
             },

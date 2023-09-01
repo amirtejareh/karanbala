@@ -9,30 +9,26 @@ import type { GradeLevel } from "./GradeLevel";
 import type { Section } from "./Section";
 import type { Subject } from "./Subject";
 
-export type UpdateLearningMaterialDto = {
+export type CreateEssayQuestionsDto = {
     /**
      * Grade level id
      */
-    gradeLevel?: GradeLevel;
+    gradeLevel: GradeLevel;
     /**
      * Book id
      */
-    book?: Book;
+    book: Book;
     /**
      * Chapter id
      */
-    chapter?: Chapter;
+    chapter: Chapter;
     /**
      * Section id
      */
-    section?: Section;
+    section: Section;
     /**
      * Subject id
      */
-    subject?: Subject;
-    /**
-     * List of video object
-     */
-    videos?: Array<string>;
-    pdfFiles?: Blob;
+    subject: Subject;
+    pdfFiles: Blob;
 };

@@ -319,7 +319,7 @@ const Chapter = (props: any) => {
                                                         id: item._id,
                                                     });
                                                     setGradeLevelIds(item.gradeLevels);
-                                                    setBookIds(item.books.map((id) => id));
+                                                    setBookIds(item.books.map((book) => book._id));
 
                                                     setTimeout(() => {
                                                         inputChapterRef.current.focus();

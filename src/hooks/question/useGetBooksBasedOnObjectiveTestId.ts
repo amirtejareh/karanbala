@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { ObjectiveTestService, QuestionService } from "../../services";
+import { QuestionService } from "../../services";
 
 const useGetBooksBasedOnObjectiveTestId = (id: string) => {
     return useQuery(

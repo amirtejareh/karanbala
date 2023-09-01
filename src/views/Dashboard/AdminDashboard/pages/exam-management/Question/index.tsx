@@ -25,6 +25,8 @@ import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetCh
 import useGetObjectiveTests from "../../../../../../hooks/objective-test/useGetObjectiveTests";
 import RichTextEditor from "../../../../../../utils/ReactQuill";
 import useCreateQuestion from "../../../../../../hooks/question/useCreateQuestion";
+import useGetBookReferencesBasedOnGradeLevels from "../../../../../../hooks/book-reference/useGetBookReferencesBasedOnGradeLevels";
+import useGetBooksBasedOnBookReferences from "../../../../../../hooks/book/useGetBooksBasedOnBookReferences";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -82,6 +84,7 @@ const Question = (props: any) => {
     const [objectiveTestIds, setObjectiveTestIds] = useState<any>([]);
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
+    const [bookReferenceIds, setBookReferenceIds] = React.useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
     const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
     const [subjectIds, setSubjectIds] = React.useState<any>(sectionIds);
@@ -98,13 +101,17 @@ const Question = (props: any) => {
     const selectObjectiveTestRef = useRef<any>();
     const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
+    const selectBookReferenceRef = useRef<any>();
     const selectChaptertRef = useRef<any>();
     const selectSectionRef = useRef<any>();
     const selectSubjectRef = useRef<any>();
 
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
-    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
+    const getBooksBasedOnBookReferences = useGetBooksBasedOnBookReferences(
+        bookReferenceIds?.length == 0 ? null : bookReferenceIds
+    );
+    const getBookReferencesBasedOnGradeLevels = useGetBookReferencesBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds
     );
     const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
@@ -123,6 +130,7 @@ const Question = (props: any) => {
         setGradeLevelIds(event.target.value as any);
         setChapterIds(null);
         setBookIds(null);
+        setBookReferenceIds(null);
         setSectionIds(null);
         setSubjectIds(null);
     };
@@ -132,6 +140,10 @@ const Question = (props: any) => {
 
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
+    };
+
+    const handleBookReferenceChange = (event: SelectChangeEvent) => {
+        setBookReferenceIds(event.target.value as any);
     };
 
     const handleChapterChange = (event: SelectChangeEvent) => {
@@ -148,9 +160,15 @@ const Question = (props: any) => {
 
     useEffect(() => {
         if (gradeLevelIds) {
-            getBooksBasedOnGradeLevels.refetch();
+            getBookReferencesBasedOnGradeLevels.refetch();
         }
     }, [gradeLevelIds]);
+
+    useEffect(() => {
+        if (bookReferenceIds) {
+            getBooksBasedOnBookReferences.refetch();
+        }
+    }, [bookReferenceIds]);
 
     useEffect(() => {
         getChaptersBasedOnBooks.refetch();
@@ -293,6 +311,28 @@ const Question = (props: any) => {
                                 })}
                         </Select>
                     </FormControl>
+
+                    <FormControl className={classes.formField}>
+                        <InputLabel id="demo-simple-select-label">انتخاب کتاب مرجع</InputLabel>
+                        <Select
+                            value={bookReferenceIds ?? []}
+                            {...register("bookReferences")}
+                            inputRef={selectBookReferenceRef}
+                            onChange={handleBookReferenceChange}
+                            multiple
+                        >
+                            {!getBookReferencesBasedOnGradeLevels?.isLoading &&
+                                getBookReferencesBasedOnGradeLevels?.data != undefined &&
+                                getBookReferencesBasedOnGradeLevels?.data?.map((element) => {
+                                    return (
+                                        <MenuItem key={element._id} value={element._id}>
+                                            {element.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>{" "}
+                    </FormControl>
+
                     <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
@@ -302,9 +342,9 @@ const Question = (props: any) => {
                             onChange={handleBookChange}
                             multiple
                         >
-                            {!getBooksBasedOnGradeLevels?.isLoading &&
-                                getBooksBasedOnGradeLevels?.data != undefined &&
-                                getBooksBasedOnGradeLevels?.data?.map((element) => {
+                            {!getBooksBasedOnBookReferences?.isLoading &&
+                                getBooksBasedOnBookReferences?.data != undefined &&
+                                getBooksBasedOnBookReferences?.data?.map((element) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}

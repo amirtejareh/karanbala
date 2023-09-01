@@ -9,7 +9,7 @@ import type { GradeLevel } from "./GradeLevel";
 import type { Section } from "./Section";
 import type { Subject } from "./Subject";
 
-export type UpdateLearningMaterialDto = {
+export type UpdateEssayQuestionDto = {
     /**
      * Grade level id
      */
@@ -30,9 +30,5 @@ export type UpdateLearningMaterialDto = {
      * Subject id
      */
     subject?: Subject;
-    /**
-     * List of video object
-     */
-    videos?: Array<string>;
     pdfFiles?: Blob;
 };

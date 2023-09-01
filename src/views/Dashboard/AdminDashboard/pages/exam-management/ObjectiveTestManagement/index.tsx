@@ -23,8 +23,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/useGetMainObjectiveTests";
-import useGetBooksBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBooksBasedOnObjectiveTestId";
+
 import useCreateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useCreateObjectiveTestManagement";
+import useGetBookReferencesBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBookReferencesBasedOnObjectiveTestId";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -99,10 +100,12 @@ const ObjectiveTestManagement = (props: any) => {
     };
 
     const getMainObjectiveTests = useGetMainObjectiveTests();
-    const getBooksBasedOnObjectiveTestId = useGetBooksBasedOnObjectiveTestId(objectiveTestId);
+
+    const getBookReferencesBasedOnObjectiveTestId =
+        useGetBookReferencesBasedOnObjectiveTestId(objectiveTestId);
     const createObjectiveTestManagement = useCreateObjectiveTestManagement();
     useEffect(() => {
-        getBooksBasedOnObjectiveTestId.refetch();
+        getBookReferencesBasedOnObjectiveTestId.refetch();
     }, [objectiveTestId]);
 
     const handleCreateObjectiveTestManagement = async (data: any) => {
@@ -166,20 +169,25 @@ const ObjectiveTestManagement = (props: any) => {
                         <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                         <Select
                             value={bookId ?? ""}
-                            {...register("book", {
+                            {...register("bookReferences", {
                                 required: "انتخاب کتاب اجباری است",
                             })}
                             inputRef={selectBookRef}
                             onChange={handleBookChange}
                         >
-                            {!getBooksBasedOnObjectiveTestId?.isLoading &&
-                                getBooksBasedOnObjectiveTestId?.data.map((element: any) => {
-                                    return element.books.map((book) => (
-                                        <MenuItem key={book._id} value={book._id}>
-                                            {book.title}
-                                        </MenuItem>
-                                    ));
-                                })}
+                            {!getBookReferencesBasedOnObjectiveTestId?.isLoading &&
+                                getBookReferencesBasedOnObjectiveTestId?.data.map(
+                                    (bookReference: any) => {
+                                        return (
+                                            <MenuItem
+                                                key={bookReference._id}
+                                                value={bookReference._id}
+                                            >
+                                                {bookReference.title}
+                                            </MenuItem>
+                                        );
+                                    }
+                                )}
                         </Select>{" "}
                     </FormControl>
 
