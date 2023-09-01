@@ -19,64 +19,67 @@ import SubjectiveTest from "../views/Tests/SubjectiveTest";
 import Report from "../views/Tests/ObjectiveTest/Report";
 import AuthorizedRoute from "../components/AuthorizedRoute";
 import { userStore } from "../stores";
+import PublicLayoutComponent from "../components/PublicLayoutComponent";
 
 const PublicRoutes = () => {
     const user: any = userStore((state) => state);
 
     return (
-        <Routes>
-            <Route path={"/karanbala"} element={<ApplicationInfoView />} />
-            <Route path={"/karanbala/major-requirements"} element={<MajorRequirements />} />
-            <Route path={"/karanbala/education-details"} element={<EducationDetails />} />
-            <Route
-                path="/karanbala/objective-test"
-                element={
-                    <AuthorizedRoute
-                        userRole={user?.user}
-                        route={{
-                            requiredRoles: ["SuperAdmin", "User"],
-                            resource: "post",
-                            action: "create",
-                        }}
-                    >
-                        <ObjectiveTest />
-                    </AuthorizedRoute>
-                }
-            />
+        <PublicLayoutComponent>
+            <Routes>
+                <Route path={"/karanbala"} element={<ApplicationInfoView />} />
+                <Route path={"/karanbala/major-requirements"} element={<MajorRequirements />} />
+                <Route path={"/karanbala/education-details"} element={<EducationDetails />} />
+                <Route
+                    path="/karanbala/objective-test"
+                    element={
+                        <AuthorizedRoute
+                            userRole={user?.user}
+                            route={{
+                                requiredRoles: ["SuperAdmin", "User"],
+                                resource: "post",
+                                action: "create",
+                            }}
+                        >
+                            <ObjectiveTest />
+                        </AuthorizedRoute>
+                    }
+                />
 
-            <Route
-                path="/karanbala/objective-test/report/:examId"
-                element={
-                    <AuthorizedRoute
-                        userRole={user?.user}
-                        route={{
-                            requiredRoles: ["SuperAdmin", "User"],
-                            resource: "post",
-                            action: "create",
-                        }}
-                    >
-                        <Report />
-                    </AuthorizedRoute>
-                }
-            />
-            <Route path={"/karanbala/subjective-test"} element={<SubjectiveTest />} />
-            <Route
-                path={"/karanbala/education-details/introduction-book"}
-                element={<IntroductionBook />}
-            />
-            <Route path={"/karanbala/education-details/lessons"} element={<Lessons />} />
-            <Route path={"/karanbala/education-details/questions"} element={<Questions />} />
-            <Route path={"/karanbala/education-details/exam"} element={<Exam />} />
-            <Route
-                path={"/karanbala/education-details/point-and-test"}
-                element={<PointAndTest />}
-            />
-            <Route path={"/karanbala/education-details/example"} element={<Example />} />
-            <Route path={"/karanbala/education-details/attach"} element={<Attach />} />
-            <Route path={"/karanbala/education-details/practice"} element={<Practice />} />
-            <Route path={"/karanbala/education-details/quiz"} element={<Quiz />} />
-            <Route path={"/karanbala/education-details/karanbala"} element={<Karanbala />} />
-        </Routes>
+                <Route
+                    path="/karanbala/objective-test/report/:examId"
+                    element={
+                        <AuthorizedRoute
+                            userRole={user?.user}
+                            route={{
+                                requiredRoles: ["SuperAdmin", "User"],
+                                resource: "post",
+                                action: "create",
+                            }}
+                        >
+                            <Report />
+                        </AuthorizedRoute>
+                    }
+                />
+                <Route path={"/karanbala/subjective-test"} element={<SubjectiveTest />} />
+                <Route
+                    path={"/karanbala/education-details/introduction-book"}
+                    element={<IntroductionBook />}
+                />
+                <Route path={"/karanbala/education-details/lessons"} element={<Lessons />} />
+                <Route path={"/karanbala/education-details/questions"} element={<Questions />} />
+                <Route path={"/karanbala/education-details/exam"} element={<Exam />} />
+                <Route
+                    path={"/karanbala/education-details/point-and-test"}
+                    element={<PointAndTest />}
+                />
+                <Route path={"/karanbala/education-details/example"} element={<Example />} />
+                <Route path={"/karanbala/education-details/attach"} element={<Attach />} />
+                <Route path={"/karanbala/education-details/practice"} element={<Practice />} />
+                <Route path={"/karanbala/education-details/quiz"} element={<Quiz />} />
+                <Route path={"/karanbala/education-details/karanbala"} element={<Karanbala />} />
+            </Routes>
+        </PublicLayoutComponent>
     );
 };
 

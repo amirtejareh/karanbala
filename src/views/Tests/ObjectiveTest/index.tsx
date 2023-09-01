@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { authStore, userStore } from "../../../stores";
 import jwt_decode from "jwt-decode";
 import { OpenAPI } from "../../../services/core/OpenAPI";
+import { GradeLevel } from "../../../services";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -28,6 +29,7 @@ const ObjectiveTest = () => {
         duration?: string;
         start?: string;
         end?: string;
+        gradeLevel: GradeLevel;
         bookReferences: [{ _id: string }];
         type?: string;
         createdAt?: string;
@@ -327,15 +329,6 @@ const ObjectiveTest = () => {
     const { accessToken } = authStore((state) => state);
     const userData: any = userStore((state) => state);
 
-    useEffect(() => {
-        if (accessToken && userData.user === null) {
-            const user = jwt_decode(accessToken ?? "");
-            OpenAPI.TOKEN = accessToken;
-            userData.setUser(user);
-        } else {
-            OpenAPI.TOKEN = accessToken;
-        }
-    }, [accessToken, userData]);
     const submitOnlineGradeReport = () => {
         if (selectedOptions.length === 0) {
             return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
@@ -347,12 +340,22 @@ const ObjectiveTest = () => {
             examId: currentActiveObjectiveTestData._id,
             examNumber: currentActiveObjectiveTestData.number,
             type: currentActiveObjectiveTestData.type,
+            gradeLevel: currentActiveObjectiveTestData.gradeLevel,
         };
         createOnlineGradeReport.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
+                console.log(result);
+
                 if (result.statusCode === 200) {
                     setLoading(false);
                     toast(result.message);
+                } else if (result.statusCode === 401) {
+                    setLoading(false);
+                    toast("لطفا وارد سایت شوید");
+
+                    setTimeout(() => {
+                        navigate("/auth/login");
+                    }, 3000);
                 } else {
                     setLoading(false);
                     toast(result.message);
