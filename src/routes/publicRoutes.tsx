@@ -17,6 +17,7 @@ import Karanbala from "../views/EducationDetails/pages/Karanbala";
 import ObjectiveTest from "../views/Tests/ObjectiveTest";
 import SubjectiveTest from "../views/Tests/SubjectiveTest";
 import Report from "../views/Tests/ObjectiveTest/Report";
+import Report2 from "../views/Tests/ObjectiveTest/Report/Report2";
 import AuthorizedRoute from "../components/AuthorizedRoute";
 import { userStore } from "../stores";
 import PublicLayoutComponent from "../components/PublicLayoutComponent";
@@ -61,6 +62,7 @@ const PublicRoutes = () => {
                         </AuthorizedRoute>
                     }
                 />
+                <Route path="/karanbala/objective-test/report2" element={<Report2 />} />
                 <Route path={"/karanbala/subjective-test"} element={<SubjectiveTest />} />
                 <Route
                     path={"/karanbala/education-details/introduction-book"}

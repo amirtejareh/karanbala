@@ -242,7 +242,7 @@ const Report = () => {
             case "average":
                 return "متوسط";
             case "easy":
-                return "متوسط";
+                return "ساده";
         }
     };
 
@@ -700,7 +700,7 @@ const Report = () => {
                     <rect x="199" y="309" width="25" height="268" rx="8" fill="#32074F" />
                 </svg>
             </Box> */}
-            {/* <Box mt={"20px"}>
+            <Box mt={"20px"}>
                 <Table className={classes.table2} component={Paper}>
                     <TableHead>
                         <TableRow>
@@ -715,49 +715,185 @@ const Report = () => {
                     <TableBody>
                         <TableRow>
                             <TableCell>تعداد سوالات</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.memorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.challengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.conceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.trickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.computationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>صحیح </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctMemorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctChallengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctConceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctTrickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctComputationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>نزده </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredMemorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredChallengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredConceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredTrickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredComputationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>غلط </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectMemorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectChallengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectConceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectTrickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectComputationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
-                        <TableRow>
+                        {/* <TableRow>
                             <TableCell>درصد کسب شده </TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵ </TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableBody>
                 </Table>
-            </Box> */}
+            </Box>
 
-            {/* <Box mt={"20px"} display="flex" justifyContent={"center"}>
+            <Box mt={"20px"} display="flex" justifyContent={"center"}>
                 <Table sx={{ width: "900px" }} className={classes.table2} component={Paper}>
                     <TableHead>
                         <TableRow>
@@ -768,39 +904,133 @@ const Report = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                        <TableBody></TableBody>
                         <TableRow>
                             <TableCell>تعداد سوالات</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.easyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.averageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.hardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>صحیح </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctEasyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctAverageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctHardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>نزده </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredEasyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredAverageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredHardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>غلط </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectEasyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectAverageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectHardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
-                        <TableRow>
+                        {/* <TableRow>
                             <TableCell>درصد کسب شده </TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableBody>
                 </Table>
-            </Box> */}
+            </Box>
         </Box>
     );
 };
