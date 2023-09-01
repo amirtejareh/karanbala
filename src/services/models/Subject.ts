@@ -3,4 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Subject = {};
+export type Subject = {
+};

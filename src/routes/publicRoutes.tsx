@@ -43,7 +43,22 @@ const PublicRoutes = () => {
                     </AuthorizedRoute>
                 }
             />
-            <Route path={"/karanbala/objective-test/report"} element={<Report />} />
+
+            <Route
+                path="/karanbala/objective-test/report/:examId"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin", "User"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <Report />
+                    </AuthorizedRoute>
+                }
+            />
             <Route path={"/karanbala/subjective-test"} element={<SubjectiveTest />} />
             <Route
                 path={"/karanbala/education-details/introduction-book"}

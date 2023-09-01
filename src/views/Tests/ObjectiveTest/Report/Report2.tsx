@@ -12,11 +12,10 @@ import {
 } from "@mui/material";
 import { makeStyles, useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { KaranbalaLogoTextSvg } from "../../../../assets";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { Theme } from "@mui/material/styles";
-import { userStore } from "../../../../stores";
 
 const useStyles = makeStyles((theme: Theme) => ({
     table: {
@@ -74,16 +73,11 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: "white",
     },
 }));
-const Report = () => {
+const Report2 = () => {
     const theme: ThemeOptions = useTheme();
     const navigate = useNavigate();
     const classes = useStyles();
-    const { examId } = useParams();
-    const user = userStore((state) => state.user);
 
-    if (!examId || !user) {
-        navigate("/");
-    }
     const [tableData, setTableData] = useState([
         [
             "۱",
@@ -595,4 +589,4 @@ const Report = () => {
     );
 };
 
-export default Report;
+export default Report2;
