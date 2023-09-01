@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { ObjectiveTestService } from "../../services";
 
 const useCreateObjectiveTest = () => {

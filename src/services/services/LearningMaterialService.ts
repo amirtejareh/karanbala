@@ -12,8 +12,8 @@ import { request as __request } from '../core/request';
 export class LearningMaterialService {
 
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerCreate(
@@ -28,7 +28,7 @@ export class LearningMaterialService {
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerFindAll(): CancelablePromise<any> {
@@ -39,8 +39,8 @@ export class LearningMaterialService {
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerFindOne(
@@ -56,9 +56,9 @@ export class LearningMaterialService {
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerUpdate(
@@ -77,8 +77,8 @@ export class LearningMaterialService {
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerRemove(
@@ -94,8 +94,8 @@ export class LearningMaterialService {
     }
 
     /**
-     * @param subjectsId
-     * @returns any
+     * @param subjectsId 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerFindLearningMaterialBasedOnSubject(

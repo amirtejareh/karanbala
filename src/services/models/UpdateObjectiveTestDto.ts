@@ -19,22 +19,25 @@ export type UpdateObjectiveTestDto = {
 };
 
 export namespace UpdateObjectiveTestDto {
+
     export enum questionDifficulty {
-        EASY = "easy",
-        AVERAGE = "average",
-        HARD = "hard",
+        EASY = 'easy',
+        AVERAGE = 'average',
+        HARD = 'hard',
     }
 
     export enum questionType {
-        CONCEPTIONAL = "conceptional",
-        COMPUTATIONAL = "computational",
-        TRICK = "trick",
-        MEMORIZATIONAL = "memorizational",
-        CHALLENGING = "challenging",
+        CONCEPTIONAL = 'conceptional',
+        COMPUTATIONAL = 'computational',
+        TRICK = 'trick',
+        MEMORIZATIONAL = 'memorizational',
+        CHALLENGING = 'challenging',
     }
 
     export enum examType {
-        MAIN = "main",
-        REMEDIAL = "remedial",
+        MAIN = 'main',
+        REMEDIAL = 'remedial',
     }
+
+
 }

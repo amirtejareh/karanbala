@@ -10,6 +10,11 @@ import useGetObjectiveTest from "../../../hooks/objective-test/useGetObjectiveTe
 import jMoment from "jalali-moment";
 import useGetObjectiveTestsBasedNumber from "../../../hooks/objective-test-management/useGetObjectiveTestsBasedNumber";
 import useGetQuestionsBasedOnBookReference from "../../../hooks/question/useGetQuestionsBasedOnBookReference";
+import useCreateOnlineGradeReport from "../../../hooks/online-grade-report/useCreateOnlineGradeReport";
+import { toast } from "react-toastify";
+import { authStore, userStore } from "../../../stores";
+import jwt_decode from "jwt-decode";
+import { OpenAPI } from "../../../services/core/OpenAPI";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -40,6 +45,7 @@ const ObjectiveTest = () => {
     const [totalPage, setTotalPage] = useState(1);
     const [, setDate] = useState(new Date());
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [radioValue, setRadioValue] = React.useState<any>("");
 
     const getObjectiveTests = useGetObjectiveTests();
     const getObjectiveTest = useGetObjectiveTest(currentActiveObjectiveTestId);
@@ -52,8 +58,6 @@ const ObjectiveTest = () => {
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
         currentActiveObjectiveTestId
     );
-
-    console.log(getQuestionsBasedOnBookReference);
 
     const checkIfTestStarts = (objectiveTest) => {
         if (
@@ -82,7 +86,7 @@ const ObjectiveTest = () => {
                     new Date(currentActiveBook?.start),
                     "seconds"
                 )
-            ) >= 0
+            ) >= 5
         ) {
             if (
                 jMoment(new Date(currentActiveBook?.start)) < jMoment(new Date()) &&
@@ -100,9 +104,14 @@ const ObjectiveTest = () => {
         return true;
     };
 
-    const handleRadioChange = ({ _id }, event) => {
-        const optionValue = event.target.value;
-        const optionIndex = selectedOptions.findIndex((option) => option.id === _id);
+    const handleRadioChange = ({ _id }, value) => {
+        if (value === radioValue) {
+            setRadioValue("-");
+        } else {
+            setRadioValue(value);
+        }
+        const optionValue = value;
+        const optionIndex = selectedOptions.findIndex((option) => option._id === _id);
 
         if (optionIndex !== -1) {
             const updatedOptions = [...selectedOptions];
@@ -114,7 +123,7 @@ const ObjectiveTest = () => {
     };
 
     const handleNextQuestion = ({ _id }) => {
-        console.log(selectedOptions);
+        handleRadioChange({ _id }, radioValue);
 
         const targetId = _id;
         const defaultValue = "-";
@@ -210,6 +219,8 @@ const ObjectiveTest = () => {
     useEffect(() => {
         jMoment.locale("fa");
         if (currentActiveObjectiveTestData?.start) {
+            setRadioValue("-");
+
             const dateTime = new Date(currentActiveObjectiveTestData?.start);
             const jDate = jMoment(dateTime).format("dddd jD MMMM jYYYY - ساعت: HH:mm:ss");
             setStartObjectiveTestDate(jDate);
@@ -258,17 +269,19 @@ const ObjectiveTest = () => {
     }, [startObjectiveTest]);
 
     useEffect(() => {
-        let timerId = null;
+        if (!getObjectiveTestBasedOnNumber?.isLoading && getObjectiveTestBasedOnNumber?.data) {
+            let timerId = null;
 
-        timerId = setInterval(() => {
-            setDate(new Date());
-            checkStartObjectiveTest();
-            checkIfExamFinished();
-        }, 5000);
-        return () => {
-            clearInterval(timerId);
-        };
-    }, []);
+            timerId = setInterval(() => {
+                setDate(new Date());
+                checkStartObjectiveTest();
+                checkIfExamFinished();
+            }, 1000);
+            return () => {
+                clearInterval(timerId);
+            };
+        }
+    }, [getObjectiveTestBasedOnNumber?.data]);
 
     useEffect(() => {
         if (currentActiveBook) {
@@ -278,7 +291,7 @@ const ObjectiveTest = () => {
         }
     }, [currentActiveBook, getObjectiveTestBasedOnNumber?.data, page]);
 
-    const [ifExamFinished, setIfExamFinished] = useState(false);
+    const [ifExamFinished, setIfExamFinished] = useState(true);
     const checkIfExamFinished = () => {
         let first;
         let last;
@@ -297,12 +310,7 @@ const ObjectiveTest = () => {
 
         const currentTime = new Date();
 
-        console.log(
-            currentTime < first || currentTime > last,
-            "currentTime < first || currentTime > last"
-        );
-
-        if (currentTime < first || currentTime > last) {
+        if (Number(jMoment(new Date(last)).diff(currentTime, "seconds")) < 0) {
             setIfExamFinished(false);
             return false;
         }
@@ -310,6 +318,47 @@ const ObjectiveTest = () => {
         setIfExamFinished(true);
 
         return true;
+    };
+    const [loading, setLoading] = useState<boolean>();
+
+    const createOnlineGradeReport = useCreateOnlineGradeReport();
+    const user: any = userStore((state) => state);
+
+    const { accessToken } = authStore((state) => state);
+    const userData: any = userStore((state) => state);
+
+    useEffect(() => {
+        if (accessToken && userData.user === null) {
+            const user = jwt_decode(accessToken ?? "");
+            OpenAPI.TOKEN = accessToken;
+            userData.setUser(user);
+        } else {
+            OpenAPI.TOKEN = accessToken;
+        }
+    }, [accessToken, userData]);
+    const submitOnlineGradeReport = () => {
+        if (selectedOptions.length === 0) {
+            return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
+        }
+        setLoading(true);
+        const data = {
+            user,
+            question: selectedOptions,
+            examId: currentActiveObjectiveTestData._id,
+            examNumber: currentActiveObjectiveTestData.number,
+            type: currentActiveObjectiveTestData.type,
+        };
+        createOnlineGradeReport.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode === 200) {
+                    setLoading(false);
+                    toast(result.message);
+                } else {
+                    setLoading(false);
+                    toast(result.message);
+                }
+            },
+        });
     };
 
     return (
@@ -531,21 +580,64 @@ const ObjectiveTest = () => {
                     </ButtonKit>
                 </Box> */}
             </Box>
-            <ButtonKit sx={{ width: "100%" }} onClick={() => navigate("report")}>
-                <Box
-                    bgcolor={theme?.palette?.grey[100]}
-                    display={"flex"}
-                    justifyContent={"center"}
-                    borderRadius={"1rem"}
-                    padding={"2rem"}
-                    margin={"2rem 0"}
-                    width={"100%"}
-                >
-                    <Box>
-                        <Typography variant="subtitle1">کارنامه-تحلیل-نمودارهای پیشرفت</Typography>
-                    </Box>
-                </Box>
-            </ButtonKit>
+
+            {getObjectiveTest?.data && (
+                <>
+                    <ButtonKit
+                        sx={{ width: "33%" }}
+                        onClick={() => {
+                            navigate(`report/${currentActiveObjectiveTestData?._id}`);
+                        }}
+                    >
+                        <Box
+                            bgcolor={theme?.palette?.grey[100]}
+                            display={"flex"}
+                            justifyContent={"center"}
+                            borderRadius={"1rem"}
+                            padding={"2rem"}
+                            margin={"2rem 0"}
+                            width={"100%"}
+                        >
+                            <Box>
+                                <Typography variant="subtitle1">
+                                    کارنامه-تحلیل-نمودارهای پیشرفت
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </ButtonKit>
+                    <ButtonKit sx={{ width: "33%" }} onClick={() => {}}>
+                        <Box
+                            bgcolor={theme?.palette?.grey[100]}
+                            display={"flex"}
+                            justifyContent={"center"}
+                            borderRadius={"1rem"}
+                            padding={"2rem"}
+                            margin={"2rem 0"}
+                            width={"100%"}
+                        >
+                            <Box>
+                                <Typography variant="subtitle1">پاسخنامه آزمون</Typography>
+                            </Box>
+                        </Box>
+                    </ButtonKit>
+                    <ButtonKit sx={{ width: "33%" }} onClick={() => {}}>
+                        <Box
+                            bgcolor={theme?.palette?.grey[100]}
+                            display={"flex"}
+                            justifyContent={"center"}
+                            borderRadius={"1rem"}
+                            padding={"2rem"}
+                            margin={"2rem 0"}
+                            width={"100%"}
+                        >
+                            <Box>
+                                <Typography variant="subtitle1">بودجه بندی آزمون</Typography>
+                            </Box>
+                        </Box>
+                    </ButtonKit>
+                </>
+            )}
+
             <Box borderRadius={"1rem"} padding={"2rem"} margin={"2rem 0"}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography fontSize={"3.2rem"} variant="subtitle1">
@@ -596,12 +688,12 @@ const ObjectiveTest = () => {
                         <RadioGroup
                             row
                             aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="جواب ۱"
+                            value={radioValue}
                             name="radio-buttons-group"
-                            onChange={(e) =>
+                            onClick={(e: any) =>
                                 handleRadioChange(
                                     getQuestionsBasedOnBookReference?.data?.questions[0],
-                                    e
+                                    e.target.value
                                 )
                             }
                         >
@@ -611,12 +703,23 @@ const ObjectiveTest = () => {
                                         {getQuestionsBasedOnBookReference?.data?.questions[0]?.options?.map(
                                             (options) => {
                                                 return Object.values(options).map(
-                                                    (option: any, index) => {
+                                                    (option: any, index: any) => {
                                                         return (
                                                             <Box key={index}>
                                                                 <FormControlLabel
-                                                                    value={index}
-                                                                    control={<Radio />}
+                                                                    value={index + 1}
+                                                                    control={
+                                                                        <Radio
+                                                                            onClick={(e: any) =>
+                                                                                handleRadioChange(
+                                                                                    getQuestionsBasedOnBookReference
+                                                                                        ?.data
+                                                                                        ?.questions[0],
+                                                                                    e.target.value
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    }
                                                                     label={
                                                                         <Box
                                                                             dangerouslySetInnerHTML={{
@@ -677,7 +780,13 @@ const ObjectiveTest = () => {
                     >
                         <Typography>سوال قبلی</Typography>
                     </ButtonKit>
-                    <ButtonKit onClick={() => {}} disabled={!ifExamFinished} variant="outlined">
+                    <ButtonKit
+                        onClick={() => {
+                            submitOnlineGradeReport();
+                        }}
+                        disabled={ifExamFinished}
+                        variant="outlined"
+                    >
                         <Typography>اتمام آزمون</Typography>
                     </ButtonKit>
                 </Box>

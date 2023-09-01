@@ -2,106 +2,112 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateBookReferenceDto } from "../models/CreateBookReferenceDto";
-import type { UpdateBookReferenceDto } from "../models/UpdateBookReferenceDto";
+import type { CreateBookReferenceDto } from '../models/CreateBookReferenceDto';
+import type { UpdateBookReferenceDto } from '../models/UpdateBookReferenceDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class BookReferenceService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static bookReferenceControllerCreate(
-        requestBody: CreateBookReferenceDto
-    ): CancelablePromise<any> {
+requestBody: CreateBookReferenceDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/bookReference",
+            method: 'POST',
+            url: '/bookReference',
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static bookReferenceControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/bookReference",
+            method: 'GET',
+            url: '/bookReference',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static bookReferenceControllerFindOne(id: string): CancelablePromise<any> {
+    public static bookReferenceControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/bookReference/{id}",
+            method: 'GET',
+            url: '/bookReference/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static bookReferenceControllerUpdate(
-        id: string,
-        requestBody: UpdateBookReferenceDto
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateBookReferenceDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/bookReference/{id}",
+            method: 'PATCH',
+            url: '/bookReference/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static bookReferenceControllerRemove(id: string): CancelablePromise<any> {
+    public static bookReferenceControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/bookReference/{id}",
+            method: 'DELETE',
+            url: '/bookReference/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param gradeLevelId
-     * @returns any
+     * @param gradeLevelId 
+     * @returns any 
      * @throws ApiError
      */
     public static bookReferenceControllerFindBookReferencesBasedOnGradeLevels(
-        gradeLevelId: Array<string>
-    ): CancelablePromise<any> {
+gradeLevelId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/bookReference/withGradeLevels/{gradeLevelId}",
+            method: 'GET',
+            url: '/bookReference/withGradeLevels/{gradeLevelId}',
             path: {
-                gradeLevelId: gradeLevelId,
+                'gradeLevelId': gradeLevelId,
             },
         });
     }
+
 }
