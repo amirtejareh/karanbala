@@ -234,6 +234,32 @@ const Report = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
+
+    const checkQuestionDifficulty = (questionDifficulty) => {
+        switch (questionDifficulty) {
+            case "hard":
+                return "سخت";
+            case "average":
+                return "متوسط";
+            case "easy":
+                return "متوسط";
+        }
+    };
+
+    const checkQuestionType = (questionType) => {
+        switch (questionType) {
+            case "conceptional":
+                return "مفهومی";
+            case "computational":
+                return "محاسباتی";
+            case "trick":
+                return "دام دار";
+            case "memorizational":
+                return "حفظی";
+            case "challenging":
+                return "چالشی";
+        }
+    };
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
@@ -369,8 +395,6 @@ const Report = () => {
                                     <>
                                         {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers?.map(
                                             (answer, ix) => {
-                                                console.log(answer);
-
                                                 return (
                                                     <TableRow key={ix}>
                                                         <TableCell key={ix}>
@@ -499,6 +523,31 @@ const Report = () => {
                                                             ) : (
                                                                 ""
                                                             )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {answer.gradeLevels.map(
+                                                                (gradeLevel) => gradeLevel.title
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {answer.chapters.map(
+                                                                (chapter) => chapter.title
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {answer.subjects.map(
+                                                                (subject) => subject.title
+                                                            )}
+                                                        </TableCell>
+
+                                                        <TableCell>
+                                                            {checkQuestionDifficulty(
+                                                                answer.questionDifficulty
+                                                            )}
+                                                        </TableCell>
+
+                                                        <TableCell>
+                                                            {checkQuestionType(answer.questionType)}
                                                         </TableCell>
                                                     </TableRow>
                                                 );
