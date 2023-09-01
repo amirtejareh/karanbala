@@ -166,6 +166,23 @@ export class QuestionService {
      * @returns any
      * @throws ApiError
      */
+    public static questionControllerFindQuestionsBasedOnObjectiveTests(
+        objectiveTestId: string
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/question/questionsWithObjectiveTestId/{objectiveTestId}",
+            path: {
+                objectiveTestId: objectiveTestId,
+            },
+        });
+    }
+
+    /**
+     * @param objectiveTestId
+     * @returns any
+     * @throws ApiError
+     */
     public static questionControllerFindBookReferencesBasedOnObjectiveTests(
         objectiveTestId: string
     ): CancelablePromise<any> {
