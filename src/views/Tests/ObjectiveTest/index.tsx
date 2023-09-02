@@ -165,18 +165,39 @@ const ObjectiveTest = () => {
     };
 
     const calculateExamDurationTime = () => {
-        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
-                ) + "دقیقه"
-            );
+        let first;
+        let last;
+
+        getObjectiveTestBasedOnNumber?.data?.reduce((_, objectiveTest) => {
+            const { start, end } = objectiveTest;
+
+            if (!first) {
+                first = start;
+            }
+
+            last = end;
+
+            return 0;
+        }, 0);
+
+        const currentTime = new Date();
+
+        if (first == undefined) {
+            first = new Date();
+        }
+        if (last == undefined) {
+            last = new Date();
+        }
+
+        if (Number(jMoment(new Date(last)).diff(currentTime, "seconds")) < 0) {
+            setIfExamFinished(false);
+            return false;
+        }
+
+        if (jMoment(new Date(first)) > jMoment(currentTime)) {
+            return jMoment(new Date(last)).diff(new Date(first), "minutes") + "دقیقه";
         } else {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") +
-                "دقیقه"
-            );
+            return jMoment(new Date(last)).diff(currentTime, "minutes") + "دقیقه";
         }
     };
 
@@ -220,14 +241,26 @@ const ObjectiveTest = () => {
 
     useEffect(() => {
         jMoment.locale("fa");
-        if (currentActiveObjectiveTestData?.start) {
-            setRadioValue("-");
+        let first;
+        let last;
+        getObjectiveTestBasedOnNumber?.data?.reduce((_, objectiveTest) => {
+            const { start, end } = objectiveTest;
 
-            const dateTime = new Date(currentActiveObjectiveTestData?.start);
+            if (!first) {
+                first = start;
+            }
+
+            last = end;
+
+            return null;
+        }, null);
+
+        if (first) {
+            const dateTime = new Date(first);
             const jDate = jMoment(dateTime).format("dddd jD MMMM jYYYY - ساعت: HH:mm:ss");
             setStartObjectiveTestDate(jDate);
         }
-    }, [currentActiveObjectiveTestData]);
+    }, [getObjectiveTestBasedOnNumber?.data]);
 
     useEffect(() => {
         if (!getObjectiveTests.isLoading) {
@@ -364,6 +397,18 @@ const ObjectiveTest = () => {
         });
     };
 
+    useEffect(() => {
+        if (
+            !getObjectiveTests.isLoading &&
+            getObjectiveTests.data &&
+            getObjectiveTests.data.length > 0 &&
+            getObjectiveTests.data[0].isPublished
+        ) {
+            const objectiveTestId = getObjectiveTests.data[0]._id;
+            handleObjectiveTestClick(objectiveTestId);
+        }
+    }, [getObjectiveTests.isLoading, getObjectiveTests.data]);
+
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"fflex"} justifyContent={"end"}>
@@ -392,10 +437,10 @@ const ObjectiveTest = () => {
                     >
                         {!getObjectiveTests.isLoading ? (
                             <>
-                                {getObjectiveTests.data && getObjectiveTests.data.length >= 0 ? (
+                                {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
                                     getObjectiveTests.data.map(
                                         (objectiveTest: ObjectiveTestData, index) => {
-                                            if (objectiveTest.isPublished)
+                                            if (objectiveTest.isPublished) {
                                                 return (
                                                     <ButtonKit
                                                         key={index}
@@ -411,6 +456,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
+                                            }
                                         }
                                     )
                                 ) : (
