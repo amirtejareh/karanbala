@@ -60,11 +60,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ISignUpForm {
-    username: string;
-    email: string;
-    mobile: string;
-    national_id_number: string;
-    password: string;
+    username?: string;
+    email?: string;
+    mobile?: string;
+    national_id_number?: string;
+    password?: string;
 }
 
 const signUpValidationSchema = yup
@@ -149,13 +149,13 @@ const SignUpView = React.forwardRef((props, ref: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
