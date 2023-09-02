@@ -55,10 +55,10 @@ const ObjectiveTest = () => {
     const getQuestionsBasedOnBookReference = useGetQuestionsBasedOnBookReference(
         page,
         limit,
-        currentActiveBook?.bookReferences[0]?._id
+        currentActiveBook?.bookReferences[0]?._id,
     );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
-        currentActiveObjectiveTestId
+        currentActiveObjectiveTestId,
     );
 
     const checkIfTestStarts = (objectiveTest) => {
@@ -86,8 +86,8 @@ const ObjectiveTest = () => {
             Number(
                 jMoment(new Date(currentActiveBook?.end)).diff(
                     new Date(currentActiveBook?.start),
-                    "seconds"
-                )
+                    "seconds",
+                ),
             ) >= 5
         ) {
             if (
@@ -142,7 +142,7 @@ const ObjectiveTest = () => {
             if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
                 return jMoment(new Date(currentActiveBook?.end)).diff(
                     new Date(currentActiveBook?.start),
-                    "seconds"
+                    "seconds",
                 );
             } else {
                 if (
@@ -190,7 +190,6 @@ const ObjectiveTest = () => {
         }
 
         if (Number(jMoment(new Date(last)).diff(currentTime, "seconds")) < 0) {
-            setIfExamFinished(false);
             return false;
         }
 
@@ -446,7 +445,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id
+                                                                objectiveTest._id,
                                                             );
                                                         }}
                                                         variant="contained"
@@ -457,7 +456,7 @@ const ObjectiveTest = () => {
                                                     </ButtonKit>
                                                 );
                                             }
-                                        }
+                                        },
                                     )
                                 ) : (
                                     <Box>
@@ -509,7 +508,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id
+                                                                objectiveTest._id,
                                                             );
                                                         }}
                                                         variant="contained"
@@ -519,7 +518,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        }
+                                        },
                                     )
                                 ) : (
                                     <Box>
@@ -742,7 +741,7 @@ const ObjectiveTest = () => {
                             onClick={(e: any) =>
                                 handleRadioChange(
                                     getQuestionsBasedOnBookReference?.data?.questions[0],
-                                    e.target.value
+                                    e.target.value,
                                 )
                             }
                         >
@@ -764,7 +763,7 @@ const ObjectiveTest = () => {
                                                                                     getQuestionsBasedOnBookReference
                                                                                         ?.data
                                                                                         ?.questions[0],
-                                                                                    e.target.value
+                                                                                    e.target.value,
                                                                                 )
                                                                             }
                                                                         />
@@ -779,9 +778,9 @@ const ObjectiveTest = () => {
                                                                 />
                                                             </Box>
                                                         );
-                                                    }
+                                                    },
                                                 );
-                                            }
+                                            },
                                         )}
                                     </>
                                 )}
@@ -803,12 +802,12 @@ const ObjectiveTest = () => {
                         onClick={() => {
                             if (page == totalPage) {
                                 handleNextQuestion(
-                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                    getQuestionsBasedOnBookReference?.data?.questions[0],
                                 );
                             }
                             if (page < totalPage) {
                                 handleNextQuestion(
-                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                    getQuestionsBasedOnBookReference?.data?.questions[0],
                                 );
                                 setPage(page + 1);
                             }
