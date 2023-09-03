@@ -26,6 +26,7 @@ import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/use
 
 import useCreateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useCreateObjectiveTestManagement";
 import useGetBookReferencesBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBookReferencesBasedOnObjectiveTestId";
+import useUpdateObjectiveTest from "../../../../../../hooks/objective-test/useUpdateObjectiveTest";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -108,6 +109,30 @@ const ObjectiveTestManagement = (props: any) => {
         getBookReferencesBasedOnObjectiveTestId.refetch();
     }, [objectiveTestId]);
 
+    const updateObjectiveTest = useUpdateObjectiveTest();
+
+    const handlePublishExam = () => {
+        if (!objectiveTestId) {
+            return toast.error("ابتدا یک آزمون را انتخاب کنید");
+        }
+
+        setLoading(true);
+        updateObjectiveTest.mutate(
+            { id: objectiveTestId, isPublished: true },
+            {
+                onSuccess: async (result: { message: string; statusCode: number }) => {
+                    if (result.statusCode === 200) {
+                        setLoading(false);
+                        toast.success("آزمون مورد نظر با موفقیت منتشر شد");
+                    } else {
+                        setLoading(false);
+                        toast(result.message);
+                    }
+                },
+            },
+        );
+    };
+
     const handleCreateObjectiveTestManagement = async (data: any) => {
         setLoading(true);
         createObjectiveTestManagement.mutate(data, {
@@ -124,13 +149,13 @@ const ObjectiveTestManagement = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -186,7 +211,7 @@ const ObjectiveTestManagement = (props: any) => {
                                                 {bookReference.title}
                                             </MenuItem>
                                         );
-                                    }
+                                    },
                                 )}
                         </Select>{" "}
                     </FormControl>
@@ -238,6 +263,15 @@ const ObjectiveTestManagement = (props: any) => {
                         type="submit"
                     >
                         {"ذخیره"}
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.specialField}
+                        onClick={() => handlePublishExam()}
+                    >
+                        {"انتشار"}
                     </Button>
                 </form>
             </Box>

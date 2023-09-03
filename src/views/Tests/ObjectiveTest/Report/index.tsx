@@ -17,6 +17,7 @@ import { KaranbalaLogoTextSvg } from "../../../../assets";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { Theme } from "@mui/material/styles";
 import { userStore } from "../../../../stores";
+import useGetOnlineGradeLevelBasedObjectiveTest from "../../../../hooks/online-grade-report/useGetOnlineGradeLevelBasedObjectiveTest";
 
 const useStyles = makeStyles((theme: Theme) => ({
     table: {
@@ -81,9 +82,24 @@ const Report = () => {
     const { examId } = useParams();
     const user = userStore((state) => state.user);
 
-    if (!examId || !user) {
-        navigate("/");
-    }
+    const getOnlineGradeLevelBasedObjectiveTest = useGetOnlineGradeLevelBasedObjectiveTest(examId);
+
+    useEffect(() => {
+        getOnlineGradeLevelBasedObjectiveTest.refetch();
+    }, []);
+
+    const [isUserInitialized, setIsUserInitialized] = useState(false);
+
+    console.log(getOnlineGradeLevelBasedObjectiveTest);
+
+    useEffect(() => {
+        if (!isUserInitialized && user !== null) {
+            setIsUserInitialized(true);
+        } else if (isUserInitialized && user === null) {
+            navigate("/");
+        }
+    }, [user, isUserInitialized, navigate]);
+
     const [tableData, setTableData] = useState([
         [
             "۱",
@@ -218,6 +234,32 @@ const Report = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
+
+    const checkQuestionDifficulty = (questionDifficulty) => {
+        switch (questionDifficulty) {
+            case "hard":
+                return "سخت";
+            case "average":
+                return "متوسط";
+            case "easy":
+                return "ساده";
+        }
+    };
+
+    const checkQuestionType = (questionType) => {
+        switch (questionType) {
+            case "conceptional":
+                return "مفهومی";
+            case "computational":
+                return "محاسباتی";
+            case "trick":
+                return "دام دار";
+            case "memorizational":
+                return "حفظی";
+            case "challenging":
+                return "چالشی";
+        }
+    };
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
@@ -235,36 +277,42 @@ const Report = () => {
                     <Typography color={theme.palette.grey.A700} variant="subtitle1">
                         نوع آزمون:
                     </Typography>
-                    <Typography variant="subtitle1"> تستی </Typography>
+                    <Typography variant="subtitle1">
+                        {" "}
+                        {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                            <>
+                                {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.examType === "main"
+                                    ? "اصلی"
+                                    : "رفع اشکال"}{" "}
+                            </>
+                        )}
+                    </Typography>
                 </Box>
                 <Box display="flex" gap="5px">
                     <Typography color={theme.palette.grey.A700}>شماره آزمون: </Typography>
-                    <Typography variant="subtitle1">۷</Typography>
+                    <Typography variant="subtitle1">
+                        {" "}
+                        {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                            <>{getOnlineGradeLevelBasedObjectiveTest?.data[0]?.examNumber} </>
+                        )}{" "}
+                    </Typography>
                 </Box>
                 <Box display="flex" gap="5px">
                     <Typography color={theme.palette.grey.A700}>پایه تحصیلی : </Typography>
-                    <Typography variant="subtitle1">دوازدهم تجربی</Typography>
+                    <Typography variant="subtitle1">
+                        {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                            <>
+                                {
+                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]?.gradeLevel[0]
+                                        .title
+                                }{" "}
+                            </>
+                        )}
+                    </Typography>
                 </Box>
             </Box>
 
-            <Box mt="20px" display="flex" gap="50px">
-                <Button variant="contained">
-                    <Typography>ریاضیات</Typography>
-                </Button>
-                <Button variant="outlined">
-                    <Typography>زیست شناسی</Typography>
-                </Button>
-                <Button variant="outlined">
-                    <Typography>فیزیک</Typography>
-                </Button>
-                <Button variant="outlined">
-                    <Typography>شیمی</Typography>
-                </Button>
-                <Button variant="outlined">
-                    <Typography>کل</Typography>
-                </Button>
-            </Box>
-
+            {/*
             <Box mt="20px" display={"flex"} flexWrap={"wrap"}>
                 <Table className={classes.table} component={Paper}>
                     <TableHead>
@@ -316,9 +364,12 @@ const Report = () => {
             <TableCell>{row.totalExam}</TableCell>
           </TableRow>
         ))}
-      </TableBody> */}
+      </TableBody> 
+      
                 </Table>
             </Box>
+
+            */}
 
             <Box mt="20px">
                 <Table className={classes.table2} component={Paper}>
@@ -338,15 +389,174 @@ const Report = () => {
                     </TableHead>
 
                     <TableBody>
-                        {tableData.map((row, index) => {
-                            return (
-                                <TableRow key={index}>
-                                    {row.map((element, ix) => (
-                                        <TableCell key={ix}>{element}</TableCell>
-                                    ))}
-                                </TableRow>
-                            );
-                        })}
+                        {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                            <>
+                                {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                    <>
+                                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers?.map(
+                                            (answer, ix) => {
+                                                return (
+                                                    <TableRow key={ix}>
+                                                        <TableCell key={ix}>
+                                                            {answer.number}
+                                                        </TableCell>
+                                                        <TableCell key={ix}>
+                                                            {answer.userAnswer ==
+                                                                answer.correctAnswer &&
+                                                            1 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.true}
+                                                                >
+                                                                    صحیح
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer != "-" &&
+                                                              1 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.false}
+                                                                >
+                                                                    غلط
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer == "-" &&
+                                                              1 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.undone}
+                                                                >
+                                                                    نزده
+                                                                </Typography>
+                                                            ) : (
+                                                                ""
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell key={ix}>
+                                                            {answer.userAnswer ==
+                                                                answer.correctAnswer &&
+                                                            2 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.true}
+                                                                >
+                                                                    صحیح
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer != "-" &&
+                                                              2 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.false}
+                                                                >
+                                                                    غلط
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer == "-" &&
+                                                              2 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.undone}
+                                                                >
+                                                                    نزده
+                                                                </Typography>
+                                                            ) : (
+                                                                ""
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell key={ix}>
+                                                            {answer.userAnswer ==
+                                                                answer.correctAnswer &&
+                                                            3 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.true}
+                                                                >
+                                                                    صحیح
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer != "-" &&
+                                                              3 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.false}
+                                                                >
+                                                                    غلط
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer == "-" &&
+                                                              3 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.undone}
+                                                                >
+                                                                    نزده
+                                                                </Typography>
+                                                            ) : (
+                                                                ""
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell key={ix}>
+                                                            {answer.userAnswer ==
+                                                                answer.correctAnswer &&
+                                                            4 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.true}
+                                                                >
+                                                                    صحیح
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer != "-" &&
+                                                              4 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.false}
+                                                                >
+                                                                    غلط
+                                                                </Typography>
+                                                            ) : answer.userAnswer !=
+                                                                  answer.correctAnswer &&
+                                                              answer.userAnswer == "-" &&
+                                                              4 == answer.correctAnswer ? (
+                                                                <Typography
+                                                                    className={classes.undone}
+                                                                >
+                                                                    نزده
+                                                                </Typography>
+                                                            ) : (
+                                                                ""
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {answer.gradeLevels.map(
+                                                                (gradeLevel) => gradeLevel.title
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {answer.chapters.map(
+                                                                (chapter) => chapter.title
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {answer.subjects.map(
+                                                                (subject) => subject.title
+                                                            )}
+                                                        </TableCell>
+
+                                                        <TableCell>
+                                                            {checkQuestionDifficulty(
+                                                                answer.questionDifficulty
+                                                            )}
+                                                        </TableCell>
+
+                                                        <TableCell>
+                                                            {checkQuestionType(answer.questionType)}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                );
+                                            }
+                                        )}
+                                    </>
+                                )}
+                            </>
+                        )}
                     </TableBody>
 
                     {/* <TableBody>
@@ -362,7 +572,7 @@ const Report = () => {
       </TableBody> */}
                 </Table>
             </Box>
-            <Box mt="20px" display="flex" justifyContent="center">
+            {/* <Box mt="20px" display="flex" justifyContent="center">
                 <svg
                     width="1336"
                     height="656"
@@ -489,7 +699,7 @@ const Report = () => {
                     <rect x="1081" y="205" width="25" height="372" rx="8" fill="#32074F" />
                     <rect x="199" y="309" width="25" height="268" rx="8" fill="#32074F" />
                 </svg>
-            </Box>
+            </Box> */}
             <Box mt={"20px"}>
                 <Table className={classes.table2} component={Paper}>
                     <TableHead>
@@ -505,44 +715,180 @@ const Report = () => {
                     <TableBody>
                         <TableRow>
                             <TableCell>تعداد سوالات</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.memorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.challengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.conceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.trickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.computationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>صحیح </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctMemorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctChallengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctConceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctTrickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctComputationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>نزده </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredMemorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredChallengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredConceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredTrickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredComputationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>غلط </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectMemorizationalCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectChallengingCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectConceptionalCount
+                                                }
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectTrickCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectComputationalCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
-                        <TableRow>
+                        {/* <TableRow>
                             <TableCell>درصد کسب شده </TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵ </TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableBody>
                 </Table>
             </Box>
@@ -558,36 +904,130 @@ const Report = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                        <TableBody></TableBody>
                         <TableRow>
                             <TableCell>تعداد سوالات</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.easyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.averageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.hardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>صحیح </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctEasyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctAverageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctHardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>نزده </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredEasyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredAverageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredHardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
                         <TableRow>
                             <TableCell>غلط </TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
-                            <TableCell>۴</TableCell>
+                            {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                                <>
+                                    {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
+                                        <>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectEasyCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectAverageCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectHardCount
+                                                }
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </TableRow>
-                        <TableRow>
+                        {/* <TableRow>
                             <TableCell>درصد کسب شده </TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
                             <TableCell>۳۵</TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableBody>
                 </Table>
             </Box>

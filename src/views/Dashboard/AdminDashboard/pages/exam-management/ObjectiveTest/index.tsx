@@ -213,70 +213,22 @@ const ObjectiveTest = (props: any) => {
                     </FormControl>
 
                     {type === "remedial" && (
-                        <TextField
-                            type="number"
-                            className={`${classes.formField} ${classes.durationField}`}
-                            variant="outlined"
-                            label="لطفا مدت زمان آزمون را به دقیقه مشخص کنید"
-                            {...register("duration", {
-                                required: "مدت زمان آزمون را مشخص کنید",
-                            })}
-                            ref={(e) => {
-                                register("duration").ref(e);
-                                durationRef.current = e;
-                            }}
-                        />
+                        <>
+                            <TextField
+                                type="number"
+                                className={`${classes.formField} ${classes.durationField}`}
+                                variant="outlined"
+                                label="لطفا مدت زمان آزمون را به دقیقه مشخص کنید"
+                                {...register("duration", {
+                                    required: "مدت زمان آزمون را مشخص کنید",
+                                })}
+                                ref={(e) => {
+                                    register("duration").ref(e);
+                                    durationRef.current = e;
+                                }}
+                            />
+                        </>
                     )}
-                    <Box className={classes.specialField}>
-                        <Controller
-                            name="start"
-                            control={control}
-                            render={({ field: { onChange, ...restField } }) => (
-                                <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
-                                    <DateTimePicker
-                                        label="تاریخ شروع آزمون"
-                                        value={selectedStartDate}
-                                        onChange={(e) => {
-                                            onChange(e);
-                                            setSelectedStartDate(e);
-                                        }}
-                                        components={{
-                                            OpenPickerIcon: CalendarDarkSvg,
-                                        }}
-                                    />
-                                </LocalizationProvider>
-                            )}
-                        />
-                    </Box>
-
-                    <Box className={classes.specialField}>
-                        <Controller
-                            name="end"
-                            control={control}
-                            render={({ field: { onChange, ...restField } }) => (
-                                <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
-                                    <DateTimePicker
-                                        label="تاریخ اتمام آزمون"
-                                        value={selectedEndDate}
-                                        onChange={(e) => {
-                                            onChange(e);
-                                            setSelectedEndDate(e);
-                                        }}
-                                        components={{
-                                            OpenPickerIcon: CalendarDarkSvg,
-                                        }}
-                                    />
-                                </LocalizationProvider>
-                            )}
-                        />
-                    </Box>
-
-                    <Box className={classes.specialField}>
-                        <FormControlLabel
-                            control={<Checkbox {...register("isPublished", {})} />}
-                            label="انتشار"
-                        />
-                    </Box>
 
                     <Button
                         variant="contained"

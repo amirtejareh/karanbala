@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { authStore, userStore } from "../../../stores";
 import jwt_decode from "jwt-decode";
 import { OpenAPI } from "../../../services/core/OpenAPI";
+import { GradeLevel } from "../../../services";
 
 const ObjectiveTest = () => {
     const theme: ThemeOptions = useTheme();
@@ -28,6 +29,7 @@ const ObjectiveTest = () => {
         duration?: string;
         start?: string;
         end?: string;
+        gradeLevel: GradeLevel;
         bookReferences: [{ _id: string }];
         type?: string;
         createdAt?: string;
@@ -53,10 +55,10 @@ const ObjectiveTest = () => {
     const getQuestionsBasedOnBookReference = useGetQuestionsBasedOnBookReference(
         page,
         limit,
-        currentActiveBook?.bookReferences[0]?._id
+        currentActiveBook?.bookReferences[0]?._id,
     );
     const getObjectiveTestBasedOnNumber = useGetObjectiveTestsBasedNumber(
-        currentActiveObjectiveTestId
+        currentActiveObjectiveTestId,
     );
 
     const checkIfTestStarts = (objectiveTest) => {
@@ -84,8 +86,8 @@ const ObjectiveTest = () => {
             Number(
                 jMoment(new Date(currentActiveBook?.end)).diff(
                     new Date(currentActiveBook?.start),
-                    "seconds"
-                )
+                    "seconds",
+                ),
             ) >= 5
         ) {
             if (
@@ -140,7 +142,7 @@ const ObjectiveTest = () => {
             if (jMoment(new Date(currentActiveBook?.start)) > jMoment(new Date())) {
                 return jMoment(new Date(currentActiveBook?.end)).diff(
                     new Date(currentActiveBook?.start),
-                    "seconds"
+                    "seconds",
                 );
             } else {
                 if (
@@ -163,18 +165,38 @@ const ObjectiveTest = () => {
     };
 
     const calculateExamDurationTime = () => {
-        if (jMoment(new Date(currentActiveObjectiveTestData?.start)) > jMoment(new Date())) {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(
-                    new Date(currentActiveObjectiveTestData?.start),
-                    "minutes"
-                ) + "دقیقه"
-            );
+        let first;
+        let last;
+
+        getObjectiveTestBasedOnNumber?.data?.reduce((_, objectiveTest) => {
+            const { start, end } = objectiveTest;
+
+            if (!first) {
+                first = start;
+            }
+
+            last = end;
+
+            return 0;
+        }, 0);
+
+        const currentTime = new Date();
+
+        if (first == undefined) {
+            first = new Date();
+        }
+        if (last == undefined) {
+            last = new Date();
+        }
+
+        if (Number(jMoment(new Date(last)).diff(currentTime, "seconds")) < 0) {
+            return false;
+        }
+
+        if (jMoment(new Date(first)) > jMoment(currentTime)) {
+            return jMoment(new Date(last)).diff(new Date(first), "minutes") + "دقیقه";
         } else {
-            return (
-                jMoment(new Date(currentActiveObjectiveTestData?.end)).diff(new Date(), "minutes") +
-                "دقیقه"
-            );
+            return jMoment(new Date(last)).diff(currentTime, "minutes") + "دقیقه";
         }
     };
 
@@ -218,14 +240,26 @@ const ObjectiveTest = () => {
 
     useEffect(() => {
         jMoment.locale("fa");
-        if (currentActiveObjectiveTestData?.start) {
-            setRadioValue("-");
+        let first;
+        let last;
+        getObjectiveTestBasedOnNumber?.data?.reduce((_, objectiveTest) => {
+            const { start, end } = objectiveTest;
 
-            const dateTime = new Date(currentActiveObjectiveTestData?.start);
+            if (!first) {
+                first = start;
+            }
+
+            last = end;
+
+            return null;
+        }, null);
+
+        if (first) {
+            const dateTime = new Date(first);
             const jDate = jMoment(dateTime).format("dddd jD MMMM jYYYY - ساعت: HH:mm:ss");
             setStartObjectiveTestDate(jDate);
         }
-    }, [currentActiveObjectiveTestData]);
+    }, [getObjectiveTestBasedOnNumber?.data]);
 
     useEffect(() => {
         if (!getObjectiveTests.isLoading) {
@@ -327,15 +361,6 @@ const ObjectiveTest = () => {
     const { accessToken } = authStore((state) => state);
     const userData: any = userStore((state) => state);
 
-    useEffect(() => {
-        if (accessToken && userData.user === null) {
-            const user = jwt_decode(accessToken ?? "");
-            OpenAPI.TOKEN = accessToken;
-            userData.setUser(user);
-        } else {
-            OpenAPI.TOKEN = accessToken;
-        }
-    }, [accessToken, userData]);
     const submitOnlineGradeReport = () => {
         if (selectedOptions.length === 0) {
             return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
@@ -347,12 +372,22 @@ const ObjectiveTest = () => {
             examId: currentActiveObjectiveTestData._id,
             examNumber: currentActiveObjectiveTestData.number,
             type: currentActiveObjectiveTestData.type,
+            gradeLevel: currentActiveObjectiveTestData.gradeLevel,
         };
         createOnlineGradeReport.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
+                console.log(result);
+
                 if (result.statusCode === 200) {
                     setLoading(false);
                     toast(result.message);
+                } else if (result.statusCode === 401) {
+                    setLoading(false);
+                    toast("لطفا وارد سایت شوید");
+
+                    setTimeout(() => {
+                        navigate("/auth/login");
+                    }, 3000);
                 } else {
                     setLoading(false);
                     toast(result.message);
@@ -360,6 +395,18 @@ const ObjectiveTest = () => {
             },
         });
     };
+
+    useEffect(() => {
+        if (
+            !getObjectiveTests.isLoading &&
+            getObjectiveTests.data &&
+            getObjectiveTests.data.length > 0 &&
+            getObjectiveTests.data[0].isPublished
+        ) {
+            const objectiveTestId = getObjectiveTests.data[0]._id;
+            handleObjectiveTestClick(objectiveTestId);
+        }
+    }, [getObjectiveTests.isLoading, getObjectiveTests.data]);
 
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
@@ -389,16 +436,16 @@ const ObjectiveTest = () => {
                     >
                         {!getObjectiveTests.isLoading ? (
                             <>
-                                {getObjectiveTests.data && getObjectiveTests.data.length >= 0 ? (
+                                {getObjectiveTests.data && getObjectiveTests.data.length > 0 ? (
                                     getObjectiveTests.data.map(
                                         (objectiveTest: ObjectiveTestData, index) => {
-                                            if (objectiveTest.isPublished)
+                                            if (objectiveTest.isPublished) {
                                                 return (
                                                     <ButtonKit
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id
+                                                                objectiveTest._id,
                                                             );
                                                         }}
                                                         variant="contained"
@@ -408,7 +455,8 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        }
+                                            }
+                                        },
                                     )
                                 ) : (
                                     <Box>
@@ -460,7 +508,7 @@ const ObjectiveTest = () => {
                                                         key={index}
                                                         onClick={() => {
                                                             handleObjectiveTestClick(
-                                                                objectiveTest._id
+                                                                objectiveTest._id,
                                                             );
                                                         }}
                                                         variant="contained"
@@ -470,7 +518,7 @@ const ObjectiveTest = () => {
                                                         </Typography>
                                                     </ButtonKit>
                                                 );
-                                        }
+                                        },
                                     )
                                 ) : (
                                     <Box>
@@ -693,7 +741,7 @@ const ObjectiveTest = () => {
                             onClick={(e: any) =>
                                 handleRadioChange(
                                     getQuestionsBasedOnBookReference?.data?.questions[0],
-                                    e.target.value
+                                    e.target.value,
                                 )
                             }
                         >
@@ -715,7 +763,7 @@ const ObjectiveTest = () => {
                                                                                     getQuestionsBasedOnBookReference
                                                                                         ?.data
                                                                                         ?.questions[0],
-                                                                                    e.target.value
+                                                                                    e.target.value,
                                                                                 )
                                                                             }
                                                                         />
@@ -730,9 +778,9 @@ const ObjectiveTest = () => {
                                                                 />
                                                             </Box>
                                                         );
-                                                    }
+                                                    },
                                                 );
-                                            }
+                                            },
                                         )}
                                     </>
                                 )}
@@ -754,12 +802,12 @@ const ObjectiveTest = () => {
                         onClick={() => {
                             if (page == totalPage) {
                                 handleNextQuestion(
-                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                    getQuestionsBasedOnBookReference?.data?.questions[0],
                                 );
                             }
                             if (page < totalPage) {
                                 handleNextQuestion(
-                                    getQuestionsBasedOnBookReference?.data?.questions[0]
+                                    getQuestionsBasedOnBookReference?.data?.questions[0],
                                 );
                                 setPage(page + 1);
                             }
