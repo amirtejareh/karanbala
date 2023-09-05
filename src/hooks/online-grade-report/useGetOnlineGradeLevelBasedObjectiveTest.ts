@@ -7,10 +7,10 @@ const useGetOnlineGradeLevelBasedObjectiveTest = (number: string) => {
         ["Get-Online-Grade-Level-Based-Objective-Test"],
         async () => {
             return await OnlineGradeReportService.onlineGradeReportControllerGetObjectiveTestsBasedNumber(
-                number
+                number,
             );
         },
-        { refetchOnWindowFocus: false, enabled: false }
+        { refetchOnWindowFocus: false, enabled: false },
     );
 };
 
