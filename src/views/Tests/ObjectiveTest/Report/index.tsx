@@ -90,8 +90,6 @@ const Report = () => {
 
     const [isUserInitialized, setIsUserInitialized] = useState(false);
 
-    console.log(getOnlineGradeLevelBasedObjectiveTest);
-
     useEffect(() => {
         if (!isUserInitialized && user !== null) {
             setIsUserInitialized(true);
@@ -100,137 +98,6 @@ const Report = () => {
         }
     }, [user, isUserInitialized, navigate]);
 
-    const [tableData, setTableData] = useState([
-        [
-            "۱",
-            <Typography className={classes.true}>صحیح</Typography>,
-            "",
-            "",
-            "",
-            "یازدهم",
-            "اول",
-            "حد",
-            "ساده",
-            "مفهومی",
-        ],
-        [
-            "۲",
-            "",
-            <Typography className={classes.false}>غلط</Typography>,
-            ,
-            "",
-            "",
-            "دهم",
-            "دوم",
-            "پیوستگی",
-            "متوسط",
-            "چالشی",
-        ],
-        [
-            "۳",
-            "",
-            "",
-            "",
-            <Typography className={classes.undone}>نزده</Typography>,
-            ,
-            "یازدهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "سخت",
-            "دام دار",
-        ],
-        [
-            "۴",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "",
-            "دوازدهم",
-            "دوم",
-            "مشتق تابع مرکب",
-            "سخت",
-            "حفظی",
-        ],
-        [
-            "۵",
-            "",
-            <Typography className={classes.false}>غلط</Typography>,
-            ,
-            "",
-            "",
-            "دهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "محاسباتی",
-        ],
-        [
-            "۶",
-            "",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "دوازدهم",
-            "دوم",
-            "مشتق تابع مرکب",
-            "ساده",
-            "محاسباتی",
-        ],
-        [
-            "۷",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "",
-            "",
-            "دهم",
-            "اول",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "حفظی",
-        ],
-        [
-            "۸",
-            "",
-            "",
-            "",
-            <Typography className={classes.false}>غلط</Typography>,
-            ,
-            "دوازدهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "ساده",
-            "چالشی",
-        ],
-        [
-            "۹",
-            "",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "دهم",
-            "اول",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "مفهومی",
-        ],
-        [
-            "۱۰",
-            "",
-            "",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "دوازدهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "مفهومی",
-        ],
-    ]);
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
@@ -260,6 +127,13 @@ const Report = () => {
                 return "حفظی";
         }
     };
+
+    const [categoryTitle, setCategoryTitle] = useState("کل");
+
+    const handleCategoryClick = (e) => {
+        setCategoryTitle(e.target.innerText);
+    };
+
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
@@ -304,12 +178,29 @@ const Report = () => {
                             <>
                                 {
                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]?.gradeLevel[0]
-                                        .title
+                                        ?.title
                                 }{" "}
                             </>
                         )}
                     </Typography>
                 </Box>
+            </Box>
+
+            <Box mt="20px" display="flex" gap="50px">
+                {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                    <>
+                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers?.map(
+                            (item) => (
+                                <Button
+                                    onClick={(e) => handleCategoryClick(e)}
+                                    variant={item.title == categoryTitle ? "contained" : "outlined"}
+                                >
+                                    <Typography>{item.title}</Typography>
+                                </Button>
+                            ),
+                        )}
+                    </>
+                )}
             </Box>
 
             {/*
@@ -393,8 +284,9 @@ const Report = () => {
                             <>
                                 {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
                                     <>
-                                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers?.map(
-                                            (answer, ix) => {
+                                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers
+                                            ?.find((item) => item.title == categoryTitle)
+                                            .children.map((answer, ix) => {
                                                 return (
                                                     <TableRow key={ix}>
                                                         <TableCell key={ix}>
@@ -551,8 +443,7 @@ const Report = () => {
                                                         </TableCell>
                                                     </TableRow>
                                                 );
-                                            },
-                                        )}
+                                            })}
                                     </>
                                 )}
                             </>
