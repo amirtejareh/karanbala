@@ -184,10 +184,11 @@ const ObjectiveTestManagement = (props: any) => {
                             {!getMainObjectiveTests?.isLoading &&
                                 getMainObjectiveTests?.data.map((element: any) => {
                                     return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {`${element.gradeLevel[0].title} - ${
-                                                element.number
-                                            } - ${element.type == "main" ? "اصلی" : "رفع اشکال"}`}
+                                        <MenuItem key={element?._id} value={element?._id}>
+                                            {`${element?.gradeLevel[0]
+                                                ?.title} - ${element?.number} - ${
+                                                element?.type == "main" ? "اصلی" : "رفع اشکال"
+                                            }`}
                                         </MenuItem>
                                     );
                                 })}
