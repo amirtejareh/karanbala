@@ -7,27 +7,29 @@ import {
     InputLabel,
     Select,
     Button,
-    CircularProgress,
     MenuItem,
     SelectChangeEvent,
-    TextField,
     IconButton,
+    CircularProgress,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Controller, useForm } from "react-hook-form";
-import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import { toast } from "react-toastify";
 import "react-quill/dist/quill.snow.css";
-import { CalendarDarkSvg } from "../../../../../../assets";
+import { CalendarDarkSvg, DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
+import { parseISO } from "date-fns";
 import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/useGetMainObjectiveTests";
-
 import useCreateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useCreateObjectiveTestManagement";
 import useGetBookReferencesBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBookReferencesBasedOnObjectiveTestId";
 import useUpdateObjectiveTest from "../../../../../../hooks/objective-test/useUpdateObjectiveTest";
 import { TableKit } from "../../../../../../components/kit/Table";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import useDeleteObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useDeleteObjectiveTest";
+import useGetObjectiveTestManagements from "../../../../../../hooks/objective-test-management/useGetObjectiveTestManagements";
+import useUpdateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useUpdateObjectiveTestManagement";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -81,7 +83,6 @@ const ObjectiveTestManagement = (props: any) => {
     const {
         handleSubmit,
         register,
-        clearErrors,
         control,
         formState: { errors },
     } = useForm();
@@ -89,10 +90,58 @@ const ObjectiveTestManagement = (props: any) => {
     const [objectiveTestId, setObjectiveTestId] = React.useState<any>();
     const selectObjectiveTestRef = useRef<any>();
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState<number>(1);
-    const [pageSize] = useState<number>(10);
+    const [page, setPage] = useState<number>(0);
+    const [id, setId] = useState<number>(0);
+    const [limit, _] = useState<number>(5);
+    const [pageSize, setPageSize] = useState<number>(0);
+    const [startDate, setStartDate] = useState<any>();
+    const [endDate, setEndDate] = useState<any>();
     const [bookId, setBookId] = React.useState<any>();
     const selectBookRef = useRef<any>();
+
+    const [, setIsObjectiveTestUpdated] = useState(false);
+
+    const [gradeLevelIdsEdit, setGradeLevelIdsEdit] = useState<any>([]);
+    const [, setObjectiveTestdsEdit] = useState<any>([]);
+    const getObjectiveTestBasedOnGradeLevels = useGetObjectiveTestManagements(
+        page === 0 ? 1 : page,
+        limit,
+    );
+
+    useEffect(() => {
+        if (gradeLevelIdsEdit.length > 0) {
+            getObjectiveTestBasedOnGradeLevels.refetch();
+        }
+    }, [gradeLevelIdsEdit]);
+
+    useEffect(() => {
+        if (page > 0) {
+            getObjectiveTestBasedOnGradeLevels.refetch();
+        }
+    }, [page]);
+
+    useEffect(() => {
+        if (
+            !getObjectiveTestBasedOnGradeLevels.isLoading &&
+            getObjectiveTestBasedOnGradeLevels?.data?.objectiveTests
+        ) {
+            console.log(
+                "getObjectiveTestBasedOnGradeLevels?.data?.currentPage",
+                getObjectiveTestBasedOnGradeLevels?.data?.currentPage,
+            );
+            console.log(
+                "getObjectiveTestBasedOnGradeLevels?.data?.totalPages",
+                getObjectiveTestBasedOnGradeLevels?.data?.totalPages,
+            );
+
+            setPage(parseInt(getObjectiveTestBasedOnGradeLevels?.data?.currentPage ?? 1));
+            setPageSize(getObjectiveTestBasedOnGradeLevels?.data?.totalPages ?? 1);
+        }
+    }, [getObjectiveTestBasedOnGradeLevels?.data]);
+
+    const handleObjectiveTestChangeEdit = (event: SelectChangeEvent) => {
+        setObjectiveTestdsEdit(event.target.value as any);
+    };
 
     const handleObjectiveTestChange = (event: SelectChangeEvent) => {
         setObjectiveTestId(event.target.value as any);
@@ -108,11 +157,28 @@ const ObjectiveTestManagement = (props: any) => {
         useGetBookReferencesBasedOnObjectiveTestId(objectiveTestId);
 
     const createObjectiveTestManagement = useCreateObjectiveTestManagement();
+    const updateObjectiveTestManagement = useUpdateObjectiveTestManagement();
     useEffect(() => {
         getBookReferencesBasedOnObjectiveTestId.refetch();
     }, [objectiveTestId]);
 
     const updateObjectiveTest = useUpdateObjectiveTest();
+
+    const deleteObjectiveTestManagement = useDeleteObjectiveTestManagement();
+    const handleDeleteObjectiveTestManagement = (id: string) => {
+        deleteObjectiveTestManagement.mutate(id, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode === 200) {
+                    setLoading(false);
+                    toast(result.message);
+                    getObjectiveTestBasedOnGradeLevels.refetch();
+                } else {
+                    setLoading(false);
+                    toast(result.message);
+                }
+            },
+        });
+    };
 
     const handlePublishExam = () => {
         if (!objectiveTestId) {
@@ -142,8 +208,43 @@ const ObjectiveTestManagement = (props: any) => {
             onSuccess: async (result: { message: string; statusCode: number }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
+                    getObjectiveTestBasedOnGradeLevels.refetch();
 
                     toast.success(result.message);
+                } else {
+                    setLoading(false);
+                    if (Array.isArray(result.message)) {
+                        toast.error(
+                            <ul>
+                                {result.message.map((msg: string) => (
+                                    <li key={msg}>{msg}</li>
+                                ))}
+                            </ul>,
+                        );
+                    } else {
+                        toast.error(
+                            <ul>
+                                <li key={result.message}>{result.message}</li>
+                            </ul>,
+                        );
+                    }
+                }
+            },
+            onError: async (e: any) => {
+                toast.error(e.message);
+            },
+        });
+    };
+
+    const handleUpdateObjectiveTestManagement = async (data: any) => {
+        setLoading(true);
+        data.id = id;
+        updateObjectiveTestManagement.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
+                    toast.success(result.message);
+                    getObjectiveTestBasedOnGradeLevels.refetch();
                 } else {
                     setLoading(false);
                     if (Array.isArray(result.message)) {
@@ -171,7 +272,13 @@ const ObjectiveTestManagement = (props: any) => {
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
-                <form onSubmit={handleSubmit(handleCreateObjectiveTestManagement)}>
+                <form
+                    onSubmit={
+                        id
+                            ? handleSubmit(handleUpdateObjectiveTestManagement)
+                            : handleSubmit(handleCreateObjectiveTestManagement)
+                    }
+                >
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
                         <Select
@@ -233,6 +340,7 @@ const ObjectiveTestManagement = (props: any) => {
                                         onChange={(e) => {
                                             onChange(e);
                                         }}
+                                        value={startDate}
                                         components={{
                                             OpenPickerIcon: CalendarDarkSvg,
                                         }}
@@ -253,6 +361,7 @@ const ObjectiveTestManagement = (props: any) => {
                                         onChange={(e) => {
                                             onChange(e);
                                         }}
+                                        value={endDate}
                                         components={{
                                             OpenPickerIcon: CalendarDarkSvg,
                                         }}
@@ -268,7 +377,7 @@ const ObjectiveTestManagement = (props: any) => {
                         className={classes.specialField}
                         type="submit"
                     >
-                        {"ذخیره"}
+                        {loading ? <CircularProgress size={24} /> : id ? "ویرایش" : "ذخیره"}
                     </Button>
 
                     <Button
@@ -283,7 +392,93 @@ const ObjectiveTestManagement = (props: any) => {
             </Box>
 
             <Box className={classes.ObjectiveTestManagement}>
-                <Typography>لیست آزمون‌های تستی</Typography>
+                <Typography>لیست مدیریت آزمون‌ها</Typography>
+
+                {!getObjectiveTestBasedOnGradeLevels.isLoading &&
+                getObjectiveTestBasedOnGradeLevels?.data ? (
+                    <TableKit
+                        secondary
+                        headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+                        rows={getObjectiveTestBasedOnGradeLevels?.data?.objectiveTests?.map(
+                            (item: any, index: any) => {
+                                return {
+                                    id: item._id,
+                                    data: {
+                                        title: `${
+                                            item?.objectiveTest[0]?.type == "main"
+                                                ? "اصلی"
+                                                : "رفع اشکال"
+                                        } - ${item?.objectiveTest[0]?.number} - ${item
+                                            ?.bookReferences[0]?.title}`,
+                                        action: (
+                                            <>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        setIsObjectiveTestUpdated(true);
+                                                        setObjectiveTestId(
+                                                            item?.objectiveTest[0]?._id,
+                                                        );
+
+                                                        const startdate = parseISO(item?.start);
+                                                        const enddate = parseISO(item?.end);
+
+                                                        setStartDate(startdate);
+                                                        setEndDate(enddate);
+
+                                                        setId(item._id);
+
+                                                        setBookId(item?.bookReferences[0]?._id);
+
+                                                        setTimeout(() => {
+                                                            selectObjectiveTestRef.current.focus();
+                                                        }, 200);
+
+                                                        setTimeout(() => {
+                                                            selectBookRef.current.focus();
+                                                        }, 300);
+                                                    }}
+                                                >
+                                                    <EditLightSvg width={12} height={12} />
+                                                </IconButton>
+                                                <IconButton>
+                                                    <PrompModalKit
+                                                        description={`آیا از حذف آزمون ${
+                                                            item.type == "main"
+                                                                ? "اصلی"
+                                                                : "رفع اشکال"
+                                                        } - ${item?.objectiveTest[0]
+                                                            ?.number} - ${item?.bookReferences[0]
+                                                            ?.title}  مطمئن  هستید؟`}
+                                                        onConfirm={() => {
+                                                            handleDeleteObjectiveTestManagement(
+                                                                item._id,
+                                                            );
+                                                        }}
+                                                        approved={"بله"}
+                                                        denied={"خیر"}
+                                                    >
+                                                        <DeleteLightSvg width={16} height={16} />
+                                                    </PrompModalKit>
+                                                </IconButton>
+                                            </>
+                                        ),
+                                    },
+                                };
+                            },
+                        )}
+                        pagination={{
+                            page: page,
+                            count: pageSize,
+                            rowsPerPage: limit,
+                            onChange: (_, e) => {
+                                setPage(e);
+                            },
+                            onRowsPerPageChange: () => {},
+                        }}
+                    />
+                ) : (
+                    <div>در حال بارگیری...</div>
+                )}
             </Box>
         </Box>
     );
