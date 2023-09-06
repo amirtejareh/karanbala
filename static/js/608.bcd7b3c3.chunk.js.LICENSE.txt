@@ -7,3 +7,7 @@
  * @website https://github.com/cssinjs/jss
  * @license MIT
  */
+
+//! moment.js
+
+//! moment.js locale configuration
