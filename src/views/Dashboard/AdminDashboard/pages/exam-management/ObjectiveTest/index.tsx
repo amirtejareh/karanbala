@@ -11,20 +11,20 @@ import {
     MenuItem,
     SelectChangeEvent,
     TextField,
-    FormGroup,
-    FormControlLabel,
+    IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import { toast } from "react-toastify";
 import useCreateObjectiveTest from "../../../../../../hooks/objective-test/useCreateObjectiveTest";
 import "react-quill/dist/quill.snow.css";
-import { CalendarDarkSvg, DeleteLightSvg, PlusIconSvg } from "../../../../../../assets";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
-import Checkbox from "../../../../../../components/kit/Checkbox/Checkbox";
+import useGetObjectiveTestsBasedOnGradeLevel from "../../../../../../hooks/objective-test/useGetObjectiveTestsBasedOnGradeLevel";
+import { TableKit } from "../../../../../../components/kit/Table";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import useDeleteObjectiveTest from "../../../../../../hooks/objective-test/useDeleteObjectiveTest";
+import useUpdateObjectiveTest from "../../../../../../hooks/objective-test/useUpdateObjectiveTest";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     objectiveTest: {
         margin: "0 50px",
     },
+
     formContainer: {
         display: "flex",
         flexDirection: "column",
@@ -82,18 +83,46 @@ const ObjectiveTest = (props: any) => {
         formState: { errors },
     } = useForm();
 
+    const [gradeLevelIdsEdit, setGradeLevelIdsEdit] = useState<any>([]);
+    const selectGradeLevelRefEdit = useRef<any>();
+    const [isObjectiveTestUpdated, setIsObjectiveTestUpdated] = useState(false);
+
+    const handleGradeLevelChangeEdit = (event: SelectChangeEvent) => {
+        setGradeLevelIdsEdit(event.target.value as any);
+    };
+
+    const [duration, setDuration] = useState(0);
+
     const selectGradeLevelRef = useRef<any>();
+    const selectObjectiveTestTypeRef = useRef<any>();
 
     const [loading, setLoading] = useState(false);
 
     const durationRef = useRef<any>(null);
-
-    const [number, setNumber] = React.useState<any>(1);
-
+    const numberRef = useRef<any>(null);
     const createObjectiveTest = useCreateObjectiveTest();
-
-    const [value, setValue] = useState<any>(new Date());
+    const updateObjectiveTest = useUpdateObjectiveTest();
+    const [number, setNumber] = useState<number>(0);
+    const [page, setPage] = useState<number>(0);
+    const [limit, _] = useState<number>(5);
+    const [pageSize, setPageSize] = useState<number>(0);
     const [type, setType] = useState<string>("main");
+
+    const deleteObjectiveTest = useDeleteObjectiveTest();
+    const handleDeleteObjectiveTest = (id: string) => {
+        deleteObjectiveTest.mutate(id, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode === 200) {
+                    setLoading(false);
+                    toast(result.message);
+                    getObjectiveTestsBasedOnGradeLevel.refetch();
+                } else {
+                    setLoading(false);
+                    toast(result.message);
+                }
+            },
+        });
+    };
 
     const handleCreateObjectiveTest = async (data: any) => {
         setLoading(true);
@@ -101,6 +130,43 @@ const ObjectiveTest = (props: any) => {
             onSuccess: async (result: { message: string; statusCode: number }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
+
+                    setGradeLevelIdsEdit([gradeLevelId]);
+                    toast.success(result.message);
+                } else {
+                    setLoading(false);
+                    if (Array.isArray(result.message)) {
+                        toast.error(
+                            <ul>
+                                {result.message.map((msg: string) => (
+                                    <li key={msg}>{msg}</li>
+                                ))}
+                            </ul>,
+                        );
+                    } else {
+                        toast.error(
+                            <ul>
+                                <li key={result.message}>{result.message}</li>
+                            </ul>,
+                        );
+                    }
+                }
+            },
+            onError: async (e: any) => {
+                toast.error(e.message);
+            },
+        });
+    };
+
+    const handleUpdateObjectiveTest = async (data: any) => {
+        setLoading(true);
+        data.id = id;
+
+        updateObjectiveTest.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
+                    setGradeLevelIdsEdit([gradeLevelId]);
 
                     toast.success(result.message);
                 } else {
@@ -128,9 +194,14 @@ const ObjectiveTest = (props: any) => {
         });
     };
     const [gradeLevelId, setGradeLevelId] = React.useState<any>();
+    const [id, setId] = React.useState<any>();
     const getGradeLevels = useGetGradeLevels();
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
+
+    const getObjectiveTestsBasedOnGradeLevel = useGetObjectiveTestsBasedOnGradeLevel(
+        page === 0 ? 1 : page,
+        limit,
+        gradeLevelIdsEdit,
+    );
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelId(event.target.value as any);
@@ -145,6 +216,28 @@ const ObjectiveTest = (props: any) => {
             }
         }
     }, [type]);
+
+    useEffect(() => {
+        if (gradeLevelIdsEdit.length > 0) {
+            getObjectiveTestsBasedOnGradeLevel.refetch();
+        }
+    }, [gradeLevelIdsEdit]);
+
+    useEffect(() => {
+        if (
+            !getObjectiveTestsBasedOnGradeLevel.isLoading &&
+            getObjectiveTestsBasedOnGradeLevel?.data?.objectiveTests
+        ) {
+            setPage(parseInt(getObjectiveTestsBasedOnGradeLevel?.data?.currentPage ?? 1));
+            setPageSize(getObjectiveTestsBasedOnGradeLevel?.data?.totalPages ?? 1);
+        }
+    }, [getObjectiveTestsBasedOnGradeLevel?.data]);
+
+    useEffect(() => {
+        if (page > 0) {
+            getObjectiveTestsBasedOnGradeLevel.refetch();
+        }
+    }, [page]);
 
     useEffect(() => {
         toast.error(errors["gradeLevel"]?.message?.toString());
@@ -162,7 +255,13 @@ const ObjectiveTest = (props: any) => {
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
-                <form onSubmit={handleSubmit(handleCreateObjectiveTest)}>
+                <form
+                    onSubmit={handleSubmit(
+                        isObjectiveTestUpdated
+                            ? handleUpdateObjectiveTest
+                            : handleCreateObjectiveTest,
+                    )}
+                >
                     <FormControl className={classes.formField} fullWidth>
                         <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
                         <Select
@@ -174,7 +273,7 @@ const ObjectiveTest = (props: any) => {
                             onChange={handleGradeLevelChange}
                         >
                             {!getGradeLevels?.isLoading &&
-                                getGradeLevels?.data.map((element: any) => {
+                                getGradeLevels?.data?.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
                                             {element.title}
@@ -188,10 +287,16 @@ const ObjectiveTest = (props: any) => {
                         {...register("number", {
                             required: "لطفا شماره آزمون را وارد کنید",
                         })}
+                        value={number === 0 ? "" : number}
+                        onChange={(e: any) => setNumber(e.target.value)}
                         className={classes.formField}
                         variant="outlined"
                         label="لطفا شماره آزمون را وارد کنید"
                         type="number"
+                        ref={(e) => {
+                            register("number").ref(e);
+                            numberRef.current = e;
+                        }}
                     />
 
                     <FormControl className={classes.formField}>
@@ -202,6 +307,7 @@ const ObjectiveTest = (props: any) => {
                             })}
                             value={type}
                             onChange={(e) => setType(e.target.value)}
+                            inputRef={selectObjectiveTestTypeRef}
                         >
                             <MenuItem key={1} value={"main"}>
                                 آزمون اصلی
@@ -222,6 +328,8 @@ const ObjectiveTest = (props: any) => {
                                 {...register("duration", {
                                     required: "مدت زمان آزمون را مشخص کنید",
                                 })}
+                                value={duration === 0 ? "" : duration}
+                                onChange={(e: any) => setDuration(e.target.value)}
                                 ref={(e) => {
                                     register("duration").ref(e);
                                     durationRef.current = e;
@@ -237,13 +345,111 @@ const ObjectiveTest = (props: any) => {
                         disabled={loading}
                         type="submit"
                     >
-                        {loading ? <CircularProgress size={24} /> : "ذخیره"}
+                        {loading ? (
+                            <CircularProgress size={24} />
+                        ) : isObjectiveTestUpdated ? (
+                            "ویرایش"
+                        ) : (
+                            "ذخیره"
+                        )}
                     </Button>
                 </form>
             </Box>
 
             <Box className={classes.objectiveTest}>
                 <Typography>لیست آزمون‌های تستی</Typography>
+                <FormControl className={classes.formField}>
+                    <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
+                    <Select
+                        value={gradeLevelIdsEdit ?? []}
+                        inputRef={selectGradeLevelRefEdit}
+                        onChange={handleGradeLevelChangeEdit}
+                        multiple
+                    >
+                        {!getGradeLevels?.isLoading &&
+                            getGradeLevels?.data?.map((element: any) => {
+                                return (
+                                    <MenuItem key={element._id} value={element._id}>
+                                        {element.title}
+                                    </MenuItem>
+                                );
+                            })}
+                    </Select>
+                </FormControl>
+                {!getObjectiveTestsBasedOnGradeLevel.isLoading &&
+                getObjectiveTestsBasedOnGradeLevel?.data ? (
+                    <TableKit
+                        secondary
+                        headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+                        rows={getObjectiveTestsBasedOnGradeLevel?.data?.objectiveTests?.map(
+                            (item: any, index: any) => {
+                                return {
+                                    id: item._id,
+                                    data: {
+                                        title: `آزمون ${
+                                            item.type == "main" ? "اصلی" : "رفع اشکال"
+                                        } - ${item.number}`,
+                                        action: (
+                                            <>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        setIsObjectiveTestUpdated(true);
+                                                        setGradeLevelId(item.gradeLevel[0]._id);
+                                                        setNumber(item.number);
+                                                        setType(item.type);
+                                                        setDuration(item.duration);
+                                                        setId(item._id);
+
+                                                        setTimeout(() => {
+                                                            selectObjectiveTestTypeRef.current.focus();
+                                                        }, 200);
+                                                        setTimeout(() => {
+                                                            numberRef.current.focus();
+                                                        }, 300);
+                                                        setTimeout(() => {
+                                                            selectGradeLevelRef.current.focus();
+                                                        }, 400);
+                                                    }}
+                                                >
+                                                    <EditLightSvg width={12} height={12} />
+                                                </IconButton>
+                                                <IconButton>
+                                                    <PrompModalKit
+                                                        description={`آیا از حذف آزمون ${
+                                                            item.type == "main"
+                                                                ? "اصلی"
+                                                                : "رفع اشکال"
+                                                        } - ${item.number} - ${
+                                                            item.gradeLevel[0].title
+                                                        }  مطمئن  هستید؟`}
+                                                        onConfirm={() => {
+                                                            handleDeleteObjectiveTest(item._id);
+                                                        }}
+                                                        approved={"بله"}
+                                                        denied={"خیر"}
+                                                    >
+                                                        <DeleteLightSvg width={16} height={16} />
+                                                    </PrompModalKit>
+                                                </IconButton>
+                                            </>
+                                        ),
+                                    },
+                                };
+                            },
+                        )}
+                        pagination={{
+                            page: page,
+                            count: pageSize,
+                            rowsPerPage: limit,
+                            onChange: (_, e) => {
+                                setPage(e);
+                            },
+                            onRowsPerPageChange: () => {},
+                        }}
+                    />
+                ) : (
+                    <div>در حال بارگیری...</div>
+                )}
             </Box>
         </Box>
     );

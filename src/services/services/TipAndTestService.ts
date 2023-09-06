@@ -2,17 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateTipAndTestDto } from "../models/CreateTipAndTestDto";
-import type { UpdateTipAndTestDto } from "../models/UpdateTipAndTestDto";
+import type { CreateTipAndTestDto } from '../models/CreateTipAndTestDto';
+import type { UpdateTipAndTestDto } from '../models/UpdateTipAndTestDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class TipAndTestService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static tipAndTestControllerCreate(
@@ -27,35 +28,37 @@ export class TipAndTestService {
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static tipAndTestControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/tip-and-test",
+            method: 'GET',
+            url: '/tip-and-test',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static tipAndTestControllerFindOne(id: string): CancelablePromise<any> {
+    public static tipAndTestControllerFindOne(
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/tip-and-test/{id}",
+            method: 'GET',
+            url: '/tip-and-test/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static tipAndTestControllerUpdate(
@@ -63,10 +66,10 @@ export class TipAndTestService {
         requestBody: UpdateTipAndTestDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/tip-and-test/{id}",
+            method: 'PATCH',
+            url: '/tip-and-test/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             formData: requestBody,
             mediaType: "multipart/form-data",
@@ -74,34 +77,37 @@ export class TipAndTestService {
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static tipAndTestControllerRemove(id: string): CancelablePromise<any> {
+    public static tipAndTestControllerRemove(
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/tip-and-test/{id}",
+            method: 'DELETE',
+            url: '/tip-and-test/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param subjectsId
-     * @returns any
+     * @param subjectsId 
+     * @returns any 
      * @throws ApiError
      */
     public static tipAndTestControllerFindTipAndTestBasedOnSubject(
         subjectsId: Array<string>,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/tip-and-test/withSubjects/{subjectsId}",
+            method: 'GET',
+            url: '/tip-and-test/withSubjects/{subjectsId}',
             path: {
-                subjectsId: subjectsId,
+                'subjectsId': subjectsId,
             },
         });
     }
+
 }

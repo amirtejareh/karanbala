@@ -49,7 +49,7 @@ interface ITableKitProps extends Omit<TableProps, "onSelect"> {
         onRowsPerPageChange?: (
             e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
             page: number,
-            rowsPerPage: number
+            rowsPerPage: number,
         ) => void;
     };
     emptyNode?: React.ReactNode;
@@ -195,7 +195,7 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
                 selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
+                selected.slice(selectedIndex + 1),
             );
         }
 
@@ -250,18 +250,7 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
                     </TableRow>
                 </TableHead>
                 {loading ? (
-                    <>
-                        Loading...
-                        {/* {Array(emptyRows)
-              .fill(null)
-              .map((_, key) => (
-                <TableRow key={key}>
-                  <TableCell className={classes.loadingTD} colSpan={colSpan}>
-                    <SkeletonKit className={classes.skeleton} loading={loading} variant={'rect'} height={'48px'} width={'100%'} />
-                  </TableCell>
-                </TableRow>
-              ))} */}
-                    </>
+                    <>Loading...</>
                 ) : (
                     <>
                         <TableBody>
@@ -276,10 +265,9 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
                                             onPressTitle,
                                             clickOnIndexId = 0,
                                         },
-                                        key
+                                        key,
                                     ) => {
                                         const isItemSelected = id ? isSelected(id) : false;
-                                        // const menuData = menu && menu(id, key);
 
                                         return (
                                             <React.Fragment key={key}>
@@ -341,7 +329,6 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
                                                     )}
                                                     {Object.values(data).map((item, index) =>
                                                         hasStyle ? (
-                                                            // <TableCell key={index} style={{backgroundColor:`${hasStyle? colors.map((el,id)=>())}`}}>
                                                             <TableCell
                                                                 onClick={() => {
                                                                     if (
@@ -371,7 +358,7 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
                                                             >
                                                                 {item}
                                                             </TableCell>
-                                                        )
+                                                        ),
                                                     )}
                                                 </TableRow>
                                                 {expandNode && (
@@ -395,7 +382,7 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
                                                 )}
                                             </React.Fragment>
                                         );
-                                    }
+                                    },
                                 )
                             ) : (
                                 <TableRow>
@@ -408,38 +395,10 @@ const TableKit: React.FC<ITableKitProps> = (props) => {
                                 <TableRow className={classes.sumColumns}>{props.children}</TableRow>
                             )}
                         </TableBody>
-                        {/* pagination goes here */}
                     </>
                 )}
-
-                {/* {loading && pagination && (
-          <TableFooter>
-            <TableRow>
-              <TableCell style={{ border: 'none', height: 92 }} align="center" colSpan={colSpan}>
-                <Grid container spacing={1} alignItems={'center'} justifyContent={'space-between'}>
-                  <Grid item>
-                    <Grid container spacing={1} alignItems={'center'}>
-                      {Array(5)
-                        .fill('')
-                        .map((_, key) => {
-                          return (
-                            <Grid item key={key}>
-                              <SkeletonKit loading={loading} variant={'circle'} height={'32px'} width={'32px'} />
-                            </Grid>
-                          );
-                        })}
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <SkeletonKit loading={loading} variant={'rect'} height={'45px'} width={'80px'} />
-                  </Grid>
-                </Grid>
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        )} */}
             </Table>
-            {!loading && pagination && <PaginationKit {...pagination} />}
+            {!loading && pagination && pagination.page > 0 && <PaginationKit {...pagination} />}
         </TableContainer>
     );
 };

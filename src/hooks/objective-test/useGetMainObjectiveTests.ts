@@ -8,7 +8,7 @@ const useGetMainObjectiveTests = () => {
         async () => {
             return await ObjectiveTestService.objectiveTestControllerFindMainObjectiveTest();
         },
-        { refetchOnWindowFocus: false }
+        { refetchOnWindowFocus: false },
     );
 };
 
