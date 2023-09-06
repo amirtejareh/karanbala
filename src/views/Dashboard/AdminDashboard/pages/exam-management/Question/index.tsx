@@ -11,6 +11,7 @@ import {
     InputLabel,
     Select,
     TextField,
+    IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -27,6 +28,13 @@ import RichTextEditor from "../../../../../../utils/ReactQuill";
 import useCreateQuestion from "../../../../../../hooks/question/useCreateQuestion";
 import useGetBookReferencesBasedOnGradeLevels from "../../../../../../hooks/book-reference/useGetBookReferencesBasedOnGradeLevels";
 import useGetBooksBasedOnBookReferences from "../../../../../../hooks/book/useGetBooksBasedOnBookReferences";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
+import { PrompModalKit } from "../../../../../../components/kit/Modal";
+import useGetBookReferencesBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBookReferencesBasedOnObjectiveTestId";
+import useGetQuestionsBasedOnBookReferences from "../../../../../../hooks/question/useGetQuestionsBasedOnBookReference";
+import { TableKit } from "../../../../../../components/kit/Table";
+import useDeleteQuestions from "../../../../../../hooks/question/useDeleteQuestions";
+import useUpdateQuestion from "../../../../../../hooks/question/useUpdateQuestion";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -82,16 +90,23 @@ const Question = (props: any) => {
     const [loading, setLoading] = useState(false);
     const [quillEditorValue, setQuillEditorValue] = useState<any>();
     const [objectiveTestIds, setObjectiveTestIds] = useState<any>([]);
+    const [objectiveTestEditIds, setObjectiveTestEditIds] = useState<any>([]);
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = React.useState<any>(gradeLevelIds);
     const [bookReferenceIds, setBookReferenceIds] = React.useState<any>(gradeLevelIds);
+    const [bookReferenceEditIds, setBookReferenceEditIds] = React.useState<any>(gradeLevelIds);
+    const [number, setNumber] = React.useState<any>();
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
     const [sectionIds, setSectionIds] = React.useState<any>(chapterIds);
     const [subjectIds, setSubjectIds] = React.useState<any>(sectionIds);
-    const [questionDifficulty, setQuestionDifficulty] = React.useState<any>();
-    const [type, settype] = React.useState<any>();
-    const [correctAnswer, setCorrectAnswer] = React.useState<any>();
+    const [questionDifficulty, setQuestionDifficulty] = React.useState<any>("easy");
+    const [type, settype] = React.useState<any>("conceptional");
+    const [correctAnswer, setCorrectAnswer] = React.useState<any>("1");
     const [editors, setEditors] = useState([]);
+    const [page, setPage] = useState<number>(0);
+    const [id, setId] = useState<number>(0);
+    const [limit, _] = useState<number>(5);
+    const [pageSize, setPageSize] = useState<number>(0);
 
     const Quill = ReactQuill.Quill;
     const Font = Quill.import("formats/font");
@@ -99,12 +114,15 @@ const Question = (props: any) => {
     Quill.register(Font, true);
 
     const selectObjectiveTestRef = useRef<any>();
+    const selectObjectiveTestEditRef = useRef<any>();
     const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
     const selectBookReferenceRef = useRef<any>();
+    const selectBookReferenceEditRef = useRef<any>();
     const selectChaptertRef = useRef<any>();
     const selectSectionRef = useRef<any>();
     const selectSubjectRef = useRef<any>();
+    const inputNumberRef = useRef<any>();
 
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
@@ -112,6 +130,42 @@ const Question = (props: any) => {
         bookReferenceIds?.length == 0 ? 0 : bookReferenceIds,
         gradeLevelIds?.length == 0 ? 0 : gradeLevelIds,
     );
+
+    const getBookReferencesBasedOnbObjectiveTest = useGetBookReferencesBasedOnObjectiveTestId(
+        objectiveTestEditIds?.length == 0 ? null : objectiveTestEditIds,
+    );
+
+    const getQuestionsBasedOnBookReferences = useGetQuestionsBasedOnBookReferences(
+        page === 0 ? 1 : page,
+        limit,
+        bookReferenceEditIds,
+    );
+
+    useEffect(() => {
+        if (
+            !getQuestionsBasedOnBookReferences.isLoading &&
+            getQuestionsBasedOnBookReferences?.data?.objectiveTests
+        ) {
+            setPage(parseInt(getQuestionsBasedOnBookReferences?.data?.currentPage ?? 1));
+            setPageSize(getQuestionsBasedOnBookReferences?.data?.totalPages ?? 1);
+        }
+    }, [getQuestionsBasedOnBookReferences?.data]);
+
+    useEffect(() => {
+        if (page > 0) {
+            getQuestionsBasedOnBookReferences.refetch();
+        }
+    }, [page]);
+
+    useEffect(() => {
+        if (bookReferenceEditIds.length > 0) {
+            getQuestionsBasedOnBookReferences.refetch();
+        }
+    }, [bookReferenceEditIds]);
+
+    useEffect(() => {
+        getBookReferencesBasedOnbObjectiveTest.refetch();
+    }, [objectiveTestEditIds]);
 
     const getBookReferencesBasedOnGradeLevels = useGetBookReferencesBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds,
@@ -140,6 +194,10 @@ const Question = (props: any) => {
         setObjectiveTestIds(event.target.value as any);
     };
 
+    const handleObjectiveTestEditChange = (event: SelectChangeEvent) => {
+        setObjectiveTestEditIds(event.target.value as any);
+    };
+
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
     };
@@ -147,6 +205,10 @@ const Question = (props: any) => {
     const handleBookReferenceChange = (event: SelectChangeEvent) => {
         setBookReferenceIds(event.target.value as any);
         setBookIds(null);
+    };
+
+    const handleBookReferenceEditChange = (event: SelectChangeEvent) => {
+        setBookReferenceEditIds(event.target.value as any);
     };
 
     const handleChapterChange = (event: SelectChangeEvent) => {
@@ -231,6 +293,7 @@ const Question = (props: any) => {
                     setChapterIds(null);
                     setSectionIds(null);
                     toast.success(result.message);
+                    getQuestionsBasedOnBookReferences.refetch();
                 } else {
                     setLoading(false);
                     if (Array.isArray(result.message)) {
@@ -256,6 +319,73 @@ const Question = (props: any) => {
         });
     };
 
+    const updateQuestion = useUpdateQuestion();
+
+    const handleUpdateQuestion = async (data: any) => {
+        if (
+            options.option1 == "" ||
+            options.option2 == "" ||
+            options.option3 == "" ||
+            options.option4 == ""
+        ) {
+            return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
+        }
+
+        if (quillEditorValue == "") {
+            return toast.error("حداقل یک سوال باید ایجاد شود");
+        }
+        data.options = options;
+        data.question = quillEditorValue;
+        setLoading(true);
+
+        data.id = id;
+        updateQuestion.mutate(data, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode == 200) {
+                    setLoading(false);
+                    toast.success(result.message);
+                    getQuestionsBasedOnBookReferences.refetch();
+                } else {
+                    setLoading(false);
+                    if (Array.isArray(result.message)) {
+                        toast.error(
+                            <ul>
+                                {result.message.map((msg: string) => (
+                                    <li key={msg}>{msg}</li>
+                                ))}
+                            </ul>,
+                        );
+                    } else {
+                        toast.error(
+                            <ul>
+                                <li key={result.message}>{result.message}</li>
+                            </ul>,
+                        );
+                    }
+                }
+            },
+            onError: async (e: any) => {
+                toast.error(e.message);
+            },
+        });
+    };
+
+    const deleteQuestions = useDeleteQuestions();
+    const handleDeleteQuestions = (id: string) => {
+        deleteQuestions.mutate(id, {
+            onSuccess: async (result: { message: string; statusCode: number }) => {
+                if (result.statusCode === 200) {
+                    setLoading(false);
+                    toast(result.message);
+                    getQuestionsBasedOnBookReferences.refetch();
+                } else {
+                    setLoading(false);
+                    toast(result.message);
+                }
+            },
+        });
+    };
+
     const [options, setOptions] = useState({
         option1: "",
         option2: "",
@@ -273,7 +403,11 @@ const Question = (props: any) => {
     return (
         <Box display={"flex"}>
             <Box className={classes.container}>
-                <form onSubmit={handleSubmit(handleCreateQuestion)}>
+                <form
+                    onSubmit={
+                        id ? handleSubmit(handleUpdateQuestion) : handleSubmit(handleCreateQuestion)
+                    }
+                >
                     <FormControl className={classes.formField}>
                         <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
                         <Select
@@ -421,10 +555,13 @@ const Question = (props: any) => {
                         <InputLabel id="demo-simple-select-label">سختی سوال</InputLabel>
                         <Select
                             value={questionDifficulty}
-                            onChange={(e) => setQuestionDifficulty(e.target.value)}
                             {...register("questionDifficulty", {
                                 required: "لطفا سختی سوال را مشخص کنید",
                             })}
+                            onChange={(e) => {
+                                setQuestionDifficulty(e.target.value);
+                                register("questionDifficulty").onChange(e);
+                            }}
                         >
                             <MenuItem key={1} value={"easy"}>
                                 ساده
@@ -444,10 +581,13 @@ const Question = (props: any) => {
                         <InputLabel id="demo-simple-select-label">نوع سوال</InputLabel>
                         <Select
                             value={type}
-                            onChange={(e) => settype(e.target.value)}
                             {...register("type", {
                                 required: "لطفا نوع سوال را مشخص کنید",
                             })}
+                            onChange={(e) => {
+                                settype(e.target.value);
+                                register("type").onChange(e);
+                            }}
                         >
                             <MenuItem key={1} value={"conceptional"}>
                                 مفهومی
@@ -467,10 +607,13 @@ const Question = (props: any) => {
                         <InputLabel id="demo-simple-select-label">گزیه درست</InputLabel>
                         <Select
                             value={correctAnswer}
-                            onChange={(e) => setCorrectAnswer(e.target.value)}
                             {...register("correctAnswer", {
                                 required: "لطفا گزینه صحیح را مشخص کنید",
                             })}
+                            onChange={(e) => {
+                                setCorrectAnswer(e.target.value);
+                                register("correctAnswer").onChange(e);
+                            }}
                         >
                             <MenuItem key={1} value={1}>
                                 1
@@ -487,7 +630,17 @@ const Question = (props: any) => {
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formField}>
-                        <TextField type="text" {...register("number")} label="شماره سوال" />
+                        <TextField
+                            value={number}
+                            type="text"
+                            {...register("number")}
+                            onChange={(e) => {
+                                setNumber(e.target.value);
+                                register("number").onChange(e);
+                            }}
+                            label="شماره سوال"
+                            inputRef={inputNumberRef}
+                        />
                     </FormControl>
                     <FormControl className={classes.formField}>
                         <Typography>سوال</Typography>
@@ -537,13 +690,169 @@ const Question = (props: any) => {
                         disabled={loading}
                         type="submit"
                     >
-                        {loading ? <CircularProgress size={24} /> : "ذخیره"}
+                        {loading ? <CircularProgress size={24} /> : id ? "ویرایش" : "ذخیره"}
                     </Button>
                 </form>
             </Box>
 
             <Box className={classes.objectiveTest}>
                 <Typography>لیست آزمون‌های تستی</Typography>
+                <FormControl className={classes.formField}>
+                    <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
+                    <Select
+                        value={objectiveTestEditIds ?? []}
+                        inputRef={selectObjectiveTestEditRef}
+                        onChange={handleObjectiveTestEditChange}
+                        multiple
+                    >
+                        {!getObjectiveTests?.isLoading &&
+                            getObjectiveTests?.data?.map((element: any) => {
+                                return (
+                                    <MenuItem key={element?._id} value={element?._id}>
+                                        {`${element?.gradeLevel[0]?.title} - ${element?.number} - ${
+                                            element?.type == "main" ? "اصلی" : "رفع اشکال"
+                                        }`}
+                                    </MenuItem>
+                                );
+                            })}
+                    </Select>
+                </FormControl>
+
+                <FormControl className={classes.formField}>
+                    <InputLabel>انتخاب کتاب مرجع</InputLabel>
+                    <Select
+                        value={bookReferenceEditIds ?? []}
+                        inputRef={selectBookReferenceEditRef}
+                        onChange={handleBookReferenceEditChange}
+                        multiple
+                    >
+                        {!getBookReferencesBasedOnbObjectiveTest?.isLoading &&
+                            getBookReferencesBasedOnbObjectiveTest?.data != undefined &&
+                            getBookReferencesBasedOnbObjectiveTest?.data?.map((element) => {
+                                return (
+                                    <MenuItem key={element._id} value={element._id}>
+                                        {element.title}
+                                    </MenuItem>
+                                );
+                            })}
+                    </Select>{" "}
+                </FormControl>
+
+                {!getQuestionsBasedOnBookReferences.isLoading &&
+                getQuestionsBasedOnBookReferences?.data ? (
+                    <TableKit
+                        secondary
+                        headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+                        rows={getQuestionsBasedOnBookReferences?.data?.questions?.map(
+                            (item: any, index: any) => {
+                                return {
+                                    id: item._id,
+                                    data: {
+                                        title: `${item.number}`,
+                                        action: (
+                                            <>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        setId(item?._id);
+                                                        setObjectiveTestIds(item.objectiveTests);
+                                                        setGradeLevelIds(item.gradeLevels);
+                                                        setBookReferenceIds(item.bookReferences);
+                                                        setBookIds(
+                                                            item.books.map((book) => book?._id),
+                                                        );
+
+                                                        setChapterIds(item.chapters);
+                                                        setSectionIds(item.sections);
+                                                        setSubjectIds(item.subjects);
+                                                        setQuestionDifficulty(
+                                                            item.questionDifficulty,
+                                                        );
+                                                        settype(item.type);
+                                                        setCorrectAnswer(item.correctAnswer);
+                                                        setNumber(item.number);
+
+                                                        setQuillEditorValue(item.question);
+
+                                                        handleEditorChange(
+                                                            item.options[0].option1,
+                                                            "option1",
+                                                        );
+                                                        handleEditorChange(
+                                                            item.options[0].option2,
+                                                            "option2",
+                                                        );
+                                                        handleEditorChange(
+                                                            item.options[0].option3,
+                                                            "option3",
+                                                        );
+                                                        handleEditorChange(
+                                                            item.options[0].option4,
+                                                            "option4",
+                                                        );
+
+                                                        setTimeout(() => {
+                                                            selectObjectiveTestRef.current.focus();
+                                                        }, 50);
+                                                        setTimeout(() => {
+                                                            selectGradeLevelRef.current.focus();
+                                                        }, 100);
+                                                        setTimeout(() => {
+                                                            selectBookRef.current.focus();
+                                                        }, 150);
+                                                        setTimeout(() => {
+                                                            selectBookReferenceRef.current.focus();
+                                                        }, 200);
+
+                                                        setTimeout(() => {
+                                                            selectChaptertRef.current.focus();
+                                                        }, 200);
+
+                                                        setTimeout(() => {
+                                                            selectSectionRef.current.focus();
+                                                        }, 250);
+
+                                                        setTimeout(() => {
+                                                            selectSubjectRef.current.focus();
+                                                        }, 300);
+
+                                                        setTimeout(() => {
+                                                            inputNumberRef.current.focus();
+                                                        }, 350);
+                                                    }}
+                                                >
+                                                    <EditLightSvg width={12} height={12} />
+                                                </IconButton>
+                                                <IconButton>
+                                                    <PrompModalKit
+                                                        description={`آیا از حذف سوال ${item.number}  مطمئن  هستید؟`}
+                                                        onConfirm={() => {
+                                                            handleDeleteQuestions(item._id);
+                                                        }}
+                                                        approved={"بله"}
+                                                        denied={"خیر"}
+                                                    >
+                                                        <DeleteLightSvg width={16} height={16} />
+                                                    </PrompModalKit>
+                                                </IconButton>
+                                            </>
+                                        ),
+                                    },
+                                };
+                            },
+                        )}
+                        pagination={{
+                            page: page,
+                            count: pageSize,
+                            rowsPerPage: limit,
+                            onChange: (_, e) => {
+                                setPage(e);
+                            },
+                            onRowsPerPageChange: () => {},
+                        }}
+                    />
+                ) : (
+                    <div>در حال بارگیری...</div>
+                )}
             </Box>
         </Box>
     );

@@ -125,15 +125,6 @@ const ObjectiveTestManagement = (props: any) => {
             !getObjectiveTestBasedOnGradeLevels.isLoading &&
             getObjectiveTestBasedOnGradeLevels?.data?.objectiveTests
         ) {
-            console.log(
-                "getObjectiveTestBasedOnGradeLevels?.data?.currentPage",
-                getObjectiveTestBasedOnGradeLevels?.data?.currentPage,
-            );
-            console.log(
-                "getObjectiveTestBasedOnGradeLevels?.data?.totalPages",
-                getObjectiveTestBasedOnGradeLevels?.data?.totalPages,
-            );
-
             setPage(parseInt(getObjectiveTestBasedOnGradeLevels?.data?.currentPage ?? 1));
             setPageSize(getObjectiveTestBasedOnGradeLevels?.data?.totalPages ?? 1);
         }

@@ -2,18 +2,18 @@ import React from "react";
 import { useQuery } from "react-query";
 import { QuestionService } from "../../services";
 
-const useGetQuestionsBasedOnBook = (page: number, limit: number, bookId: string) => {
+const useGetQuestionsBasedOnBookReferences = (page: number, limit: number, bookId: string) => {
     return useQuery(
         ["Get-All-Questions-Based-On-Book"],
         async () => {
             return await QuestionService.questionControllerFindQuestionsBasedOnBookReferences(
                 page,
                 limit,
-                bookId
+                bookId,
             );
         },
-        { refetchOnWindowFocus: false, enabled: false }
+        { refetchOnWindowFocus: false, enabled: false },
     );
 };
 
-export default useGetQuestionsBasedOnBook;
+export default useGetQuestionsBasedOnBookReferences;
