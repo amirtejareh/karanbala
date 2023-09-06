@@ -17,13 +17,13 @@ export class KaranbalaService {
      * @throws ApiError
      */
     public static karanbalaControllerCreate(
-requestBody: CreateKaranbalaDto,
-): CancelablePromise<any> {
+        requestBody: CreateKaranbalaDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/karanbala',
-            body: requestBody,
-            mediaType: 'application/json',
+            method: "POST",
+            url: "/karanbala",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -44,8 +44,8 @@ requestBody: CreateKaranbalaDto,
      * @throws ApiError
      */
     public static karanbalaControllerFindOne(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/karanbala/{id}',
@@ -62,17 +62,17 @@ id: string,
      * @throws ApiError
      */
     public static karanbalaControllerUpdate(
-id: string,
-requestBody: UpdateKaranbalaDto,
-): CancelablePromise<any> {
+        id: string,
+        requestBody: UpdateKaranbalaDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/karanbala/{id}',
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -82,8 +82,8 @@ requestBody: UpdateKaranbalaDto,
      * @throws ApiError
      */
     public static karanbalaControllerRemove(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/karanbala/{id}',
@@ -99,8 +99,8 @@ id: string,
      * @throws ApiError
      */
     public static karanbalaControllerFindKaranbalaBasedOnSubject(
-subjectsId: Array<string>,
-): CancelablePromise<any> {
+        subjectsId: Array<string>,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/karanbala/withSubjects/{subjectsId}',

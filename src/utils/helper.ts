@@ -16,3 +16,7 @@ export const toPersianDate = ({
         return "";
     }
 };
+
+export const bytesToKilobytes = (bytes: number) => {
+    return (bytes / 1024).toFixed(2);
+};

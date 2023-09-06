@@ -95,10 +95,6 @@ const Header = () => {
         }
     };
 
-    const handlePopoverClose = () => {
-        setPopoverAnchor(null);
-    };
-
     return (
         <>
             <Box alignItems={"center"} justifyContent={"space-around"} display={"flex"}>

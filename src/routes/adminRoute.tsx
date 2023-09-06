@@ -12,8 +12,13 @@ import GradeLevel from "../views/Dashboard/AdminDashboard/pages/content-manageme
 import Section from "../views/Dashboard/AdminDashboard/pages/content-management/Section";
 import ObjectiveTest from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTest";
 import Question from "../views/Dashboard/AdminDashboard/pages/exam-management/Question";
+import BookIntro from "../views/Dashboard/AdminDashboard/pages/educational-management/BookIntro";
+import LearningMaterial from "../views/Dashboard/AdminDashboard/pages/educational-management/LearningMaterial";
+import EssayQuestions from "../views/Dashboard/AdminDashboard/pages/educational-management/EssayQuestions";
+import TipAndTest from "../views/Dashboard/AdminDashboard/pages/educational-management/TipAndTest";
 import ObjectiveTestManagement from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTestManagement";
 import BookReference from "../views/Dashboard/AdminDashboard/pages/content-management/BookReference";
+import Karanbala from "../views/Dashboard/AdminDashboard/pages/educational-management/Karanbala/index";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -189,6 +194,85 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <Question />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/book-intro"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <BookIntro />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/learning-material"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <LearningMaterial />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/essay-questions"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <EssayQuestions />
+                    </AuthorizedRoute>
+                }
+            />
+            <Route
+                path="/tip-test"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <TipAndTest />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/karanbala"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <Karanbala />
                     </AuthorizedRoute>
                 }
             />

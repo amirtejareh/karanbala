@@ -17,13 +17,13 @@ export class TipAndTestService {
      * @throws ApiError
      */
     public static tipAndTestControllerCreate(
-requestBody: CreateTipAndTestDto,
-): CancelablePromise<any> {
+        requestBody: CreateTipAndTestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/tip-and-test',
-            body: requestBody,
-            mediaType: 'application/json',
+            method: "POST",
+            url: "/tip-and-test",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -44,8 +44,8 @@ requestBody: CreateTipAndTestDto,
      * @throws ApiError
      */
     public static tipAndTestControllerFindOne(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/tip-and-test/{id}',
@@ -62,17 +62,17 @@ id: string,
      * @throws ApiError
      */
     public static tipAndTestControllerUpdate(
-id: string,
-requestBody: UpdateTipAndTestDto,
-): CancelablePromise<any> {
+        id: string,
+        requestBody: UpdateTipAndTestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/tip-and-test/{id}',
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -82,8 +82,8 @@ requestBody: UpdateTipAndTestDto,
      * @throws ApiError
      */
     public static tipAndTestControllerRemove(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/tip-and-test/{id}',
@@ -99,8 +99,8 @@ id: string,
      * @throws ApiError
      */
     public static tipAndTestControllerFindTipAndTestBasedOnSubject(
-subjectsId: Array<string>,
-): CancelablePromise<any> {
+        subjectsId: Array<string>,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/tip-and-test/withSubjects/{subjectsId}',

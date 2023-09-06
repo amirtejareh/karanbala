@@ -17,13 +17,13 @@ export class LearningMaterialService {
      * @throws ApiError
      */
     public static learningMaterialControllerCreate(
-requestBody: CreateLearningMaterialDto,
-): CancelablePromise<any> {
+        requestBody: CreateLearningMaterialDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/learning-material',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -44,8 +44,8 @@ requestBody: CreateLearningMaterialDto,
      * @throws ApiError
      */
     public static learningMaterialControllerFindOne(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/learning-material/{id}',
@@ -62,17 +62,17 @@ id: string,
      * @throws ApiError
      */
     public static learningMaterialControllerUpdate(
-id: string,
-requestBody: UpdateLearningMaterialDto,
-): CancelablePromise<any> {
+        id: string,
+        requestBody: UpdateLearningMaterialDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/learning-material/{id}',
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -82,8 +82,8 @@ requestBody: UpdateLearningMaterialDto,
      * @throws ApiError
      */
     public static learningMaterialControllerRemove(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/learning-material/{id}',
@@ -99,8 +99,8 @@ id: string,
      * @throws ApiError
      */
     public static learningMaterialControllerFindLearningMaterialBasedOnSubject(
-subjectsId: Array<string>,
-): CancelablePromise<any> {
+        subjectsId: Array<string>,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/learning-material/withSubjects/{subjectsId}',
