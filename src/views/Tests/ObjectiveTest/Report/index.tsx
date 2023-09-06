@@ -90,8 +90,6 @@ const Report = () => {
 
     const [isUserInitialized, setIsUserInitialized] = useState(false);
 
-    console.log(getOnlineGradeLevelBasedObjectiveTest);
-
     useEffect(() => {
         if (!isUserInitialized && user !== null) {
             setIsUserInitialized(true);
@@ -100,137 +98,6 @@ const Report = () => {
         }
     }, [user, isUserInitialized, navigate]);
 
-    const [tableData, setTableData] = useState([
-        [
-            "۱",
-            <Typography className={classes.true}>صحیح</Typography>,
-            "",
-            "",
-            "",
-            "یازدهم",
-            "اول",
-            "حد",
-            "ساده",
-            "مفهومی",
-        ],
-        [
-            "۲",
-            "",
-            <Typography className={classes.false}>غلط</Typography>,
-            ,
-            "",
-            "",
-            "دهم",
-            "دوم",
-            "پیوستگی",
-            "متوسط",
-            "چالشی",
-        ],
-        [
-            "۳",
-            "",
-            "",
-            "",
-            <Typography className={classes.undone}>نزده</Typography>,
-            ,
-            "یازدهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "سخت",
-            "دام دار",
-        ],
-        [
-            "۴",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "",
-            "دوازدهم",
-            "دوم",
-            "مشتق تابع مرکب",
-            "سخت",
-            "حفظی",
-        ],
-        [
-            "۵",
-            "",
-            <Typography className={classes.false}>غلط</Typography>,
-            ,
-            "",
-            "",
-            "دهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "محاسباتی",
-        ],
-        [
-            "۶",
-            "",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "دوازدهم",
-            "دوم",
-            "مشتق تابع مرکب",
-            "ساده",
-            "محاسباتی",
-        ],
-        [
-            "۷",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "",
-            "",
-            "دهم",
-            "اول",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "حفظی",
-        ],
-        [
-            "۸",
-            "",
-            "",
-            "",
-            <Typography className={classes.false}>غلط</Typography>,
-            ,
-            "دوازدهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "ساده",
-            "چالشی",
-        ],
-        [
-            "۹",
-            "",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "",
-            "دهم",
-            "اول",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "مفهومی",
-        ],
-        [
-            "۱۰",
-            "",
-            "",
-            "",
-            <Typography className={classes.true}>صحیح</Typography>,
-            ,
-            "دوازدهم",
-            "سوم",
-            "مشتق تابع مرکب",
-            "متوسط",
-            "مفهومی",
-        ],
-    ]);
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
@@ -243,6 +110,8 @@ const Report = () => {
                 return "متوسط";
             case "easy":
                 return "ساده";
+            case "challenging":
+                return "چالشی";
         }
     };
 
@@ -256,10 +125,15 @@ const Report = () => {
                 return "دام دار";
             case "memorizational":
                 return "حفظی";
-            case "challenging":
-                return "چالشی";
         }
     };
+
+    const [categoryTitle, setCategoryTitle] = useState("کل");
+
+    const handleCategoryClick = (e) => {
+        setCategoryTitle(e.target.innerText);
+    };
+
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
@@ -304,12 +178,29 @@ const Report = () => {
                             <>
                                 {
                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]?.gradeLevel[0]
-                                        .title
+                                        ?.title
                                 }{" "}
                             </>
                         )}
                     </Typography>
                 </Box>
+            </Box>
+
+            <Box mt="20px" display="flex" gap="50px">
+                {getOnlineGradeLevelBasedObjectiveTest?.data && (
+                    <>
+                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers?.map(
+                            (item) => (
+                                <Button
+                                    onClick={(e) => handleCategoryClick(e)}
+                                    variant={item.title == categoryTitle ? "contained" : "outlined"}
+                                >
+                                    <Typography>{item.title}</Typography>
+                                </Button>
+                            ),
+                        )}
+                    </>
+                )}
             </Box>
 
             {/*
@@ -393,8 +284,9 @@ const Report = () => {
                             <>
                                 {getOnlineGradeLevelBasedObjectiveTest?.data[0] && (
                                     <>
-                                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers?.map(
-                                            (answer, ix) => {
+                                        {getOnlineGradeLevelBasedObjectiveTest?.data[0]?.userAnswers
+                                            ?.find((item) => item.title == categoryTitle)
+                                            .children.map((answer, ix) => {
                                                 return (
                                                     <TableRow key={ix}>
                                                         <TableCell key={ix}>
@@ -526,23 +418,23 @@ const Report = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             {answer.gradeLevels.map(
-                                                                (gradeLevel) => gradeLevel.title
+                                                                (gradeLevel) => gradeLevel.title,
                                                             )}
                                                         </TableCell>
                                                         <TableCell>
                                                             {answer.chapters.map(
-                                                                (chapter) => chapter.title
+                                                                (chapter) => chapter.title,
                                                             )}
                                                         </TableCell>
                                                         <TableCell>
                                                             {answer.subjects.map(
-                                                                (subject) => subject.title
+                                                                (subject) => subject.title,
                                                             )}
                                                         </TableCell>
 
                                                         <TableCell>
                                                             {checkQuestionDifficulty(
-                                                                answer.questionDifficulty
+                                                                answer.questionDifficulty,
                                                             )}
                                                         </TableCell>
 
@@ -551,8 +443,7 @@ const Report = () => {
                                                         </TableCell>
                                                     </TableRow>
                                                 );
-                                            }
-                                        )}
+                                            })}
                                     </>
                                 )}
                             </>
@@ -706,9 +597,8 @@ const Report = () => {
                         <TableRow>
                             <TableCell>نوع سوال</TableCell>
                             <TableCell>حفظی</TableCell>
-                            <TableCell>چالشی</TableCell>
                             <TableCell>مفهومی</TableCell>
-                            <TableCell>دام دار</TableCell>
+                            <TableCell>تله دار دار</TableCell>
                             <TableCell>محاسباتی </TableCell>
                         </TableRow>
                     </TableHead>
@@ -723,12 +613,6 @@ const Report = () => {
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
                                                         ?.memorizationalCount
-                                                }
-                                            </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.challengingCount
                                                 }
                                             </TableCell>
                                             <TableCell>
@@ -767,12 +651,7 @@ const Report = () => {
                                                         ?.correctMemorizationalCount
                                                 }
                                             </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.correctChallengingCount
-                                                }
-                                            </TableCell>
+
                                             <TableCell>
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
@@ -809,12 +688,7 @@ const Report = () => {
                                                         ?.unansweredMemorizationalCount
                                                 }
                                             </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.unansweredChallengingCount
-                                                }
-                                            </TableCell>
+
                                             <TableCell>
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
@@ -851,12 +725,7 @@ const Report = () => {
                                                         ?.incorrectMemorizationalCount
                                                 }
                                             </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.incorrectChallengingCount
-                                                }
-                                            </TableCell>
+
                                             <TableCell>
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
@@ -901,6 +770,7 @@ const Report = () => {
                             <TableCell>ساده</TableCell>
                             <TableCell>متوسط</TableCell>
                             <TableCell>سخت</TableCell>
+                            <TableCell>چالشی</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -928,6 +798,12 @@ const Report = () => {
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
                                                         ?.hardCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.challengingCount
                                                 }
                                             </TableCell>
                                         </>
@@ -959,6 +835,12 @@ const Report = () => {
                                                         ?.correctHardCount
                                                 }
                                             </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctChallengingCount
+                                                }
+                                            </TableCell>
                                         </>
                                     )}
                                 </>
@@ -988,6 +870,13 @@ const Report = () => {
                                                         ?.unansweredHardCount
                                                 }
                                             </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredChallengingCount
+                                                }
+                                            </TableCell>
                                         </>
                                     )}
                                 </>
@@ -1015,6 +904,12 @@ const Report = () => {
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
                                                         ?.incorrectHardCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectChallengingCount
                                                 }
                                             </TableCell>
                                         </>
