@@ -2,13 +2,16 @@ import React from "react";
 import { useQuery } from "react-query";
 import { ObjectiveTestManagementService } from "../../services";
 
-const useGetObjectiveTestManagements = () => {
+const useGetObjectiveTestManagements = (page: number, limit: number) => {
     return useQuery(
         ["Get-All-Objective-Test-Managements"],
         async () => {
-            return await ObjectiveTestManagementService.objectiveTestManagementControllerFindAll();
+            return await ObjectiveTestManagementService.objectiveTestManagementControllerFindAll(
+                page,
+                limit,
+            );
         },
-        { refetchOnWindowFocus: false }
+        { refetchOnWindowFocus: false },
     );
 };
 
