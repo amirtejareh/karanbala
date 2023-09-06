@@ -48,9 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ILoginForm {
-    username: string;
-    password: string;
-    remember: boolean;
+    username?: string;
+    password?: string;
+    remember?: boolean;
 }
 
 const loginValidationSchema = yup.object({
