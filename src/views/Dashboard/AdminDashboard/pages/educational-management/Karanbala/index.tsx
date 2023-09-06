@@ -30,6 +30,10 @@ import useCreateTipAndTest from "../../../../../../hooks/tip-and-test/useCreateT
 import useDeleteTipAndTest from "../../../../../../hooks/tip-and-test/useDeleteTipAndTest";
 import useUpdateTipAndTest from "../../../../../../hooks/tip-and-test/useUpdateTipAndTest";
 import useGetTipAndTestOnSubjects from "../../../../../../hooks/tip-and-test/useGetTipAndTestOnSubjects";
+import useCreateKaranbala from "../../../../../../hooks/karanbala/useCreateKaranbala";
+import useDeleteKaranbala from "../../../../../../hooks/karanbala/useDeleteKaranbala";
+import useUpdateKaranbala from "../../../../../../hooks/karanbala/useUpdateKaranbala";
+import useGetKaranbalaOnSubjects from "../../../../../../hooks/karanbala/useGetKaranbalaOnSubjects";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -67,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const TipAndTest = () => {
+const Karanbala = () => {
     const classes = useStyles();
 
     const selectGradeLevelRef = useRef<any>();
@@ -106,9 +110,9 @@ const TipAndTest = () => {
     const [selectedFile, setSelectedFile] = useState<any[]>([]);
 
     const getGradeLevels = useGetGradeLevels();
-    const createTipAndTest = useCreateTipAndTest();
-    const deleteTipAndTest = useDeleteTipAndTest();
-    const updateTipAndTest = useUpdateTipAndTest();
+    const createKaranbala = useCreateKaranbala();
+    const deleteKaranbala = useDeleteKaranbala();
+    const updateKaranbala = useUpdateKaranbala();
 
     const onSelectFile = (e: any) => {
         if (!imageRef.current.files || imageRef.current.files.length === 0) {
@@ -126,7 +130,7 @@ const TipAndTest = () => {
     };
 
     const handleDeleteSubject = (id: string) => {
-        deleteTipAndTest.mutate(id, {
+        deleteKaranbala.mutate(id, {
             onSuccess: async (result: {
                 message: string;
                 statusCode: number;
@@ -134,7 +138,7 @@ const TipAndTest = () => {
             }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    tipAndTestBasedOnSubjects.refetch();
+                    karanbalaBasedOnSubjects.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -160,7 +164,7 @@ const TipAndTest = () => {
         sectionIds?.length == 0 ? null : sectionIds,
     );
 
-    const tipAndTestBasedOnSubjects = useGetTipAndTestOnSubjects(
+    const karanbalaBasedOnSubjects = useGetKaranbalaOnSubjects(
         subjectIds?.length == 0 ? [null] : [subjectIds],
     );
 
@@ -183,7 +187,7 @@ const TipAndTest = () => {
     }, [sectionIds]);
 
     useEffect(() => {
-        if (subjectIds) tipAndTestBasedOnSubjects.refetch();
+        if (subjectIds) karanbalaBasedOnSubjects.refetch();
     }, [subjectIds]);
 
     useEffect(() => {
@@ -224,11 +228,11 @@ const TipAndTest = () => {
     };
 
     const handleCreateSubject = async (data: any) => {
-        createTipAndTest.mutate(
+        createKaranbala.mutate(
             { ...data, videos: videoList, pdfFiles: selectedFile },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
-                    tipAndTestBasedOnSubjects.refetch();
+                    karanbalaBasedOnSubjects.refetch();
                     setGradeLevelIds(null);
                     setBookIds(null);
                     setChapterIds(null);
@@ -247,7 +251,7 @@ const TipAndTest = () => {
     const handleUpdateSubject = async (data: any) => {
         setLoading(true);
 
-        updateTipAndTest.mutate(
+        updateKaranbala.mutate(
             { id: value.id, ...data },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
@@ -685,16 +689,16 @@ const TipAndTest = () => {
                 </form>
             </Box>
             <Box className={classes.fieldOfStudy}>
-                <Typography>لیست نکته و تست</Typography>
-                {!tipAndTestBasedOnSubjects.isLoading ? (
+                <Typography>لیست کران بالا</Typography>
+                {!karanbalaBasedOnSubjects.isLoading ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-                        rows={tipAndTestBasedOnSubjects?.data?.map((item: any, index: any) => {
+                        rows={karanbalaBasedOnSubjects?.data?.map((item: any, index: any) => {
                             return {
                                 id: item._id,
                                 data: {
-                                    title: `${index + 1} نکته و تست`,
+                                    title: `${index + 1} کران بالا`,
                                     action: (
                                         <>
                                             <IconButton
@@ -755,4 +759,4 @@ const TipAndTest = () => {
     );
 };
 
-export default TipAndTest;
+export default Karanbala;

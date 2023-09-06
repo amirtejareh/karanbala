@@ -21,8 +21,8 @@ export class KaranbalaService {
         return __request(OpenAPI, {
             method: "POST",
             url: "/karanbala",
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -68,8 +68,8 @@ export class KaranbalaService {
             path: {
                 id: id,
             },
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 

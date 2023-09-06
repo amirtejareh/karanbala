@@ -18,6 +18,7 @@ import EssayQuestions from "../views/Dashboard/AdminDashboard/pages/educational-
 import TipAndTest from "../views/Dashboard/AdminDashboard/pages/educational-management/TipAndTest";
 import ObjectiveTestManagement from "../views/Dashboard/AdminDashboard/pages/exam-management/ObjectiveTestManagement";
 import BookReference from "../views/Dashboard/AdminDashboard/pages/content-management/BookReference";
+import Karanbala from "../views/Dashboard/AdminDashboard/pages/educational-management/Karanbala/index";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -256,6 +257,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <TipAndTest />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/karanbala"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <Karanbala />
                     </AuthorizedRoute>
                 }
             />

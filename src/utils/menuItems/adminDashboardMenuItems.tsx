@@ -70,6 +70,10 @@ export const adminDashboardMenuItems = [
                             title: "نکته و تست",
                             to: "/pv/karanbala/admin/tip-test",
                         },
+                        {
+                            title: "کران بالا",
+                            to: "/pv/karanbala/admin/karanbala",
+                        },
                     ],
                 },
                 {

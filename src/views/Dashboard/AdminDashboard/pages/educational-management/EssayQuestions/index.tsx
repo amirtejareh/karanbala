@@ -694,7 +694,7 @@ const EssayQuestions = () => {
                             return {
                                 id: item._id,
                                 data: {
-                                    title: `${index + 1} درس نامه`,
+                                    title: `${index + 1} سوال تشریحی`,
                                     action: (
                                         <>
                                             <IconButton
