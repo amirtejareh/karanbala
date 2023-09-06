@@ -224,8 +224,6 @@ const EssayQuestions = () => {
     };
 
     const handleCreateSubject = async (data: any) => {
-        console.log("selectedFile => ", selectedFile);
-
         createEssayQuestion.mutate(
             { ...data, videos: videoList, pdfFiles: selectedFile },
             {
