@@ -48,18 +48,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ILoginForm {
-    username?: string;
-    password?: string;
-    remember?: boolean;
+    username: string;
+    password: string;
+    remember: boolean;
 }
 
-const loginValidationSchema = yup
-    .object({
-        username: yup.string().required("لطفا نام کاربری را وارد کنید").label("نام کاربری"),
-        password: yup.string().required("لطفا رمز عبور را وارد کنید").label("رمز عبور"),
-        remember: yup.boolean().label("مرا به خاطر بسپار"),
-    })
-    .required();
+const loginValidationSchema = yup.object({
+    username: yup.string().required("لطفا نام کاربری را وارد کنید").label("نام کاربری"),
+    password: yup.string().required("لطفا رمز عبور را وارد کنید").label("رمز عبور"),
+    remember: yup.boolean().label("مرا به خاطر بسپار"),
+});
 
 const LoginView = React.forwardRef((props, ref: any) => {
     const classes = useStyles();
