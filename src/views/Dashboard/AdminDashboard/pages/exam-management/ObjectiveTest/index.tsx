@@ -103,7 +103,7 @@ const ObjectiveTest = (props: any) => {
     const createObjectiveTest = useCreateObjectiveTest();
     const updateObjectiveTest = useUpdateObjectiveTest();
     const [number, setNumber] = useState<number>(0);
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(0);
     const [limit, _] = useState<number>(5);
     const [pageSize, setPageSize] = useState<number>(0);
     const [type, setType] = useState<string>("main");
@@ -198,7 +198,7 @@ const ObjectiveTest = (props: any) => {
     const getGradeLevels = useGetGradeLevels();
 
     const getObjectiveTestsBasedOnGradeLevel = useGetObjectiveTestsBasedOnGradeLevel(
-        page,
+        page === 0 ? 1 : page,
         limit,
         gradeLevelIdsEdit,
     );
@@ -234,7 +234,9 @@ const ObjectiveTest = (props: any) => {
     }, [getObjectiveTestsBasedOnGradeLevel?.data]);
 
     useEffect(() => {
-        getObjectiveTestsBasedOnGradeLevel.refetch();
+        if (page > 0) {
+            getObjectiveTestsBasedOnGradeLevel.refetch();
+        }
     }, [page]);
 
     useEffect(() => {
