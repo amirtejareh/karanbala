@@ -2,89 +2,95 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateTermOfStudyDto } from "../models/CreateTermOfStudyDto";
-import type { UpdateTermOfStudyDto } from "../models/UpdateTermOfStudyDto";
+import type { CreateTermOfStudyDto } from '../models/CreateTermOfStudyDto';
+import type { UpdateTermOfStudyDto } from '../models/UpdateTermOfStudyDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class TermOfStudyService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static termOfStudyControllerCreate(
-        requestBody: CreateTermOfStudyDto,
-    ): CancelablePromise<any> {
+requestBody: CreateTermOfStudyDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/term-of-study",
+            method: 'POST',
+            url: '/term-of-study',
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static termOfStudyControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/term-of-study",
+            method: 'GET',
+            url: '/term-of-study',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static termOfStudyControllerFindOne(id: string): CancelablePromise<any> {
+    public static termOfStudyControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/term-of-study/{id}",
+            method: 'GET',
+            url: '/term-of-study/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static termOfStudyControllerUpdate(
-        id: string,
-        requestBody: UpdateTermOfStudyDto,
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateTermOfStudyDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/term-of-study/{id}",
+            method: 'PATCH',
+            url: '/term-of-study/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static termOfStudyControllerRemove(id: string): CancelablePromise<any> {
+    public static termOfStudyControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/term-of-study/{id}",
+            method: 'DELETE',
+            url: '/term-of-study/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
+
 }

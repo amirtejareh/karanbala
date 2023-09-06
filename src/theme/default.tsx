@@ -390,7 +390,6 @@ const theme: ThemeOptions = {
                     "& .MuiPagination-ul": {
                         "& li": {
                             "& button": {
-                                backgroundColor: "#3b3b43",
                                 border: "none",
                                 borderRadius: 4,
                                 minWidth: "25px",
@@ -417,7 +416,6 @@ const theme: ThemeOptions = {
             defaultProps: {},
             styleOverrides: {
                 root: {
-           
                     "& .MuiTableBody-root": {
                         "& tr:nth-of-type(even)": {
                             backgroundColor: "transparent",

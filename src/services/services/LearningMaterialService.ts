@@ -2,106 +2,112 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateLearningMaterialDto } from "../models/CreateLearningMaterialDto";
-import type { UpdateLearningMaterialDto } from "../models/UpdateLearningMaterialDto";
+import type { CreateLearningMaterialDto } from '../models/CreateLearningMaterialDto';
+import type { UpdateLearningMaterialDto } from '../models/UpdateLearningMaterialDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class LearningMaterialService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerCreate(
-        requestBody: CreateLearningMaterialDto,
-    ): CancelablePromise<any> {
+requestBody: CreateLearningMaterialDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/learning-material",
+            method: 'POST',
+            url: '/learning-material',
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/learning-material",
+            method: 'GET',
+            url: '/learning-material',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static learningMaterialControllerFindOne(id: string): CancelablePromise<any> {
+    public static learningMaterialControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/learning-material/{id}",
+            method: 'GET',
+            url: '/learning-material/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerUpdate(
-        id: string,
-        requestBody: UpdateLearningMaterialDto,
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateLearningMaterialDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/learning-material/{id}",
+            method: 'PATCH',
+            url: '/learning-material/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static learningMaterialControllerRemove(id: string): CancelablePromise<any> {
+    public static learningMaterialControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/learning-material/{id}",
+            method: 'DELETE',
+            url: '/learning-material/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param subjectsId
-     * @returns any
+     * @param subjectsId 
+     * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerFindLearningMaterialBasedOnSubject(
-        subjectsId: Array<string>,
-    ): CancelablePromise<any> {
+subjectsId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/learning-material/withSubjects/{subjectsId}",
+            method: 'GET',
+            url: '/learning-material/withSubjects/{subjectsId}',
             path: {
-                subjectsId: subjectsId,
+                'subjectsId': subjectsId,
             },
         });
     }
+
 }
