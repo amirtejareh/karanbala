@@ -109,8 +109,10 @@ const Question = (props: any) => {
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
     const getBooksBasedOnBookReferences = useGetBooksBasedOnBookReferences(
-        bookReferenceIds?.length == 0 ? null : bookReferenceIds,
+        bookReferenceIds?.length == 0 ? 0 : bookReferenceIds,
+        gradeLevelIds?.length == 0 ? 0 : gradeLevelIds,
     );
+
     const getBookReferencesBasedOnGradeLevels = useGetBookReferencesBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds,
     );
@@ -144,6 +146,7 @@ const Question = (props: any) => {
 
     const handleBookReferenceChange = (event: SelectChangeEvent) => {
         setBookReferenceIds(event.target.value as any);
+        setBookIds(null);
     };
 
     const handleChapterChange = (event: SelectChangeEvent) => {
@@ -165,10 +168,8 @@ const Question = (props: any) => {
     }, [gradeLevelIds]);
 
     useEffect(() => {
-        if (bookReferenceIds) {
-            getBooksBasedOnBookReferences.refetch();
-        }
-    }, [bookReferenceIds]);
+        getBooksBasedOnBookReferences.refetch();
+    }, [bookReferenceIds, gradeLevelIds]);
 
     useEffect(() => {
         getChaptersBasedOnBooks.refetch();

@@ -106,6 +106,7 @@ const ObjectiveTestManagement = (props: any) => {
 
     const getBookReferencesBasedOnObjectiveTestId =
         useGetBookReferencesBasedOnObjectiveTestId(objectiveTestId);
+
     const createObjectiveTestManagement = useCreateObjectiveTestManagement();
     useEffect(() => {
         getBookReferencesBasedOnObjectiveTestId.refetch();
@@ -182,7 +183,7 @@ const ObjectiveTestManagement = (props: any) => {
                             onChange={handleObjectiveTestChange}
                         >
                             {!getMainObjectiveTests?.isLoading &&
-                                getMainObjectiveTests?.data.map((element: any) => {
+                                getMainObjectiveTests?.data?.map((element: any) => {
                                     return (
                                         <MenuItem key={element?._id} value={element?._id}>
                                             {`${element?.gradeLevel[0]
@@ -206,14 +207,14 @@ const ObjectiveTestManagement = (props: any) => {
                             onChange={handleBookChange}
                         >
                             {!getBookReferencesBasedOnObjectiveTestId?.isLoading &&
-                                getBookReferencesBasedOnObjectiveTestId?.data.map(
+                                getBookReferencesBasedOnObjectiveTestId?.data?.map(
                                     (bookReference: any) => {
                                         return (
                                             <MenuItem
-                                                key={bookReference._id}
-                                                value={bookReference._id}
+                                                key={bookReference?._id}
+                                                value={bookReference?._id}
                                             >
-                                                {bookReference.title}
+                                                {bookReference?.title}
                                             </MenuItem>
                                         );
                                     },

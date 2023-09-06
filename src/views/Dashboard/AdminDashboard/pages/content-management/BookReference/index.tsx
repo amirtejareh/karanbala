@@ -376,9 +376,7 @@ const BookReference = (props: any) => {
                                                     setTimeout(() => {
                                                         inputBookReferenceRef.current.focus();
                                                     }, 100);
-                                                    setTimeout(() => {
-                                                        descriptionInputRef.current.focus();
-                                                    }, 200);
+
                                                     setTimeout(() => {
                                                         selectGradeLevelRef.current.focus();
                                                     }, 300);

@@ -105,17 +105,20 @@ export class BookService {
 
     /**
      * @param bookReferenceId
+     * @param gradeLevelId
      * @returns any
      * @throws ApiError
      */
     public static bookControllerFindBooksBasedOnBookReferences(
         bookReferenceId: Array<string>,
+        gradeLevelId: Array<string>,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: "GET",
-            url: "/book/withBookReferences/{bookReferenceId}",
+            url: "/book/withBookReferences/{bookReferenceId}/{gradeLevelId}",
             path: {
                 bookReferenceId: bookReferenceId,
+                gradeLevelId: gradeLevelId,
             },
         });
     }
