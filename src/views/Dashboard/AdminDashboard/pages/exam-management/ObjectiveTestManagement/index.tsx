@@ -27,6 +27,7 @@ import useGetMainObjectiveTests from "../../../../../../hooks/objective-test/use
 import useCreateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useCreateObjectiveTestManagement";
 import useGetBookReferencesBasedOnObjectiveTestId from "../../../../../../hooks/question/useGetBookReferencesBasedOnObjectiveTestId";
 import useUpdateObjectiveTest from "../../../../../../hooks/objective-test/useUpdateObjectiveTest";
+import { TableKit } from "../../../../../../components/kit/Table";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -88,7 +89,8 @@ const ObjectiveTestManagement = (props: any) => {
     const [objectiveTestId, setObjectiveTestId] = React.useState<any>();
     const selectObjectiveTestRef = useRef<any>();
     const [loading, setLoading] = useState(false);
-
+    const [page, setPage] = useState<number>(1);
+    const [pageSize] = useState<number>(10);
     const [bookId, setBookId] = React.useState<any>();
     const selectBookRef = useRef<any>();
 
@@ -183,7 +185,9 @@ const ObjectiveTestManagement = (props: any) => {
                                 getMainObjectiveTests?.data.map((element: any) => {
                                     return (
                                         <MenuItem key={element._id} value={element._id}>
-                                            {element.number}
+                                            {`${element.gradeLevel[0].title} - ${
+                                                element.number
+                                            } - ${element.type == "main" ? "اصلی" : "رفع اشکال"}`}
                                         </MenuItem>
                                     );
                                 })}

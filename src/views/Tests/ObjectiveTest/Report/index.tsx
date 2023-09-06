@@ -597,9 +597,8 @@ const Report = () => {
                         <TableRow>
                             <TableCell>نوع سوال</TableCell>
                             <TableCell>حفظی</TableCell>
-                            <TableCell>چالشی</TableCell>
                             <TableCell>مفهومی</TableCell>
-                            <TableCell>دام دار</TableCell>
+                            <TableCell>تله دار دار</TableCell>
                             <TableCell>محاسباتی </TableCell>
                         </TableRow>
                     </TableHead>
@@ -614,12 +613,6 @@ const Report = () => {
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
                                                         ?.memorizationalCount
-                                                }
-                                            </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.challengingCount
                                                 }
                                             </TableCell>
                                             <TableCell>
@@ -658,12 +651,7 @@ const Report = () => {
                                                         ?.correctMemorizationalCount
                                                 }
                                             </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.correctChallengingCount
-                                                }
-                                            </TableCell>
+
                                             <TableCell>
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
@@ -700,12 +688,7 @@ const Report = () => {
                                                         ?.unansweredMemorizationalCount
                                                 }
                                             </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.unansweredChallengingCount
-                                                }
-                                            </TableCell>
+
                                             <TableCell>
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
@@ -742,12 +725,7 @@ const Report = () => {
                                                         ?.incorrectMemorizationalCount
                                                 }
                                             </TableCell>
-                                            <TableCell>
-                                                {
-                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
-                                                        ?.incorrectChallengingCount
-                                                }
-                                            </TableCell>
+
                                             <TableCell>
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
@@ -792,6 +770,7 @@ const Report = () => {
                             <TableCell>ساده</TableCell>
                             <TableCell>متوسط</TableCell>
                             <TableCell>سخت</TableCell>
+                            <TableCell>چالشی</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -819,6 +798,12 @@ const Report = () => {
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
                                                         ?.hardCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.challengingCount
                                                 }
                                             </TableCell>
                                         </>
@@ -850,6 +835,12 @@ const Report = () => {
                                                         ?.correctHardCount
                                                 }
                                             </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.correctChallengingCount
+                                                }
+                                            </TableCell>
                                         </>
                                     )}
                                 </>
@@ -879,6 +870,13 @@ const Report = () => {
                                                         ?.unansweredHardCount
                                                 }
                                             </TableCell>
+
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.unansweredChallengingCount
+                                                }
+                                            </TableCell>
                                         </>
                                     )}
                                 </>
@@ -906,6 +904,12 @@ const Report = () => {
                                                 {
                                                     getOnlineGradeLevelBasedObjectiveTest?.data[0]
                                                         ?.incorrectHardCount
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    getOnlineGradeLevelBasedObjectiveTest?.data[0]
+                                                        ?.incorrectChallengingCount
                                                 }
                                             </TableCell>
                                         </>
