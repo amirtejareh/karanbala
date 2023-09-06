@@ -21,8 +21,8 @@ export class TipAndTestService {
         return __request(OpenAPI, {
             method: "POST",
             url: "/tip-and-test",
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
@@ -68,8 +68,8 @@ export class TipAndTestService {
             path: {
                 id: id,
             },
-            body: requestBody,
-            mediaType: "application/json",
+            formData: requestBody,
+            mediaType: "multipart/form-data",
         });
     }
 
