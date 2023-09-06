@@ -145,7 +145,7 @@ const Quiz = () => {
                                 control={<Radio />}
                                 onChange={(element: any) => {
                                     setShowItem(
-                                        element.target.defaultValue === "topic" ? true : false
+                                        element.target.defaultValue === "topic" ? true : false,
                                     );
                                 }}
                                 label={
@@ -331,6 +331,11 @@ const Quiz = () => {
                                         defaultValue="easy"
                                         name="radio-buttons-group"
                                     >
+                                        <FormControlLabel
+                                            value="challenging"
+                                            control={<Radio />}
+                                            label="چالشی"
+                                        />
                                         <FormControlLabel
                                             value="hard"
                                             control={<Radio />}

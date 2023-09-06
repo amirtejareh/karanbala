@@ -243,6 +243,8 @@ const Report = () => {
                 return "متوسط";
             case "easy":
                 return "ساده";
+            case "challenging":
+                return "چالشی";
         }
     };
 
@@ -256,8 +258,6 @@ const Report = () => {
                 return "دام دار";
             case "memorizational":
                 return "حفظی";
-            case "challenging":
-                return "چالشی";
         }
     };
     return (
@@ -526,23 +526,23 @@ const Report = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             {answer.gradeLevels.map(
-                                                                (gradeLevel) => gradeLevel.title
+                                                                (gradeLevel) => gradeLevel.title,
                                                             )}
                                                         </TableCell>
                                                         <TableCell>
                                                             {answer.chapters.map(
-                                                                (chapter) => chapter.title
+                                                                (chapter) => chapter.title,
                                                             )}
                                                         </TableCell>
                                                         <TableCell>
                                                             {answer.subjects.map(
-                                                                (subject) => subject.title
+                                                                (subject) => subject.title,
                                                             )}
                                                         </TableCell>
 
                                                         <TableCell>
                                                             {checkQuestionDifficulty(
-                                                                answer.questionDifficulty
+                                                                answer.questionDifficulty,
                                                             )}
                                                         </TableCell>
 
@@ -551,7 +551,7 @@ const Report = () => {
                                                         </TableCell>
                                                     </TableRow>
                                                 );
-                                            }
+                                            },
                                         )}
                                     </>
                                 )}

@@ -109,21 +109,21 @@ const Question = (props: any) => {
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
     const getBooksBasedOnBookReferences = useGetBooksBasedOnBookReferences(
-        bookReferenceIds?.length == 0 ? null : bookReferenceIds
+        bookReferenceIds?.length == 0 ? null : bookReferenceIds,
     );
     const getBookReferencesBasedOnGradeLevels = useGetBookReferencesBasedOnGradeLevels(
-        gradeLevelIds?.length == 0 ? null : gradeLevelIds
+        gradeLevelIds?.length == 0 ? null : gradeLevelIds,
     );
     const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(
-        bookIds?.length == 0 ? null : bookIds
+        bookIds?.length == 0 ? null : bookIds,
     );
 
     const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
-        chapterIds?.length == 0 ? null : chapterIds
+        chapterIds?.length == 0 ? null : chapterIds,
     );
 
     const getSubjectsBasedOnSections = useGetSubjectsBasedOnSections(
-        sectionIds?.length == 0 ? null : sectionIds
+        sectionIds?.length == 0 ? null : sectionIds,
     );
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
@@ -238,13 +238,13 @@ const Question = (props: any) => {
                                 {result.message.map((msg: string) => (
                                     <li key={msg}>{msg}</li>
                                 ))}
-                            </ul>
+                            </ul>,
                         );
                     } else {
                         toast.error(
                             <ul>
                                 <li key={result.message}>{result.message}</li>
-                            </ul>
+                            </ul>,
                         );
                     }
                 }
@@ -425,11 +425,14 @@ const Question = (props: any) => {
                             <MenuItem key={1} value={"easy"}>
                                 ساده
                             </MenuItem>
-                            <MenuItem key={1} value={"average"}>
+                            <MenuItem key={2} value={"average"}>
                                 متوسط
                             </MenuItem>
-                            <MenuItem key={1} value={"hard"}>
-                                دشوار
+                            <MenuItem key={3} value={"hard"}>
+                                سخت
+                            </MenuItem>
+                            <MenuItem key={4} value={"challenging"}>
+                                چالشی
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -449,13 +452,10 @@ const Question = (props: any) => {
                                 محاسباتی
                             </MenuItem>
                             <MenuItem key={3} value={"trick"}>
-                                دام دار
+                                تله دار
                             </MenuItem>
                             <MenuItem key={4} value={"memorizational"}>
                                 حفظی
-                            </MenuItem>
-                            <MenuItem key={4} value={"challenging"}>
-                                چالشی
                             </MenuItem>
                         </Select>
                     </FormControl>

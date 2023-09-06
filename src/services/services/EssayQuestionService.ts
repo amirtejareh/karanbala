@@ -2,112 +2,106 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateEssayQuestionsDto } from '../models/CreateEssayQuestionsDto';
-import type { UpdateEssayQuestionDto } from '../models/UpdateEssayQuestionDto';
+import type { CreateEssayQuestionsDto } from "../models/CreateEssayQuestionsDto";
+import type { UpdateEssayQuestionDto } from "../models/UpdateEssayQuestionDto";
 
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 
 export class EssayQuestionService {
-
     /**
-     * @param requestBody 
-     * @returns any 
+     * @param requestBody
+     * @returns any
      * @throws ApiError
      */
     public static essayQuestionControllerCreate(
-requestBody: CreateEssayQuestionsDto,
-): CancelablePromise<any> {
+        requestBody: CreateEssayQuestionsDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/essay-question',
+            method: "POST",
+            url: "/essay-question",
             body: requestBody,
-            mediaType: 'application/json',
+            mediaType: "application/json",
         });
     }
 
     /**
-     * @returns any 
+     * @returns any
      * @throws ApiError
      */
     public static essayQuestionControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/essay-question',
+            method: "GET",
+            url: "/essay-question",
         });
     }
 
     /**
-     * @param id 
-     * @returns any 
+     * @param id
+     * @returns any
      * @throws ApiError
      */
-    public static essayQuestionControllerFindOne(
-id: string,
-): CancelablePromise<any> {
+    public static essayQuestionControllerFindOne(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/essay-question/{id}',
+            method: "GET",
+            url: "/essay-question/{id}",
             path: {
-                'id': id,
+                id: id,
             },
         });
     }
 
     /**
-     * @param id 
-     * @param requestBody 
-     * @returns any 
+     * @param id
+     * @param requestBody
+     * @returns any
      * @throws ApiError
      */
     public static essayQuestionControllerUpdate(
-id: string,
-requestBody: UpdateEssayQuestionDto,
-): CancelablePromise<any> {
+        id: string,
+        requestBody: UpdateEssayQuestionDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/essay-question/{id}',
+            method: "PATCH",
+            url: "/essay-question/{id}",
             path: {
-                'id': id,
+                id: id,
             },
             body: requestBody,
-            mediaType: 'application/json',
+            mediaType: "application/json",
         });
     }
 
     /**
-     * @param id 
-     * @returns any 
+     * @param id
+     * @returns any
      * @throws ApiError
      */
-    public static essayQuestionControllerRemove(
-id: string,
-): CancelablePromise<any> {
+    public static essayQuestionControllerRemove(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/essay-question/{id}',
+            method: "DELETE",
+            url: "/essay-question/{id}",
             path: {
-                'id': id,
+                id: id,
             },
         });
     }
 
     /**
-     * @param subjectsId 
-     * @returns any 
+     * @param subjectsId
+     * @returns any
      * @throws ApiError
      */
     public static essayQuestionControllerFindEssayQuestionBasedOnSubject(
-subjectsId: Array<string>,
-): CancelablePromise<any> {
+        subjectsId: Array<string>,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/essay-question/withSubjects/{subjectsId}',
+            method: "GET",
+            url: "/essay-question/withSubjects/{subjectsId}",
             path: {
-                'subjectsId': subjectsId,
+                subjectsId: subjectsId,
             },
         });
     }
-
 }
