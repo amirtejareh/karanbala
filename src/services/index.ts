@@ -5,6 +5,7 @@
 
 export type { Book } from './models/Book';
 export type { Chapter } from './models/Chapter';
+export type { CreateAnswersheetManagementDto } from './models/CreateAnswersheetManagementDto';
 export type { CreateBookDto } from './models/CreateBookDto';
 export type { CreateBookExercisesDto } from './models/CreateBookExercisesDto';
 export type { CreateBookReferenceDto } from './models/CreateBookReferenceDto';
@@ -28,6 +29,7 @@ export type { ObjectiveTest } from './models/ObjectiveTest';
 export type { Section } from './models/Section';
 export type { SigninUserDto } from './models/SigninUserDto';
 export type { Subject } from './models/Subject';
+export type { UpdateAnswersheetManagementDto } from './models/UpdateAnswersheetManagementDto';
 export type { UpdateBookDto } from './models/UpdateBookDto';
 export type { UpdateBookExercisesDto } from './models/UpdateBookExercisesDto';
 export type { UpdateBookReferenceDto } from './models/UpdateBookReferenceDto';
@@ -46,6 +48,7 @@ export type { UpdateSubjectDto } from './models/UpdateSubjectDto';
 export type { UpdateTermOfStudyDto } from './models/UpdateTermOfStudyDto';
 export type { UpdateTipAndTestDto } from './models/UpdateTipAndTestDto';
 
+export { AnswersheetManagementService } from './services/AnswersheetManagementService';
 export { AuthService } from './services/AuthService';
 export { BookService } from './services/BookService';
 export { BookExercisesService } from './services/BookExercisesService';

@@ -91,6 +91,10 @@ export const adminDashboardMenuItems = [
                             title: "مدیریت آزمون",
                             to: "/pv/karanbala/admin/objective-test-management",
                         },
+                        {
+                            title: "مدیریت پاسخنامه",
+                            to: "/pv/karanbala/admin/answersheet-management",
+                        },
                     ],
                 },
             ],
