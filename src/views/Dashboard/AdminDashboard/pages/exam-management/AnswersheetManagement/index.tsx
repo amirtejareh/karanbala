@@ -31,6 +31,7 @@ import useDeleteObjectiveTestManagement from "../../../../../../hooks/objective-
 import useGetObjectiveTestManagements from "../../../../../../hooks/objective-test-management/useGetObjectiveTestManagements";
 import useUpdateObjectiveTestManagement from "../../../../../../hooks/objective-test-management/useUpdateObjectiveTestManagement";
 import { bytesToKilobytes } from "../../../../../../utils/helper";
+import useCreateAnswersheetManagement from "../../../../../../hooks/answersheet-management/useCreateAnswersheetManagement";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -153,7 +154,7 @@ const AnswersheetManagement = (props: any) => {
     const getBookReferencesBasedOnObjectiveTestId =
         useGetBookReferencesBasedOnObjectiveTestId(objectiveTestId);
 
-    const createObjectiveTestManagement = useCreateObjectiveTestManagement();
+    const createAnswersheetManagement = useCreateAnswersheetManagement();
     const updateObjectiveTestManagement = useUpdateObjectiveTestManagement();
     useEffect(() => {
         getBookReferencesBasedOnObjectiveTestId.refetch();
@@ -184,12 +185,10 @@ const AnswersheetManagement = (props: any) => {
 
     const handleCreateObjectiveTestManagement = async (data: any) => {
         setLoading(true);
-        createObjectiveTestManagement.mutate(data, {
+        createAnswersheetManagement.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    getObjectiveTestBasedOnGradeLevels.refetch();
-
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -331,6 +330,8 @@ const AnswersheetManagement = (props: any) => {
                                 backgroundColor: "#ededed",
                                 padding: "10px",
                                 alignItems: "center",
+                                display: "flex",
+                                flexDirection: "column",
                                 justifyContent: "center",
                                 borderRadius: "12px",
                                 marginTop: "10px",
@@ -386,7 +387,7 @@ const AnswersheetManagement = (props: any) => {
                                                         <IconButton>
                                                             <PrompModalKit
                                                                 description={
-                                                                    "آیا از حذف موضوع مورد نظر مطمئن  هستید؟"
+                                                                    "آیا از حذف فایل پی دی اف مورد نظر مطمئن  هستید؟"
                                                                 }
                                                                 onConfirm={() => {
                                                                     handleRemoveFile(item);
