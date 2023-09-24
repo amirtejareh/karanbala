@@ -185,34 +185,38 @@ const AnswersheetManagement = (props: any) => {
 
     const handleCreateObjectiveTestManagement = async (data: any) => {
         setLoading(true);
-        createAnswersheetManagement.mutate(data, {
-            onSuccess: async (result: { message: string; statusCode: number }) => {
-                if (result.statusCode == 200) {
-                    setLoading(false);
-                    toast.success(result.message);
-                } else {
-                    setLoading(false);
-                    if (Array.isArray(result.message)) {
-                        toast.error(
-                            <ul>
-                                {result.message.map((msg: string) => (
-                                    <li key={msg}>{msg}</li>
-                                ))}
-                            </ul>,
-                        );
+
+        createAnswersheetManagement.mutate(
+            { ...data, AnswerSheetSourcePdfFile: selectedFile },
+            {
+                onSuccess: async (result: { message: string; statusCode: number }) => {
+                    if (result.statusCode == 200) {
+                        setLoading(false);
+                        toast.success(result.message);
                     } else {
-                        toast.error(
-                            <ul>
-                                <li key={result.message}>{result.message}</li>
-                            </ul>,
-                        );
+                        setLoading(false);
+                        if (Array.isArray(result.message)) {
+                            toast.error(
+                                <ul>
+                                    {result.message.map((msg: string) => (
+                                        <li key={msg}>{msg}</li>
+                                    ))}
+                                </ul>,
+                            );
+                        } else {
+                            toast.error(
+                                <ul>
+                                    <li key={result.message}>{result.message}</li>
+                                </ul>,
+                            );
+                        }
                     }
-                }
+                },
+                onError: async (e: any) => {
+                    toast.error(e.message);
+                },
             },
-            onError: async (e: any) => {
-                toast.error(e.message);
-            },
-        });
+        );
     };
 
     const handleUpdateObjectiveTestManagement = async (data: any) => {
@@ -372,6 +376,7 @@ const AnswersheetManagement = (props: any) => {
                                 <TableKit
                                     secondary
                                     headers={[
+                                        { children: `نوع فایل` },
                                         { children: `عنوان` },
                                         { children: `حجم KB` },
                                         { children: `عملیات` },
@@ -380,6 +385,7 @@ const AnswersheetManagement = (props: any) => {
                                         return {
                                             id: index,
                                             data: {
+                                                type: index == 0 ? "پاسخنامه" : "بودجه بندی",
                                                 title: item.name ?? "-",
                                                 link: bytesToKilobytes(item.size) ?? "-",
                                                 action: (

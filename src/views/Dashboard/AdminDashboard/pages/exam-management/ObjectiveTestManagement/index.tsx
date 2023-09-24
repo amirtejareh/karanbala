@@ -400,7 +400,7 @@ const ObjectiveTestManagement = (props: any) => {
                                                 ? "اصلی"
                                                 : "رفع اشکال"
                                         } - ${item?.objectiveTest[0]?.number} - ${item
-                                            ?.objectiveTest[0]?.gradeLevel[0].title} - ${item
+                                            ?.objectiveTest[0]?.gradeLevel[0]?.title} - ${item
                                             ?.bookReferences[0]?.title}`,
                                         action: (
                                             <>

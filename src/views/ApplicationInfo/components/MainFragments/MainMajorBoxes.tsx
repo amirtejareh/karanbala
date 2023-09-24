@@ -5,6 +5,7 @@ import { ThemeOptions } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
+import useGetGradeLevels from "../../../../hooks/grade-level/useGetGradeLevels";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     majorBox: {
@@ -26,6 +27,8 @@ const MainMajorBoxes = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
     const navigate = useNavigate();
+
+    const gradeLevels = useGetGradeLevels();
 
     const text = [
         "هفتم",
@@ -84,40 +87,42 @@ const MainMajorBoxes = () => {
             flexWrap={"wrap"}
             className={`${classes.majorBox} ${"majorBox"}`}
         >
-            {text.map((value, index) => {
-                return (
-                    <Box key={index}>
-                        <ButtonKit onClick={() => redirectRoute(path[index])}>
-                            <Box
-                                bgcolor={color[index]}
-                                display={"flex"}
-                                height={"7rem"}
-                                alignItems={"center"}
-                                borderRadius={"1rem"}
-                                boxShadow={"0px 4px 8px 0px #252D370F"}
-                            >
+            {!gradeLevels?.isLoading &&
+                gradeLevels?.data &&
+                gradeLevels?.data?.map((value, index) => {
+                    return (
+                        <Box key={index}>
+                            <ButtonKit onClick={() => redirectRoute(path[index])}>
                                 <Box
+                                    bgcolor={color[index]}
                                     display={"flex"}
-                                    justifyContent={"center"}
+                                    height={"7rem"}
                                     alignItems={"center"}
-                                    width={"5rem"}
-                                    height={"5rem"}
-                                    margin={"1rem"}
-                                    bgcolor={theme?.palette?.common.white}
-                                    padding={"1rem"}
                                     borderRadius={"1rem"}
+                                    boxShadow={"0px 4px 8px 0px #252D370F"}
                                 >
-                                    <BookSavedSvg />
-                                </Box>
+                                    <Box
+                                        display={"flex"}
+                                        justifyContent={"center"}
+                                        alignItems={"center"}
+                                        width={"5rem"}
+                                        height={"5rem"}
+                                        margin={"1rem"}
+                                        bgcolor={theme?.palette?.common.white}
+                                        padding={"1rem"}
+                                        borderRadius={"1rem"}
+                                    >
+                                        <BookSavedSvg />
+                                    </Box>
 
-                                <Typography margin={"0 auto"} variant="subtitle1">
-                                    {value}
-                                </Typography>
-                            </Box>
-                        </ButtonKit>
-                    </Box>
-                );
-            })}
+                                    <Typography margin={"0 auto"} variant="subtitle1">
+                                        {value.title}
+                                    </Typography>
+                                </Box>
+                            </ButtonKit>
+                        </Box>
+                    );
+                })}
         </Box>
     );
 };
