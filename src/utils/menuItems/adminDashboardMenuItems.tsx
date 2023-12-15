@@ -10,7 +10,7 @@ export const adminDashboardMenuItems = [
     },
     {
         title: "داشبورد",
-        to: "/pv/karanbala/admin",
+        to: "/dashboard/admin",
         startIcon: <Dashboard />,
     },
     {
@@ -21,33 +21,33 @@ export const adminDashboardMenuItems = [
                     submenu: [
                         {
                             title: "رشته تحصیلی",
-                            to: "/pv/karanbala/admin/field-of-study",
+                            to: "/dashboard/admin/field-of-study",
                         },
                         {
                             title: "پایه تحصیلی",
-                            to: "/pv/karanbala/admin/grade-level",
+                            to: "/dashboard/admin/grade-level",
                         },
                         {
                             title: "کتاب مرجع",
-                            to: "/pv/karanbala/admin/book-reference",
+                            to: "/dashboard/admin/book-reference",
                         },
 
                         {
                             title: "کتاب",
-                            to: "/pv/karanbala/admin/book",
+                            to: "/dashboard/admin/book",
                         },
 
                         {
                             title: "فصل",
-                            to: "/pv/karanbala/admin/chapter",
+                            to: "/dashboard/admin/chapter",
                         },
                         {
                             title: "بخش",
-                            to: "/pv/karanbala/admin/section",
+                            to: "/dashboard/admin/section",
                         },
                         {
                             title: "موضوع",
-                            to: "/pv/karanbala/admin/subject",
+                            to: "/dashboard/admin/subject",
                         },
                     ],
                 },
@@ -56,23 +56,23 @@ export const adminDashboardMenuItems = [
                     submenu: [
                         {
                             title: "معرفی کتاب",
-                            to: "/pv/karanbala/admin/book-intro",
+                            to: "/dashboard/admin/book-intro",
                         },
                         {
                             title: "درس نامه",
-                            to: "/pv/karanbala/admin/learning-material",
+                            to: "/dashboard/admin/learning-material",
                         },
                         {
                             title: "سوالات تشریحی",
-                            to: "/pv/karanbala/admin/essay-questions",
+                            to: "/dashboard/admin/essay-questions",
                         },
                         {
                             title: "نکته و تست",
-                            to: "/pv/karanbala/admin/tip-test",
+                            to: "/dashboard/admin/tip-test",
                         },
                         {
                             title: "کران بالا",
-                            to: "/pv/karanbala/admin/karanbala",
+                            to: "/dashboard/admin/karanbala",
                         },
                     ],
                 },
@@ -81,19 +81,19 @@ export const adminDashboardMenuItems = [
                     submenu: [
                         {
                             title: "ایجاد آزمون",
-                            to: "/pv/karanbala/admin/objective-test",
+                            to: "/dashboard/admin/objective-test",
                         },
                         {
                             title: "ایجاد شناسنامه سوال",
-                            to: "/pv/karanbala/admin/question",
+                            to: "/dashboard/admin/question",
                         },
                         {
                             title: "مدیریت آزمون",
-                            to: "/pv/karanbala/admin/objective-test-management",
+                            to: "/dashboard/admin/objective-test-management",
                         },
                         {
                             title: "مدیریت پاسخنامه",
-                            to: "/pv/karanbala/admin/answersheet-management",
+                            to: "/dashboard/admin/answersheet-management",
                         },
                     ],
                 },

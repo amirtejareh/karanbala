@@ -78,7 +78,7 @@ const MainMajorBoxes = () => {
     ];
 
     const redirectRoute = (path: string) => {
-        return navigate(`/pub/karanbala/${path}`);
+        return navigate(`/${path}`);
     };
     return (
         <Box

@@ -19,11 +19,11 @@ const CheckRoutes = () => {
     useEffect(() => {
         if (userData && userData?.user?.roles) {
             if (userData?.user?.roles?.every((element: any) => element.title == "User")) {
-                navigate("/pv/karanbala/dashboard");
+                navigate("/dashboard/dashboard");
             }
 
             if (userData?.user?.roles?.every((element: any) => element.title == "SuperAdmin")) {
-                navigate("/pv/karanbala/admin");
+                navigate("/dashboard/admin");
             }
         }
     }, [userData.user]);

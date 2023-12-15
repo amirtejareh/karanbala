@@ -24,15 +24,14 @@ import PublicLayoutComponent from "../components/PublicLayoutComponent";
 
 const PublicRoutes = () => {
     const user: any = userStore((state) => state);
-
     return (
         <PublicLayoutComponent>
             <Routes>
-                <Route path={"/karanbala"} element={<ApplicationInfoView />} />
-                <Route path={"/karanbala/major-requirements"} element={<MajorRequirements />} />
-                <Route path={"/karanbala/education-details"} element={<EducationDetails />} />
+                <Route path={"/"} element={<ApplicationInfoView />} />
+                <Route path={"/major-requirements"} element={<MajorRequirements />} />
+                <Route path={"/education-details/*"} element={<EducationDetails />} />
                 <Route
-                    path="/karanbala/objective-test"
+                    path="/objective-test"
                     element={
                         <AuthorizedRoute
                             userRole={user?.user}
@@ -48,7 +47,7 @@ const PublicRoutes = () => {
                 />
 
                 <Route
-                    path="/karanbala/objective-test/report/:examId"
+                    path="/objective-test/report/:examId"
                     element={
                         <AuthorizedRoute
                             userRole={user?.user}
@@ -62,24 +61,21 @@ const PublicRoutes = () => {
                         </AuthorizedRoute>
                     }
                 />
-                <Route path="/karanbala/objective-test/report2" element={<Report2 />} />
-                <Route path={"/karanbala/subjective-test"} element={<SubjectiveTest />} />
+                <Route path="/objective-test/report2" element={<Report2 />} />
+                <Route path={"/subjective-test"} element={<SubjectiveTest />} />
                 <Route
                     path={"/karanbala/education-details/introduction-book"}
                     element={<IntroductionBook />}
                 />
-                <Route path={"/karanbala/education-details/lessons"} element={<Lessons />} />
-                <Route path={"/karanbala/education-details/questions"} element={<Questions />} />
-                <Route path={"/karanbala/education-details/exam"} element={<Exam />} />
-                <Route
-                    path={"/karanbala/education-details/point-and-test"}
-                    element={<PointAndTest />}
-                />
-                <Route path={"/karanbala/education-details/example"} element={<Example />} />
-                <Route path={"/karanbala/education-details/attach"} element={<Attach />} />
-                <Route path={"/karanbala/education-details/practice"} element={<Practice />} />
-                <Route path={"/karanbala/education-details/quiz"} element={<Quiz />} />
-                <Route path={"/karanbala/education-details/karanbala"} element={<Karanbala />} />
+                <Route path={"/education-details/lessons"} element={<Lessons />} />
+                <Route path={"/education-details/questions"} element={<Questions />} />
+                <Route path={"/education-details/exam"} element={<Exam />} />
+                <Route path={"/education-details/point-and-test"} element={<PointAndTest />} />
+                <Route path={"/education-details/example"} element={<Example />} />
+                <Route path={"/education-details/attach"} element={<Attach />} />
+                <Route path={"/education-details/practice"} element={<Practice />} />
+                <Route path={"/education-details/quiz"} element={<Quiz />} />
+                <Route path={"/education-details/karanbala"} element={<Karanbala />} />
             </Routes>
         </PublicLayoutComponent>
     );

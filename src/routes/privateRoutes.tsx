@@ -13,7 +13,7 @@ const PrivateRoutes = () => {
         <MainLayoutComponent>
             <Routes>
                 <Route
-                    path="/karanbala/dashboard/*"
+                    path="/user/*"
                     element={
                         <AuthorizedRoute
                             userRole={user?.user}
@@ -28,7 +28,7 @@ const PrivateRoutes = () => {
                     }
                 />
                 <Route
-                    path="/karanbala/admin/*"
+                    path="/admin/*"
                     element={
                         <AuthorizedRoute
                             userRole={user?.user}

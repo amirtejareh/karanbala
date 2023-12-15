@@ -180,7 +180,7 @@ export const ModalQuiz = () => {
                     sx={{ cursor: "pointer" }}
                     onClick={() => {
                         localStorage.setItem("examType", "topic");
-                        navigate("/pub/karanbala/education-details/quiz");
+                        navigate("/education-details/quiz");
                     }}
                     display={"flex"}
                     alignItems={"center"}
@@ -470,7 +470,7 @@ const Karanbala = () => {
         const season = parseInt(
             Object.keys(seasonVisible)
                 .map((element) => element.slice(7))
-                .toString()
+                .toString(),
         );
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
@@ -493,7 +493,7 @@ const Karanbala = () => {
             myEpisodeArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const myLessonArray = seasons?.seasons[0]?.lessons
@@ -511,7 +511,7 @@ const Karanbala = () => {
             myLessonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const mySeasonArray = seasons?.seasons?.map((value, index) => {
@@ -524,7 +524,7 @@ const Karanbala = () => {
             mySeasonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
     }, []);
 
@@ -686,7 +686,7 @@ const Karanbala = () => {
                                                                                                     ix
                                                                                             ],
                                                                                     };
-                                                                                }
+                                                                                },
                                                                             );
                                                                         }}
                                                                     >
@@ -726,7 +726,7 @@ const Karanbala = () => {
                                                                         {value.attachment.map(
                                                                             (
                                                                                 element: any,
-                                                                                index: any
+                                                                                index: any,
                                                                             ) => (
                                                                                 <Box
                                                                                     key={index}
@@ -738,7 +738,7 @@ const Karanbala = () => {
                                                                                     <IconButtonKit
                                                                                         onClick={() =>
                                                                                             navigate(
-                                                                                                element.address
+                                                                                                element.address,
                                                                                             )
                                                                                         }
                                                                                     >
@@ -759,7 +759,7 @@ const Karanbala = () => {
                                                                                         </Box>
                                                                                     </IconButtonKit>
                                                                                 </Box>
-                                                                            )
+                                                                            ),
                                                                         )}
                                                                     </Box>
                                                                     <Box className={classes.video}>
@@ -771,7 +771,7 @@ const Karanbala = () => {
                                                                         {value.videos.map(
                                                                             (
                                                                                 element: any,
-                                                                                key: any
+                                                                                key: any,
                                                                             ) => {
                                                                                 return (
                                                                                     <Box
@@ -802,7 +802,7 @@ const Karanbala = () => {
                                                                                         ></Box>
                                                                                     </Box>
                                                                                 );
-                                                                            }
+                                                                            },
                                                                         )}
 
                                                                         <Box>
@@ -822,7 +822,7 @@ const Karanbala = () => {
                                                                             2,
                                                                             3,
                                                                             4,
-                                                                            5
+                                                                            5,
                                                                         ).map((element) => (
                                                                             <Box
                                                                                 onClick={() => {
@@ -831,7 +831,7 @@ const Karanbala = () => {
                                                                                         3
                                                                                     ) {
                                                                                         setModalOpen(
-                                                                                            true
+                                                                                            true,
                                                                                         );
                                                                                     }
                                                                                 }}

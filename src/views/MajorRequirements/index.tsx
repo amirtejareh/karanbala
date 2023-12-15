@@ -68,10 +68,10 @@ const EducationDetails = () => {
                     onClick={() => {
                         if (user.user === null) {
                             toast.error(
-                                "کاربر گرامی ابتدا می بایست در سایت ثبت نام کنید و آزمون مد نظر خود را مطابق با پایه خود خریداری نمایید"
+                                "کاربر گرامی ابتدا می بایست در سایت ثبت نام کنید و آزمون مد نظر خود را مطابق با پایه خود خریداری نمایید",
                             );
                         } else {
-                            navigate("/pub/karanbala/objective-test");
+                            navigate("/objective-test");
                         }
                     }}
                     sx={{ cursor: "pointer" }}
@@ -99,7 +99,7 @@ const EducationDetails = () => {
                     padding={"1rem"}
                     borderRadius={"1rem"}
                     onClick={() => {
-                        navigate("/pub/karanbala/subjective-test");
+                        navigate("/subjective-test");
                     }}
                     sx={{ cursor: "pointer" }}
                 >
@@ -286,7 +286,7 @@ const EducationDetails = () => {
                             <Box>
                                 <ButtonKit
                                     variant="contained"
-                                    onClick={() => navigate("/pub/karanbala/education-details")}
+                                    onClick={() => navigate("/education-details")}
                                 >
                                     شروع
                                 </ButtonKit>
