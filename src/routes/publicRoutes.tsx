@@ -29,6 +29,7 @@ const PublicRoutes = () => {
             <Routes>
                 <Route path={"/"} element={<ApplicationInfoView />} />
                 <Route path={"/major-requirements"} element={<MajorRequirements />} />
+
                 <Route path={"/education-details/*"} element={<EducationDetails />} />
                 <Route
                     path="/objective-test"
@@ -64,7 +65,7 @@ const PublicRoutes = () => {
                 <Route path="/objective-test/report2" element={<Report2 />} />
                 <Route path={"/subjective-test"} element={<SubjectiveTest />} />
                 <Route
-                    path={"/karanbala/education-details/introduction-book"}
+                    path={"/education-details/introduction-book"}
                     element={<IntroductionBook />}
                 />
                 <Route path={"/education-details/lessons"} element={<Lessons />} />
