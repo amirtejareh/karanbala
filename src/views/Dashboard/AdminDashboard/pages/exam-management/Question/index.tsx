@@ -115,7 +115,6 @@ const Question = (props: any) => {
 
     const selectObjectiveTestRef = useRef<any>();
     const selectObjectiveTestEditRef = useRef<any>();
-    const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
     const selectBookReferenceRef = useRef<any>();
     const selectBookReferenceEditRef = useRef<any>();
@@ -126,6 +125,7 @@ const Question = (props: any) => {
 
     const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
+
     const getBooksBasedOnBookReferences = useGetBooksBasedOnBookReferences(
         bookReferenceIds?.length == 0 ? 0 : bookReferenceIds,
         gradeLevelIds?.length == 0 ? 0 : gradeLevelIds,
@@ -182,17 +182,28 @@ const Question = (props: any) => {
         sectionIds?.length == 0 ? null : sectionIds,
     );
 
-    const handleGradeLevelChange = (event: SelectChangeEvent) => {
-        setGradeLevelIds(event.target.value as any);
-        setChapterIds(null);
-        setBookIds(null);
-        setBookReferenceIds(null);
-        setSectionIds(null);
-        setSubjectIds(null);
-    };
-    const handleObjectiveTestChange = (event: SelectChangeEvent) => {
+    const handleObjectiveTestChange = (event: any) => {
+        setGradeLevelIds(
+            getObjectsByIds(getObjectiveTests, event.target.value).map(
+                (ids) => ids.gradeLevel[0]?._id,
+            ),
+        );
         setObjectiveTestIds(event.target.value as any);
     };
+
+    function getObjectsByIds(objects, ids) {
+        const result = [];
+
+        for (const id of ids) {
+            const foundObject = objects?.data?.find((obj) => obj._id === id);
+
+            if (foundObject) {
+                result.push(foundObject);
+            }
+        }
+
+        return result;
+    }
 
     const handleObjectiveTestEditChange = (event: SelectChangeEvent) => {
         setObjectiveTestEditIds(event.target.value as any);
@@ -425,25 +436,6 @@ const Question = (props: any) => {
                                                 ?.title} - ${element?.number} - ${
                                                 element?.type == "main" ? "اصلی" : "رفع اشکال"
                                             }`}
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
-                    <FormControl className={classes.formField}>
-                        <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
-                        <Select
-                            value={gradeLevelIds ?? []}
-                            {...register("gradeLevels")}
-                            inputRef={selectGradeLevelRef}
-                            onChange={handleGradeLevelChange}
-                            multiple
-                        >
-                            {!getGradeLevels?.isLoading &&
-                                getGradeLevels?.data?.map((element: any) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
                                         </MenuItem>
                                     );
                                 })}
@@ -793,9 +785,7 @@ const Question = (props: any) => {
                                                         setTimeout(() => {
                                                             selectObjectiveTestRef.current.focus();
                                                         }, 50);
-                                                        setTimeout(() => {
-                                                            selectGradeLevelRef.current.focus();
-                                                        }, 100);
+
                                                         setTimeout(() => {
                                                             selectBookRef.current.focus();
                                                         }, 150);
