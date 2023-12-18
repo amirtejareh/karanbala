@@ -254,13 +254,6 @@ const Question = (props: any) => {
     }, [sectionIds]);
 
     useEffect(() => {
-        const quill: any = document.querySelector(".ql-editor");
-        if (quill) {
-            quill.style.textAlign = "right";
-        }
-    }, [editors]);
-
-    useEffect(() => {
         toast.error(errors["type"]?.message?.toString());
         toast.error(errors["number"]?.message?.toString());
         toast.error(errors["objectiveTests"]?.message?.toString());

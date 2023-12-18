@@ -1,5 +1,10 @@
 import React from "react";
 import ReactQuill, { Quill } from "react-quill";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+
+//@ts-ignore
+window.katex = katex;
 const RichTextEditor = ({ value, setValue }) => {
     return (
         <ReactQuill
@@ -34,7 +39,8 @@ const RichTextEditor = ({ value, setValue }) => {
                     [{ header: [1, 2, 3, 4, 5, 6, false] }],
                     ["video", "link", "image", "formula"],
                     ["bold", "italic", "underline", "strike", "blockquote"],
-                    [{ align: "right" }, { align: "center" }, { align: "" }, { align: "justify" }],
+                    [{ align: "" }, { align: "center" }, { align: "right" }, { align: "justify" }],
+                    [{ direction: "rtl" }],
 
                     [
                         {

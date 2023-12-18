@@ -23,6 +23,7 @@
         "env-cmd": "*",
         "jalali-moment": "^3.3.11",
         "jwt-decode": "^3.1.2",
+        "katex": "^0.16.9",
         "openapi-typescript-codegen": "^0.25.0",
         "react": "*",
         "react-dom": "*",
