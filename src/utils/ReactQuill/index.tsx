@@ -1,11 +1,11 @@
 import React from "react";
-import ReactQuill from "react-quill";
-
+import ReactQuill, { Quill } from "react-quill";
 const RichTextEditor = ({ value, setValue }) => {
     return (
         <ReactQuill
             className="quill_fontFamily"
             formats={[
+                "",
                 "header",
                 "font",
                 "size",
@@ -18,6 +18,7 @@ const RichTextEditor = ({ value, setValue }) => {
                 "bullet",
                 "indent",
                 "link",
+                "formula",
                 "image",
                 "color",
                 "size",
@@ -31,6 +32,7 @@ const RichTextEditor = ({ value, setValue }) => {
             modules={{
                 toolbar: [
                     [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                    ["video", "link", "image", "formula"],
                     ["bold", "italic", "underline", "strike", "blockquote"],
                     [{ align: "right" }, { align: "center" }, { align: "" }, { align: "justify" }],
 
@@ -45,7 +47,6 @@ const RichTextEditor = ({ value, setValue }) => {
                     [{ list: "ordered" }, { list: "bullet" }],
                     [{ indent: "-1" }, { indent: "+1" }],
                     ["blockquote", "code-block"],
-                    ["link", "image", "video"],
                     ["clean"],
                 ],
             }}

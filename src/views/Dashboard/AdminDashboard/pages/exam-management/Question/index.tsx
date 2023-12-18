@@ -19,9 +19,7 @@ import { toast } from "react-toastify";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
-import useGetBooksBasedOnGradeLevels from "../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
-import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
 import useGetObjectiveTests from "../../../../../../hooks/objective-test/useGetObjectiveTests";
 import RichTextEditor from "../../../../../../utils/ReactQuill";
@@ -123,7 +121,6 @@ const Question = (props: any) => {
     const selectSubjectRef = useRef<any>();
     const inputNumberRef = useRef<any>();
 
-    const getGradeLevels = useGetGradeLevels();
     const getObjectiveTests = useGetObjectiveTests();
 
     const getBooksBasedOnBookReferences = useGetBooksBasedOnBookReferences(
