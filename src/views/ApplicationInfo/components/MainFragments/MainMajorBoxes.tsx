@@ -30,21 +30,6 @@ const MainMajorBoxes = () => {
 
     const gradeLevels = useGetGradeLevels();
 
-    const text = [
-        "هفتم",
-        "هشتم",
-        "نهم",
-        "دهم ریاضی ",
-        "دهم تجربی ",
-        "دهم انسانی ",
-        "یازدهم ریاضی ",
-        "یازدهم تجربی ",
-        "یازدهم انسانی ",
-        "دوازدهم ریاضی ",
-        "دوازدهم تجربی ",
-        "دوازدهم انسانی ",
-        "منحصرا زبان انگلیسی",
-    ];
     const path = [
         "major-requirements",
         "major-requirements",
@@ -92,7 +77,12 @@ const MainMajorBoxes = () => {
                 gradeLevels?.data?.map((value, index) => {
                     return (
                         <Box key={index}>
-                            <ButtonKit onClick={() => redirectRoute(path[index])}>
+                            <ButtonKit
+                                onClick={() => {
+                                    localStorage.setItem("gradeLevel", value.title);
+                                    redirectRoute(path[index]);
+                                }}
+                            >
                                 <Box
                                     bgcolor={color[index]}
                                     display={"flex"}
