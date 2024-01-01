@@ -10,7 +10,7 @@ const useGetBookReferencesBasedOnGradeLevels = (gradeLevelIds: string[]) => {
                 gradeLevelIds,
             );
         },
-        { refetchOnWindowFocus: false, enabled: false },
+        { refetchOnWindowFocus: false },
     );
 };
 

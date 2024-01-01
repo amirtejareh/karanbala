@@ -79,7 +79,7 @@ const MainMajorBoxes = () => {
                         <Box key={index}>
                             <ButtonKit
                                 onClick={() => {
-                                    localStorage.setItem("gradeLevel", value.title);
+                                    localStorage.setItem("gradeLevel", value._id);
                                     redirectRoute(path[index]);
                                 }}
                             >

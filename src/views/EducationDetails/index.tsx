@@ -21,6 +21,8 @@ import { makeStyles } from "@mui/styles";
 import { ButtonKit } from "../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 
+import useGetBooksBasedOnGradeLevels from "../../hooks/book/useGetBooksBasedOnGradeLevels";
+
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     educationDetailsBox: {
         "& > button": {
@@ -64,16 +66,7 @@ const MajorRequirements = () => {
         <PracticeSvg />,
     ];
 
-    const [selectValue, setSelectValue] = useState(2);
-
-    const option = [
-        { title: "ریاضی ۳", value: 0 },
-        { title: "ریاضی ۲", value: 1 },
-        { title: "ریاضی ۱", value: 2 },
-        { title: "فیزیک ۱", value: 3 },
-        { title: "فیزیک ۲", value: 4 },
-        { title: "فیزیک ۳", value: 5 },
-    ];
+    const [selectValue, setSelectValue] = useState();
 
     const path = [
         "introduction-book",
@@ -88,6 +81,23 @@ const MajorRequirements = () => {
         "practice",
     ];
 
+    const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels([
+        localStorage.getItem("gradeLevel"),
+    ]);
+
+    const [books, setBooks] = useState();
+
+    useEffect(() => {
+        if (!getBooksBasedOnGradeLevels.isLoading) {
+            setBooks(
+                getBooksBasedOnGradeLevels?.data?.map((elements) => ({
+                    value: elements._id,
+                    title: elements.title,
+                })),
+            );
+        }
+    }, []);
+
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
@@ -99,11 +109,11 @@ const MajorRequirements = () => {
             <Box>
                 <Box margin={"3.19rem 0 7.5rem 0"}>
                     <SelectKit
-                        options={option}
+                        options={books}
                         label={"انتخاب کتاب"}
                         defaultValue={selectValue}
                         onChange={({ target: { value } }) => {
-                            const newValue: number = value as number;
+                            const newValue: any = value as any;
 
                             setSelectValue(newValue);
                         }}
