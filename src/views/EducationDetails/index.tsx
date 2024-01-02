@@ -86,9 +86,10 @@ const MajorRequirements = () => {
     ]);
 
     const [books, setBooks] = useState<{ value: number; title: string }[]>();
+    const [disable, setDisable] = useState<boolean>(true);
 
     useEffect(() => {
-        if (!getBooksBasedOnGradeLevels.isLoading) {
+        if (!getBooksBasedOnGradeLevels.isLoading && getBooksBasedOnGradeLevels.data) {
             setBooks(
                 getBooksBasedOnGradeLevels?.data?.map((elements) => ({
                     value: elements._id,
@@ -96,7 +97,13 @@ const MajorRequirements = () => {
                 })),
             );
         }
-    }, []);
+    }, [getBooksBasedOnGradeLevels.data]);
+
+    useEffect(() => {
+        if (selectValue) {
+            setDisable(false);
+        }
+    }, [selectValue]);
 
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
@@ -111,7 +118,6 @@ const MajorRequirements = () => {
                     <SelectKit
                         options={books}
                         label={"انتخاب کتاب"}
-                        defaultValue={selectValue}
                         onChange={({ target: { value } }) => {
                             const newValue: any = value as any;
 
@@ -162,10 +168,7 @@ const MajorRequirements = () => {
             >
                 {text.map((value: string, index: number) => {
                     return (
-                        <ButtonKit
-                            disabled={books?.length === 0}
-                            onClick={() => navigate(path[index])}
-                        >
+                        <ButtonKit disabled={disable} onClick={() => navigate(path[index])}>
                             <Box
                                 width={"100%"}
                                 height={"16rem"}

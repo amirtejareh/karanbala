@@ -41,6 +41,7 @@ const SelectKit: React.FC<ISelectKitProps> = (props) => {
                     }
                     return label;
                 }}
+                {...rest}
             >
                 <StyledMenu disabled value="">
                     <em>انتخاب کنید...</em>
