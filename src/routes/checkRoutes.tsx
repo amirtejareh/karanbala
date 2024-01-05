@@ -19,7 +19,7 @@ const CheckRoutes = () => {
     useEffect(() => {
         if (userData && userData?.user?.roles) {
             if (userData?.user?.roles?.every((element: any) => element.title == "User")) {
-                navigate("/dashboard/dashboard");
+                navigate("/dashboard/user");
             }
 
             if (userData?.user?.roles?.every((element: any) => element.title == "SuperAdmin")) {

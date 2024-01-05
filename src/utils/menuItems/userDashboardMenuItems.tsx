@@ -10,7 +10,7 @@ export const userDashboardMenuItems = [
     },
     {
         title: "داشبورد",
-        to: "/dashboard/dashboard",
+        to: "/dashboard/user",
         startIcon: <Dashboard />,
     },
     {
