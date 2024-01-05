@@ -203,16 +203,21 @@ const EducationDetails = () => {
                                 <AccountSvg />
                             </Box>
 
-                            <Box
-                                bgcolor={theme?.palette?.grey["50"]}
-                                padding={"1rem"}
-                                borderRadius={".5rem"}
-                                display={"flex"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
+                            <ButtonKit
+                                sx={{ padding: 0, minWidth: 0 }}
+                                onClick={() => navigate("/shop")}
                             >
-                                <BasketSvg />
-                            </Box>
+                                <Box
+                                    bgcolor={theme?.palette?.grey["50"]}
+                                    padding={"1rem"}
+                                    borderRadius={".5rem"}
+                                    display={"flex"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                >
+                                    <BasketSvg />
+                                </Box>
+                            </ButtonKit>
                         </Box>
                         <Box marginTop={"0.8rem"}>
                             <Typography>یکشنبه ۱۰ اردیبهشت ۱۴۰۲ - ۱۸:۳۷</Typography>

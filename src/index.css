@@ -190,6 +190,12 @@ input:-webkit-autofill {
     }
 }
 
+@media screen and (max-width: 500px) {
+    .karanbalaDescription {
+        text-align: center !important;
+    }
+}
+
 @media screen and (max-width: 742px) {
     .parentEducationBoxes {
         justify-content: center !important;
