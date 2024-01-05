@@ -173,11 +173,11 @@ const SignUpView = React.forwardRef((props, ref: any) => {
                     }}
                 >
                     <Box justifyContent={"center"} className={classes.logo}>
-                        <ButtonKit onClick={() => navigate("/")}>
+                        <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                             {" "}
                             <KaranbalaLogoSvg />
                         </ButtonKit>
-                        <ButtonKit onClick={() => navigate("/")}>
+                        <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                             {" "}
                             <KaranbalaLogoTextSvg />
                         </ButtonKit>

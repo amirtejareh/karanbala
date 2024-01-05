@@ -134,12 +134,12 @@ const EducationDetails = () => {
                 {({ handleApproved }: any) => <ModalExam />}
             </ModalKit>
             <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
-                <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
-                    <ButtonKit onClick={() => navigate("/")}>
+                <Box display={"flex"} justifyContent={"flex-end"} gap={"0.8rem"}>
+                    <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                         {" "}
                         <KaranbalaLogoSvg />
                     </ButtonKit>
-                    <ButtonKit onClick={() => navigate("/")}>
+                    <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                         {" "}
                         <KaranbalaLogoTextSvg />
                     </ButtonKit>
@@ -181,7 +181,7 @@ const EducationDetails = () => {
                         alignItems={"center"}
                         marginTop={"4rem"}
                     >
-                        <Box display={"flex"} gap={"2.8rem"}>
+                        <Box display={"flex"} gap={"0.8rem"}>
                             <Box
                                 bgcolor={theme?.palette?.grey["50"]}
                                 padding={"1rem"}
@@ -202,6 +202,7 @@ const EducationDetails = () => {
                             >
                                 <AccountSvg />
                             </Box>
+
                             <Box
                                 bgcolor={theme?.palette?.grey["50"]}
                                 padding={"1rem"}
@@ -213,7 +214,7 @@ const EducationDetails = () => {
                                 <BasketSvg />
                             </Box>
                         </Box>
-                        <Box marginTop={"2rem"}>
+                        <Box marginTop={"0.8rem"}>
                             <Typography>یکشنبه ۱۰ اردیبهشت ۱۴۰۲ - ۱۸:۳۷</Typography>
                         </Box>
                     </Box>

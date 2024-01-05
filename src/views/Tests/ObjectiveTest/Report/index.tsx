@@ -137,7 +137,7 @@ const Report = () => {
     return (
         <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
             <Box display={"flex"} justifyContent={"end"}>
-                <ButtonKit onClick={() => navigate("/")}>
+                <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
                 </ButtonKit>

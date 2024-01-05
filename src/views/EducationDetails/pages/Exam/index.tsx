@@ -471,7 +471,7 @@ const Exam = () => {
         const season = parseInt(
             Object.keys(seasonVisible)
                 .map((element) => element.slice(7))
-                .toString()
+                .toString(),
         );
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
@@ -494,7 +494,7 @@ const Exam = () => {
             myEpisodeArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const myLessonArray = seasons?.seasons[0]?.lessons
@@ -512,7 +512,7 @@ const Exam = () => {
             myLessonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const mySeasonArray = seasons?.seasons?.map((value, index) => {
@@ -525,7 +525,7 @@ const Exam = () => {
             mySeasonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
     }, []);
 
@@ -568,9 +568,9 @@ const Exam = () => {
                 paddingBottom={"7.5rem"}
                 display={"flex"}
                 justifyContent={"flex-end"}
-                gap={"2rem"}
+                gap={"0.8rem"}
             >
-                <ButtonKit onClick={() => navigate("/")}>
+                <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
                 </ButtonKit>

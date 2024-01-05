@@ -7,7 +7,7 @@ import { Footer } from "./components/Footer";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
-        margin: "0 52px",
+        margin: "0 5.2rem",
     },
 }));
 const ApplicationInfoView = () => {

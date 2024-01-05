@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     parentLogoAndSignUp: {
         ...sharedStyle.sharedPosition,
-        top: "-16px",
+        top: "-25px",
     },
     parentCaption: {
         ...sharedStyle.sharedPosition,
@@ -117,11 +117,11 @@ const Header = () => {
                 display={"flex"}
             >
                 <Box className={classes.logo}>
-                    <ButtonKit onClick={() => navigate("/")}>
+                    <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                         {" "}
                         <KaranbalaLogoSvg />
                     </ButtonKit>
-                    <ButtonKit onClick={() => navigate("/")}>
+                    <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                         {" "}
                         <KaranbalaLogoTextSvg />
                     </ButtonKit>

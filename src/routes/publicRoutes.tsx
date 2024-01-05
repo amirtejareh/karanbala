@@ -21,6 +21,7 @@ import Report2 from "../views/Tests/ObjectiveTest/Report/Report2";
 import AuthorizedRoute from "../components/AuthorizedRoute";
 import { userStore } from "../stores";
 import PublicLayoutComponent from "../components/PublicLayoutComponent";
+import Shop from "../views/Shop";
 
 const PublicRoutes = () => {
     const user: any = userStore((state) => state);
@@ -29,6 +30,7 @@ const PublicRoutes = () => {
             <Routes>
                 <Route path={"/"} element={<ApplicationInfoView />} />
                 <Route path={"/major-requirements"} element={<MajorRequirements />} />
+                <Route path={"/shop"} element={<Shop />} />
 
                 <Route path={"/education-details/*"} element={<EducationDetails />} />
                 <Route

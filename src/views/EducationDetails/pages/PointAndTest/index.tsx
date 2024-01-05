@@ -402,7 +402,7 @@ const PointAndTest = () => {
         const season = parseInt(
             Object.keys(seasonVisible)
                 .map((element) => element.slice(7))
-                .toString()
+                .toString(),
         );
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
@@ -425,7 +425,7 @@ const PointAndTest = () => {
             myEpisodeArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const myLessonArray = seasons?.seasons[0]?.lessons
@@ -443,7 +443,7 @@ const PointAndTest = () => {
             myLessonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const mySeasonArray = seasons?.seasons?.map((value, index) => {
@@ -456,7 +456,7 @@ const PointAndTest = () => {
             mySeasonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
     }, []);
 
@@ -500,9 +500,9 @@ const PointAndTest = () => {
                 paddingBottom={"7.5rem"}
                 display={"flex"}
                 justifyContent={"flex-end"}
-                gap={"2rem"}
+                gap={"0.8rem"}
             >
-                <ButtonKit onClick={() => navigate("/")}>
+                <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
                 </ButtonKit>
@@ -618,7 +618,7 @@ const PointAndTest = () => {
                                                                                                     ix
                                                                                             ],
                                                                                     };
-                                                                                }
+                                                                                },
                                                                             );
                                                                         }}
                                                                     >
@@ -658,7 +658,7 @@ const PointAndTest = () => {
                                                                         {value.attachment.map(
                                                                             (
                                                                                 element: any,
-                                                                                index: any
+                                                                                index: any,
                                                                             ) => (
                                                                                 <Box
                                                                                     key={index}
@@ -670,7 +670,7 @@ const PointAndTest = () => {
                                                                                     <IconButtonKit
                                                                                         onClick={() =>
                                                                                             navigate(
-                                                                                                element.address
+                                                                                                element.address,
                                                                                             )
                                                                                         }
                                                                                     >
@@ -691,7 +691,7 @@ const PointAndTest = () => {
                                                                                         </Box>
                                                                                     </IconButtonKit>
                                                                                 </Box>
-                                                                            )
+                                                                            ),
                                                                         )}
                                                                     </Box>
                                                                     <Box className={classes.video}>
@@ -703,7 +703,7 @@ const PointAndTest = () => {
                                                                         {value.videos.map(
                                                                             (
                                                                                 element: any,
-                                                                                key: any
+                                                                                key: any,
                                                                             ) => {
                                                                                 return (
                                                                                     <Box
@@ -734,7 +734,7 @@ const PointAndTest = () => {
                                                                                         ></Box>
                                                                                     </Box>
                                                                                 );
-                                                                            }
+                                                                            },
                                                                         )}
 
                                                                         <Box>
@@ -754,7 +754,7 @@ const PointAndTest = () => {
                                                                             2,
                                                                             3,
                                                                             4,
-                                                                            5
+                                                                            5,
                                                                         ).map((element) => (
                                                                             <Box
                                                                                 onClick={() => {
@@ -763,7 +763,7 @@ const PointAndTest = () => {
                                                                                         3
                                                                                     ) {
                                                                                         setModalOpen(
-                                                                                            true
+                                                                                            true,
                                                                                         );
                                                                                     }
                                                                                 }}

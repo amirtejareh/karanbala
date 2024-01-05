@@ -107,8 +107,8 @@ const MajorRequirements = () => {
 
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
-            <Box display={"flex"} justifyContent={"flex-end"} gap={"2rem"}>
-                <ButtonKit onClick={() => navigate("/")}>
+            <Box display={"flex"} justifyContent={"flex-end"} gap={"0.8rem"}>
+                <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
                 </ButtonKit>

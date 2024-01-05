@@ -17,9 +17,9 @@ const IntroductionBook = () => {
                 paddingBottom={"7.5rem"}
                 display={"flex"}
                 justifyContent={"flex-end"}
-                gap={"2rem"}
+                gap={"0.8rem"}
             >
-                <ButtonKit onClick={() => navigate("/")}>
+                <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
                 </ButtonKit>

@@ -397,7 +397,7 @@ const Practice = () => {
         const season = parseInt(
             Object.keys(seasonVisible)
                 .map((element) => element.slice(7))
-                .toString()
+                .toString(),
         );
         if (season) {
             setEpisodes(seasons?.seasons[season - 1]?.lessons);
@@ -420,7 +420,7 @@ const Practice = () => {
             myEpisodeArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const myLessonArray = seasons?.seasons[0]?.lessons
@@ -438,7 +438,7 @@ const Practice = () => {
             myLessonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
 
         const mySeasonArray = seasons?.seasons?.map((value, index) => {
@@ -451,7 +451,7 @@ const Practice = () => {
             mySeasonArray.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
-            }, {})
+            }, {}),
         );
     }, []);
 
@@ -483,9 +483,9 @@ const Practice = () => {
                 paddingBottom={"7.5rem"}
                 display={"flex"}
                 justifyContent={"flex-end"}
-                gap={"2rem"}
+                gap={"0.8rem"}
             >
-                <ButtonKit onClick={() => navigate("/")}>
+                <ButtonKit sx={{ padding: 0, minWidth: 0 }} onClick={() => navigate("/")}>
                     {" "}
                     <KaranbalaLogoTextSvg />
                 </ButtonKit>
@@ -601,7 +601,7 @@ const Practice = () => {
                                                                                                     ix
                                                                                             ],
                                                                                     };
-                                                                                }
+                                                                                },
                                                                             );
                                                                         }}
                                                                     >
@@ -641,7 +641,7 @@ const Practice = () => {
                                                                         {value.attachment.map(
                                                                             (
                                                                                 element: any,
-                                                                                index: any
+                                                                                index: any,
                                                                             ) => (
                                                                                 <Box
                                                                                     key={index}
@@ -653,7 +653,7 @@ const Practice = () => {
                                                                                     <IconButtonKit
                                                                                         onClick={() =>
                                                                                             navigate(
-                                                                                                element.address
+                                                                                                element.address,
                                                                                             )
                                                                                         }
                                                                                     >
@@ -674,7 +674,7 @@ const Practice = () => {
                                                                                         </Box>
                                                                                     </IconButtonKit>
                                                                                 </Box>
-                                                                            )
+                                                                            ),
                                                                         )}
                                                                     </Box>
                                                                     <Box className={classes.video}>
@@ -686,7 +686,7 @@ const Practice = () => {
                                                                         {value.videos.map(
                                                                             (
                                                                                 element: any,
-                                                                                key: any
+                                                                                key: any,
                                                                             ) => {
                                                                                 return (
                                                                                     <Box
@@ -717,7 +717,7 @@ const Practice = () => {
                                                                                         ></Box>
                                                                                     </Box>
                                                                                 );
-                                                                            }
+                                                                            },
                                                                         )}
 
                                                                         <Box>
