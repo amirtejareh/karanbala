@@ -1,3 +1,8 @@
+import { ReactComponent as DashboardSvg } from "./images/user/dashboard.svg";
+import { ReactComponent as ProfileSvg } from "./images/user/profile.svg";
+import { ReactComponent as PurchaseSvg } from "./images/user/purchase.svg";
+import { ReactComponent as ShoppingListSvg } from "./images/user/shoppingList.svg";
+import { ReactComponent as TransactionSvg } from "./images/user/transaction.svg";
 import { ReactComponent as CheckedTrueSvg } from "./images/CheckedTrue.svg";
 import { ReactComponent as RadioSelectedTrueSvg } from "./images/RadioSelectedTrue.svg";
 import { ReactComponent as ExcelSvg } from "./images/excel.svg";
@@ -365,4 +370,9 @@ export {
     FailedDepositSvg,
     EditDarkSvg,
     AuthBackground,
+    DashboardSvg,
+    ProfileSvg,
+    PurchaseSvg,
+    ShoppingListSvg,
+    TransactionSvg,
 };

@@ -18,7 +18,7 @@ const MenuContainer = styled(Box)(
   .menu-items {
     position: relative;
     text-align: left;
-    
+
   }
   
   .menu-items a,
@@ -27,6 +27,7 @@ const MenuContainer = styled(Box)(
     padding:0 10px 0  0;
     line-height: 2;
     font-family:IRANSans !important;
+
 
   }
   
@@ -93,8 +94,8 @@ const MenuContainer = styled(Box)(
     top: 15px
   }
   span{ display: inline}
-  span .MuiSvgIcon-root{font-size:15px}
-  `
+  span .MuiSvgIcon-root{font-size:24px}
+  `,
 );
 
 type MenuWrapperProps = {
