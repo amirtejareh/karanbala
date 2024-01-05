@@ -1,6 +1,5 @@
 import React from "react";
 import HomeWork from "@mui/icons-material/HomeWork";
-import Dashboard from "@mui/icons-material/Dashboard";
 import { DashboardSvg, ProfileSvg, ShoppingListSvg, TransactionSvg } from "../../assets";
 
 export const userDashboardMenuItems = [

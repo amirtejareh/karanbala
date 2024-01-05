@@ -15,7 +15,32 @@ const useStyles = makeStyles((theme: Theme) => ({
 
     menu: {
         margin: "0 0 0 150px ",
-        width: "300px",
+        width: "26rem",
+        padding: "2.4rem",
+        backgroundColor: theme.palette.primary["600"],
+        color: theme.palette.common.white,
+        "& .menus": {
+            padding: "0",
+        },
+        "& .menus li": {
+            padding: "0",
+        },
+        "& .menus li a": {
+            padding: "0.8rem",
+            display: "flex",
+            justifyContent: "flex-start",
+        },
+        "& .menus span": {
+            padding: "0.8rem",
+            display: "flex",
+        },
+        "& .menu-items > a": {
+            fontSize: "1.6rem",
+        },
+        "& .menu-items > a:hover": {
+            backgroundColor: theme.palette.secondary["500"],
+        },
+        borderRadius: "1.6rem",
     },
     button: {
         color: theme.palette.text.primary,

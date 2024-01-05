@@ -1,6 +1,6 @@
 import React from "react";
 import HomeWork from "@mui/icons-material/HomeWork";
-import Dashboard from "@mui/icons-material/Dashboard";
+import { DashboardSvg } from "../../assets";
 
 export const adminDashboardMenuItems = [
     {
@@ -11,7 +11,7 @@ export const adminDashboardMenuItems = [
     {
         title: "داشبورد",
         to: "/dashboard/admin",
-        startIcon: <Dashboard />,
+        startIcon: <DashboardSvg />,
     },
     {
         category: {
