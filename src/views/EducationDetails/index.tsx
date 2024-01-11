@@ -22,6 +22,7 @@ import { ButtonKit } from "../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 
 import useGetBooksBasedOnGradeLevels from "../../hooks/book/useGetBooksBasedOnGradeLevels";
+import EducationDetailStore from "../../stores/educationDetailStore";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     educationDetailsBox: {
@@ -37,6 +38,8 @@ const MajorRequirements = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
     const navigate = useNavigate();
+    const { setBook } = EducationDetailStore((state) => state);
+
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
@@ -121,6 +124,7 @@ const MajorRequirements = () => {
                         onChange={({ target: { value } }) => {
                             const newValue: any = value as any;
 
+                            setBook(newValue);
                             setSelectValue(newValue);
                         }}
                     ></SelectKit>
