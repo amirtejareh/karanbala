@@ -25,11 +25,11 @@ import { PrompModalKit } from "../../../../../../components/kit/Modal";
 import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
 import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 import { bytesToKilobytes } from "../../../../../../utils/helper";
-import useGetLearningMaterialBasedOnSubjects from "../../../../../../hooks/learning-material/useGetLearningMaterialBasedOnSubjects";
 import useCreateLearningMaterial from "../../../../../../hooks/learning-material/useCreateLearningMaterial";
 import useDeleteLearningMaterial from "../../../../../../hooks/learning-material/useDeleteLearningMaterial";
 import { IVideo } from "../../../../../../interface/IEntity";
 import useUpdateLearningMaterial from "../../../../../../hooks/learning-material/useUpdateLearningMaterial";
+import useGetLearningMaterialBasedOnSubjects from "../../../../../../hooks/learning-material/useGetLearningMaterialBasedOnSubjects";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -180,6 +180,12 @@ const LearningMaterial = (props: any) => {
     useEffect(() => {
         if (sectionIds) subjectsBasedOnSections.refetch();
     }, [sectionIds]);
+
+    useEffect(() => {
+        if (!learningMaterialBasedOnSubjects.isLoading) {
+            learningMaterialBasedOnSubjects.refetch();
+        }
+    }, [learningMaterialBasedOnSubjects.data]);
 
     useEffect(() => {
         if (subjectIds) learningMaterialBasedOnSubjects.refetch();

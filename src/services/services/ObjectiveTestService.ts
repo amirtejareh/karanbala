@@ -2,131 +2,125 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateObjectiveTestDto } from '../models/CreateObjectiveTestDto';
-import type { UpdateObjectiveTestDto } from '../models/UpdateObjectiveTestDto';
+import type { CreateObjectiveTestDto } from "../models/CreateObjectiveTestDto";
+import type { UpdateObjectiveTestDto } from "../models/UpdateObjectiveTestDto";
 
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 
 export class ObjectiveTestService {
-
     /**
-     * @param requestBody 
-     * @returns any 
+     * @param requestBody
+     * @returns any
      * @throws ApiError
      */
     public static objectiveTestControllerCreate(
-requestBody: CreateObjectiveTestDto,
-): CancelablePromise<any> {
+        requestBody: CreateObjectiveTestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/objectiveTest',
+            method: "POST",
+            url: "/objectiveTest",
             body: requestBody,
-            mediaType: 'application/json',
+            mediaType: "application/json",
         });
     }
 
     /**
-     * @returns any 
+     * @returns any
      * @throws ApiError
      */
     public static objectiveTestControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/objectiveTest',
+            method: "GET",
+            url: "/objectiveTest",
         });
     }
 
     /**
-     * @param page 
-     * @param limit 
-     * @param gradeLevelId 
-     * @returns any 
+     * @param page
+     * @param limit
+     * @param gradeLevelId
+     * @returns any
      * @throws ApiError
      */
     public static objectiveTestControllerFindObjectiveTestsBasedOnGradeLevels(
-page: number,
-limit: number,
-gradeLevelId: Array<string>,
-): CancelablePromise<any> {
+        page: number,
+        limit: number,
+        gradeLevelId: Array<string>,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/objectiveTest/withGradeLevels/{gradeLevelId}',
+            method: "GET",
+            url: "/objectiveTest/withGradeLevels/{gradeLevelId}",
             path: {
-                'gradeLevelId': gradeLevelId,
+                gradeLevelId: gradeLevelId,
             },
             query: {
-                'page': page,
-                'limit': limit,
+                page: page,
+                limit: limit,
             },
         });
     }
 
     /**
-     * @returns any 
+     * @returns any
      * @throws ApiError
      */
     public static objectiveTestControllerFindMainObjectiveTest(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/objectiveTest/mainTest',
+            method: "GET",
+            url: "/objectiveTest/mainTest",
         });
     }
 
     /**
-     * @param id 
-     * @returns any 
+     * @param id
+     * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerFindOne(
-id: string,
-): CancelablePromise<any> {
+    public static objectiveTestControllerFindOne(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/objectiveTest/{id}',
+            method: "GET",
+            url: "/objectiveTest/{id}",
             path: {
-                'id': id,
+                id: id,
             },
         });
     }
 
     /**
-     * @param id 
-     * @param requestBody 
-     * @returns any 
+     * @param id
+     * @param requestBody
+     * @returns any
      * @throws ApiError
      */
     public static objectiveTestControllerUpdate(
-id: string,
-requestBody: UpdateObjectiveTestDto,
-): CancelablePromise<any> {
+        id: string,
+        requestBody: UpdateObjectiveTestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/objectiveTest/{id}',
+            method: "PATCH",
+            url: "/objectiveTest/{id}",
             path: {
-                'id': id,
+                id: id,
             },
             body: requestBody,
-            mediaType: 'application/json',
+            mediaType: "application/json",
         });
     }
 
     /**
-     * @param id 
-     * @returns any 
+     * @param id
+     * @returns any
      * @throws ApiError
      */
-    public static objectiveTestControllerRemove(
-id: string,
-): CancelablePromise<any> {
+    public static objectiveTestControllerRemove(id: string): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/objectiveTest/{id}',
+            method: "DELETE",
+            url: "/objectiveTest/{id}",
             path: {
-                'id': id,
+                id: id,
             },
         });
     }
-
 }

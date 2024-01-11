@@ -104,4 +104,21 @@ export class LearningMaterialService {
             },
         });
     }
+
+    /**
+     * @param booksId
+     * @returns any
+     * @throws ApiError
+     */
+    public static learningMaterialControllerFindLearningMaterialBasedOnBooks(
+        booksId: Array<string>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/learning-material/withBooks/{booksId}",
+            path: {
+                booksId: booksId,
+            },
+        });
+    }
 }
