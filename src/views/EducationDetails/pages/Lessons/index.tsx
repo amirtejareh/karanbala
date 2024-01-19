@@ -22,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
 import { ModalKit } from "../../../../components/kit/Modal";
 import { ModalQuiz } from "../Karanbala";
+import EducationDetailStore from "../../../../stores/educationDetailStore";
+import useGetLearningMaterialBasedOnBooks from "../../../../hooks/learning-material/useGetLearningMaterialBasedOnBooks";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
@@ -174,10 +176,33 @@ const Lessons = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
 
+    const { book } = EducationDetailStore();
+
+    const getLearningMaterialBasedOnBooks = useGetLearningMaterialBasedOnBooks([book]);
+
+    useEffect(() => {
+        if (!getLearningMaterialBasedOnBooks.isLoading) {
+            getLearningMaterialBasedOnBooks.refetch();
+        }
+    }, [getLearningMaterialBasedOnBooks.data]);
+
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
     const [episodes, setEpisodes] = useState<any>({});
+
+    console.log(
+        getLearningMaterialBasedOnBooks?.data
+            ?.filter((books) => books.book[0]?._id == book)
+            .map((books) => {
+                return {};
+            })
+            .map((course) => {
+                return {
+                    chapters: course.chapter,
+                };
+            }),
+    );
 
     const courses = [
         {
