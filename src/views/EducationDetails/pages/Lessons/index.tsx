@@ -614,8 +614,6 @@ const Lessons = () => {
             <Box className={classes.course}>
                 <Box>
                     {chapters?.chapters?.map((value, index) => {
-                        console.log(value, "value");
-
                         return (
                             <Box
                                 key={index}
