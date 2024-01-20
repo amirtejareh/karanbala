@@ -26,14 +26,14 @@ import EducationDetailStore from "../../../../stores/educationDetailStore";
 import useGetLearningMaterialBasedOnBooks from "../../../../hooks/learning-material/useGetLearningMaterialBasedOnBooks";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
-    courses: {
+    course: {
         display: "flex",
         gap: "5rem",
         height: "7rem",
         justifyContent: "center",
         flexWrap: "wrap",
     },
-    seasons: {
+    chapters: {
         width: "27.125rem",
         display: "flex",
         backgroundColor: theme?.palette?.primary["main"],
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         margin: "1rem",
         flexWrap: "wrap",
     },
-    seasonSelected: {
+    chapterselected: {
         width: "27.125rem",
         display: "flex",
         height: "6.1rem",
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     episodeParent: {
         flexBasis: "50%",
     },
-    episodes: {
+    subjects: {
         display: "flex",
         flexBasis: "50%",
         justifyContent: "space-between",
@@ -186,33 +186,86 @@ const Lessons = () => {
         }
     }, [getLearningMaterialBasedOnBooks.data]);
 
+    useEffect(() => {
+        const getItems = () => {
+            const title = "";
+            const chapters = [];
+
+            if (getLearningMaterialBasedOnBooks?.data) {
+                getLearningMaterialBasedOnBooks?.data?.forEach((mapItem) => {
+                    const chapterTitle = mapItem.chapter[0].title;
+                    const existingChapter = chapters.find(
+                        (chapter) => chapter.chapterTitle === chapterTitle,
+                    );
+
+                    if (existingChapter) {
+                        mapItem.subject.forEach((subMap) => {
+                            const existingSection = existingChapter.sections.find(
+                                (section) => section.title === subMap.title,
+                            );
+
+                            if (existingSection) {
+                                existingSection.attachment.push(
+                                    ...subMap.attachment?.map((file) => ({
+                                        title: file.title,
+                                        address: file.address,
+                                    })),
+                                );
+                            } else {
+                                existingChapter.sections.push({
+                                    title: subMap.title,
+                                    attachment: subMap.attachment?.map((file) => ({
+                                        title: file.title,
+                                        address: file.address,
+                                    })),
+                                });
+                            }
+                        });
+                    } else {
+                        const sections = mapItem.subject?.map((subMap) => ({
+                            title: subMap.title,
+                            attachment: subMap.attachment?.map((file) => ({
+                                title: file.title,
+                                address: file.address,
+                            })),
+                        }));
+                        chapters.push({
+                            chapterTitle,
+                            sections,
+                        });
+                    }
+                });
+
+                return [
+                    {
+                        courseTitle: getLearningMaterialBasedOnBooks?.data[0]?.book[0]?.title,
+                        chapters,
+                    },
+                ];
+            }
+        };
+
+        if (getLearningMaterialBasedOnBooks.data && !getLearningMaterialBasedOnBooks.isLoading) {
+            setCourses(getItems());
+        }
+    }, [getLearningMaterialBasedOnBooks.data]);
+
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
-    const [episodes, setEpisodes] = useState<any>({});
+    const [subjects, setsubjects] = useState<any>({});
+    const [courses, setCourses] = useState<any>();
+    const mappedData = getLearningMaterialBasedOnBooks?.data;
 
-    console.log(
-        getLearningMaterialBasedOnBooks?.data
-            ?.filter((books) => books.book[0]?._id == book)
-            .map((books) => {
-                return {};
-            })
-            .map((course) => {
-                return {
-                    chapters: course.chapter,
-                };
-            }),
-    );
-
-    const courses = [
+    const course = [
         {
             courseTitle: "ریاضی ۱",
-            seasons: [
+            chapters: [
                 {
-                    seasonTitle: "تابع",
-                    lessons: [
+                    chapterTitle: "تابع",
+                    sections: [
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "تابع خطیِ، ثابت وتابع درجه دوم",
                                     attachment: [
@@ -262,7 +315,7 @@ const Lessons = () => {
                             ],
                         },
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "تابع خطیِ، ثابت وتابع درجه سوم",
                                     attachment: [
@@ -314,11 +367,11 @@ const Lessons = () => {
                     ],
                 },
                 {
-                    seasonTitle: "انتگرال",
+                    chapterTitle: "انتگرال",
 
-                    lessons: [
+                    sections: [
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "انتگرال نامعین",
                                     attachment: [
@@ -368,7 +421,7 @@ const Lessons = () => {
                             ],
                         },
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "انتگرال معین",
                                     attachment: [
@@ -423,25 +476,27 @@ const Lessons = () => {
         },
     ];
 
-    const seasons = courses.filter((element) => element.seasons != null)[0];
+    console.log(courses);
+
+    const chapters = courses?.filter((element) => element?.chapters != null)[0];
 
     useEffect(() => {
         const season = parseInt(
             Object.keys(seasonVisible)
-                .map((element) => element.slice(7))
+                ?.map((element) => element.slice(7))
                 .toString(),
         );
         if (season) {
-            setEpisodes(seasons?.seasons[season - 1]?.lessons);
+            setsubjects(chapters?.chapters[season - 1]?.sections);
         }
     }, [seasonVisible]);
 
     useEffect(() => {
-        setEpisodes(seasons?.seasons[1]?.lessons);
+        setsubjects(chapters?.chapters[1]?.sections);
     }, []);
 
     useEffect(() => {
-        const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
+        const myEpisodeArray = chapters?.chapters[1]?.sections?.map((element: any, index: any) => {
             return {
                 id: "parent-episode-" + (index + 1),
                 isSelected: false,
@@ -449,15 +504,15 @@ const Lessons = () => {
         });
 
         setParentEpisodeVisible(
-            myEpisodeArray.reduce((acc: any, item: any) => {
+            myEpisodeArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
 
-        const myLessonArray = seasons?.seasons[0]?.lessons
+        const myLessonArray = chapters?.chapters[0]?.sections
             ?.map((element: any, index: any) => {
-                return element.episodes.map((el: any, ix: any) => {
+                return element.subjects?.map((el: any, ix: any) => {
                     return {
                         id: "children-episode-index-" + index + "-ix-" + ix,
                         isSelected: false,
@@ -467,20 +522,20 @@ const Lessons = () => {
             .flat();
 
         setChildrenEpisodeVisible(
-            myLessonArray.reduce((acc: any, item: any) => {
+            myLessonArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
 
-        const mySeasonArray = seasons?.seasons?.map((value, index) => {
+        const mySeasonArray = chapters?.chapters?.map((value, index) => {
             return {
                 id: "season-" + (index + 1),
                 isSelected: false,
             };
         });
         setSeasonVisible(
-            mySeasonArray.reduce((acc: any, item: any) => {
+            mySeasonArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
@@ -539,20 +594,20 @@ const Lessons = () => {
                     درسنامه
                 </Typography>
             </Box>
-            <Box className={classes.courses}>
+            <Box className={classes.course}>
                 <Box>
-                    {seasons?.seasons?.map((value, index) => {
+                    {chapters?.chapters?.map((value, index) => {
                         return (
                             <Box
                                 key={index}
                                 className={
                                     seasonVisible["season-" + (index + 1)]
-                                        ? classes.seasonSelected
-                                        : classes.seasons
+                                        ? classes.chapterselected
+                                        : classes.chapters
                                 }
                             >
                                 <Typography>
-                                    فصل {numbers[index + 1]}: {value.seasonTitle}
+                                    فصل {numbers[index + 1]}: {value.chapterTitle}
                                 </Typography>
                                 <Typography className={classes.arrowLeftParent}>
                                     <IconButton
@@ -577,10 +632,10 @@ const Lessons = () => {
                     })}
                 </Box>
                 <Box className={classes.episodeParent}>
-                    {Object.values(episodes).length > 0 &&
-                        episodes?.map((value: any, index: any) => {
+                    {Object.values(subjects ?? [])?.length > 0 &&
+                        subjects?.map((value: any, index: any) => {
                             return (
-                                <Box key={index} className={classes.episodes}>
+                                <Box key={index} className={classes.subjects}>
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
                                             <Typography>درس {numbers[index + 1]}</Typography>
@@ -613,7 +668,7 @@ const Lessons = () => {
                                         </Box>
                                         {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
                                             <>
-                                                {value?.episodes?.map((value: any, ix: any) => {
+                                                {value?.subjects?.map((value: any, ix: any) => {
                                                     return (
                                                         <Box
                                                             key={ix}
@@ -682,7 +737,7 @@ const Lessons = () => {
                                                                             classes.attachment
                                                                         }
                                                                     >
-                                                                        {value.attachment.map(
+                                                                        {value.attachment?.map(
                                                                             (
                                                                                 element: any,
                                                                                 index: any,
@@ -727,7 +782,7 @@ const Lessons = () => {
                                                                                 <ArrowRightSvg />
                                                                             </IconButton>
                                                                         </Box>
-                                                                        {value.videos.map(
+                                                                        {value.videos?.map(
                                                                             (
                                                                                 element: any,
                                                                                 key: any,
@@ -782,7 +837,7 @@ const Lessons = () => {
                                                                             3,
                                                                             4,
                                                                             5,
-                                                                        ).map((element) => (
+                                                                        )?.map((element) => (
                                                                             <Box
                                                                                 onClick={() => {
                                                                                     if (
