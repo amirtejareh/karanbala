@@ -505,7 +505,7 @@ const Lessons = () => {
         if (season) {
             setsubjects(chapters?.chapters[season - 1]?.sections);
         }
-    }, [seasonVisible, courses]);
+    }, [seasonVisible]);
 
     useEffect(() => {
         setsubjects(chapters?.chapters[1]?.sections);
