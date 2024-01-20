@@ -188,7 +188,6 @@ const Lessons = () => {
 
     useEffect(() => {
         const getItems = () => {
-            const title = "";
             const chapters = [];
 
             if (getLearningMaterialBasedOnBooks?.data) {
@@ -213,21 +212,40 @@ const Lessons = () => {
                                 );
                             } else {
                                 existingChapter.sections.push({
-                                    title: subMap.title,
-                                    attachment: subMap.attachment?.map((file) => ({
-                                        title: file.title,
-                                        address: file.address,
-                                    })),
+                                    subjects: [
+                                        {
+                                            title: subMap.title,
+
+                                            karanbala: "#",
+                                            lessonPlan: "#",
+                                            pointAndTest: "#",
+                                            questions: "#",
+                                            quiz: "#",
+                                            videos:
+                                                subMap.videos?.map((video) => ({
+                                                    address: video.address ?? "#",
+                                                })) ?? "#",
+                                        },
+                                    ],
                                 });
                             }
                         });
                     } else {
                         const sections = mapItem.subject?.map((subMap) => ({
-                            title: subMap.title,
-                            attachment: subMap.attachment?.map((file) => ({
-                                title: file.title,
-                                address: file.address,
-                            })),
+                            subjects: [
+                                {
+                                    title: subMap.title,
+                                    karanbala: "#",
+                                    lessonPlan: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                    quiz: "#",
+                                    videos:
+                                        subMap.videos?.map((video) => ({
+                                            address: video.address ?? "#",
+                                        })) ?? "#",
+                                },
+                            ],
                         }));
                         chapters.push({
                             chapterTitle,
@@ -476,8 +494,6 @@ const Lessons = () => {
         },
     ];
 
-    console.log(courses);
-
     const chapters = courses?.filter((element) => element?.chapters != null)[0];
 
     useEffect(() => {
@@ -489,11 +505,11 @@ const Lessons = () => {
         if (season) {
             setsubjects(chapters?.chapters[season - 1]?.sections);
         }
-    }, [seasonVisible]);
+    }, [seasonVisible, courses]);
 
     useEffect(() => {
         setsubjects(chapters?.chapters[1]?.sections);
-    }, []);
+    }, [courses]);
 
     useEffect(() => {
         const myEpisodeArray = chapters?.chapters[1]?.sections?.map((element: any, index: any) => {
@@ -540,7 +556,7 @@ const Lessons = () => {
                 return acc;
             }, {}),
         );
-    }, []);
+    }, [courses]);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -548,7 +564,7 @@ const Lessons = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, []);
+    }, [courses]);
 
     const numbers: any = {
         1: "اول",
@@ -564,6 +580,7 @@ const Lessons = () => {
     };
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    console.log(chapters);
 
     return (
         <>
@@ -597,6 +614,8 @@ const Lessons = () => {
             <Box className={classes.course}>
                 <Box>
                     {chapters?.chapters?.map((value, index) => {
+                        console.log(value, "value");
+
                         return (
                             <Box
                                 key={index}
@@ -782,42 +801,45 @@ const Lessons = () => {
                                                                                 <ArrowRightSvg />
                                                                             </IconButton>
                                                                         </Box>
-                                                                        {value.videos?.map(
-                                                                            (
-                                                                                element: any,
-                                                                                key: any,
-                                                                            ) => {
-                                                                                return (
-                                                                                    <Box
-                                                                                        controls
-                                                                                        width={
-                                                                                            "100%"
-                                                                                        }
-                                                                                        display={
-                                                                                            "flex"
-                                                                                        }
-                                                                                        flexBasis={
-                                                                                            "59%"
-                                                                                        }
-                                                                                        borderRadius={
-                                                                                            "5px"
-                                                                                        }
-                                                                                        component={
-                                                                                            "video"
-                                                                                        }
-                                                                                    >
+                                                                        {Array.isArray(
+                                                                            value?.videos,
+                                                                        ) &&
+                                                                            value?.videos?.map(
+                                                                                (
+                                                                                    element: any,
+                                                                                    key: any,
+                                                                                ) => {
+                                                                                    return (
                                                                                         <Box
+                                                                                            controls
+                                                                                            width={
+                                                                                                "100%"
+                                                                                            }
+                                                                                            display={
+                                                                                                "flex"
+                                                                                            }
+                                                                                            flexBasis={
+                                                                                                "59%"
+                                                                                            }
+                                                                                            borderRadius={
+                                                                                                "5px"
+                                                                                            }
                                                                                             component={
-                                                                                                "source"
+                                                                                                "video"
                                                                                             }
-                                                                                            src={
-                                                                                                element.address
-                                                                                            }
-                                                                                        ></Box>
-                                                                                    </Box>
-                                                                                );
-                                                                            },
-                                                                        )}
+                                                                                        >
+                                                                                            <Box
+                                                                                                component={
+                                                                                                    "source"
+                                                                                                }
+                                                                                                src={
+                                                                                                    element.address
+                                                                                                }
+                                                                                            ></Box>
+                                                                                        </Box>
+                                                                                    );
+                                                                                },
+                                                                            )}
 
                                                                         <Box>
                                                                             <IconButton>
