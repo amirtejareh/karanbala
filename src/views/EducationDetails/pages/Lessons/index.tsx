@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
     episodeParent: {
         flexBasis: "50%",
+        cursor: "pointer",
     },
     subjects: {
         display: "flex",
@@ -580,7 +581,6 @@ const Lessons = () => {
     };
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    console.log(chapters);
 
     return (
         <>
@@ -607,9 +607,7 @@ const Lessons = () => {
                 </ButtonKit>
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
-                <Typography fontSize={"3.6rem"} variant="subtitle1">
-                    درسنامه
-                </Typography>
+                <Typography fontSize={"3.6rem"} variant="subtitle1"></Typography>
             </Box>
             <Box className={classes.course}>
                 <Box>
@@ -652,7 +650,21 @@ const Lessons = () => {
                     {Object.values(subjects ?? [])?.length > 0 &&
                         subjects?.map((value: any, index: any) => {
                             return (
-                                <Box key={index} className={classes.subjects}>
+                                <Box
+                                    onClick={(e: any) => {
+                                        setParentEpisodeVisible((prev: any) => {
+                                            return {
+                                                ...prev,
+                                                ["parent-episode-" + (index + 1)]:
+                                                    !parentEpisodeVisible[
+                                                        "parent-episode-" + (index + 1)
+                                                    ],
+                                            };
+                                        });
+                                    }}
+                                    key={index}
+                                    className={classes.subjects}
+                                >
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
                                             <Typography>درس {numbers[index + 1]}</Typography>
@@ -688,6 +700,7 @@ const Lessons = () => {
                                                 {value?.subjects?.map((value: any, ix: any) => {
                                                     return (
                                                         <Box
+                                                            onClick={(e) => e.stopPropagation()}
                                                             key={ix}
                                                             className={classes.episodeLessons}
                                                         >
@@ -695,6 +708,25 @@ const Lessons = () => {
                                                                 className={
                                                                     classes.episodeLessonTitle
                                                                 }
+                                                                onClick={(e: any) => {
+                                                                    setChildrenEpisodeVisible(
+                                                                        (prev: any) => {
+                                                                            return {
+                                                                                ...prev,
+                                                                                ["children-episode-index-" +
+                                                                                index +
+                                                                                "-ix-" +
+                                                                                ix]:
+                                                                                    !childrenEpisodeVisible[
+                                                                                        "children-episode-index-" +
+                                                                                            index +
+                                                                                            "-ix-" +
+                                                                                            ix
+                                                                                    ],
+                                                                            };
+                                                                        },
+                                                                    );
+                                                                }}
                                                             >
                                                                 <Typography>
                                                                     {value?.title}

@@ -38,7 +38,7 @@ const MajorRequirements = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
     const navigate = useNavigate();
-    const { setBook } = EducationDetailStore((state) => state);
+    const { setBook, book } = EducationDetailStore((state) => state);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -88,7 +88,8 @@ const MajorRequirements = () => {
         localStorage.getItem("gradeLevel"),
     ]);
 
-    const [books, setBooks] = useState<{ value: number; title: string }[]>();
+    const [books, setBooks] = useState<{ value: string; title: string }[]>();
+
     const [disable, setDisable] = useState<boolean>(true);
 
     useEffect(() => {
@@ -103,10 +104,10 @@ const MajorRequirements = () => {
     }, [getBooksBasedOnGradeLevels.data]);
 
     useEffect(() => {
-        if (selectValue) {
+        if (selectValue || book) {
             setDisable(false);
         }
-    }, [selectValue]);
+    }, [selectValue, book]);
 
     return (
         <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
@@ -121,6 +122,7 @@ const MajorRequirements = () => {
                     <SelectKit
                         options={books}
                         label={"انتخاب کتاب"}
+                        value={book}
                         onChange={({ target: { value } }) => {
                             const newValue: any = value as any;
 

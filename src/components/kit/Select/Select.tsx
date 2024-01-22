@@ -35,11 +35,14 @@ const SelectKit: React.FC<ISelectKitProps> = (props) => {
                 fullWidth
                 size="small"
                 input={<OutlinedInput />}
+                value={rest.value}
                 renderValue={(selected: any) => {
-                    if (typeof selected === "number" || selected) {
-                        return options.find((fid) => fid.value === selected)?.title || label;
+                    if (options) {
+                        if (typeof selected === "number" || selected) {
+                            return options.find((fid) => fid.value === selected)?.title || label;
+                        }
+                        return label;
                     }
-                    return label;
                 }}
                 {...rest}
             >
