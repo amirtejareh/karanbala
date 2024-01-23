@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { EssayQuestionService, LearningMaterialService } from "../../services";
+import { EssayQuestionService } from "../../services";
 
 const useGetEssayQuestionBasedOnBooks = (book: string[]) => {
     return useQuery(

@@ -176,7 +176,11 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 const Lessons = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
-
+    const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
+    const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
+    const [seasonVisible, setSeasonVisible] = useState<any>({});
+    const [subjects, setsubjects] = useState<any>({});
+    const [courses, setCourses] = useState<any>();
     const { book } = EducationDetailStore();
 
     const getLearningMaterialBasedOnBooks = useGetLearningMaterialBasedOnBooks([book]);
@@ -268,13 +272,6 @@ const Lessons = () => {
             setCourses(getItems());
         }
     }, [getLearningMaterialBasedOnBooks.data]);
-
-    const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
-    const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
-    const [seasonVisible, setSeasonVisible] = useState<any>({});
-    const [subjects, setsubjects] = useState<any>({});
-    const [courses, setCourses] = useState<any>();
-    const mappedData = getLearningMaterialBasedOnBooks?.data;
 
     const course = [
         {
