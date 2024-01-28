@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         justifyContent: "center",
         flexWrap: "wrap",
     },
-    seasons: {
+    chapters: {
         width: "27.125rem",
         display: "flex",
         backgroundColor: theme?.palette?.primary["main"],
@@ -176,16 +176,18 @@ const Questions = () => {
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
     const [episodes, setEpisodes] = useState<any>({});
+    const [subjects, setsubjects] = useState<any>({});
+    const [courses, setCourses] = useState<any>();
 
-    const courses = [
+    const course = [
         {
             courseTitle: "ریاضی ۱",
-            seasons: [
+            chapters: [
                 {
-                    seasonTitle: "تابع",
-                    lessons: [
+                    chapterTitle: "تابع",
+                    sections: [
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "تابع خطیِ، ثابت وتابع درجه دوم",
                                     attachment: [
@@ -235,7 +237,7 @@ const Questions = () => {
                             ],
                         },
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "تابع خطیِ، ثابت وتابع درجه سوم",
                                     attachment: [
@@ -287,11 +289,11 @@ const Questions = () => {
                     ],
                 },
                 {
-                    seasonTitle: "انتگرال",
+                    chapterTitle: "انتگرال",
 
-                    lessons: [
+                    sections: [
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "انتگرال نامعین",
                                     attachment: [
@@ -341,7 +343,7 @@ const Questions = () => {
                             ],
                         },
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "انتگرال معین",
                                     attachment: [
@@ -396,25 +398,25 @@ const Questions = () => {
         },
     ];
 
-    const seasons = courses.filter((element) => element.seasons != null)[0];
+    const chapters = courses?.filter((element) => element?.chapters != null)[0];
 
     useEffect(() => {
         const season = parseInt(
             Object.keys(seasonVisible)
-                .map((element) => element.slice(7))
+                ?.map((element) => element.slice(7))
                 .toString(),
         );
         if (season) {
-            setEpisodes(seasons?.seasons[season - 1]?.lessons);
+            setsubjects(chapters?.chapters[season - 1]?.sections);
         }
     }, [seasonVisible]);
 
     useEffect(() => {
-        setEpisodes(seasons?.seasons[1]?.lessons);
-    }, []);
+        setsubjects(chapters?.chapters[1]?.sections);
+    }, [courses]);
 
     useEffect(() => {
-        const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
+        const myEpisodeArray = chapters?.chapters[1]?.sections?.map((element: any, index: any) => {
             return {
                 id: "parent-episode-" + (index + 1),
                 isSelected: false,
@@ -422,15 +424,15 @@ const Questions = () => {
         });
 
         setParentEpisodeVisible(
-            myEpisodeArray.reduce((acc: any, item: any) => {
+            myEpisodeArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
 
-        const myLessonArray = seasons?.seasons[0]?.lessons
+        const myLessonArray = chapters?.chapters[0]?.sections
             ?.map((element: any, index: any) => {
-                return element.episodes.map((el: any, ix: any) => {
+                return element.subjects?.map((el: any, ix: any) => {
                     return {
                         id: "children-episode-index-" + index + "-ix-" + ix,
                         isSelected: false,
@@ -440,25 +442,25 @@ const Questions = () => {
             .flat();
 
         setChildrenEpisodeVisible(
-            myLessonArray.reduce((acc: any, item: any) => {
+            myLessonArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
 
-        const mySeasonArray = seasons?.seasons?.map((value, index) => {
+        const mySeasonArray = chapters?.chapters?.map((value, index) => {
             return {
                 id: "season-" + (index + 1),
                 isSelected: false,
             };
         });
         setSeasonVisible(
-            mySeasonArray.reduce((acc: any, item: any) => {
+            mySeasonArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
-    }, []);
+    }, [courses]);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -466,7 +468,7 @@ const Questions = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, []);
+    }, [courses]);
 
     const numbers: any = {
         1: "اول",
@@ -514,14 +516,14 @@ const Questions = () => {
             </Box>
             <Box className={classes.courses}>
                 <Box>
-                    {seasons?.seasons?.map((value, index) => {
+                    {chapters?.chapters?.map((value, index) => {
                         return (
                             <Box
                                 key={index}
                                 className={
                                     seasonVisible["season-" + (index + 1)]
                                         ? classes.seasonSelected
-                                        : classes.seasons
+                                        : classes.chapters
                                 }
                             >
                                 <Typography>
