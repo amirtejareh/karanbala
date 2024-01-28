@@ -89,6 +89,23 @@ export class EssayQuestionService {
     }
 
     /**
+     * @param booksId
+     * @returns any
+     * @throws ApiError
+     */
+    public static essayQuestionControllerFindEssayQuestionBasedOnBooks(
+        booksId: Array<string>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/essay-question/withBooks/{booksId}",
+            path: {
+                booksId: booksId,
+            },
+        });
+    }
+
+    /**
      * @param subjectsId
      * @returns any
      * @throws ApiError
