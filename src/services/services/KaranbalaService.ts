@@ -104,4 +104,21 @@ export class KaranbalaService {
             },
         });
     }
+
+    /**
+     * @param booksId
+     * @returns any
+     * @throws ApiError
+     */
+    public static karanbalaControllerFindKaranbalaBasedOnBooks(
+        booksId: Array<string>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/karanbala/withBooks/{booksId}",
+            path: {
+                booksId: booksId,
+            },
+        });
+    }
 }

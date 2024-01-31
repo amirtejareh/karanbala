@@ -593,7 +593,9 @@ const Questions = () => {
                 </ButtonKit>
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
-                <Typography fontSize={"3.6rem"} variant="subtitle1"></Typography>
+                <Typography fontSize={"3.6rem"} variant="subtitle1">
+                    سوالات تشریحی
+                </Typography>
             </Box>
             <Box className={classes.course}>
                 <Box>
