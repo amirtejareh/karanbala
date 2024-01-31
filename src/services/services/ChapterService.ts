@@ -8,7 +8,7 @@ import type { UpdateChapterDto } from "../models/UpdateChapterDto";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
-
+ 
 export class ChapterService {
     /**
      * @param requestBody

@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Book } from './Book';
-import type { ObjectiveTest } from './ObjectiveTest';
+import type { Book } from "./Book";
+import type { ObjectiveTest } from "./ObjectiveTest";
 
 export type UpdateObjectiveTestManagementDto = {
     books?: Book;

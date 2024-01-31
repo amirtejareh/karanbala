@@ -64,7 +64,7 @@ export class BookService {
             method: "PATCH",
             url: "/book/{id}",
             path: {
-                id: id,
+                id: id, 
             },
             formData: requestBody,
             mediaType: "multipart/form-data",
