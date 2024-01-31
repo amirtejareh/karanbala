@@ -24,6 +24,7 @@ import { ModalKit } from "../../../../components/kit/Modal";
 import { ModalQuiz } from "../Karanbala";
 import EducationDetailStore from "../../../../stores/educationDetailStore";
 import useGetLearningMaterialBasedOnBooks from "../../../../hooks/learning-material/useGetLearningMaterialBasedOnBooks";
+import Num2persian from "num2persian";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     course: {
@@ -273,225 +274,6 @@ const Lessons = () => {
         }
     }, [getLearningMaterialBasedOnBooks.data]);
 
-    const course = [
-        {
-            courseTitle: "ریاضی ۱",
-            chapters: [
-                {
-                    chapterTitle: "تابع",
-                    sections: [
-                        {
-                            subjects: [
-                                {
-                                    title: "تابع خطیِ، ثابت وتابع درجه دوم",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف تابع خطی",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف تابع ثابت",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                                {
-                                    title: "مثلثات",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف مثلثات مقدماتی (۱) ",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: " پی دی اف مثلثات (۲) ",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                            ],
-                        },
-                        {
-                            subjects: [
-                                {
-                                    title: "تابع خطیِ، ثابت وتابع درجه سوم",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف تابع خطی",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف تابع ثابت",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                                {
-                                    title: "۲ مثلثات",
-                                    attachment: [
-                                        {
-                                            title: " پی دی اف مثلثات مقدماتی (۳)",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: " پی دی اف مثلثات (۴) ",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    chapterTitle: "انتگرال",
-
-                    sections: [
-                        {
-                            subjects: [
-                                {
-                                    title: "انتگرال نامعین",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال نامعین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                                {
-                                    title: "انتگرال توابع گویا",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال گویا",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                            ],
-                        },
-                        {
-                            subjects: [
-                                {
-                                    title: "انتگرال معین",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال معین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                                {
-                                    title: "انتگرال توابع گنگ",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال گنگ",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری توابع گنگ",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                    lessonPlan: "#",
-                                    karanbala: "#",
-                                    quiz: "#",
-                                    pointAndTest: "#",
-                                    questions: "#",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        },
-    ];
-
     const chapters = courses?.filter((element) => element?.chapters != null)[0];
 
     useEffect(() => {
@@ -564,18 +346,6 @@ const Lessons = () => {
         });
     }, [courses]);
 
-    const numbers: any = {
-        1: "اول",
-        2: "دوم",
-        3: "سوم",
-        4: "چهارم",
-        5: "پنجم",
-        6: "ششم",
-        7: "هفتم",
-        8: "هشتم",
-        9: "نهم",
-        10: "دهم",
-    };
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -604,7 +374,9 @@ const Lessons = () => {
                 </ButtonKit>
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
-                <Typography fontSize={"3.6rem"} variant="subtitle1"></Typography>
+                <Typography fontSize={"3.6rem"} variant="subtitle1">
+                    درسنامه
+                </Typography>
             </Box>
             <Box className={classes.course}>
                 <Box>
@@ -619,7 +391,7 @@ const Lessons = () => {
                                 }
                             >
                                 <Typography>
-                                    فصل {numbers[index + 1]}: {value.chapterTitle}
+                                    فصل {Num2persian(index + 1)}: {value.chapterTitle}
                                 </Typography>
                                 <Typography className={classes.arrowLeftParent}>
                                     <IconButton
@@ -664,7 +436,7 @@ const Lessons = () => {
                                 >
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
-                                            <Typography>درس {numbers[index + 1]}</Typography>
+                                            <Typography>درس {Num2persian(index + 1)}</Typography>
                                             <Typography>
                                                 <IconButton
                                                     onClick={(e: any) => {

@@ -15,7 +15,7 @@ import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
-
+import Num2persian from "num2persian";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     courses: {
         display: "flex",
@@ -463,18 +463,6 @@ const Practice = () => {
         });
     }, []);
 
-    const numbers: any = {
-        1: "اول",
-        2: "دوم",
-        3: "سوم",
-        4: "چهارم",
-        5: "پنجم",
-        6: "ششم",
-        7: "هفتم",
-        8: "هشتم",
-        9: "نهم",
-        10: "دهم",
-    };
     const navigate = useNavigate();
     return (
         <>
@@ -508,7 +496,7 @@ const Practice = () => {
                                 }
                             >
                                 <Typography>
-                                    فصل {numbers[index + 1]}: {value.seasonTitle}
+                                    فصل {Num2persian(index + 1)}: {value.seasonTitle}
                                 </Typography>
                                 <Typography className={classes.arrowLeftParent}>
                                     <IconButton
@@ -539,7 +527,7 @@ const Practice = () => {
                                 <Box key={index} className={classes.episodes}>
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
-                                            <Typography>درس {numbers[index + 1]}</Typography>
+                                            <Typography>درس {Num2persian(index + 1)}</Typography>
                                             <Typography>
                                                 <IconButton
                                                     onClick={(e: any) => {

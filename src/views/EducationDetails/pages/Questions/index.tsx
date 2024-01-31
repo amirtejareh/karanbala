@@ -23,9 +23,8 @@ import { IconButtonKit } from "../../../../components/kit/IconButton";
 import { ModalKit } from "../../../../components/kit/Modal";
 import { ModalQuiz } from "../Karanbala";
 import EducationDetailStore from "../../../../stores/educationDetailStore";
-import useGetLearningMaterialBasedOnBooks from "../../../../hooks/learning-material/useGetLearningMaterialBasedOnBooks";
 import useGetEssayQuestionBasedOnBooks from "../../../../hooks/essay-questions/useGetEssayQuestionBasedOnBooks";
-
+import Num2persian from "num2persian";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
     course: {
         display: "flex",
@@ -566,18 +565,6 @@ const Questions = () => {
         });
     }, [courses]);
 
-    const numbers: any = {
-        1: "اول",
-        2: "دوم",
-        3: "سوم",
-        4: "چهارم",
-        5: "پنجم",
-        6: "ششم",
-        7: "هفتم",
-        8: "هشتم",
-        9: "نهم",
-        10: "دهم",
-    };
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -621,7 +608,7 @@ const Questions = () => {
                                 }
                             >
                                 <Typography>
-                                    فصل {numbers[index + 1]}: {value.chapterTitle}
+                                    فصل {Num2persian(index + 1)}: {value.chapterTitle}
                                 </Typography>
                                 <Typography className={classes.arrowLeftParent}>
                                     <IconButton
@@ -666,7 +653,7 @@ const Questions = () => {
                                 >
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
-                                            <Typography>درس {numbers[index + 1]}</Typography>
+                                            <Typography>درس {Num2persian(index + 1)}</Typography>
                                             <Typography>
                                                 <IconButton
                                                     onClick={(e: any) => {
