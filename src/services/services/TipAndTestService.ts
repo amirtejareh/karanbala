@@ -104,4 +104,21 @@ export class TipAndTestService {
             },
         });
     }
+
+    /**
+     * @param booksId
+     * @returns any
+     * @throws ApiError
+     */
+    public static tipAndTestControllerFindTipAndTestBasedOnBooks(
+        booksId: Array<string>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: "GET",
+            url: "/tip-and-test/withBooks/{booksId}",
+            path: {
+                booksId: booksId,
+            },
+        });
+    }
 }

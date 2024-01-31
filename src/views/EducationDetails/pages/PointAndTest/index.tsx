@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
+import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import {
     ArrowDownSvg,
@@ -21,16 +22,19 @@ import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
 import { ModalKit } from "../../../../components/kit/Modal";
 import { ModalQuiz } from "../Karanbala";
+import EducationDetailStore from "../../../../stores/educationDetailStore";
+import useGetEssayQuestionBasedOnBooks from "../../../../hooks/essay-questions/useGetEssayQuestionBasedOnBooks";
+import useGetTipAndTestBasedOnBooks from "../../../../hooks/tip-and-test/useGetTipAndTestBasedOnBooks";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
-    courses: {
+    course: {
         display: "flex",
         gap: "5rem",
         height: "7rem",
         justifyContent: "center",
         flexWrap: "wrap",
     },
-    seasons: {
+    chapters: {
         width: "27.125rem",
         display: "flex",
         backgroundColor: theme?.palette?.primary["main"],
@@ -43,7 +47,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         margin: "1rem",
         flexWrap: "wrap",
     },
-    seasonSelected: {
+    chapterselected: {
         width: "27.125rem",
         display: "flex",
         height: "6.1rem",
@@ -58,8 +62,9 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
     episodeParent: {
         flexBasis: "50%",
+        cursor: "pointer",
     },
-    episodes: {
+    subjects: {
         display: "flex",
         flexBasis: "50%",
         justifyContent: "space-between",
@@ -170,22 +175,115 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 }));
 
 const PointAndTest = () => {
+    const theme: ThemeOptions = useTheme();
     const classes = useStyles();
-
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
-    const [episodes, setEpisodes] = useState<any>({});
 
-    const courses = [
+    const [subjects, setsubjects] = useState<any>({});
+    const [courses, setCourses] = useState<any>();
+    const { book } = EducationDetailStore();
+
+    const getTipAndTestBasedOnBooks = useGetTipAndTestBasedOnBooks([book]);
+
+    useEffect(() => {
+        if (!getTipAndTestBasedOnBooks.isLoading) {
+            getTipAndTestBasedOnBooks.refetch();
+        }
+    }, [getTipAndTestBasedOnBooks.data]);
+
+    useEffect(() => {
+        const getItems = () => {
+            const chapters = [];
+
+            if (getTipAndTestBasedOnBooks?.data) {
+                getTipAndTestBasedOnBooks?.data?.forEach((mapItem) => {
+                    const chapterTitle = mapItem.chapter[0].title;
+                    const existingChapter = chapters.find(
+                        (chapter) => chapter.chapterTitle === chapterTitle,
+                    );
+
+                    if (existingChapter) {
+                        mapItem.subject.forEach((subMap) => {
+                            const existingSection = existingChapter.sections.find(
+                                (section) => section.title === subMap.title,
+                            );
+
+                            if (existingSection) {
+                                existingSection.attachment.push(
+                                    ...subMap.attachment?.map((file) => ({
+                                        title: file.title,
+                                        address: file.address,
+                                    })),
+                                );
+                            } else {
+                                existingChapter.sections.push({
+                                    subjects: [
+                                        {
+                                            title: subMap.title,
+
+                                            karanbala: "#",
+                                            lessonPlan: "#",
+                                            pointAndTest: "#",
+                                            questions: "#",
+                                            quiz: "#",
+                                            videos:
+                                                subMap.videos?.map((video) => ({
+                                                    address: video.address ?? "#",
+                                                })) ?? "#",
+                                        },
+                                    ],
+                                });
+                            }
+                        });
+                    } else {
+                        const sections = mapItem.subject?.map((subMap) => ({
+                            subjects: [
+                                {
+                                    title: subMap.title,
+                                    karanbala: "#",
+                                    lessonPlan: "#",
+                                    pointAndTest: "#",
+                                    questions: "#",
+                                    quiz: "#",
+                                    videos:
+                                        subMap.videos?.map((video) => ({
+                                            address: video.address ?? "#",
+                                        })) ?? "#",
+                                },
+                            ],
+                        }));
+                        chapters.push({
+                            chapterTitle,
+                            sections,
+                        });
+                    }
+                });
+
+                return [
+                    {
+                        courseTitle: getTipAndTestBasedOnBooks?.data[0]?.book[0]?.title,
+                        chapters,
+                    },
+                ];
+            }
+        };
+
+        if (getTipAndTestBasedOnBooks.data && !getTipAndTestBasedOnBooks.isLoading) {
+            setCourses(getItems());
+        }
+    }, [getTipAndTestBasedOnBooks.data]);
+
+    const course = [
         {
             courseTitle: "ریاضی ۱",
-            seasons: [
+            chapters: [
                 {
-                    seasonTitle: "تابع",
-                    lessons: [
+                    chapterTitle: "تابع",
+                    sections: [
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "تابع خطیِ، ثابت وتابع درجه دوم",
                                     attachment: [
@@ -235,7 +333,7 @@ const PointAndTest = () => {
                             ],
                         },
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "تابع خطیِ، ثابت وتابع درجه سوم",
                                     attachment: [
@@ -287,11 +385,11 @@ const PointAndTest = () => {
                     ],
                 },
                 {
-                    seasonTitle: "انتگرال",
+                    chapterTitle: "انتگرال",
 
-                    lessons: [
+                    sections: [
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "انتگرال نامعین",
                                     attachment: [
@@ -341,7 +439,7 @@ const PointAndTest = () => {
                             ],
                         },
                         {
-                            episodes: [
+                            subjects: [
                                 {
                                     title: "انتگرال معین",
                                     attachment: [
@@ -396,25 +494,25 @@ const PointAndTest = () => {
         },
     ];
 
-    const seasons = courses.filter((element) => element.seasons != null)[0];
+    const chapters = courses?.filter((element) => element?.chapters != null)[0];
 
     useEffect(() => {
         const season = parseInt(
             Object.keys(seasonVisible)
-                .map((element) => element.slice(7))
+                ?.map((element) => element.slice(7))
                 .toString(),
         );
         if (season) {
-            setEpisodes(seasons?.seasons[season - 1]?.lessons);
+            setsubjects(chapters?.chapters[season - 1]?.sections);
         }
     }, [seasonVisible]);
 
     useEffect(() => {
-        setEpisodes(seasons?.seasons[1]?.lessons);
-    }, []);
+        setsubjects(chapters?.chapters[1]?.sections);
+    }, [courses]);
 
     useEffect(() => {
-        const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
+        const myEpisodeArray = chapters?.chapters[1]?.sections?.map((element: any, index: any) => {
             return {
                 id: "parent-episode-" + (index + 1),
                 isSelected: false,
@@ -422,15 +520,15 @@ const PointAndTest = () => {
         });
 
         setParentEpisodeVisible(
-            myEpisodeArray.reduce((acc: any, item: any) => {
+            myEpisodeArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
 
-        const myLessonArray = seasons?.seasons[0]?.lessons
+        const myLessonArray = chapters?.chapters[0]?.sections
             ?.map((element: any, index: any) => {
-                return element.episodes.map((el: any, ix: any) => {
+                return element.subjects?.map((el: any, ix: any) => {
                     return {
                         id: "children-episode-index-" + index + "-ix-" + ix,
                         isSelected: false,
@@ -440,25 +538,25 @@ const PointAndTest = () => {
             .flat();
 
         setChildrenEpisodeVisible(
-            myLessonArray.reduce((acc: any, item: any) => {
+            myLessonArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
 
-        const mySeasonArray = seasons?.seasons?.map((value, index) => {
+        const mySeasonArray = chapters?.chapters?.map((value, index) => {
             return {
                 id: "season-" + (index + 1),
                 isSelected: false,
             };
         });
         setSeasonVisible(
-            mySeasonArray.reduce((acc: any, item: any) => {
+            mySeasonArray?.reduce((acc: any, item: any) => {
                 acc[item.id] = item.isSelected;
                 return acc;
             }, {}),
         );
-    }, []);
+    }, [courses]);
 
     useEffect(() => {
         setSeasonVisible((prev: any) => {
@@ -466,7 +564,7 @@ const PointAndTest = () => {
                 ["season-" + 1]: !seasonVisible["season-" + 1],
             };
         });
-    }, []);
+    }, [courses]);
 
     const numbers: any = {
         1: "اول",
@@ -508,24 +606,22 @@ const PointAndTest = () => {
                 </ButtonKit>
             </Box>
             <Box margin={"4rem 5.2rem 8rem  5.2rem"}>
-                <Typography fontSize={"3.6rem"} variant="subtitle1">
-                    نکته و تست{" "}
-                </Typography>
+                <Typography fontSize={"3.6rem"} variant="subtitle1"></Typography>
             </Box>
-            <Box className={classes.courses}>
+            <Box className={classes.course}>
                 <Box>
-                    {seasons?.seasons?.map((value, index) => {
+                    {chapters?.chapters?.map((value, index) => {
                         return (
                             <Box
                                 key={index}
                                 className={
                                     seasonVisible["season-" + (index + 1)]
-                                        ? classes.seasonSelected
-                                        : classes.seasons
+                                        ? classes.chapterselected
+                                        : classes.chapters
                                 }
                             >
                                 <Typography>
-                                    فصل {numbers[index + 1]}: {value.seasonTitle}
+                                    فصل {numbers[index + 1]}: {value.chapterTitle}
                                 </Typography>
                                 <Typography className={classes.arrowLeftParent}>
                                     <IconButton
@@ -550,10 +646,24 @@ const PointAndTest = () => {
                     })}
                 </Box>
                 <Box className={classes.episodeParent}>
-                    {Object.values(episodes).length > 0 &&
-                        episodes?.map((value: any, index: any) => {
+                    {Object.values(subjects ?? [])?.length > 0 &&
+                        subjects?.map((value: any, index: any) => {
                             return (
-                                <Box key={index} className={classes.episodes}>
+                                <Box
+                                    onClick={(e: any) => {
+                                        setParentEpisodeVisible((prev: any) => {
+                                            return {
+                                                ...prev,
+                                                ["parent-episode-" + (index + 1)]:
+                                                    !parentEpisodeVisible[
+                                                        "parent-episode-" + (index + 1)
+                                                    ],
+                                            };
+                                        });
+                                    }}
+                                    key={index}
+                                    className={classes.subjects}
+                                >
                                     <Box className={classes.episodeBoxes}>
                                         <Box className={classes.episodeTitle}>
                                             <Typography>درس {numbers[index + 1]}</Typography>
@@ -586,9 +696,10 @@ const PointAndTest = () => {
                                         </Box>
                                         {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
                                             <>
-                                                {value?.episodes?.map((value: any, ix: any) => {
+                                                {value?.subjects?.map((value: any, ix: any) => {
                                                     return (
                                                         <Box
+                                                            onClick={(e) => e.stopPropagation()}
                                                             key={ix}
                                                             className={classes.episodeLessons}
                                                         >
@@ -596,6 +707,25 @@ const PointAndTest = () => {
                                                                 className={
                                                                     classes.episodeLessonTitle
                                                                 }
+                                                                onClick={(e: any) => {
+                                                                    setChildrenEpisodeVisible(
+                                                                        (prev: any) => {
+                                                                            return {
+                                                                                ...prev,
+                                                                                ["children-episode-index-" +
+                                                                                index +
+                                                                                "-ix-" +
+                                                                                ix]:
+                                                                                    !childrenEpisodeVisible[
+                                                                                        "children-episode-index-" +
+                                                                                            index +
+                                                                                            "-ix-" +
+                                                                                            ix
+                                                                                    ],
+                                                                            };
+                                                                        },
+                                                                    );
+                                                                }}
                                                             >
                                                                 <Typography>
                                                                     {value?.title}
@@ -655,7 +785,7 @@ const PointAndTest = () => {
                                                                             classes.attachment
                                                                         }
                                                                     >
-                                                                        {value.attachment.map(
+                                                                        {value.attachment?.map(
                                                                             (
                                                                                 element: any,
                                                                                 index: any,
@@ -700,42 +830,45 @@ const PointAndTest = () => {
                                                                                 <ArrowRightSvg />
                                                                             </IconButton>
                                                                         </Box>
-                                                                        {value.videos.map(
-                                                                            (
-                                                                                element: any,
-                                                                                key: any,
-                                                                            ) => {
-                                                                                return (
-                                                                                    <Box
-                                                                                        controls
-                                                                                        width={
-                                                                                            "100%"
-                                                                                        }
-                                                                                        display={
-                                                                                            "flex"
-                                                                                        }
-                                                                                        flexBasis={
-                                                                                            "59%"
-                                                                                        }
-                                                                                        borderRadius={
-                                                                                            "5px"
-                                                                                        }
-                                                                                        component={
-                                                                                            "video"
-                                                                                        }
-                                                                                    >
+                                                                        {Array.isArray(
+                                                                            value?.videos,
+                                                                        ) &&
+                                                                            value?.videos?.map(
+                                                                                (
+                                                                                    element: any,
+                                                                                    key: any,
+                                                                                ) => {
+                                                                                    return (
                                                                                         <Box
+                                                                                            controls
+                                                                                            width={
+                                                                                                "100%"
+                                                                                            }
+                                                                                            display={
+                                                                                                "flex"
+                                                                                            }
+                                                                                            flexBasis={
+                                                                                                "59%"
+                                                                                            }
+                                                                                            borderRadius={
+                                                                                                "5px"
+                                                                                            }
                                                                                             component={
-                                                                                                "source"
+                                                                                                "video"
                                                                                             }
-                                                                                            src={
-                                                                                                element.address
-                                                                                            }
-                                                                                        ></Box>
-                                                                                    </Box>
-                                                                                );
-                                                                            },
-                                                                        )}
+                                                                                        >
+                                                                                            <Box
+                                                                                                component={
+                                                                                                    "source"
+                                                                                                }
+                                                                                                src={
+                                                                                                    element.address
+                                                                                                }
+                                                                                            ></Box>
+                                                                                        </Box>
+                                                                                    );
+                                                                                },
+                                                                            )}
 
                                                                         <Box>
                                                                             <IconButton>
@@ -755,7 +888,7 @@ const PointAndTest = () => {
                                                                             3,
                                                                             4,
                                                                             5,
-                                                                        ).map((element) => (
+                                                                        )?.map((element) => (
                                                                             <Box
                                                                                 onClick={() => {
                                                                                     if (
@@ -779,19 +912,19 @@ const PointAndTest = () => {
                                                                                         }
                                                                                     >
                                                                                         <Box>
-                                                                                            {element ===
+                                                                                            {element ==
                                                                                             1 ? (
                                                                                                 <TextBookSvg />
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               2 ? (
                                                                                                 <KaranbalaExamSvg />
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               3 ? (
                                                                                                 <QuizSvg />
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               4 ? (
                                                                                                 <PointAndTestSvg />
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               5 ? (
                                                                                                 <QuestionsSvg />
                                                                                             ) : (
@@ -800,31 +933,31 @@ const PointAndTest = () => {
                                                                                         </Box>
 
                                                                                         <Typography variant="subtitle2">
-                                                                                            {element ===
+                                                                                            {element ==
                                                                                             1 ? (
                                                                                                 <>
                                                                                                     درسنامه
                                                                                                 </>
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               2 ? (
                                                                                                 <>
                                                                                                     کران
                                                                                                     بالا
                                                                                                 </>
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               3 ? (
                                                                                                 <>
                                                                                                     آزمون
                                                                                                     انتخابی
                                                                                                 </>
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               4 ? (
                                                                                                 <>
                                                                                                     نکته
                                                                                                     و
                                                                                                     تست
                                                                                                 </>
-                                                                                            ) : element ===
+                                                                                            ) : element ==
                                                                                               5 ? (
                                                                                                 <>
                                                                                                     سوالات
