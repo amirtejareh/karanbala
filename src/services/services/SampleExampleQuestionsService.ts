@@ -22,7 +22,7 @@ export class SampleExampleQuestionsService {
             method: "POST",
             url: "/sample-example-questions",
             body: requestBody,
-            mediaType: "multipart/form-data",
+            mediaType: "application/json",
         });
     }
 
@@ -69,7 +69,7 @@ export class SampleExampleQuestionsService {
                 id: id,
             },
             body: requestBody,
-            mediaType: "multipart/form-data",
+            mediaType: "application/json",
         });
     }
 

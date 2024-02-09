@@ -2,124 +2,132 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateBookDto } from "../models/CreateBookDto";
-import type { UpdateBookDto } from "../models/UpdateBookDto";
+import type { CreateBookDto } from '../models/CreateBookDto';
+import type { UpdateBookDto } from '../models/UpdateBookDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class BookService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
-    public static bookControllerCreate(requestBody: CreateBookDto): CancelablePromise<any> {
+    public static bookControllerCreate(
+requestBody: CreateBookDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/book",
-            formData: requestBody,
-            mediaType: "multipart/form-data",
+            method: 'POST',
+            url: '/book',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static bookControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/book",
+            method: 'GET',
+            url: '/book',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static bookControllerFindOne(id: string): CancelablePromise<any> {
+    public static bookControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/book/{id}",
+            method: 'GET',
+            url: '/book/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static bookControllerUpdate(
-        id: string,
-        requestBody: UpdateBookDto,
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateBookDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/book/{id}",
+            method: 'PATCH',
+            url: '/book/{id}',
             path: {
-                id: id,
+                'id': id,
             },
-            formData: requestBody,
-            mediaType: "multipart/form-data",
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static bookControllerRemove(id: string): CancelablePromise<any> {
+    public static bookControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/book/{id}",
+            method: 'DELETE',
+            url: '/book/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param gradeLevelId
-     * @returns any
+     * @param gradeLevelId 
+     * @returns any 
      * @throws ApiError
      */
     public static bookControllerFindBooksBasedOnGradeLevels(
-        gradeLevelId: Array<string>,
-    ): CancelablePromise<any> {
+gradeLevelId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/book/withGradeLevels/{gradeLevelId}",
+            method: 'GET',
+            url: '/book/withGradeLevels/{gradeLevelId}',
             path: {
-                gradeLevelId: gradeLevelId,
+                'gradeLevelId': gradeLevelId,
             },
         });
     }
 
     /**
-     * @param bookReferenceId
-     * @param gradeLevelId
-     * @returns any
+     * @param bookReferenceId 
+     * @param gradeLevelId 
+     * @returns any 
      * @throws ApiError
      */
     public static bookControllerFindBooksBasedOnBookReferences(
-        bookReferenceId: Array<string>,
-        gradeLevelId: Array<string>,
-    ): CancelablePromise<any> {
+bookReferenceId: Array<string>,
+gradeLevelId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/book/withBookReferences/{bookReferenceId}/{gradeLevelId}",
+            method: 'GET',
+            url: '/book/withBookReferences/{bookReferenceId}/{gradeLevelId}',
             path: {
-                bookReferenceId: bookReferenceId,
-                gradeLevelId: gradeLevelId,
+                'bookReferenceId': bookReferenceId,
+                'gradeLevelId': gradeLevelId,
             },
         });
     }
+
 }

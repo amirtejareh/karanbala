@@ -17,17 +17,20 @@ export type CreateQuestionDto = {
 };
 
 export namespace CreateQuestionDto {
+
     export enum questionDifficulty {
-        EASY = "easy",
-        AVERAGE = "average",
-        HARD = "hard",
-        CHALLENGING = "challenging",
+        EASY = 'easy',
+        AVERAGE = 'average',
+        HARD = 'hard',
+        CHALLENGING = 'challenging',
     }
 
     export enum questionType {
-        CONCEPTIONAL = "conceptional",
-        COMPUTATIONAL = "computational",
-        TRICK = "trick",
-        MEMORIZATIONAL = "memorizational",
+        CONCEPTIONAL = 'conceptional',
+        COMPUTATIONAL = 'computational',
+        TRICK = 'trick',
+        MEMORIZATIONAL = 'memorizational',
     }
+
+
 }

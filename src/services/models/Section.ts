@@ -3,4 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Section = {};
+export type Section = {
+};

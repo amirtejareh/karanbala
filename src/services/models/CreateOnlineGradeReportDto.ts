@@ -3,4 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type CreateOnlineGradeReportDto = {};
+export type CreateOnlineGradeReportDto = {
+};
