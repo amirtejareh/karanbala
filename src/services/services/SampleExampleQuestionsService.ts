@@ -2,123 +2,129 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateSampleExampleQuestionsDto } from "../models/CreateSampleExampleQuestionsDto";
-import type { UpdateSampleExampleQuestionsDto } from "../models/UpdateSampleExampleQuestionsDto";
+import type { CreateSampleExampleQuestionsDto } from '../models/CreateSampleExampleQuestionsDto';
+import type { UpdateSampleExampleQuestionsDto } from '../models/UpdateSampleExampleQuestionsDto';
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
+import { request as __request } from '../core/request';
 
 export class SampleExampleQuestionsService {
+
     /**
-     * @param requestBody
-     * @returns any
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static sampleExampleQuestionsControllerCreate(
-        requestBody: CreateSampleExampleQuestionsDto,
-    ): CancelablePromise<any> {
+requestBody: CreateSampleExampleQuestionsDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "POST",
-            url: "/sample-example-questions",
+            method: 'POST',
+            url: '/sample-example-questions',
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public static sampleExampleQuestionsControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/sample-example-questions",
+            method: 'GET',
+            url: '/sample-example-questions',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerFindOne(id: string): CancelablePromise<any> {
+    public static sampleExampleQuestionsControllerFindOne(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/sample-example-questions/{id}",
+            method: 'GET',
+            url: '/sample-example-questions/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param id
-     * @param requestBody
-     * @returns any
+     * @param id 
+     * @param requestBody 
+     * @returns any 
      * @throws ApiError
      */
     public static sampleExampleQuestionsControllerUpdate(
-        id: string,
-        requestBody: UpdateSampleExampleQuestionsDto,
-    ): CancelablePromise<any> {
+id: string,
+requestBody: UpdateSampleExampleQuestionsDto,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "PATCH",
-            url: "/sample-example-questions/{id}",
+            method: 'PATCH',
+            url: '/sample-example-questions/{id}',
             path: {
-                id: id,
+                'id': id,
             },
             body: requestBody,
-            mediaType: "application/json",
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param id
-     * @returns any
+     * @param id 
+     * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerRemove(id: string): CancelablePromise<any> {
+    public static sampleExampleQuestionsControllerRemove(
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "DELETE",
-            url: "/sample-example-questions/{id}",
+            method: 'DELETE',
+            url: '/sample-example-questions/{id}',
             path: {
-                id: id,
+                'id': id,
             },
         });
     }
 
     /**
-     * @param subjectsId
-     * @returns any
+     * @param subjectsId 
+     * @returns any 
      * @throws ApiError
      */
     public static sampleExampleQuestionsControllerFindSampleExampleQuestionsBasedOnSubject(
-        subjectsId: Array<string>,
-    ): CancelablePromise<any> {
+subjectsId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/sample-example-questions/withSubjects/{subjectsId}",
+            method: 'GET',
+            url: '/sample-example-questions/withSubjects/{subjectsId}',
             path: {
-                subjectsId: subjectsId,
+                'subjectsId': subjectsId,
             },
         });
     }
 
     /**
-     * @param booksId
-     * @returns any
+     * @param booksId 
+     * @returns any 
      * @throws ApiError
      */
     public static sampleExampleQuestionsControllerFindSampleExampleQuestionsBasedOnBooks(
-        booksId: Array<string>,
-    ): CancelablePromise<any> {
+booksId: Array<string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: "GET",
-            url: "/sample-example-questions/withBooks/{booksId}",
+            method: 'GET',
+            url: '/sample-example-questions/withBooks/{booksId}',
             path: {
-                booksId: booksId,
+                'booksId': booksId,
             },
         });
     }
+
 }

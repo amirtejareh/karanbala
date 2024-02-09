@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ApiRequestOptions = {
-    readonly method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'PATCH';
+    readonly method: "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH";
     readonly url: string;
     readonly path?: Record<string, any>;
     readonly cookies?: Record<string, any>;
@@ -11,7 +11,7 @@ export type ApiRequestOptions = {
     readonly query?: Record<string, any>;
     readonly formData?: Record<string, any>;
     readonly body?: any;
-    readonly mediaType?: string;
+    mediaType?: string;
     readonly responseHeader?: string;
     readonly errors?: Record<number, string>;
 };

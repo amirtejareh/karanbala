@@ -151,7 +151,7 @@ export const getHeaders = async (
     const additionalHeaders = await resolve(options, config.HEADERS);
 
     const headers = Object.entries({
-        Accept: "multipart/form-data",
+        Accept: "application/json",
         ...additionalHeaders,
         ...options.headers,
     })
