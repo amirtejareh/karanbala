@@ -12,18 +12,18 @@ import { request as __request } from '../core/request';
 export class GradeLevelService {
 
     /**
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static gradeLevelControllerCreate(
-requestBody: CreateGradeLevelDto,
+formData: CreateGradeLevelDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/grade-level',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 
@@ -57,13 +57,13 @@ id: string,
 
     /**
      * @param id 
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static gradeLevelControllerUpdate(
 id: string,
-requestBody: UpdateGradeLevelDto,
+formData: UpdateGradeLevelDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
@@ -71,8 +71,8 @@ requestBody: UpdateGradeLevelDto,
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 

@@ -12,18 +12,18 @@ import { request as __request } from '../core/request';
 export class BookService {
 
     /**
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static bookControllerCreate(
-requestBody: CreateBookDto,
+formData: CreateBookDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/book',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 
@@ -57,13 +57,13 @@ id: string,
 
     /**
      * @param id 
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static bookControllerUpdate(
 id: string,
-requestBody: UpdateBookDto,
+formData: UpdateBookDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
@@ -71,8 +71,8 @@ requestBody: UpdateBookDto,
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 

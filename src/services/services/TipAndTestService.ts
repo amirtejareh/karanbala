@@ -12,18 +12,18 @@ import { request as __request } from '../core/request';
 export class TipAndTestService {
 
     /**
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static tipAndTestControllerCreate(
-requestBody: CreateTipAndTestDto,
+formData: CreateTipAndTestDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/tip-and-test',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 
@@ -57,13 +57,13 @@ id: string,
 
     /**
      * @param id 
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static tipAndTestControllerUpdate(
 id: string,
-requestBody: UpdateTipAndTestDto,
+formData: UpdateTipAndTestDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
@@ -71,8 +71,8 @@ requestBody: UpdateTipAndTestDto,
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 

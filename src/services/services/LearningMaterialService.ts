@@ -12,18 +12,18 @@ import { request as __request } from '../core/request';
 export class LearningMaterialService {
 
     /**
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerCreate(
-requestBody: CreateLearningMaterialDto,
+formData: CreateLearningMaterialDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/learning-material',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 
@@ -57,13 +57,13 @@ id: string,
 
     /**
      * @param id 
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static learningMaterialControllerUpdate(
 id: string,
-requestBody: UpdateLearningMaterialDto,
+formData: UpdateLearningMaterialDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
@@ -71,8 +71,8 @@ requestBody: UpdateLearningMaterialDto,
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 

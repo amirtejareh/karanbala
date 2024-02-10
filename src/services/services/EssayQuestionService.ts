@@ -12,18 +12,18 @@ import { request as __request } from '../core/request';
 export class EssayQuestionService {
 
     /**
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static essayQuestionControllerCreate(
-requestBody: CreateEssayQuestionsDto,
+formData: CreateEssayQuestionsDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/essay-question',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 
@@ -57,13 +57,13 @@ id: string,
 
     /**
      * @param id 
-     * @param requestBody 
+     * @param formData 
      * @returns any 
      * @throws ApiError
      */
     public static essayQuestionControllerUpdate(
 id: string,
-requestBody: UpdateEssayQuestionDto,
+formData: UpdateEssayQuestionDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
@@ -71,8 +71,8 @@ requestBody: UpdateEssayQuestionDto,
             path: {
                 'id': id,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 
