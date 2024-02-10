@@ -291,11 +291,11 @@ const Practice = () => {
     }, [seasonVisible]);
 
     useEffect(() => {
-        setsubjects(chapters?.chapters[1]?.sections);
+        setsubjects(chapters?.chapters[0]?.sections);
     }, [courses]);
 
     useEffect(() => {
-        const myEpisodeArray = chapters?.chapters[1]?.sections?.map((element: any, index: any) => {
+        const myEpisodeArray = chapters?.chapters[0]?.sections?.map((element: any, index: any) => {
             return {
                 id: "parent-episode-" + (index + 1),
                 isSelected: false,
