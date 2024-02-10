@@ -4,7 +4,7 @@ import { SampleExampleQuestionsService } from "../../services";
 
 const useGetSampleExampleQuestionsBasedOnBooks = (book: string[]) => {
     return useQuery(
-        ["Get-All-Learning-Material-Based-On-Book"],
+        ["Get-All-Sample-Example-Questions-Based-On-Book"],
         async () => {
             return await SampleExampleQuestionsService.sampleExampleQuestionsControllerFindSampleExampleQuestionsBasedOnBooks(
                 book,

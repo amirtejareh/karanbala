@@ -74,6 +74,10 @@ export const adminDashboardMenuItems = [
                             title: "کران بالا",
                             to: "/dashboard/admin/karanbala",
                         },
+                        {
+                            title: "تمارین داخل کتاب",
+                            to: "/dashboard/admin/practice",
+                        },
                     ],
                 },
                 {
