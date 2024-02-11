@@ -21,6 +21,7 @@ import BookReference from "../views/Dashboard/AdminDashboard/pages/content-manag
 import Karanbala from "../views/Dashboard/AdminDashboard/pages/educational-management/Karanbala/index";
 import AnswersheetManagement from "../views/Dashboard/AdminDashboard/pages/exam-management/AnswersheetManagement";
 import Practice from "../views/Dashboard/AdminDashboard/pages/educational-management/Practice";
+import Attach from "../views/Dashboard/AdminDashboard/pages/educational-management/Attach";
 
 const AdminDashboardRoute = () => {
     const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -307,6 +308,22 @@ const AdminDashboardRoute = () => {
                         }}
                     >
                         <Practice />
+                    </AuthorizedRoute>
+                }
+            />
+
+            <Route
+                path="/attach"
+                element={
+                    <AuthorizedRoute
+                        userRole={user?.user}
+                        route={{
+                            requiredRoles: ["SuperAdmin"],
+                            resource: "post",
+                            action: "create",
+                        }}
+                    >
+                        <Attach />
                     </AuthorizedRoute>
                 }
             />

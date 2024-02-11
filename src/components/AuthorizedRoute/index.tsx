@@ -55,7 +55,11 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
         return <Navigate to={"/"} />;
     }
 
-    return <>{children}</>;
+    if (accessToken) {
+        return <>{children}</>;
+    } else {
+        return <>Loading...</>;
+    }
 };
 
 export default AuthorizedRoute;

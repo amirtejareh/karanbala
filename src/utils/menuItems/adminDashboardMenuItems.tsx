@@ -78,6 +78,10 @@ export const adminDashboardMenuItems = [
                             title: "تمارین داخل کتاب",
                             to: "/dashboard/admin/practice",
                         },
+                        {
+                            title: "ضمائم",
+                            to: "/dashboard/admin/attach",
+                        },
                     ],
                 },
                 {
