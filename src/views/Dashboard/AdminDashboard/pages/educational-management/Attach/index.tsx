@@ -23,13 +23,12 @@ import { TableKit } from "../../../../../../components/kit/Table";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
 import { PrompModalKit } from "../../../../../../components/kit/Modal";
 import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
-import useGetSubjectsBasedOnSections from "../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 import { bytesToKilobytes } from "../../../../../../utils/helper";
 import { IVideo } from "../../../../../../interface/IEntity";
 import useCreateAttach from "../../../../../../hooks/attach/useCreateAttach";
 import useDeleteAttach from "../../../../../../hooks/attach/useDeleteAttach";
 import useUpdateAttach from "../../../../../../hooks/attach/useUpdateAttach";
-import useGetAttachBasedOnSubjects from "../../../../../../hooks/attach/useGetAttachBasedOnSubjects";
+import useGetAttachBasedOnChapters from "../../../../../../hooks/attach/useGetAttachBasedOnChapters";
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -73,8 +72,7 @@ const Attach = () => {
     const selectGradeLevelRef = useRef<any>();
     const selectBookRef = useRef<any>();
     const selectChaptertRef = useRef<any>();
-    const selectSectionRef = useRef<any>();
-    const selectSubjectRef = useRef<any>();
+    const selectTypeRef = useRef<any>();
     const imageRef = useRef<any>();
 
     const {
@@ -96,8 +94,7 @@ const Attach = () => {
     const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
     const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
     const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
-    const [sectionIds, setSectionIds] = useState<any>(chapterIds);
-    const [subjectIds, setSubjectIds] = useState<any>();
+    const [typeIds, setTypeIds] = React.useState<any>("");
 
     const [videoTitle, setVideoTitle] = useState<string>("");
     const [videoLink, setVideoLink] = useState<string>("");
@@ -125,7 +122,7 @@ const Attach = () => {
         setSelectedFile(updatedFiles);
     };
 
-    const handleDeleteSubject = (id: string) => {
+    const handleDeleteAttach = (id: string) => {
         deleteAttach.mutate(id, {
             onSuccess: async (result: {
                 message: string;
@@ -134,7 +131,7 @@ const Attach = () => {
             }) => {
                 if (result.statusCode == 200) {
                     setLoading(false);
-                    attachBasedOnSubjects.refetch();
+                    attachBasedOnChapters.refetch();
                     toast.success(result.message);
                 } else {
                     setLoading(false);
@@ -143,6 +140,10 @@ const Attach = () => {
             },
         });
     };
+
+    const attachBasedOnChapters = useGetAttachBasedOnChapters(
+        chapterIds?.length == 0 ? [null] : [chapterIds],
+    );
 
     const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
         gradeLevelIds?.length == 0 ? null : gradeLevelIds,
@@ -156,14 +157,6 @@ const Attach = () => {
         chapterIds?.length == 0 ? null : chapterIds,
     );
 
-    const subjectsBasedOnSections = useGetSubjectsBasedOnSections(
-        sectionIds?.length == 0 ? null : sectionIds,
-    );
-
-    const attachBasedOnSubjects = useGetAttachBasedOnSubjects(
-        subjectIds?.length == 0 ? [null] : [subjectIds],
-    );
-
     useEffect(() => {
         if (gradeLevelIds) {
             getBooksBasedOnGradeLevels.refetch();
@@ -175,16 +168,8 @@ const Attach = () => {
     }, [bookIds]);
 
     useEffect(() => {
-        if (chapterIds) getSectionsBasedOnChapters.refetch();
+        if (chapterIds) attachBasedOnChapters.refetch();
     }, [chapterIds]);
-
-    useEffect(() => {
-        if (sectionIds) subjectsBasedOnSections.refetch();
-    }, [sectionIds]);
-
-    useEffect(() => {
-        if (subjectIds) attachBasedOnSubjects.refetch();
-    }, [subjectIds]);
 
     useEffect(() => {
         toast.error(errors["books"]?.message?.toString());
@@ -195,33 +180,21 @@ const Attach = () => {
 
     const handleGradeLevelChange = (event: SelectChangeEvent) => {
         setGradeLevelIds(event.target.value as any);
-        attachBasedOnSubjects.refetch();
         setBookIds(null);
         setChapterIds(null);
-        setSectionIds(null);
-        setSubjectIds([]);
     };
 
     const handleBookChange = (event: SelectChangeEvent) => {
         setBookIds(event.target.value as any);
         setChapterIds(null);
-        setSectionIds(null);
-        setSubjectIds([]);
     };
 
     const handleChapterChange = (event: SelectChangeEvent) => {
         setChapterIds(event.target.value as any);
-        setSectionIds(null);
-        setSubjectIds([]);
     };
 
-    const handleSectionChange = (event: SelectChangeEvent) => {
-        setSectionIds(event.target.value as any);
-        setSubjectIds([]);
-    };
-
-    const handleSubjectChange = (event: SelectChangeEvent) => {
-        setSubjectIds(event.target.value as any);
+    const handleTypeChange = (event: SelectChangeEvent) => {
+        setTypeIds(event.target.value as any);
     };
 
     const handleCreateSubject = async (data: any) => {
@@ -229,14 +202,14 @@ const Attach = () => {
             { ...data, videos: videoList, pdfFiles: selectedFile },
             {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
-                    attachBasedOnSubjects.refetch();
                     setGradeLevelIds(null);
                     setBookIds(null);
                     setChapterIds(null);
-                    setSectionIds(null);
-                    setSubjectIds([]);
                     setVideoList([]);
                     setSelectedFile([]);
+                    setTypeIds(null);
+                    attachBasedOnChapters.refetch();
+                    toast.success(result.message);
                 },
                 onError: async (e: any) => {
                     toast.error(e.message);
@@ -254,11 +227,12 @@ const Attach = () => {
                 onSuccess: async (result: { message: string; statusCode: number }) => {
                     if (result.statusCode == 200) {
                         setLoading(false);
-                        subjectsBasedOnSections.refetch();
                         toast.success(result.message);
                         setValue({ doUpdate: false, data: "", id: null });
                         setGradeLevelIds(null);
                         setBookIds(null);
+                        setTypeIds(null);
+                        attachBasedOnChapters.refetch();
                     } else {
                         setLoading(false);
                         if (Array.isArray(result.message)) {
@@ -359,47 +333,23 @@ const Attach = () => {
                     </FormControl>
 
                     <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
+                        <InputLabel id="demo-simple-select-label">
+                            انتخاب (خلاصه درس، پیوست، جداول)
+                        </InputLabel>
                         <Select
-                            value={sectionIds ?? []}
-                            {...register("section")}
-                            inputRef={selectSectionRef}
-                            onChange={handleSectionChange}
+                            value={typeIds}
+                            {...register("type")}
+                            onChange={handleTypeChange}
+                            inputRef={selectTypeRef}
                         >
-                            {!getSectionsBasedOnChapters?.isLoading &&
-                                getSectionsBasedOnChapters?.data != undefined &&
-                                getSectionsBasedOnChapters?.data?.map((element) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl className={classes.formField} fullWidth>
-                        <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
-                        <Select
-                            value={subjectIds ?? []}
-                            {...register("subject")}
-                            inputRef={selectSubjectRef}
-                            onChange={handleSubjectChange}
-                        >
-                            {!subjectsBasedOnSections?.isLoading &&
-                                subjectsBasedOnSections?.data != undefined &&
-                                subjectsBasedOnSections?.data?.map((element) => {
-                                    return (
-                                        <MenuItem key={element._id} value={element._id}>
-                                            {element.title}
-                                        </MenuItem>
-                                    );
-                                })}
+                            <MenuItem value={"summary"}>خلاصه فصل</MenuItem>
+                            <MenuItem value={"attaches"}>پیوست</MenuItem>
+                            <MenuItem value={"tables"}>جداول</MenuItem>
                         </Select>
                     </FormControl>
 
                     {/* video link */}
-                    {subjectIds && subjectIds?.length > 0 && (
+                    {typeIds && typeIds?.length > 0 && (
                         <Box
                             sx={{
                                 width: "510px",
@@ -582,7 +532,7 @@ const Attach = () => {
                     )}
 
                     {/* select pdf files */}
-                    {subjectIds && subjectIds?.length > 0 && (
+                    {typeIds && typeIds?.length > 0 && (
                         <Box
                             sx={{
                                 width: "510px",
@@ -687,15 +637,21 @@ const Attach = () => {
             </Box>
             <Box className={classes.fieldOfStudy}>
                 <Typography>لیست ضمائم </Typography>
-                {!attachBasedOnSubjects.isLoading ? (
+                {!attachBasedOnChapters.isLoading ? (
                     <TableKit
                         secondary
                         headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-                        rows={attachBasedOnSubjects?.data?.map((item: any, index: any) => {
+                        rows={attachBasedOnChapters?.data?.map((item: any, index: any) => {
                             return {
                                 id: item._id,
                                 data: {
-                                    title: `${index + 1} کران بالا`,
+                                    title: `${item.chapter[0].title} ${
+                                        item.type == "summary"
+                                            ? "- خلاصه"
+                                            : item.type == "attaches"
+                                              ? "پیوست"
+                                              : "جداول"
+                                    }  `,
                                     action: (
                                         <>
                                             <IconButton
@@ -716,7 +672,11 @@ const Attach = () => {
                                                         }),
                                                     );
 
-                                                    console.log("item pdfFile => ", item.pdfFiles);
+                                                    setTypeIds("tables");
+
+                                                    setTimeout(() => {
+                                                        selectTypeRef.current.focus();
+                                                    }, 400);
                                                 }}
                                             >
                                                 <EditLightSvg width={12} height={12} />
@@ -724,9 +684,9 @@ const Attach = () => {
                                             <IconButton>
                                                 <PrompModalKit
                                                     description={
-                                                        "آیا از حذف موضوع مورد نظر مطمئن  هستید؟"
+                                                        "آیا از حذف ضمیمه مورد نظر مطمئن  هستید؟"
                                                     }
-                                                    onConfirm={() => handleDeleteSubject(item._id)}
+                                                    onConfirm={() => handleDeleteAttach(item._id)}
                                                     approved={"بله"}
                                                     denied={"خیر"}
                                                 >

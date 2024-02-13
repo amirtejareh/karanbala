@@ -94,18 +94,18 @@ id: string,
     }
 
     /**
-     * @param subjectsId 
+     * @param chaptersId 
      * @returns any 
      * @throws ApiError
      */
-    public static attachControllerFindAttachBasedOnSubject(
-subjectsId: Array<string>,
+    public static attachControllerFindAttachBasedOnChapter(
+chaptersId: Array<string>,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/attach/withSubjects/{subjectsId}',
+            url: '/attach/withChapters/{chaptersId}',
             path: {
-                'subjectsId': subjectsId,
+                'chaptersId': chaptersId,
             },
         });
     }
