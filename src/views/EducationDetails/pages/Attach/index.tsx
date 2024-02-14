@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         borderRadius: "1rem",
         justifyContent: "space-between",
         flexBasis: "100%",
-        padding: "0rem 2.5rem 0rem 2.5rem",
+        padding: "1.5rem 2.5rem 1.5rem 2.5rem",
         flexWrap: "wrap",
     },
     episodeLessonTitle: {
@@ -104,10 +104,12 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         borderRadius: "1rem",
         justifyContent: "space-between",
         flexBasis: "100%",
+        backgroundColor: theme?.palette?.grey["50"],
+        border: `1px solid ${theme?.palette?.grey["200"]}`,
         flexWrap: "wrap",
     },
     content: { width: "100%" },
-    attachment: { width: "100%", display: "flex" },
+    attachments: { width: "100%", display: "flex" },
     video: {
         width: "100%",
         display: "flex",
@@ -191,33 +193,56 @@ const Attach = () => {
     }, [getAttachBasedOnBooks.data]);
 
     useEffect(() => {
-        const getItems = () => {
-            const chapters = [];
-
-            if (getAttachBasedOnBooks?.data) {
-                getAttachBasedOnBooks?.data?.forEach((mapItem) => {
-                    const chapterTitle = mapItem.chapter[0].title;
-                    const existingChapter = chapters.find(
-                        (chapter) => chapter.chapterTitle === chapterTitle,
-                    );
-                });
-
-                return [
-                    {
-                        courseTitle: getAttachBasedOnBooks?.data[0]?.book[0]?.title,
-                        chapters,
-                    },
-                ];
-            }
-        };
-
         if (getAttachBasedOnBooks.data && !getAttachBasedOnBooks.isLoading) {
-            setCourses(getItems());
+            setCourses(getAttachBasedOnBooks.data);
+        }
+    }, [getAttachBasedOnBooks.data]);
+
+    const chapters = courses?.filter((element) => element?.chapter != null);
+
+    const uniqueChapters = [];
+    chapters?.forEach((chapter) => {
+        const isDuplicate = uniqueChapters.some(
+            (uniqueChapter) => uniqueChapter.title === chapter.chapter[0].title,
+        );
+        if (!isDuplicate) {
+            uniqueChapters.push({
+                title: chapter.chapter[0].title,
+                attachments: [
+                    {
+                        type: chapter.type,
+                        pdfFiles: chapter.pdfFiles,
+                        videos: chapter.videos,
+                    },
+                ],
+            });
+        } else {
+            uniqueChapters
+                .find((element) => element.title == chapter.chapter[0].title)
+                .attachments.push({
+                    type: chapter.type,
+                    pdfFiles: chapter.pdfFiles,
+                    videos: chapter.videos,
+                });
+        }
+    });
+
+    const [chapterDetails, setChapterDetails] = useState<any>();
+
+    useEffect(() => {
+        if (uniqueChapters.length > 0) {
+            setChapterDetails(uniqueChapters[0]);
         }
     }, [getAttachBasedOnBooks.data]);
 
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+    const seasonRef = useRef<any>();
+
+    useEffect(() => {
+        seasonRef?.current?.click();
+    }, [seasonRef?.current]);
 
     return (
         <>
@@ -249,118 +274,168 @@ const Attach = () => {
                 </Typography>
             </Box>
             <Box className={classes.course}>
-                <Box className={classes.chapters}>
-                    {getAttachBasedOnBooks.data.map((chapters) => {
-                        return chapters.chapter.map((element, index) => {
-                            return (
-                                <Box>
-                                    <Typography>
-                                        فصل {Num2persian(index + 1)}: {element.title}
-                                    </Typography>
-                                    <Typography className={classes.arrowLeftParent}>
-                                        <IconButton onClick={(e: any) => {}}></IconButton>
-                                    </Typography>
-                                </Box>
-                            );
-                        });
+                <Box>
+                    {uniqueChapters?.map((element, index) => {
+                        return (
+                            <Box
+                                key={index}
+                                className={
+                                    seasonVisible["season-" + (index + 1)]
+                                        ? classes.chapterselected
+                                        : classes.chapters
+                                }
+                            >
+                                <Typography>
+                                    فصل {Num2persian(index + 1)}: {element.title}
+                                </Typography>
+                                <Typography className={classes.arrowLeftParent}>
+                                    <IconButton
+                                        ref={index == 0 ? seasonRef : null}
+                                        onClick={(e: any) => {
+                                            setChapterDetails(element);
+
+                                            setSeasonVisible((prev: any) => {
+                                                return {
+                                                    ["season-" + (index + 1)]:
+                                                        !seasonVisible["season-" + (index + 1)],
+                                                };
+                                            });
+                                        }}
+                                    >
+                                        {seasonVisible["season-" + (index + 1)] ? (
+                                            <Box className={` ${classes.arrow} ${classes.down}`} />
+                                        ) : (
+                                            <ArrowLeftIcon className={classes.arrowLeft} />
+                                        )}
+                                    </IconButton>
+                                </Typography>
+                            </Box>
+                        );
                     })}
                 </Box>
                 <Box className={classes.episodeParent}>
-                    <Box onClick={(e: any) => {}} className={classes.subjects}>
-                        <Box className={classes.episodeBoxes}>
-                            <>
-                                <Box
-                                    onClick={(e) => e.stopPropagation()}
-                                    className={classes.episodeAttach}
-                                >
-                                    <Box
-                                        className={classes.episodeLessonTitle}
-                                        onClick={(e: any) => {}}
-                                    >
-                                        <Typography>S</Typography>
-                                        <Typography>
-                                            <IconButton onClick={(e: any) => {}}></IconButton>
-                                        </Typography>
-                                    </Box>
-
-                                    <Box className={classes.content}>
-                                        <Box className={classes.attachment}>
-                                            <Box display={"flex"} padding={"0.5rem"}>
-                                                <IconButtonKit>
-                                                    <Box display={"flex"} gap={"1rem"}>
-                                                        <ShowSvg />
-                                                        <Typography variant="caption">
-                                                            TEST
-                                                        </Typography>
-                                                    </Box>
-                                                </IconButtonKit>
-                                            </Box>
-                                        </Box>
-                                        <Box className={classes.video}>
-                                            <Box>
-                                                <IconButton>
-                                                    <ArrowRightSvg />
-                                                </IconButton>
-                                            </Box>
-
-                                            <Box>
-                                                <IconButton>
-                                                    <ArrowLeftSvg />
-                                                </IconButton>
-                                            </Box>
-                                        </Box>
-                                        <Box display={"flex"} justifyContent={"space-around"}>
-                                            {Array.of(1, 2, 3, 4, 5)?.map((element) => (
-                                                <Box
-                                                    onClick={() => {
-                                                        if (element === 3) {
-                                                            setModalOpen(true);
-                                                        }
-                                                    }}
-                                                >
-                                                    <IconButton className={classes.quickAccess}>
-                                                        <Box flexDirection={"column"}>
-                                                            <Box>
-                                                                {element == 1 ? (
-                                                                    <TextBookSvg />
-                                                                ) : element == 2 ? (
-                                                                    <KaranbalaExamSvg />
-                                                                ) : element == 3 ? (
-                                                                    <QuizSvg />
-                                                                ) : element == 4 ? (
-                                                                    <PointAndTestSvg />
-                                                                ) : element == 5 ? (
-                                                                    <QuestionsSvg />
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                            </Box>
-
-                                                            <Typography variant="subtitle2">
-                                                                {element == 1 ? (
-                                                                    <>درسنامه</>
-                                                                ) : element == 2 ? (
-                                                                    <>کران بالا</>
-                                                                ) : element == 3 ? (
-                                                                    <>آزمون انتخابی</>
-                                                                ) : element == 4 ? (
-                                                                    <>نکته و تست</>
-                                                                ) : element == 5 ? (
-                                                                    <>سوالات تشریحی</>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                            </Typography>
-                                                        </Box>
+                    {chapterDetails?.attachments?.map((element, index) => {
+                        return (
+                            <Box onClick={(e: any) => {}} className={classes.subjects}>
+                                <Box className={classes.episodeBoxes}>
+                                    <>
+                                        <Box
+                                            onClick={(e) => e.stopPropagation()}
+                                            className={classes.episodeAttach}
+                                        >
+                                            <Box
+                                                className={classes.episodeTitle}
+                                                onClick={(e: any) => {}}
+                                            >
+                                                <Typography>
+                                                    {element?.type === "summary"
+                                                        ? "خلاصه فصل"
+                                                        : chapterDetails?.type === "attaches"
+                                                          ? "پیوست"
+                                                          : "جداول"}
+                                                </Typography>
+                                                <Typography>
+                                                    <IconButton onClick={(e: any) => {}}>
+                                                        <ArrowDownSvg
+                                                            className={classes.arrowDown}
+                                                        />
                                                     </IconButton>
+                                                </Typography>
+                                            </Box>
+
+                                            <Box className={classes.content}>
+                                                <Box className={classes.attachments}>
+                                                    <Box display={"flex"} padding={"0.5rem"}>
+                                                        <IconButtonKit>
+                                                            <Box display={"flex"} gap={"1rem"}>
+                                                                <ShowSvg />
+                                                                <Typography variant="caption"></Typography>
+                                                            </Box>
+                                                        </IconButtonKit>
+                                                    </Box>
                                                 </Box>
-                                            ))}
+                                                <Box className={classes.video}>
+                                                    <Box>
+                                                        <IconButton>
+                                                            <ArrowRightSvg />
+                                                        </IconButton>
+                                                    </Box>
+                                                    <Box
+                                                        controls
+                                                        width={"100%"}
+                                                        display={"flex"}
+                                                        flexBasis={"59%"}
+                                                        borderRadius={"5px"}
+                                                        component={"video"}
+                                                    >
+                                                        <Box component={"source"}></Box>
+                                                    </Box>
+
+                                                    <Box>
+                                                        <IconButton>
+                                                            <ArrowLeftSvg />
+                                                        </IconButton>
+                                                    </Box>
+                                                </Box>
+                                                <Box
+                                                    display={"flex"}
+                                                    justifyContent={"space-around"}
+                                                >
+                                                    {Array.of(1, 2, 3, 4, 5)?.map((element) => (
+                                                        <Box
+                                                            onClick={() => {
+                                                                if (element === 3) {
+                                                                    setModalOpen(true);
+                                                                }
+                                                            }}
+                                                        >
+                                                            <IconButton
+                                                                className={classes.quickAccess}
+                                                            >
+                                                                <Box flexDirection={"column"}>
+                                                                    <Box>
+                                                                        {element == 1 ? (
+                                                                            <TextBookSvg />
+                                                                        ) : element == 2 ? (
+                                                                            <KaranbalaExamSvg />
+                                                                        ) : element == 3 ? (
+                                                                            <QuizSvg />
+                                                                        ) : element == 4 ? (
+                                                                            <PointAndTestSvg />
+                                                                        ) : element == 5 ? (
+                                                                            <QuestionsSvg />
+                                                                        ) : (
+                                                                            ""
+                                                                        )}
+                                                                    </Box>
+
+                                                                    <Typography variant="subtitle2">
+                                                                        {element == 1 ? (
+                                                                            <>درسنامه</>
+                                                                        ) : element == 2 ? (
+                                                                            <>کران بالا</>
+                                                                        ) : element == 3 ? (
+                                                                            <>آزمون انتخابی</>
+                                                                        ) : element == 4 ? (
+                                                                            <>نکته و تست</>
+                                                                        ) : element == 5 ? (
+                                                                            <>سوالات تشریحی</>
+                                                                        ) : (
+                                                                            ""
+                                                                        )}
+                                                                    </Typography>
+                                                                </Box>
+                                                            </IconButton>
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            </Box>
                                         </Box>
-                                    </Box>
+                                    </>
                                 </Box>
-                            </>
-                        </Box>
-                    </Box>
+                            </Box>
+                        );
+                    })}
                 </Box>
             </Box>
         </>
