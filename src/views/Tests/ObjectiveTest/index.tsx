@@ -376,8 +376,6 @@ const ObjectiveTest = () => {
         };
         createOnlineGradeReport.mutate(data, {
             onSuccess: async (result: { message: string; statusCode: number }) => {
-                console.log(result);
-
                 if (result.statusCode === 200) {
                     setLoading(false);
                     toast(result.message);

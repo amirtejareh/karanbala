@@ -1,7 +1,7 @@
 const isLocalhost = Boolean(
     window.location.hostname === "localhost" ||
         window.location.hostname === "[::1]" ||
-        window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+        window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/),
 );
 
 type Config = {
@@ -24,7 +24,7 @@ export function register(config?: Config) {
                 navigator.serviceWorker.ready.then(() => {
                     console.log(
                         "This web app is being served cache-first by a service " +
-                            "worker. To learn more, visit https://cra.link/PWA"
+                            "worker. To learn more, visit https://cra.link/PWA",
                     );
                 });
             } else {
@@ -48,7 +48,7 @@ function registerValidSW(swUrl: string, config?: Config) {
                         if (navigator.serviceWorker.controller) {
                             console.log(
                                 "New content is available and will be used when all " +
-                                    "tabs for this page are closed. See https://cra.link/PWA."
+                                    "tabs for this page are closed. See https://cra.link/PWA.",
                             );
                             if (config && config.onUpdate) {
                                 config.onUpdate(registration);

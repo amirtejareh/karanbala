@@ -716,11 +716,6 @@ const Practice = () => {
                                                                 return newItem;
                                                             }),
                                                         );
-
-                                                        console.log(
-                                                            "item pdfFile => ",
-                                                            item.pdfFiles,
-                                                        );
                                                     }}
                                                 >
                                                     <EditLightSvg width={12} height={12} />

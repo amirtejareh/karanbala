@@ -720,11 +720,6 @@ const LearningMaterial = (props: any) => {
                                                                 return newItem;
                                                             }),
                                                         );
-
-                                                        console.log(
-                                                            "item pdfFile => ",
-                                                            item.pdfFiles,
-                                                        );
                                                     }}
                                                 >
                                                     <EditLightSvg width={12} height={12} />
