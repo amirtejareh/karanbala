@@ -325,12 +325,22 @@ const Attach = () => {
                                         >
                                             <Box
                                                 className={classes.episodeTitle}
-                                                onClick={(e: any) => {}}
+                                                onClick={(e: any) => {
+                                                    setParentEpisodeVisible((prev: any) => {
+                                                        return {
+                                                            ...prev,
+                                                            ["parent-episode-" + (index + 1)]:
+                                                                !parentEpisodeVisible[
+                                                                    "parent-episode-" + (index + 1)
+                                                                ],
+                                                        };
+                                                    });
+                                                }}
                                             >
                                                 <Typography>
                                                     {element?.type === "summary"
                                                         ? "خلاصه فصل"
-                                                        : chapterDetails?.type === "attaches"
+                                                        : element?.type === "attaches"
                                                           ? "پیوست"
                                                           : "جداول"}
                                                 </Typography>
@@ -343,93 +353,45 @@ const Attach = () => {
                                                 </Typography>
                                             </Box>
 
-                                            <Box className={classes.content}>
-                                                <Box className={classes.attachments}>
-                                                    <Box display={"flex"} padding={"0.5rem"}>
-                                                        <IconButtonKit>
-                                                            <Box display={"flex"} gap={"1rem"}>
-                                                                <ShowSvg />
-                                                                <Typography variant="caption"></Typography>
-                                                            </Box>
-                                                        </IconButtonKit>
-                                                    </Box>
-                                                </Box>
-                                                <Box className={classes.video}>
-                                                    <Box>
-                                                        <IconButton>
-                                                            <ArrowRightSvg />
-                                                        </IconButton>
-                                                    </Box>
-                                                    <Box
-                                                        controls
-                                                        width={"100%"}
-                                                        display={"flex"}
-                                                        flexBasis={"59%"}
-                                                        borderRadius={"5px"}
-                                                        component={"video"}
-                                                    >
-                                                        <Box component={"source"}></Box>
-                                                    </Box>
-
-                                                    <Box>
-                                                        <IconButton>
-                                                            <ArrowLeftSvg />
-                                                        </IconButton>
-                                                    </Box>
-                                                </Box>
-                                                <Box
-                                                    display={"flex"}
-                                                    justifyContent={"space-around"}
-                                                >
-                                                    {Array.of(1, 2, 3, 4, 5)?.map((element) => (
-                                                        <Box
-                                                            onClick={() => {
-                                                                if (element === 3) {
-                                                                    setModalOpen(true);
-                                                                }
-                                                            }}
-                                                        >
-                                                            <IconButton
-                                                                className={classes.quickAccess}
-                                                            >
-                                                                <Box flexDirection={"column"}>
-                                                                    <Box>
-                                                                        {element == 1 ? (
-                                                                            <TextBookSvg />
-                                                                        ) : element == 2 ? (
-                                                                            <KaranbalaExamSvg />
-                                                                        ) : element == 3 ? (
-                                                                            <QuizSvg />
-                                                                        ) : element == 4 ? (
-                                                                            <PointAndTestSvg />
-                                                                        ) : element == 5 ? (
-                                                                            <QuestionsSvg />
-                                                                        ) : (
-                                                                            ""
-                                                                        )}
-                                                                    </Box>
-
-                                                                    <Typography variant="subtitle2">
-                                                                        {element == 1 ? (
-                                                                            <>درسنامه</>
-                                                                        ) : element == 2 ? (
-                                                                            <>کران بالا</>
-                                                                        ) : element == 3 ? (
-                                                                            <>آزمون انتخابی</>
-                                                                        ) : element == 4 ? (
-                                                                            <>نکته و تست</>
-                                                                        ) : element == 5 ? (
-                                                                            <>سوالات تشریحی</>
-                                                                        ) : (
-                                                                            ""
-                                                                        )}
-                                                                    </Typography>
+                                            {parentEpisodeVisible[
+                                                "parent-episode-" + (index + 1)
+                                            ] && (
+                                                <Box className={classes.content}>
+                                                    <Box className={classes.attachments}>
+                                                        <Box display={"flex"} padding={"0.5rem"}>
+                                                            <IconButtonKit>
+                                                                <Box display={"flex"} gap={"1rem"}>
+                                                                    <ShowSvg />
+                                                                    <Typography variant="caption"></Typography>
                                                                 </Box>
+                                                            </IconButtonKit>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box className={classes.video}>
+                                                        <Box>
+                                                            <IconButton>
+                                                                <ArrowRightSvg />
                                                             </IconButton>
                                                         </Box>
-                                                    ))}
+                                                        <Box
+                                                            controls
+                                                            width={"100%"}
+                                                            display={"flex"}
+                                                            flexBasis={"59%"}
+                                                            borderRadius={"5px"}
+                                                            component={"video"}
+                                                        >
+                                                            <Box component={"source"}></Box>
+                                                        </Box>
+
+                                                        <Box>
+                                                            <IconButton>
+                                                                <ArrowLeftSvg />
+                                                            </IconButton>
+                                                        </Box>
+                                                    </Box>
                                                 </Box>
-                                            </Box>
+                                            )}
                                         </Box>
                                     </>
                                 </Box>
