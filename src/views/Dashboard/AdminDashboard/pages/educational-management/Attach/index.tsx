@@ -672,7 +672,7 @@ const Attach = () => {
                                                         }),
                                                     );
 
-                                                    setTypeIds("tables");
+                                                    setTypeIds(item.type);
 
                                                     setTimeout(() => {
                                                         selectTypeRef.current.focus();
