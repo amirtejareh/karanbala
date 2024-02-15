@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
@@ -20,16 +20,21 @@ import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { IconButtonKit } from "../../../../components/kit/IconButton";
+import { ModalKit } from "../../../../components/kit/Modal";
+import { ModalQuiz } from "../Karanbala";
+import EducationDetailStore from "../../../../stores/educationDetailStore";
+import Num2persian from "num2persian";
+import useGetSampleTestQuestionsBasedOnBooks from "../../../../hooks/sample-test-questions/useGetSampleTestQuestionsBasedOnBooks";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
-    courses: {
+    course: {
         display: "flex",
         gap: "5rem",
         height: "7rem",
         justifyContent: "center",
         flexWrap: "wrap",
     },
-    seasons: {
+    chapters: {
         width: "27.125rem",
         display: "flex",
         backgroundColor: theme?.palette?.primary["main"],
@@ -42,7 +47,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         margin: "1rem",
         flexWrap: "wrap",
     },
-    seasonSelected: {
+    chapterselected: {
         width: "27.125rem",
         display: "flex",
         height: "6.1rem",
@@ -57,8 +62,9 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     },
     episodeParent: {
         flexBasis: "50%",
+        cursor: "pointer",
     },
-    episodes: {
+    subjects: {
         display: "flex",
         flexBasis: "50%",
         justifyContent: "space-between",
@@ -84,7 +90,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         flexBasis: "100%",
         flexWrap: "wrap",
     },
-    episodeLessons: {
+    episodeSampleTestQuestions: {
         display: "flex",
         borderRadius: "1rem",
         justifyContent: "space-between",
@@ -103,7 +109,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
         flexWrap: "wrap",
     },
     content: { width: "100%" },
-    attachment: { width: "100%", display: "flex" },
+    SampleTestQuestions: { width: "100%", display: "flex" },
     video: {
         width: "100%",
         display: "flex",
@@ -171,244 +177,96 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 const Example = () => {
     const theme: ThemeOptions = useTheme();
     const classes = useStyles();
-
     const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
     const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
     const [seasonVisible, setSeasonVisible] = useState<any>({});
-    const [episodes, setEpisodes] = useState<any>({});
+    const [subjects, setsubjects] = useState<any>({});
+    const [courses, setCourses] = useState<any>();
+    const { book } = EducationDetailStore();
 
-    const courses = [
-        {
-            courseTitle: "ریاضی ۱",
-            seasons: [
-                {
-                    seasonTitle: "ترم اول",
-                    lessons: [
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف تابع خطی",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف تابع ثابت",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف تابع خطی",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف تابع ثابت",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    seasonTitle: "ترم دوم",
-
-                    lessons: [
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال نامعین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            episodes: [
-                                {
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال معین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    seasonTitle: "کل کتاب",
-
-                    lessons: [
-                        {
-                            episodes: [
-                                {
-                                    title: "انتگرال نامعین",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال نامعین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            episodes: [
-                                {
-                                    title: "انتگرال معین",
-                                    attachment: [
-                                        {
-                                            title: "پی دی اف انتگرال معین",
-                                            address: "#",
-                                        },
-                                        {
-                                            title: "پی دی اف روش انتگرال گیری",
-                                            address: "#",
-                                        },
-                                    ],
-                                    videos: [
-                                        {
-                                            address: "#",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        },
-    ];
-
-    const seasons = courses.filter((element) => element.seasons != null)[0];
+    const getSampleTestQuestionsBasedOnBooks = useGetSampleTestQuestionsBasedOnBooks([book]);
 
     useEffect(() => {
-        const season = parseInt(
-            Object.keys(seasonVisible)
-                .map((element) => element.slice(7))
-                .toString(),
-        );
-        if (season) {
-            setEpisodes(seasons?.seasons[season - 1]?.lessons);
+        if (!getSampleTestQuestionsBasedOnBooks.isLoading) {
+            getSampleTestQuestionsBasedOnBooks.refetch();
         }
-    }, [seasonVisible]);
+    }, [getSampleTestQuestionsBasedOnBooks.data]);
+
+    console.log(getSampleTestQuestionsBasedOnBooks);
 
     useEffect(() => {
-        setEpisodes(seasons?.seasons[1]?.lessons);
-    }, []);
+        if (
+            getSampleTestQuestionsBasedOnBooks.data &&
+            !getSampleTestQuestionsBasedOnBooks.isLoading
+        ) {
+            setCourses(getSampleTestQuestionsBasedOnBooks.data);
+        }
+    }, [getSampleTestQuestionsBasedOnBooks.data]);
 
-    useEffect(() => {
-        const myEpisodeArray = seasons?.seasons[1]?.lessons?.map((element: any, index: any) => {
-            return {
-                id: "parent-episode-" + (index + 1),
-                isSelected: false,
-            };
-        });
+    const chapters = courses?.filter((element) => element?.chapter != null);
 
-        setParentEpisodeVisible(
-            myEpisodeArray.reduce((acc: any, item: any) => {
-                acc[item.id] = item.isSelected;
-                return acc;
-            }, {}),
+    const uniqueChapters = [];
+    chapters?.forEach((chapter) => {
+        const isDuplicate = uniqueChapters.some(
+            (uniqueChapter) =>
+                uniqueChapter?.title === chapter?.chapter[0]?.title ||
+                uniqueChapter?.title === chapter?.term[0]?.title,
         );
-
-        const myLessonArray = seasons?.seasons[0]?.lessons
-            ?.map((element: any, index: any) => {
-                return element.episodes.map((el: any, ix: any) => {
-                    return {
-                        id: "children-episode-index-" + index + "-ix-" + ix,
-                        isSelected: false,
-                    };
+        if (!isDuplicate) {
+            uniqueChapters.push({
+                title: chapter?.chapter[0]?.title || chapter?.term[0]?.title,
+                SampleTestQuestions: [
+                    {
+                        type: chapter?.type,
+                        pdfFiles: chapter?.pdfFiles,
+                        videos: chapter?.videos,
+                    },
+                ],
+            });
+        } else {
+            uniqueChapters
+                .find(
+                    (element) =>
+                        element?.title == chapter?.chapter[0]?.title ||
+                        element?.title == chapter?.term[0]?.title,
+                )
+                .SampleTestQuestions.push({
+                    type: chapter?.type,
+                    pdfFiles: chapter?.pdfFiles,
+                    videos: chapter?.videos,
                 });
-            })
-            .flat();
+        }
+    });
 
-        setChildrenEpisodeVisible(
-            myLessonArray.reduce((acc: any, item: any) => {
-                acc[item.id] = item.isSelected;
-                return acc;
-            }, {}),
-        );
-
-        const mySeasonArray = seasons?.seasons?.map((value, index) => {
-            return {
-                id: "season-" + (index + 1),
-                isSelected: false,
-            };
-        });
-        setSeasonVisible(
-            mySeasonArray.reduce((acc: any, item: any) => {
-                acc[item.id] = item.isSelected;
-                return acc;
-            }, {}),
-        );
-    }, []);
+    const [chapterDetails, setChapterDetails] = useState<any>();
 
     useEffect(() => {
-        setSeasonVisible((prev: any) => {
-            return {
-                ["season-" + 1]: !seasonVisible["season-" + 1],
-            };
-        });
-    }, []);
+        if (uniqueChapters.length > 0) {
+            setChapterDetails(uniqueChapters[0]);
+        }
+    }, [getSampleTestQuestionsBasedOnBooks.data]);
 
-    const episode: any = {
-        1: "تالیفی",
-        2: "سراسری",
-    };
     const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+    const seasonRef = useRef<any>();
+
+    useEffect(() => {
+        seasonRef?.current?.click();
+    }, [seasonRef?.current]);
+
     return (
         <>
+            <ModalKit
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+                modalState={modalOpen}
+                title={<>آزمون مورد نظر را انتخاب کنید</>}
+                maxWidth={"xs"}
+            >
+                {({ handleApproved }: any) => <ModalQuiz />}
+            </ModalKit>
             <Box
                 margin={"0.75rem 3.25rem 0 3.25rem"}
                 paddingBottom={"7.5rem"}
@@ -426,22 +284,25 @@ const Example = () => {
                     نمونه سوالات امتحانی
                 </Typography>
             </Box>
-            <Box className={classes.courses}>
+            <Box className={classes.course}>
                 <Box>
-                    {seasons?.seasons?.map((value, index) => {
+                    {uniqueChapters?.map((element, index) => {
                         return (
                             <Box
                                 key={index}
                                 className={
                                     seasonVisible["season-" + (index + 1)]
-                                        ? classes.seasonSelected
-                                        : classes.seasons
+                                        ? classes.chapterselected
+                                        : classes.chapters
                                 }
                             >
-                                <Typography>{value.seasonTitle}</Typography>
+                                <Typography>{element.title}</Typography>
                                 <Typography className={classes.arrowLeftParent}>
                                     <IconButton
+                                        ref={index == 0 ? seasonRef : null}
                                         onClick={(e: any) => {
+                                            setChapterDetails(element);
+
                                             setSeasonVisible((prev: any) => {
                                                 return {
                                                     ["season-" + (index + 1)]:
@@ -462,140 +323,88 @@ const Example = () => {
                     })}
                 </Box>
                 <Box className={classes.episodeParent}>
-                    {Object.values(episodes).length > 0 &&
-                        episodes?.map((value: any, index: any) => {
-                            return (
-                                <Box key={index} className={classes.episodes}>
-                                    <Box className={classes.episodeBoxes}>
-                                        <Box className={classes.episodeTitle}>
-                                            <Typography> {episode[index + 1]}</Typography>
-                                            <Typography>
-                                                <IconButton
-                                                    onClick={(e: any) => {
-                                                        setParentEpisodeVisible((prev: any) => {
-                                                            return {
-                                                                ...prev,
-                                                                ["parent-episode-" + (index + 1)]:
-                                                                    !parentEpisodeVisible[
-                                                                        "parent-episode-" +
-                                                                            (index + 1)
-                                                                    ],
-                                                            };
-                                                        });
-                                                    }}
-                                                >
-                                                    {parentEpisodeVisible[
-                                                        "parent-episode-" + (index + 1)
-                                                    ] ? (
-                                                        <ArrowUpSvg className={classes.arrowDown} />
-                                                    ) : (
+                    {chapterDetails?.SampleTestQuestions?.map((element, index) => {
+                        return (
+                            <Box onClick={(e: any) => {}} className={classes.subjects}>
+                                <Box className={classes.episodeBoxes}>
+                                    <>
+                                        <Box
+                                            onClick={(e) => e.stopPropagation()}
+                                            className={classes.episodeSampleTestQuestions}
+                                        >
+                                            <Box
+                                                className={classes.episodeTitle}
+                                                onClick={(e: any) => {
+                                                    setParentEpisodeVisible((prev: any) => {
+                                                        return {
+                                                            ...prev,
+                                                            ["parent-episode-" + (index + 1)]:
+                                                                !parentEpisodeVisible[
+                                                                    "parent-episode-" + (index + 1)
+                                                                ],
+                                                        };
+                                                    });
+                                                }}
+                                            >
+                                                <Typography>
+                                                    {element?.type === "authorship"
+                                                        ? "تالیفی"
+                                                        : "سراسری"}
+                                                </Typography>
+                                                <Typography>
+                                                    <IconButton onClick={(e: any) => {}}>
                                                         <ArrowDownSvg
                                                             className={classes.arrowDown}
                                                         />
-                                                    )}
-                                                </IconButton>
-                                            </Typography>
-                                        </Box>
-                                        {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
-                                            <>
-                                                {value?.episodes?.map((value: any, ix: any) => {
-                                                    return (
-                                                        <Box
-                                                            key={ix}
-                                                            className={classes.episodeLessons}
-                                                        >
-                                                            <Box className={classes.content}>
-                                                                <Box className={classes.attachment}>
-                                                                    {value.attachment.map(
-                                                                        (
-                                                                            element: any,
-                                                                            index: any,
-                                                                        ) => (
-                                                                            <Box
-                                                                                key={index}
-                                                                                display={"flex"}
-                                                                                padding={"0.5rem"}
-                                                                            >
-                                                                                <IconButtonKit
-                                                                                    onClick={() =>
-                                                                                        navigate(
-                                                                                            element.address,
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    <Box
-                                                                                        display={
-                                                                                            "flex"
-                                                                                        }
-                                                                                        gap={"1rem"}
-                                                                                    >
-                                                                                        <ShowSvg />
-                                                                                        <Typography variant="caption">
-                                                                                            {
-                                                                                                element.title
-                                                                                            }
-                                                                                        </Typography>
-                                                                                    </Box>
-                                                                                </IconButtonKit>
-                                                                            </Box>
-                                                                        ),
-                                                                    )}
-                                                                </Box>
-                                                                <Box className={classes.video}>
-                                                                    <Box>
-                                                                        <IconButton>
-                                                                            <ArrowRightSvg />
-                                                                        </IconButton>
-                                                                    </Box>
-                                                                    {value.videos.map(
-                                                                        (
-                                                                            element: any,
-                                                                            key: any,
-                                                                        ) => {
-                                                                            return (
-                                                                                <Box
-                                                                                    controls
-                                                                                    width={"100%"}
-                                                                                    display={"flex"}
-                                                                                    flexBasis={
-                                                                                        "59%"
-                                                                                    }
-                                                                                    borderRadius={
-                                                                                        "5px"
-                                                                                    }
-                                                                                    component={
-                                                                                        "video"
-                                                                                    }
-                                                                                >
-                                                                                    <Box
-                                                                                        component={
-                                                                                            "source"
-                                                                                        }
-                                                                                        src={
-                                                                                            element.address
-                                                                                        }
-                                                                                    ></Box>
-                                                                                </Box>
-                                                                            );
-                                                                        },
-                                                                    )}
+                                                    </IconButton>
+                                                </Typography>
+                                            </Box>
 
-                                                                    <Box>
-                                                                        <IconButton>
-                                                                            <ArrowLeftSvg />
-                                                                        </IconButton>
-                                                                    </Box>
+                                            {parentEpisodeVisible[
+                                                "parent-episode-" + (index + 1)
+                                            ] && (
+                                                <Box className={classes.content}>
+                                                    <Box className={classes.SampleTestQuestions}>
+                                                        <Box display={"flex"} padding={"0.5rem"}>
+                                                            <IconButtonKit>
+                                                                <Box display={"flex"} gap={"1rem"}>
+                                                                    <ShowSvg />
+                                                                    <Typography variant="caption"></Typography>
                                                                 </Box>
-                                                            </Box>
+                                                            </IconButtonKit>
                                                         </Box>
-                                                    );
-                                                })}
-                                            </>
-                                        )}
-                                    </Box>
+                                                    </Box>
+                                                    <Box className={classes.video}>
+                                                        <Box>
+                                                            <IconButton>
+                                                                <ArrowRightSvg />
+                                                            </IconButton>
+                                                        </Box>
+                                                        <Box
+                                                            controls
+                                                            width={"100%"}
+                                                            display={"flex"}
+                                                            flexBasis={"59%"}
+                                                            borderRadius={"5px"}
+                                                            component={"video"}
+                                                        >
+                                                            <Box component={"source"}></Box>
+                                                        </Box>
+
+                                                        <Box>
+                                                            <IconButton>
+                                                                <ArrowLeftSvg />
+                                                            </IconButton>
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    </>
                                 </Box>
-                            );
-                        })}
+                            </Box>
+                        );
+                    })}
                 </Box>
             </Box>
         </>
