@@ -2,26 +2,26 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateSampleExampleQuestionsDto } from '../models/CreateSampleExampleQuestionsDto';
-import type { UpdateSampleExampleQuestionsDto } from '../models/UpdateSampleExampleQuestionsDto';
+import type { CreateSampleTestQuestionsDto } from '../models/CreateSampleTestQuestionsDto';
+import type { UpdateSampleTestQuestionsDto } from '../models/UpdateSampleTestQuestionsDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class SampleExampleQuestionsService {
+export class SampleTestQuestionsService {
 
     /**
      * @param formData 
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerCreate(
-formData: CreateSampleExampleQuestionsDto,
+    public static sampleTestQuestionsControllerCreate(
+formData: CreateSampleTestQuestionsDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/sample-example-questions',
+            url: '/sample-test-questions',
             formData: formData,
             mediaType: 'multipart/form-data',
         });
@@ -31,10 +31,10 @@ formData: CreateSampleExampleQuestionsDto,
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerFindAll(): CancelablePromise<any> {
+    public static sampleTestQuestionsControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/sample-example-questions',
+            url: '/sample-test-questions',
         });
     }
 
@@ -43,12 +43,12 @@ formData: CreateSampleExampleQuestionsDto,
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerFindOne(
+    public static sampleTestQuestionsControllerFindOne(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/sample-example-questions/{id}',
+            url: '/sample-test-questions/{id}',
             path: {
                 'id': id,
             },
@@ -61,13 +61,13 @@ id: string,
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerUpdate(
+    public static sampleTestQuestionsControllerUpdate(
 id: string,
-formData: UpdateSampleExampleQuestionsDto,
+formData: UpdateSampleTestQuestionsDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/sample-example-questions/{id}',
+            url: '/sample-test-questions/{id}',
             path: {
                 'id': id,
             },
@@ -81,12 +81,12 @@ formData: UpdateSampleExampleQuestionsDto,
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerRemove(
+    public static sampleTestQuestionsControllerRemove(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/sample-example-questions/{id}',
+            url: '/sample-test-questions/{id}',
             path: {
                 'id': id,
             },
@@ -98,12 +98,12 @@ id: string,
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerFindSampleExampleQuestionsBasedOnSubject(
+    public static sampleTestQuestionsControllerFindSampleTestQuestionsBasedOnSubject(
 subjectsId: Array<string>,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/sample-example-questions/withSubjects/{subjectsId}',
+            url: '/sample-test-questions/withSubjects/{subjectsId}',
             path: {
                 'subjectsId': subjectsId,
             },
@@ -115,12 +115,12 @@ subjectsId: Array<string>,
      * @returns any 
      * @throws ApiError
      */
-    public static sampleExampleQuestionsControllerFindSampleExampleQuestionsBasedOnBooks(
+    public static sampleTestQuestionsControllerFindSampleTestQuestionsBasedOnBooks(
 booksId: Array<string>,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/sample-example-questions/withBooks/{booksId}',
+            url: '/sample-test-questions/withBooks/{booksId}',
             path: {
                 'booksId': booksId,
             },

@@ -21,6 +21,7 @@ export type { CreateObjectiveTestManagementDto } from './models/CreateObjectiveT
 export type { CreateOnlineGradeReportDto } from './models/CreateOnlineGradeReportDto';
 export { CreateQuestionDto } from './models/CreateQuestionDto';
 export type { CreateSampleExampleQuestionsDto } from './models/CreateSampleExampleQuestionsDto';
+export type { CreateSampleTestQuestionsDto } from './models/CreateSampleTestQuestionsDto';
 export type { CreateSectionDto } from './models/CreateSectionDto';
 export type { CreateSubjectDto } from './models/CreateSubjectDto';
 export type { CreateTermOfStudyDto } from './models/CreateTermOfStudyDto';
@@ -47,6 +48,7 @@ export type { UpdateObjectiveTestManagementDto } from './models/UpdateObjectiveT
 export type { UpdateOnlineGradeReportDto } from './models/UpdateOnlineGradeReportDto';
 export { UpdateQuestionDto } from './models/UpdateQuestionDto';
 export type { UpdateSampleExampleQuestionsDto } from './models/UpdateSampleExampleQuestionsDto';
+export type { UpdateSampleTestQuestionsDto } from './models/UpdateSampleTestQuestionsDto';
 export type { UpdateSectionDto } from './models/UpdateSectionDto';
 export type { UpdateSubjectDto } from './models/UpdateSubjectDto';
 export type { UpdateTermOfStudyDto } from './models/UpdateTermOfStudyDto';
@@ -70,6 +72,7 @@ export { ObjectiveTestManagementService } from './services/ObjectiveTestManageme
 export { OnlineGradeReportService } from './services/OnlineGradeReportService';
 export { QuestionService } from './services/QuestionService';
 export { SampleExampleQuestionsService } from './services/SampleExampleQuestionsService';
+export { SampleTestQuestionsService } from './services/SampleTestQuestionsService';
 export { SectionService } from './services/SectionService';
 export { SubjectService } from './services/SubjectService';
 export { TermOfStudyService } from './services/TermOfStudyService';
