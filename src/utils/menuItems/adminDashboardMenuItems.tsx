@@ -79,6 +79,10 @@ export const adminDashboardMenuItems = [
                             to: "/dashboard/admin/practice",
                         },
                         {
+                            title: "نمونه سوالات امتحانی",
+                            to: "/dashboard/admin/example",
+                        },
+                        {
                             title: "ضمائم",
                             to: "/dashboard/admin/attach",
                         },

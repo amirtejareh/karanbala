@@ -8,7 +8,7 @@ const useGetTermOfStudies = () => {
         async () => {
             return await TermOfStudyService.termOfStudyControllerFindAll();
         },
-        { refetchOnWindowFocus: false }
+        { refetchOnWindowFocus: false, enabled: false },
     );
 };
 

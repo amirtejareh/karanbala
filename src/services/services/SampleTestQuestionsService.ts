@@ -94,18 +94,18 @@ id: string,
     }
 
     /**
-     * @param subjectsId 
+     * @param chaptersId 
      * @returns any 
      * @throws ApiError
      */
-    public static sampleTestQuestionsControllerFindSampleTestQuestionsBasedOnSubject(
-subjectsId: Array<string>,
+    public static sampleTestQuestionsControllerFindAttachBasedOnChapter(
+chaptersId: Array<string>,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/sample-test-questions/withSubjects/{subjectsId}',
+            url: '/sample-test-questions/withChapters/{chaptersId}',
             path: {
-                'subjectsId': subjectsId,
+                'chaptersId': chaptersId,
             },
         });
     }

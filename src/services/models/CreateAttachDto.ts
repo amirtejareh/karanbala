@@ -21,6 +21,10 @@ export type CreateAttachDto = {
      */
     chapter: Chapter;
     /**
+     * type 
+     */
+    type: Array<string>;
+    /**
      * List of video object
      */
     videos: Array<string>;

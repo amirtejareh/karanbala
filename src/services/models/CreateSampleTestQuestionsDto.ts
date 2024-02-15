@@ -20,6 +20,10 @@ export type CreateSampleTestQuestionsDto = {
      */
     chapterTerm: Record<string, any>;
     /**
+     * type 
+     */
+    type: Array<string>;
+    /**
      * List of video object
      */
     videos: Array<string>;
