@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Book } from './Book';
-import type { GradeLevel } from './GradeLevel';
+import type { Book } from "./Book";
+import type { GradeLevel } from "./GradeLevel";
 
 export type CreateBookIntroDto = {
     /**
@@ -16,7 +16,7 @@ export type CreateBookIntroDto = {
      */
     book: Book;
     /**
-     * type 
+     * type
      */
     type: Array<string>;
     /**

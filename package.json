@@ -5,6 +5,7 @@
     "dependencies": {
         "@amcharts/amcharts4": "*",
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "@coreui/react": "^4.11.1",
         "@date-io/date-fns-jalali": "*",
         "@emotion/react": "*",
         "@emotion/styled": "*",
@@ -16,6 +17,7 @@
         "@mui/styles": "*",
         "@mui/x-data-grid": "*",
         "@mui/x-date-pickers": "*",
+        "bootstrap": "^5.3.2",
         "clsx": "*",
         "date-fns": "^2.30.0",
         "date-fns-jalali": "^2.13.0-0",
