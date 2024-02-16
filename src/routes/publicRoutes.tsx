@@ -22,6 +22,10 @@ import AuthorizedRoute from "../components/AuthorizedRoute";
 import { userStore } from "../stores";
 import PublicLayoutComponent from "../components/PublicLayoutComponent";
 import Shop from "../views/Shop";
+import BookDescription from "../views/EducationDetails/pages/IntroductionBook/page/BookDescription";
+import BookInEntranceExam from "../views/EducationDetails/pages/IntroductionBook/page/BookInEntranceExam";
+import BookInFinalExam from "../views/EducationDetails/pages/IntroductionBook/page/BookInFinalExam";
+import BookReview from "../views/EducationDetails/pages/IntroductionBook/page/BookReview";
 
 const PublicRoutes = () => {
     const user: any = userStore((state) => state);
@@ -69,6 +73,25 @@ const PublicRoutes = () => {
                 <Route
                     path={"/education-details/introduction-book"}
                     element={<IntroductionBook />}
+                />
+
+                <Route
+                    path={"/education-details/introduction-book/book-description"}
+                    element={<BookDescription />}
+                />
+
+                <Route
+                    path={"/education-details/introduction-book/book-in-entrance-exam"}
+                    element={<BookInEntranceExam />}
+                />
+
+                <Route
+                    path={"/education-details/introduction-book/book-in-final-exam"}
+                    element={<BookInFinalExam />}
+                />
+                <Route
+                    path={"/education-details/introduction-book/book-review"}
+                    element={<BookReview />}
                 />
                 <Route path={"/education-details/lessons"} element={<Lessons />} />
                 <Route path={"/education-details/questions"} element={<Questions />} />

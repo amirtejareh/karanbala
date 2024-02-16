@@ -110,4 +110,26 @@ booksId: Array<string>,
         });
     }
 
+    /**
+     * @param booksId 
+     * @param type 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static bookIntroControllerFindBookIntroBasedOnBooksAndType(
+booksId: Array<string>,
+type: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/book-intro/withBooksAndType/{booksId}',
+            path: {
+                'booksId': booksId,
+            },
+            query: {
+                'type': type,
+            },
+        });
+    }
+
 }

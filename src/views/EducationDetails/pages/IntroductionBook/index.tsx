@@ -44,8 +44,10 @@ const IntroductionBook = () => {
                     bgcolor={theme?.palette?.grey["50"]}
                     borderRadius={"1rem"}
                     padding={"11px"}
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => navigate("book-description")}
                 >
-                    <Typography variant="subtitle1">بیوگرافی کتاب</Typography>
+                    <Typography variant="subtitle1">توضیحات کتاب</Typography>
                 </Box>
                 <Box
                     display={"flex"}
@@ -56,6 +58,8 @@ const IntroductionBook = () => {
                     bgcolor={theme?.palette?.grey["50"]}
                     borderRadius={"1rem"}
                     padding={"11px"}
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => navigate("book-in-entrance-exam")}
                 >
                     <Typography variant="subtitle1">ریاضی۳ در کنکور</Typography>
                 </Box>
@@ -68,6 +72,8 @@ const IntroductionBook = () => {
                     display={"flex"}
                     borderRadius={"1rem"}
                     padding={"11px"}
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => navigate("book-in-final-exam")}
                 >
                     <Typography variant="subtitle1">ریاضی ۳ در امتحان پایانی</Typography>
                 </Box>
@@ -81,6 +87,8 @@ const IntroductionBook = () => {
                     display={"flex"}
                     borderRadius={"1rem"}
                     padding={"11px"}
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => navigate("book-review")}
                 >
                     <Typography variant="subtitle1">بررسی کتاب و نحوه مطالعه</Typography>
                 </Box>

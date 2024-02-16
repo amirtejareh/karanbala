@@ -39,6 +39,7 @@
         "redux": "^4.2.1",
         "stylis-plugin-rtl": "^2.1.1",
         "typescript": "*",
+        "video-react": "^0.16.0",
         "web-vitals": "*",
         "workbox-background-sync": "*",
         "workbox-broadcast-update": "*",
