@@ -1,9 +1,24 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import EducationDetailStore from "../../../../../../stores/educationDetailStore";
 import useGetBookIntroBasedOnBooksAndType from "../../../../../../hooks/book-intro/useGetBookIntroBasedOnBooksAndType";
+import { makeStyles } from "@mui/styles";
+import { ThemeOptions } from "@mui/system";
+import { CCarousel, CCarouselCaption, CCarouselItem } from "@coreui/react";
+import { Player, BigPlayButton } from "video-react";
+import { IconButtonKit } from "../../../../../../components/kit/IconButton";
+import { ShowSvg } from "../../../../../../assets";
 
+const useStyles = makeStyles((theme: ThemeOptions) => ({
+    attachments: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+}));
 const BookInEntranceExam = () => {
+    const classes = useStyles();
+
     const { book } = EducationDetailStore();
     const [bookDetails, setBookDetails] = useState<any>();
     const getBookIntroBasedOnBooksAndType = useGetBookIntroBasedOnBooksAndType(
@@ -17,19 +32,56 @@ const BookInEntranceExam = () => {
     }, [getBookIntroBasedOnBooksAndType.data]);
 
     return (
-        <Box height={"100vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-            {bookDetails && bookDetails.length > 0 && (
-                <Box
-                    controls
-                    maxWidth={"427px"}
-                    height={"341px"}
-                    borderRadius={"5px"}
-                    component={"video"}
-                >
-                    <Box component={"source"} src={bookDetails[0]?.videos[0]?.link}></Box>
-                </Box>
-            )}
-        </Box>
+        <>
+            <Box
+                sx={{ "& .carousel-control-prev,.carousel-control-next": { height: "520px" } }}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                padding={"50px 0 5px 0"}
+            >
+                <CCarousel controls indicators dark interval={false}>
+                    {bookDetails &&
+                        bookDetails.length > 0 &&
+                        bookDetails?.[0]?.videos?.map((video) => {
+                            return (
+                                <CCarouselItem>
+                                    <Player
+                                        controls
+                                        borderRadius={"5px"}
+                                        width={1000}
+                                        src={JSON.parse(video)?.link}
+                                        fluid={false}
+                                    >
+                                        <BigPlayButton position="center" />
+                                    </Player>
+                                    <CCarouselCaption className="d-none d-md-block">
+                                        {JSON.parse(video)?.title}
+                                    </CCarouselCaption>
+                                </CCarouselItem>
+                            );
+                        })}
+                </CCarousel>
+            </Box>
+            <Box display={"flex"} justifyContent={"center"}>
+                {bookDetails &&
+                    bookDetails.length > 0 &&
+                    bookDetails?.[0]?.pdfFiles?.map((pdf) => {
+                        return (
+                            <Box className={classes.attachments}>
+                                <Box display={"flex"} padding={"0.5rem"}>
+                                    <IconButtonKit>
+                                        <Box display={"flex"} gap={"1rem"}>
+                                            <ShowSvg />
+                                            <Typography variant="caption">{pdf.title}</Typography>
+                                        </Box>
+                                    </IconButtonKit>
+                                </Box>
+                            </Box>
+                        );
+                    })}
+            </Box>
+        </>
     );
 };
 
