@@ -24,7 +24,7 @@ const BookReview = () => {
     const [bookDetails, setBookDetails] = useState<any>();
     const getBookIntroBasedOnBooksAndType = useGetBookIntroBasedOnBooksAndType(
         [book],
-        "BookReview",
+        "bookReview",
     );
     useEffect(() => {
         if (getBookIntroBasedOnBooksAndType.data && !getBookIntroBasedOnBooksAndType.isLoading) {

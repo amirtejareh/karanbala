@@ -23,7 +23,7 @@ const BookInEntranceExam = () => {
     const [bookDetails, setBookDetails] = useState<any>();
     const getBookIntroBasedOnBooksAndType = useGetBookIntroBasedOnBooksAndType(
         [book],
-        "BookInEntranceExam",
+        "bookInEntranceExam",
     );
     useEffect(() => {
         if (getBookIntroBasedOnBooksAndType.data && !getBookIntroBasedOnBooksAndType.isLoading) {
