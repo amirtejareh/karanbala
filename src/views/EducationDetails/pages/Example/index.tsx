@@ -340,38 +340,25 @@ const Example = () => {
                       </Box>
 
                       {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
-                        <Box
-                          sx={{
-                            "& .carousel-control-prev,.carousel-control-next": {
-                              height: "520px",
-                            },
-                          }}
-                          display={"flex"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          padding={"50px 0 5px 0"}
-                        >
-                          <CCarousel controls indicators dark interval={false}>
-                            {Array.isArray(element?.videos) &&
-                              element?.videos?.map((element: any, key: any) => {
-                                return (
-                                  <CCarouselItem>
-                                    <Player
-                                      controls
-                                      borderRadius={"5px"}
-                                      width={1000}
-                                      src={JSON.parse(element).link}
-                                      fluid={false}
-                                    >
-                                      <BigPlayButton position="center" />
-                                    </Player>
-                                    <CCarouselCaption className="d-none d-md-block">
-                                      {JSON.parse(element).ttile}
-                                    </CCarouselCaption>
-                                  </CCarouselItem>
-                                );
-                              })}
-                          </CCarousel>
+                        <Box>
+                          <Box
+                            sx={{
+                              "& .carousel-control-prev,.carousel-control-next": {
+                                height: "520px",
+                              },
+                            }}
+                            display={"flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            padding={"50px 0 5px 0"}
+                          >
+                            <CCarousel controls indicators dark interval={false}>
+                              {Array.isArray(element?.videos) &&
+                                element?.videos?.map((element: any, key: any) => {
+                                  return <Box>s</Box>;
+                                })}
+                            </CCarousel>
+                          </Box>
                         </Box>
                       )}
                     </Box>

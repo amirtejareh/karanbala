@@ -4,61 +4,62 @@ import React from "react";
 import Select from "@mui/material/Select";
 
 const StyledMenu = withStyles(() => ({
-    root: {
-        fontSize: "1.4rem",
-        paddingTop: "1.1rem",
-        paddingBottom: "1.1rem",
-    },
+  root: {
+    fontSize: "1.4rem",
+    paddingTop: "1.1rem",
+    paddingBottom: "1.1rem",
+  },
 }))(MenuItem);
 
 export interface SelectKitOptionItemInterface {
-    value?: any;
-    title?: string;
-    code?: any;
+  value?: any;
+  title?: string;
+  code?: any;
 }
 
-interface ISelectKitProps extends Omit<SelectProps, "renderValue"> {
-    label?: React.ReactNode;
-    options: SelectKitOptionItemInterface[];
-    name?: string;
+interface ISelectKitProps extends Omit<SelectProps, "renderValue" | "variant"> {
+  label?: React.ReactNode;
+  options: SelectKitOptionItemInterface[];
+  name?: string;
+  variant?: any;
 }
 
 const SelectKit: React.FC<ISelectKitProps> = (props) => {
-    const { label, options, name, ...rest } = props;
+  const { label, options, name, ...rest } = props;
 
-    return (
-        <>
-            <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+  return (
+    <>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
 
-            <Select
-                labelId="demo-simple-select-label"
-                fullWidth
-                size="small"
-                input={<OutlinedInput />}
-                value={rest.value}
-                renderValue={(selected: any) => {
-                    if (options) {
-                        if (typeof selected === "number" || selected) {
-                            return options.find((fid) => fid.value === selected)?.title || label;
-                        }
-                        return label;
-                    }
-                }}
-                {...rest}
-            >
-                <StyledMenu disabled value="">
-                    <em>انتخاب کنید...</em>
-                </StyledMenu>
-                {options?.map((item, index) => {
-                    return (
-                        <StyledMenu key={index} value={item.value}>
-                            {item.title}
-                        </StyledMenu>
-                    );
-                })}
-            </Select>
-        </>
-    );
+      <Select
+        labelId="demo-simple-select-label"
+        fullWidth
+        size="small"
+        input={<OutlinedInput />}
+        value={rest.value}
+        renderValue={(selected: any) => {
+          if (options) {
+            if (typeof selected === "number" || selected) {
+              return options.find((fid) => fid.value === selected)?.title || label;
+            }
+            return label;
+          }
+        }}
+        {...rest}
+      >
+        <StyledMenu disabled value="">
+          <em>انتخاب کنید...</em>
+        </StyledMenu>
+        {options?.map((item, index) => {
+          return (
+            <StyledMenu key={index} value={item.value}>
+              {item.title}
+            </StyledMenu>
+          );
+        })}
+      </Select>
+    </>
+  );
 };
 
 export default SelectKit;
