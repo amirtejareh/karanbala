@@ -233,6 +233,12 @@ const Questions = () => {
                           link: JSON.parse(video).link ?? "#",
                           title: JSON.parse(video).title,
                         })) ?? "#",
+
+                      pdfFiles:
+                        mapItem.pdfFiles?.map((pdf) => ({
+                          link: pdf?.link ?? "#",
+                          title: pdf?.title,
+                        })) ?? "#",
                     },
                   ],
                 });
@@ -252,6 +258,11 @@ const Questions = () => {
                     mapItem.videos?.map((video) => ({
                       link: JSON.parse(video).link ?? "#",
                       title: JSON.parse(video).title,
+                    })) ?? "#",
+                  pdfFiles:
+                    mapItem.pdfFiles?.map((pdf) => ({
+                      link: pdf?.link ?? "#",
+                      title: pdf?.title,
                     })) ?? "#",
                 },
               ],
@@ -729,7 +740,7 @@ const Questions = () => {
                               ] && (
                                 <Box className={classes.content}>
                                   <Box className={classes.attachment}>
-                                    {value.attachment?.map((element: any, index: any) => (
+                                    {value.pdfFiles?.map((element: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
                                         <IconButtonKit onClick={() => navigate(element.address)}>
                                           <Box display={"flex"} gap={"1rem"}>
