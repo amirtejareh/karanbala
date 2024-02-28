@@ -6,15 +6,12 @@ import {
   ArrowDownSvg,
   ArrowLeftSvg,
   ArrowRightSvg,
-  ArrowUpSvg,
-  KaranbalaExamSvg,
   KaranbalaLogoTextSvg,
-  PointAndTestSvg,
-  QuestionsSvg,
-  QuizSvg,
   ShowSvg,
   TextBookSvg,
 } from "../../../../assets";
+import { Player, BigPlayButton } from "video-react";
+
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
@@ -25,6 +22,7 @@ import { ModalQuiz } from "../Karanbala";
 import EducationDetailStore from "../../../../stores/educationDetailStore";
 import Num2persian from "num2persian";
 import useGetAttachBasedOnBooks from "../../../../hooks/attach/useGetAttachBasedOnBooks";
+import { CCarousel, CCarouselCaption, CCarouselItem } from "@coreui/react";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   course: {
@@ -314,8 +312,6 @@ const Attach = () => {
         </Box>
         <Box className={classes.episodeParent}>
           {chapterDetails?.attachments?.map((element, index) => {
-            console.log(element, "element");
-
             return (
               <Box onClick={(e: any) => {}} className={classes.subjects}>
                 <Box className={classes.episodeBoxes}>
@@ -350,37 +346,39 @@ const Attach = () => {
                       {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
                         <Box className={classes.content}>
                           <Box className={classes.attachments}>
-                            <Box display={"flex"} padding={"0.5rem"}>
-                              <IconButtonKit>
-                                <Box display={"flex"} gap={"1rem"}>
-                                  <ShowSvg />
-                                  <Typography variant="caption"></Typography>
-                                </Box>
-                              </IconButtonKit>
-                            </Box>
+                            {element.pdfFiles?.map((element: any, index: any) => (
+                              <Box key={index} display={"flex"} padding={"0.5rem"}>
+                                <IconButtonKit onClick={() => navigate(element.address)}>
+                                  <Box display={"flex"} gap={"1rem"}>
+                                    <ShowSvg />
+                                    <Typography variant="caption">{element.title}</Typography>
+                                  </Box>
+                                </IconButtonKit>
+                              </Box>
+                            ))}
                           </Box>
                           <Box className={classes.video}>
-                            <Box>
-                              <IconButton>
-                                <ArrowRightSvg />
-                              </IconButton>
-                            </Box>
-                            <Box
-                              controls
-                              width={"100%"}
-                              display={"flex"}
-                              flexBasis={"59%"}
-                              borderRadius={"5px"}
-                              component={"video"}
-                            >
-                              <Box component={"source"}></Box>
-                            </Box>
-
-                            <Box>
-                              <IconButton>
-                                <ArrowLeftSvg />
-                              </IconButton>
-                            </Box>
+                            <CCarousel controls indicators dark interval={false}>
+                              {Array.isArray(element?.videos) &&
+                                element?.videos?.map((video: any, key: any) => {
+                                  return (
+                                    <CCarouselItem>
+                                      <Player
+                                        controls
+                                        borderRadius={"5px"}
+                                        width={1000}
+                                        src={video.link}
+                                        fluid={false}
+                                      >
+                                        <BigPlayButton position="center" />
+                                      </Player>
+                                      <CCarouselCaption className="d-none d-md-block">
+                                        {video.title}
+                                      </CCarouselCaption>
+                                    </CCarouselItem>
+                                  );
+                                })}
+                            </CCarousel>
                           </Box>
                         </Box>
                       )}
