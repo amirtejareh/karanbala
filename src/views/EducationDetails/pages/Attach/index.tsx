@@ -367,13 +367,13 @@ const Attach = () => {
                                         controls
                                         borderRadius={"5px"}
                                         width={1000}
-                                        src={video.link}
+                                        src={JSON.parse(video)?.link}
                                         fluid={false}
                                       >
                                         <BigPlayButton position="center" />
                                       </Player>
                                       <CCarouselCaption className="d-none d-md-block">
-                                        {video.title}
+                                        {JSON.parse(video)?.title}
                                       </CCarouselCaption>
                                     </CCarouselItem>
                                   );
