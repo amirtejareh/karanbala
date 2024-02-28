@@ -598,11 +598,6 @@ const Karanbala = () => {
                                     ))}
                                   </Box>
                                   <Box className={classes.video}>
-                                    <Box>
-                                      <IconButton>
-                                        <ArrowRightSvg />
-                                      </IconButton>
-                                    </Box>
                                     <CCarousel controls indicators dark interval={false}>
                                       {Array.isArray(value?.videos) &&
                                         value?.videos?.map((element: any, key: any) => {
@@ -624,12 +619,6 @@ const Karanbala = () => {
                                           );
                                         })}
                                     </CCarousel>
-
-                                    <Box>
-                                      <IconButton>
-                                        <ArrowLeftSvg />
-                                      </IconButton>
-                                    </Box>
                                   </Box>
                                   <Box display={"flex"} justifyContent={"space-around"}>
                                     {Array.of(1, 2, 3, 4, 5)?.map((element) => (
