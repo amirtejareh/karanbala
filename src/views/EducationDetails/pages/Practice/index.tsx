@@ -229,8 +229,14 @@ const Practice = () => {
                       quiz: "#",
                       videos:
                         mapItem.videos?.map((video) => ({
-                          link: JSON.parse(video).link ?? "#",
-                          title: JSON.parse(video).title,
+                          link: video?.link ?? "#",
+                          title: video?.title,
+                        })) ?? "#",
+
+                      pdfFiles:
+                        mapItem.pdfFiles?.map((pdf) => ({
+                          link: pdf?.link ?? "#",
+                          title: pdf?.title,
                         })) ?? "#",
                     },
                   ],
@@ -249,8 +255,13 @@ const Practice = () => {
                   quiz: "#",
                   videos:
                     mapItem.videos?.map((video) => ({
-                      link: JSON.parse(video).link ?? "#",
-                      title: JSON.parse(video).title,
+                      link: video?.link ?? "#",
+                      title: video?.title,
+                    })) ?? "#",
+                  pdfFiles:
+                    mapItem.pdfFiles?.map((pdf) => ({
+                      link: pdf?.link ?? "#",
+                      title: pdf?.title,
                     })) ?? "#",
                 },
               ],
@@ -422,6 +433,8 @@ const Practice = () => {
         <Box className={classes.episodeParent}>
           {Object.values(subjects ?? [])?.length > 0 &&
             subjects?.map((value: any, index: any) => {
+              console.log(value, "valuse");
+
               return (
                 <Box
                   onClick={(e: any) => {
@@ -461,7 +474,7 @@ const Practice = () => {
                     </Box>
                     {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
                       <>
-                        {value?.subjects?.map((value: any, ix: any) => {
+                        {value?.subjects?.map((subject: any, ix: any) => {
                           return (
                             <Box
                               onClick={(e) => e.stopPropagation()}
@@ -482,7 +495,7 @@ const Practice = () => {
                                   });
                                 }}
                               >
-                                <Typography>{value?.title}</Typography>
+                                <Typography>{subject?.title}</Typography>
                                 <Typography>
                                   <IconButton
                                     onClick={(e: any) => {
@@ -512,9 +525,9 @@ const Practice = () => {
                               ] && (
                                 <Box className={classes.content}>
                                   <Box className={classes.attachment}>
-                                    {value.attachment?.map((element: any, index: any) => (
+                                    {subject.pdfFiles?.map((element: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
-                                        <IconButtonKit onClick={() => navigate(element.address)}>
+                                        <IconButtonKit onClick={() => navigate(element.link)}>
                                           <Box display={"flex"} gap={"1rem"}>
                                             <ShowSvg />
                                             <Typography variant="caption">
@@ -526,38 +539,29 @@ const Practice = () => {
                                     ))}
                                   </Box>
                                   <Box className={classes.video}>
-                                    <Box>
-                                      <IconButton>
-                                        <ArrowRightSvg />
-                                      </IconButton>
-                                    </Box>
                                     <CCarousel controls indicators dark interval={false}>
-                                      {Array.isArray(value?.videos) &&
-                                        value?.videos?.map((element: any, key: any) => {
+                                      {Array.isArray(subject?.videos) &&
+                                        subject?.videos?.map((video: any, key: any) => {
+                                          console.log(video, "video");
+
                                           return (
                                             <CCarouselItem>
                                               <Player
                                                 controls
                                                 borderRadius={"5px"}
                                                 width={1000}
-                                                src={element.link}
+                                                src={video?.link}
                                                 fluid={false}
                                               >
                                                 <BigPlayButton position="center" />
                                               </Player>
                                               <CCarouselCaption className="d-none d-md-block">
-                                                {element.title}
+                                                {video?.title}
                                               </CCarouselCaption>
                                             </CCarouselItem>
                                           );
                                         })}
                                     </CCarousel>
-
-                                    <Box>
-                                      <IconButton>
-                                        <ArrowLeftSvg />
-                                      </IconButton>
-                                    </Box>
                                   </Box>
                                   <Box display={"flex"} justifyContent={"space-around"}>
                                     {Array.of(1, 2, 3, 4, 5)?.map((element) => (
