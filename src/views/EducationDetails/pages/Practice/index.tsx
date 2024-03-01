@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import {
   ArrowDownSvg,
-  ArrowLeftSvg,
-  ArrowRightSvg,
   ArrowUpSvg,
   KaranbalaExamSvg,
   KaranbalaLogoTextSvg,
@@ -111,7 +109,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     flexWrap: "wrap",
   },
   content: { width: "100%" },
-  attachment: { width: "100%", display: "flex" },
+  attachments: { width: "100%", display: "flex", flexWrap: "wrap", gap: "10px", padding: "0.5rem" },
   video: {
     width: "100%",
     display: "flex",
@@ -229,8 +227,8 @@ const Practice = () => {
                       quiz: "#",
                       videos:
                         mapItem.videos?.map((video) => ({
-                          link: video?.link ?? "#",
-                          title: video?.title,
+                          link: JSON.parse(video).link ?? "#",
+                          title: JSON.parse(video).title,
                         })) ?? "#",
 
                       pdfFiles:
@@ -255,8 +253,8 @@ const Practice = () => {
                   quiz: "#",
                   videos:
                     mapItem.videos?.map((video) => ({
-                      link: video?.link ?? "#",
-                      title: video?.title,
+                      link: JSON.parse(video).link ?? "#",
+                      title: JSON.parse(video).title,
                     })) ?? "#",
                   pdfFiles:
                     mapItem.pdfFiles?.map((pdf) => ({
@@ -524,39 +522,43 @@ const Practice = () => {
                                 "children-episode-index-" + index + "-ix-" + ix
                               ] && (
                                 <Box className={classes.content}>
-                                  <Box className={classes.attachment}>
-                                    {subject.pdfFiles?.map((element: any, index: any) => (
+                                  <Box className={classes.attachments}>
+                                    {subject.pdfFiles?.map((pdf: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
-                                        <IconButtonKit onClick={() => navigate(element.link)}>
+                                        <IconButtonKit onClick={() => navigate(pdf.link)}>
                                           <Box display={"flex"} gap={"1rem"}>
                                             <ShowSvg />
-                                            <Typography variant="caption">
-                                              {element.title}
-                                            </Typography>
+                                            <Typography variant="caption">sss</Typography>
                                           </Box>
                                         </IconButtonKit>
                                       </Box>
                                     ))}
                                   </Box>
-                                  <Box className={classes.video}>
+                                  <Box
+                                    sx={{
+                                      "& .carousel-control-prev,.carousel-control-next": {
+                                        height: "520px",
+                                      },
+                                    }}
+                                    className={classes.video}
+                                  >
                                     <CCarousel controls indicators dark interval={false}>
                                       {Array.isArray(subject?.videos) &&
-                                        subject?.videos?.map((video: any, key: any) => {
-                                          console.log(video, "video");
-
+                                        subject?.videos?.map((element: any, key: any) => {
                                           return (
                                             <CCarouselItem>
                                               <Player
                                                 controls
                                                 borderRadius={"5px"}
                                                 width={1000}
-                                                src={video?.link}
+                                                src={element.link}
                                                 fluid={false}
                                               >
                                                 <BigPlayButton position="center" />
                                               </Player>
+
                                               <CCarouselCaption className="d-none d-md-block">
-                                                {video?.title}
+                                                {element.title}
                                               </CCarouselCaption>
                                             </CCarouselItem>
                                           );

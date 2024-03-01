@@ -357,7 +357,14 @@ const Attach = () => {
                               </Box>
                             ))}
                           </Box>
-                          <Box className={classes.video}>
+                          <Box
+                            sx={{
+                              "& .carousel-control-prev,.carousel-control-next": {
+                                height: "520px",
+                              },
+                            }}
+                            className={classes.video}
+                          >
                             <CCarousel controls indicators dark interval={false}>
                               {Array.isArray(element?.videos) &&
                                 element?.videos?.map((video: any, key: any) => {

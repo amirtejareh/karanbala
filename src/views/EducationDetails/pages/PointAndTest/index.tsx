@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     flexWrap: "wrap",
   },
   content: { width: "100%" },
-  attachment: { width: "100%", display: "flex" },
+  attachments: { width: "100%", display: "flex", flexWrap: "wrap", gap: "10px", padding: "0.5rem" },
   video: {
     width: "100%",
     display: "flex",
@@ -286,225 +286,6 @@ const PointAndTest = () => {
       setCourses(getItems());
     }
   }, [getTipAndTestBasedOnBooks.data]);
-
-  const course = [
-    {
-      courseTitle: "ریاضی ۱",
-      chapters: [
-        {
-          chapterTitle: "تابع",
-          sections: [
-            {
-              subjects: [
-                {
-                  title: "تابع خطیِ، ثابت وتابع درجه دوم",
-                  attachment: [
-                    {
-                      title: "پی دی اف تابع خطی",
-                      address: "#",
-                    },
-                    {
-                      title: "پی دی اف تابع ثابت",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-                {
-                  title: "مثلثات",
-                  attachment: [
-                    {
-                      title: "پی دی اف مثلثات مقدماتی (۱) ",
-                      address: "#",
-                    },
-                    {
-                      title: " پی دی اف مثلثات (۲) ",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-              ],
-            },
-            {
-              subjects: [
-                {
-                  title: "تابع خطیِ، ثابت وتابع درجه سوم",
-                  attachment: [
-                    {
-                      title: "پی دی اف تابع خطی",
-                      address: "#",
-                    },
-                    {
-                      title: "پی دی اف تابع ثابت",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-                {
-                  title: "۲ مثلثات",
-                  attachment: [
-                    {
-                      title: " پی دی اف مثلثات مقدماتی (۳)",
-                      address: "#",
-                    },
-                    {
-                      title: " پی دی اف مثلثات (۴) ",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          chapterTitle: "انتگرال",
-
-          sections: [
-            {
-              subjects: [
-                {
-                  title: "انتگرال نامعین",
-                  attachment: [
-                    {
-                      title: "پی دی اف انتگرال نامعین",
-                      address: "#",
-                    },
-                    {
-                      title: "پی دی اف روش انتگرال گیری",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-                {
-                  title: "انتگرال توابع گویا",
-                  attachment: [
-                    {
-                      title: "پی دی اف انتگرال گویا",
-                      address: "#",
-                    },
-                    {
-                      title: "پی دی اف روش انتگرال گیری",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-              ],
-            },
-            {
-              subjects: [
-                {
-                  title: "انتگرال معین",
-                  attachment: [
-                    {
-                      title: "پی دی اف انتگرال معین",
-                      address: "#",
-                    },
-                    {
-                      title: "پی دی اف روش انتگرال گیری",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-                {
-                  title: "انتگرال توابع گنگ",
-                  attachment: [
-                    {
-                      title: "پی دی اف انتگرال گنگ",
-                      address: "#",
-                    },
-                    {
-                      title: "پی دی اف روش انتگرال گیری توابع گنگ",
-                      address: "#",
-                    },
-                  ],
-                  videos: [
-                    {
-                      address: "#",
-                    },
-                  ],
-                  lessonPlan: "#",
-                  karanbala: "#",
-                  quiz: "#",
-                  pointAndTest: "#",
-                  questions: "#",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
   const chapters = courses?.filter((element) => element?.chapters != null)[0];
 
@@ -738,7 +519,7 @@ const PointAndTest = () => {
                                 "children-episode-index-" + index + "-ix-" + ix
                               ] && (
                                 <Box className={classes.content}>
-                                  <Box className={classes.attachment}>
+                                  <Box className={classes.attachments}>
                                     {value.pdfFiles?.map((element: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
                                         <IconButtonKit onClick={() => navigate(element.address)}>
@@ -752,12 +533,14 @@ const PointAndTest = () => {
                                       </Box>
                                     ))}
                                   </Box>
-                                  <Box className={classes.video}>
-                                    <Box>
-                                      <IconButton>
-                                        <ArrowRightSvg />
-                                      </IconButton>
-                                    </Box>
+                                  <Box
+                                    sx={{
+                                      "& .carousel-control-prev,.carousel-control-next": {
+                                        height: "520px",
+                                      },
+                                    }}
+                                    className={classes.video}
+                                  >
                                     <CCarousel controls indicators dark interval={false}>
                                       {Array.isArray(value?.videos) &&
                                         value?.videos?.map((element: any, key: any) => {
@@ -779,12 +562,6 @@ const PointAndTest = () => {
                                           );
                                         })}
                                     </CCarousel>
-
-                                    <Box>
-                                      <IconButton>
-                                        <ArrowLeftSvg />
-                                      </IconButton>
-                                    </Box>
                                   </Box>
                                   <Box display={"flex"} justifyContent={"space-around"}>
                                     {Array.of(1, 2, 3, 4, 5)?.map((element) => (

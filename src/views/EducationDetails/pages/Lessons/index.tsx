@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     flexWrap: "wrap",
   },
   content: { width: "100%" },
-  attachment: { width: "100%", display: "flex" },
+  attachments: { width: "100%", display: "flex", flexWrap: "wrap", gap: "10px", padding: "0.5rem" },
   video: {
     width: "100%",
     display: "flex",
@@ -516,7 +516,7 @@ const Lessons = () => {
                                 "children-episode-index-" + index + "-ix-" + ix
                               ] && (
                                 <Box className={classes.content}>
-                                  <Box className={classes.attachment}>
+                                  <Box className={classes.attachments}>
                                     {value.pdfFiles?.map((element: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
                                         <IconButtonKit onClick={() => navigate(element.address)}>

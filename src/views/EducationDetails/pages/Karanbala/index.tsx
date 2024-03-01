@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     flexWrap: "wrap",
   },
   content: { width: "100%" },
-  attachment: { width: "100%", display: "flex" },
+  attachments: { width: "100%", display: "flex", flexWrap: "wrap", gap: "10px", padding: "0.5rem" },
   video: {
     width: "100%",
     display: "flex",
@@ -583,7 +583,7 @@ const Karanbala = () => {
                                 "children-episode-index-" + index + "-ix-" + ix
                               ] && (
                                 <Box className={classes.content}>
-                                  <Box className={classes.attachment}>
+                                  <Box className={classes.attachments}>
                                     {value.pdfFiles?.map((element: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
                                         <IconButtonKit onClick={() => navigate(element.address)}>
@@ -597,7 +597,14 @@ const Karanbala = () => {
                                       </Box>
                                     ))}
                                   </Box>
-                                  <Box className={classes.video}>
+                                  <Box
+                                    sx={{
+                                      "& .carousel-control-prev,.carousel-control-next": {
+                                        height: "520px",
+                                      },
+                                    }}
+                                    className={classes.video}
+                                  >
                                     <CCarousel controls indicators dark interval={false}>
                                       {Array.isArray(value?.videos) &&
                                         value?.videos?.map((element: any, key: any) => {
