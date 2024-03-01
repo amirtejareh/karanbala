@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import { ArrowDownSvg, KaranbalaLogoTextSvg } from "../../../../assets";
+import { ArrowDownSvg, KaranbalaLogoTextSvg, ShowSvg } from "../../../../assets";
 import { makeStyles } from "@mui/styles";
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { ButtonKit } from "../../../../components/kit/Button";
@@ -13,6 +13,7 @@ import EducationDetailStore from "../../../../stores/educationDetailStore";
 import useGetSampleTestQuestionsBasedOnBooks from "../../../../hooks/sample-test-questions/useGetSampleTestQuestionsBasedOnBooks";
 import { CCarousel, CCarouselCaption, CCarouselItem } from "@coreui/react";
 import { Player, BigPlayButton } from "video-react";
+import { IconButtonKit } from "../../../../components/kit/IconButton";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   course: {
@@ -156,7 +157,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-
+  attachments: { width: "100%", display: "flex", flexWrap: "wrap", gap: "10px", padding: "0.5rem" },
   down: {
     transform: "rotate(45deg)",
   },
@@ -340,22 +341,39 @@ const Example = () => {
                       </Box>
 
                       {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
-                        <Box>
-                          <Box
-                            sx={{
-                              "& .carousel-control-prev,.carousel-control-next": {
-                                height: "520px",
-                              },
-                            }}
-                            display={"flex"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            padding={"50px 0 5px 0"}
-                          >
+                        <Box className={classes.content}>
+                          <Box className={classes.attachments}>
+                            {element.pdfFiles?.map((element: any, index: any) => (
+                              <Box key={index} display={"flex"} padding={"0.5rem"}>
+                                <IconButtonKit onClick={() => navigate(element.address)}>
+                                  <Box display={"flex"} gap={"1rem"}>
+                                    <ShowSvg />
+                                    <Typography variant="caption">{element.title}</Typography>
+                                  </Box>
+                                </IconButtonKit>
+                              </Box>
+                            ))}
+                          </Box>
+                          <Box className={classes.video}>
                             <CCarousel controls indicators dark interval={false}>
                               {Array.isArray(element?.videos) &&
-                                element?.videos?.map((element: any, key: any) => {
-                                  return <Box>s</Box>;
+                                element?.videos?.map((video: any, key: any) => {
+                                  return (
+                                    <CCarouselItem>
+                                      <Player
+                                        controls
+                                        borderRadius={"5px"}
+                                        width={1000}
+                                        src={JSON.parse(video)?.link}
+                                        fluid={false}
+                                      >
+                                        <BigPlayButton position="center" />
+                                      </Player>
+                                      <CCarouselCaption className="d-none d-md-block">
+                                        {JSON.parse(video)?.title}
+                                      </CCarouselCaption>
+                                    </CCarouselItem>
+                                  );
                                 })}
                             </CCarousel>
                           </Box>

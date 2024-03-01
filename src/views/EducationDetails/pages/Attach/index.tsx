@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
     flexWrap: "wrap",
   },
   content: { width: "100%" },
-  attachments: { width: "100%", display: "flex" },
+  attachments: { width: "100%", display: "flex", flexWrap: "wrap", gap: "10px", padding: "0.5rem" },
   video: {
     width: "100%",
     display: "flex",
