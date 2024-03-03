@@ -4,13 +4,6 @@
 /* eslint-disable */
 
 export type CreateStandardDto = {
-    gradeLevels: Array<string>;
-    books: Array<string>;
-    chapters: Array<string>;
-    /**
-     * Chapter Or Term id
-     */
-    chapterTerm: Record<string, any>;
     correctAnswer: number;
     examNumber: number;
     questionNumber: number;
