@@ -87,12 +87,16 @@ export const adminDashboardMenuItems = [
               to: "/dashboard/admin/attach",
             },
             {
-              title: "آزمون استاندارد",
+              title: "ایجاد آزمون استاندارد یا موضوعی ",
+              to: "/dashboard/admin/exam/create",
+            },
+            {
+              title: "ایجاد شناسنامه سوال آزمون استاندارد",
               to: "/dashboard/admin/exam/standard",
             },
 
             {
-              title: "آزمون موضوعی",
+              title: "ایجاد شناسنامه سوال آزمون موضوعی",
               to: "/dashboard/admin/exam/subjective",
             },
           ],

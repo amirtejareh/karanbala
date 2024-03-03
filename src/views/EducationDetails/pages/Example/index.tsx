@@ -181,8 +181,6 @@ const Example = () => {
     }
   }, [getSampleTestQuestionsBasedOnBooks.data]);
 
-  console.log(getSampleTestQuestionsBasedOnBooks);
-
   useEffect(() => {
     if (getSampleTestQuestionsBasedOnBooks.data && !getSampleTestQuestionsBasedOnBooks.isLoading) {
       setCourses(getSampleTestQuestionsBasedOnBooks.data);
@@ -309,7 +307,6 @@ const Example = () => {
         </Box>
         <Box className={classes.episodeParent}>
           {chapterDetails?.SampleTestQuestions?.map((element, index) => {
-            console.log(element, "element");
             return (
               <Box onClick={(e: any) => {}} className={classes.subjects}>
                 <Box className={classes.episodeBoxes}>

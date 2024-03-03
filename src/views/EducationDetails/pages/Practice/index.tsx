@@ -431,8 +431,6 @@ const Practice = () => {
         <Box className={classes.episodeParent}>
           {Object.values(subjects ?? [])?.length > 0 &&
             subjects?.map((value: any, index: any) => {
-              console.log(value, "valuse");
-
               return (
                 <Box
                   onClick={(e: any) => {
