@@ -24,6 +24,7 @@ import Practice from "../views/Dashboard/AdminDashboard/pages/educational-manage
 import Attach from "../views/Dashboard/AdminDashboard/pages/educational-management/Attach";
 import Example from "../views/Dashboard/AdminDashboard/pages/educational-management/Example";
 import StandardExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Standard";
+import CreateExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Create";
 
 const AdminDashboardRoute = () => {
   const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -357,6 +358,22 @@ const AdminDashboardRoute = () => {
             }}
           >
             <StandardExam />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
+        path="/exam/create"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <CreateExam />
           </AuthorizedRoute>
         }
       />
