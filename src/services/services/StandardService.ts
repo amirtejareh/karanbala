@@ -30,14 +30,12 @@ requestBody: CreateStandardDto,
     /**
      * @param page 
      * @param limit 
-     * @param objectiveTestId 
      * @returns any 
      * @throws ApiError
      */
     public static standardControllerFindAll(
 page: number,
 limit: number,
-objectiveTestId: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -45,7 +43,6 @@ objectiveTestId: string,
             query: {
                 'page': page,
                 'limit': limit,
-                'objectiveTestId': objectiveTestId,
             },
         });
     }

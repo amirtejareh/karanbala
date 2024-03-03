@@ -16,12 +16,12 @@ import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import RichTextEditor from "../../../../../../../utils/ReactQuill";
-import useGetGradeLevels from "../../../../../../../hooks/grade-level/useGetGradeLevels";
 import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
 import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
 import useUpdateStandardExam from "../../../../../../../hooks/standard-exam/useUpdateStandardExam";
 import useCreateStandardExam from "../../../../../../../hooks/standard-exam/useCreateStandardExam";
+import useGetCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExam";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -72,15 +72,25 @@ const StandardExam = () => {
   const imageRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
   const [loading, setLoading] = useState(false);
+  const [limit, _] = useState<number>(5);
+
   const [page, setPage] = useState<number>(1);
   const [pageSize] = useState<number>(10);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
   const [number, setNumber] = React.useState<any>();
+  const [correctAnswer, setCorrectAnswer] = React.useState<any>();
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
 
-  const getGradeLevels = useGetGradeLevels();
+  const getCreateExam = useGetCreateExam(page === 0 ? 1 : page, limit);
+
+  useEffect(() => {
+    getCreateExam.refetch();
+  }, []);
+
+  console.log(getCreateExam);
+
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
     gradeLevelIds?.length == 0 ? null : gradeLevelIds,
   );
@@ -159,23 +169,53 @@ const StandardExam = () => {
   const createStandardExam = useCreateStandardExam();
 
   const handleCreateStandardExam = async (data: any) => {
-    createStandardExam.mutate(
-      {
-        ...data,
-      },
-      {
-        onSuccess: async (result: { message: string; statusCode: number }) => {
+    if (
+      options.option1 == "" ||
+      options.option2 == "" ||
+      options.option3 == "" ||
+      options.option4 == ""
+    ) {
+      return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
+    }
+
+    if (quillEditorValue == "") {
+      return toast.error("حداقل یک سوال باید ایجاد شود");
+    }
+    data.options = options;
+    data.question = quillEditorValue;
+    setLoading(true);
+
+    createStandardExam.mutate(data, {
+      onSuccess: async (result: { message: string; statusCode: number }) => {
+        if (result.statusCode == 200) {
+          setLoading(false);
           setGradeLevelIds(null);
           setBookIds(null);
-          setChapterIds([]);
-          setTermIds([]);
+          setChapterIds(null);
           toast.success(result.message);
-        },
-        onError: async (e: any) => {
-          toast.error(e.message);
-        },
+        } else {
+          setLoading(false);
+          if (Array.isArray(result.message)) {
+            toast.error(
+              <ul>
+                {result.message.map((msg: string) => (
+                  <li key={msg}>{msg}</li>
+                ))}
+              </ul>,
+            );
+          } else {
+            toast.error(
+              <ul>
+                <li key={result.message}>{result.message}</li>
+              </ul>,
+            );
+          }
+        }
       },
-    );
+      onError: async (e: any) => {
+        toast.error(e.message);
+      },
+    });
   };
 
   const updateStandardExam = useUpdateStandardExam();
@@ -235,6 +275,34 @@ const StandardExam = () => {
               : handleSubmit(handleCreateStandardExam)
           }
         >
+          <FormControl className={classes.formField} fullWidth>
+            <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
+            <Select {...register("createExam")}>
+              {!getCreateExam?.isLoading &&
+                getCreateExam?.data?.createExams.map((element: any) => {
+                  return (
+                    <MenuItem key={element._id} value={element._id}>
+                      {element.number} - {element.type === "standard" ? "استاندارد" : "موضوعی"}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </FormControl>
+
+          <FormControl className={classes.formField}>
+            <TextField
+              value={correctAnswer}
+              type="text"
+              {...register("correctAnswer")}
+              onChange={(e) => {
+                setCorrectAnswer(e.target.value);
+                register("correctAnswer").onChange(e);
+              }}
+              label="گزینه صحیح"
+              inputRef={inputNumberRef}
+            />
+          </FormControl>
+
           <FormControl className={classes.formField}>
             <TextField
               value={number}
