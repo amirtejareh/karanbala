@@ -19,10 +19,9 @@ import RichTextEditor from "../../../../../../../utils/ReactQuill";
 import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
 import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
-import useUpdateStandardExam from "../../../../../../../hooks/standard-exam/useUpdateStandardExam";
-import useCreateStandardExam from "../../../../../../../hooks/standard-exam/useCreateStandardExam";
-import useGetCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExam";
-import useGetCreateExamBasedOnStandardExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExam";
+import useUpdateSubjectiveExam from "../../../../../../../hooks/subjective-exam/useUpdateSubjectiveExam";
+import useCreateSubjectiveExam from "../../../../../../../hooks/subjective-exam/useCreateSubjectiveExam";
+import useGetCreateExamBasedOnSubjectiveExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExam";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -60,14 +59,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const StandardExam = () => {
+const SubjectiveExam = () => {
   const classes = useStyles();
 
-  const selectGradeLevelRef = useRef<any>();
-  const selectBookRef = useRef<any>();
-  const selectChaptertRef = useRef<any>();
-  const selectTypeRef = useRef<any>();
-  const selectTermRef = useRef<any>();
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
   const imageRef = useRef<any>();
@@ -84,13 +78,11 @@ const StandardExam = () => {
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
 
-  const getCreateExam = useGetCreateExamBasedOnStandardExam(page === 0 ? 1 : page, limit);
+  const getCreateExam = useGetCreateExamBasedOnSubjectiveExam(page === 0 ? 1 : page, limit);
 
   useEffect(() => {
     getCreateExam.refetch();
   }, []);
-
-  console.log(getCreateExam);
 
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
     gradeLevelIds?.length == 0 ? null : gradeLevelIds,
@@ -108,32 +100,11 @@ const StandardExam = () => {
     if (bookIds && bookIds.length > 0) getTermOfStudies.refetch();
   }, [bookIds]);
 
-  const handleGradeLevelChange = (event: SelectChangeEvent) => {
-    setGradeLevelIds(event.target.value as any);
-    setBookIds(null);
-    setChapterIds([]);
-  };
-
   const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(bookIds?.length == 0 ? null : bookIds);
 
   useEffect(() => {
     if (bookIds) getChaptersBasedOnBooks.refetch();
   }, [bookIds]);
-
-  const handleBookChange = (event: SelectChangeEvent) => {
-    setBookIds(event.target.value as any);
-    setChapterIds([]);
-  };
-
-  const handleChapterChange = (event: SelectChangeEvent) => {
-    setChapterIds(event.target.value as any);
-    setTermIds([]);
-  };
-
-  const handleTermChange = (event: SelectChangeEvent) => {
-    setTermIds(event.target.value as any);
-    setChapterIds([]);
-  };
 
   const {
     handleSubmit,
@@ -167,9 +138,9 @@ const StandardExam = () => {
     }));
   };
 
-  const createStandardExam = useCreateStandardExam();
+  const createSubjectiveExam = useCreateSubjectiveExam();
 
-  const handleCreateStandardExam = async (data: any) => {
+  const handleCreateSubjectiveExam = async (data: any) => {
     if (
       options.option1 == "" ||
       options.option2 == "" ||
@@ -186,7 +157,7 @@ const StandardExam = () => {
     data.question = quillEditorValue;
     setLoading(true);
 
-    createStandardExam.mutate(data, {
+    createSubjectiveExam.mutate(data, {
       onSuccess: async (result: { message: string; statusCode: number }) => {
         if (result.statusCode == 200) {
           setLoading(false);
@@ -219,12 +190,12 @@ const StandardExam = () => {
     });
   };
 
-  const updateStandardExam = useUpdateStandardExam();
+  const updateSubjectiveExam = useUpdateSubjectiveExam();
 
-  const handleUpdateStandardExam = async (data: any) => {
+  const handleUpdateSubjectiveExam = async (data: any) => {
     setLoading(true);
 
-    updateStandardExam.mutate(
+    updateSubjectiveExam.mutate(
       { id: value.id, chapter: chapterIds, term: termIds, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
@@ -272,8 +243,8 @@ const StandardExam = () => {
         <form
           onSubmit={
             value.doUpdate
-              ? handleSubmit(handleUpdateStandardExam)
-              : handleSubmit(handleCreateStandardExam)
+              ? handleSubmit(handleUpdateSubjectiveExam)
+              : handleSubmit(handleCreateSubjectiveExam)
           }
         >
           <FormControl className={classes.formField} fullWidth>
@@ -283,7 +254,7 @@ const StandardExam = () => {
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
                     <MenuItem key={element._id} value={element._id}>
-                      {element.number} - {element.type === "standard" ? "استاندارد" : "موضوعی"}
+                      {element.number} - {element.type === "subjective" ? "موضوعی" : "استاندارد"}
                     </MenuItem>
                   );
                 })}
@@ -370,10 +341,10 @@ const StandardExam = () => {
         </form>
       </Box>
       <Box className={classes.fieldOfStudy}>
-        <Typography>لیست آزمون‌های استاندارد </Typography>
+        <Typography>لیست آزمون‌های موضوعی </Typography>
       </Box>
     </Box>
   );
 };
 
-export default StandardExam;
+export default SubjectiveExam;

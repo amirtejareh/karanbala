@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": "../../.."
+    },
+    {
+      "path": "../../../../../back/Nestjs-Api-Project"
+    }
+  ],
+  "settings": {}
+}
