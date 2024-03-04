@@ -21,8 +21,9 @@ import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGe
 import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
 import useUpdateStandardExam from "../../../../../../../hooks/standard-exam/useUpdateStandardExam";
 import useCreateStandardExam from "../../../../../../../hooks/standard-exam/useCreateStandardExam";
-7H,JYN8U9IK,P;-[}|
-import { Switch } from "@mui/base/Switch";/O-0, MUJ89 NGYU76
+import useGetCreateExamBasedOnStandardExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExam";
+import { Switch } from "@mui/base/Switch";
+
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     display: "flex",
