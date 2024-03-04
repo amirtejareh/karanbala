@@ -21,9 +21,8 @@ import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGe
 import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
 import useUpdateStandardExam from "../../../../../../../hooks/standard-exam/useUpdateStandardExam";
 import useCreateStandardExam from "../../../../../../../hooks/standard-exam/useCreateStandardExam";
-import useGetCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExam";
-import useGetCreateExamBasedOnStandardExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExam";
-
+7H,JYN8U9IK,P;-[}|
+import { Switch } from "@mui/base/Switch";/O-0, MUJ89 NGYU76
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     display: "flex",
@@ -83,14 +82,13 @@ const StandardExam = () => {
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
+  const [isMultipleChoiceTest, setMultipleChoiceTest] = React.useState<any>(false);
 
   const getCreateExam = useGetCreateExamBasedOnStandardExam(page === 0 ? 1 : page, limit);
 
   useEffect(() => {
     getCreateExam.refetch();
   }, []);
-
-  console.log(getCreateExam);
 
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
     gradeLevelIds?.length == 0 ? null : gradeLevelIds,
@@ -171,10 +169,11 @@ const StandardExam = () => {
 
   const handleCreateStandardExam = async (data: any) => {
     if (
-      options.option1 == "" ||
-      options.option2 == "" ||
-      options.option3 == "" ||
-      options.option4 == ""
+      (options.option1 == "" ||
+        options.option2 == "" ||
+        options.option3 == "" ||
+        options.option4 == "") &&
+      isMultipleChoiceTest
     ) {
       return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
     }
@@ -184,6 +183,7 @@ const StandardExam = () => {
     }
     data.options = options;
     data.question = quillEditorValue;
+    data.isMultipleChoiceTest = isMultipleChoiceTest;
     setLoading(true);
 
     createStandardExam.mutate(data, {
@@ -325,38 +325,48 @@ const StandardExam = () => {
               setValue={(newValue) => setQuillEditorValue(newValue)}
             />
           </FormControl>
-          <FormControl className={classes.formField}>
-            <Typography>گزینه اول</Typography>
-            <RichTextEditor
-              value={options.option1}
-              setValue={(value) => handleEditorChange(value, "option1")}
-            />
-          </FormControl>
-          <FormControl className={classes.formField}>
-            <Typography>گزینه دوم</Typography>
 
-            <RichTextEditor
-              value={options.option2}
-              setValue={(value) => handleEditorChange(value, "option2")}
-            />
-          </FormControl>
-          <FormControl className={classes.formField}>
-            <Typography>گزینه سوم</Typography>
+          <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">
+            نوع آزمون (تستی / تشریحی)
+          </Box>
+          <Switch onClick={() => setMultipleChoiceTest(!isMultipleChoiceTest)} id="my-switch" />
 
-            <RichTextEditor
-              value={options.option3}
-              setValue={(value) => handleEditorChange(value, "option3")}
-            />
-          </FormControl>
+          {isMultipleChoiceTest && (
+            <>
+              <FormControl className={classes.formField}>
+                <Typography>گزینه اول</Typography>
+                <RichTextEditor
+                  value={options.option1}
+                  setValue={(value) => handleEditorChange(value, "option1")}
+                />
+              </FormControl>
+              <FormControl className={classes.formField}>
+                <Typography>گزینه دوم</Typography>
 
-          <FormControl className={classes.formField}>
-            <Typography>گزینه چهارم</Typography>
+                <RichTextEditor
+                  value={options.option2}
+                  setValue={(value) => handleEditorChange(value, "option2")}
+                />
+              </FormControl>
+              <FormControl className={classes.formField}>
+                <Typography>گزینه سوم</Typography>
 
-            <RichTextEditor
-              value={options.option4}
-              setValue={(value) => handleEditorChange(value, "option4")}
-            />
-          </FormControl>
+                <RichTextEditor
+                  value={options.option3}
+                  setValue={(value) => handleEditorChange(value, "option3")}
+                />
+              </FormControl>
+
+              <FormControl className={classes.formField}>
+                <Typography>گزینه چهارم</Typography>
+
+                <RichTextEditor
+                  value={options.option4}
+                  setValue={(value) => handleEditorChange(value, "option4")}
+                />
+              </FormControl>
+            </>
+          )}
 
           <Button
             variant="contained"
