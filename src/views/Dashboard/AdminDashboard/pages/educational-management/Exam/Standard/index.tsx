@@ -284,7 +284,8 @@ const StandardExam = () => {
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
                     <MenuItem key={element._id} value={element._id}>
-                      {element.number} - {element.type === "standard" ? "استاندارد" : "موضوعی"}
+                      {element.number} - {element.type === "standard" ? "استاندارد" : "موضوعی"} -{" "}
+                      {element.books[0].title} - {element.gradeLevel[0].title}
                     </MenuItem>
                   );
                 })}

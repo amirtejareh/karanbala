@@ -69,6 +69,7 @@ const CreateExam = () => {
   const selectTermRef = useRef<any>();
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
+  const timeRef = useRef<any>();
   const imageRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
   const [loading, setLoading] = useState(false);
@@ -76,6 +77,7 @@ const CreateExam = () => {
   const [pageSize] = useState<number>(10);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
   const [number, setNumber] = React.useState<any>();
+  const [time, setTime] = React.useState<any>();
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
@@ -245,6 +247,19 @@ const CreateExam = () => {
           }
         >
           <FormControl className={classes.formField} fullWidth>
+            <InputLabel id="demo-simple-select-label">انتخاب (استاندارد، موضوعی)</InputLabel>
+            <Select
+              value={typeIds}
+              {...register("type")}
+              onChange={handleTypeChange}
+              inputRef={selectTypeRef}
+            >
+              <MenuItem value={"standard"}>استاندارد</MenuItem>
+              <MenuItem value={"subjective"}>موضوعی</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
               value={gradeLevelIds ?? []}
@@ -315,18 +330,6 @@ const CreateExam = () => {
                 })}
             </Select>
           </FormControl>
-          <FormControl className={classes.formField} fullWidth>
-            <InputLabel id="demo-simple-select-label">انتخاب (استاندارد، موضوعی)</InputLabel>
-            <Select
-              value={typeIds}
-              {...register("type")}
-              onChange={handleTypeChange}
-              inputRef={selectTypeRef}
-            >
-              <MenuItem value={"standard"}>استاندارد</MenuItem>
-              <MenuItem value={"subjective"}>موضوعی</MenuItem>
-            </Select>
-          </FormControl>
 
           <FormControl className={classes.formField}>
             <TextField
@@ -339,6 +342,20 @@ const CreateExam = () => {
               }}
               label="شماره آزمون"
               inputRef={inputNumberRef}
+            />
+          </FormControl>
+
+          <FormControl className={classes.formField}>
+            <TextField
+              value={time}
+              type="text"
+              {...register("time")}
+              onChange={(e) => {
+                setTime(e.target.value);
+                register("time").onChange(e);
+              }}
+              label="مدت زمان آزمون ( به دقیقه )"
+              inputRef={timeRef}
             />
           </FormControl>
 
