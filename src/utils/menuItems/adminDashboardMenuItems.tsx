@@ -86,8 +86,14 @@ export const adminDashboardMenuItems = [
               title: "ضمائم",
               to: "/dashboard/admin/attach",
             },
+          ],
+        },
+
+        {
+          title: "مدیریت آموزش - آزمون",
+          submenu: [
             {
-              title: "ایجاد آزمون استاندارد یا موضوعی ",
+              title: "ایجاد آزمون",
               to: "/dashboard/admin/exam/create",
             },
             {

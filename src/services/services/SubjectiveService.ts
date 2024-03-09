@@ -2,28 +2,28 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateCreateExamDto } from '../models/CreateCreateExamDto';
-import type { UpdateCreateExamDto } from '../models/UpdateCreateExamDto';
+import type { CreateSubjectiveDto } from '../models/CreateSubjectiveDto';
+import type { UpdateSubjectiveDto } from '../models/UpdateSubjectiveDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class CreateExamService {
+export class SubjectiveService {
 
     /**
-     * @param formData 
+     * @param requestBody 
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerCreate(
-formData: CreateCreateExamDto,
+    public static subjectiveControllerCreate(
+requestBody: CreateSubjectiveDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/create-exam',
-            formData: formData,
-            mediaType: 'multipart/form-data',
+            url: '/subjective',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -33,53 +33,13 @@ formData: CreateCreateExamDto,
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerFindAll(
+    public static subjectiveControllerFindAll(
 page: number,
 limit: number,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/create-exam',
-            query: {
-                'page': page,
-                'limit': limit,
-            },
-        });
-    }
-
-    /**
-     * @param page 
-     * @param limit 
-     * @returns any 
-     * @throws ApiError
-     */
-    public static createExamControllerFindAllCreateExamsBasedOnStandardExam(
-page: number,
-limit: number,
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/create-exam/withStandardExam',
-            query: {
-                'page': page,
-                'limit': limit,
-            },
-        });
-    }
-
-    /**
-     * @param page 
-     * @param limit 
-     * @returns any 
-     * @throws ApiError
-     */
-    public static createExamControllerFindAllCreateExamsBasedOnSubjectiveExam(
-page: number,
-limit: number,
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/create-exam/withSubjectiveExam',
+            url: '/subjective',
             query: {
                 'page': page,
                 'limit': limit,
@@ -94,14 +54,14 @@ limit: number,
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerFindCreateExamsBasedOnBooks(
+    public static subjectiveControllerFindSubjectivesBasedOnBooks(
 page: number,
 limit: number,
 bookId: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/create-exam/withBooks/{BookId}',
+            url: '/subjective/withBooks/{BookId}',
             query: {
                 'page': page,
                 'limit': limit,
@@ -115,12 +75,12 @@ bookId: string,
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerFindOne(
+    public static subjectiveControllerFindOne(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/create-exam/{id}',
+            url: '/subjective/{id}',
             path: {
                 'id': id,
             },
@@ -129,22 +89,22 @@ id: string,
 
     /**
      * @param id 
-     * @param formData 
+     * @param requestBody 
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerUpdate(
+    public static subjectiveControllerUpdate(
 id: string,
-formData: UpdateCreateExamDto,
+requestBody: UpdateSubjectiveDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/create-exam/{id}',
+            url: '/subjective/{id}',
             path: {
                 'id': id,
             },
-            formData: formData,
-            mediaType: 'multipart/form-data',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -153,12 +113,12 @@ formData: UpdateCreateExamDto,
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerRemove(
+    public static subjectiveControllerRemove(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/create-exam/{id}',
+            url: '/subjective/{id}',
             path: {
                 'id': id,
             },

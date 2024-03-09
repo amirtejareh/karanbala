@@ -7,6 +7,7 @@ export type CreateStandardDto = {
     correctAnswer: number;
     examNumber: number;
     questionNumber: number;
+    time: string;
     examType: CreateStandardDto.examType;
 };
 

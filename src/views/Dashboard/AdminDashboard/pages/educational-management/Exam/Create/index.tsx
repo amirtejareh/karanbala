@@ -22,6 +22,11 @@ import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGe
 import useUpdateCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useUpdateCreateExam";
 import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
 import useCreateCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useCreateCreateExam";
+import { bytesToKilobytes } from "../../../../../../../utils/helper";
+import IconButton from "../../../../../../../components/kit/IconButton/IconButton";
+import { PrompModalKit } from "../../../../../../../components/kit/Modal";
+import { TableKit } from "../../../../../../../components/kit/Table";
+import { DeleteLightSvg } from "../../../../../../../assets";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -61,6 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const CreateExam = () => {
   const classes = useStyles();
+  const pdfRef = useRef<any>();
 
   const selectGradeLevelRef = useRef<any>();
   const selectBookRef = useRef<any>();
@@ -166,9 +172,12 @@ const CreateExam = () => {
   const createCreateExam = useCreateCreateExam();
 
   const handleCreateCreateExam = async (data: any) => {
+    console.log(selectedFile);
+
     createCreateExam.mutate(
       {
         ...data,
+        AnswerSheetSourcePdfFile: selectedFile,
         chapter: chapterIds,
         term: termIds,
       },
@@ -193,7 +202,13 @@ const CreateExam = () => {
     setLoading(true);
 
     updateCreateExam.mutate(
-      { id: value.id, chapter: chapterIds, term: termIds, ...data },
+      {
+        id: value.id,
+        AnswerSheetSourcePdfFile: selectedFile,
+        chapter: chapterIds,
+        term: termIds,
+        ...data,
+      },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -228,6 +243,23 @@ const CreateExam = () => {
         },
       },
     );
+  };
+
+  const [selectedFile, setSelectedFile] = useState<any[]>([]);
+
+  const onSelectFile = (e: any) => {
+    const newFiles = Array.from(e.target.files);
+    if (selectedFile.length < 1) {
+      setSelectedFile([...selectedFile, ...newFiles]);
+    }
+    if (selectedFile.length === 1) {
+      toast.error("شما تنها می‌توانید یک فایل پاسخنامه آپلود نمایید");
+    }
+  };
+
+  const handleRemoveFile = (fileToRemove) => {
+    const updatedFiles = selectedFile.filter((file) => file !== fileToRemove);
+    setSelectedFile(updatedFiles);
   };
 
   const label = { slotProps: { input: { "aria-label": "Demo switch" } } };
@@ -359,10 +391,91 @@ const CreateExam = () => {
             />
           </FormControl>
 
-          <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">
-            انتشار
-          </Box>
-          <Switch {...register("isPublished")} id="my-switch" />
+          {/* select pdf files */}
+          {bookIds && bookIds?.length > 0 && (
+            <Box
+              sx={{
+                width: "510px",
+                backgroundColor: "#ededed",
+                padding: "10px",
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                borderRadius: "12px",
+                marginTop: "10px",
+              }}
+            >
+              <input
+                type="file"
+                accept=".pdf"
+                multiple
+                ref={(e) => {
+                  pdfRef.current = e;
+                }}
+                hidden
+                onChange={(e) => {
+                  onSelectFile(e);
+                }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.formButton}
+                disabled={loading}
+                onClick={() => pdfRef.current.click()}
+              >
+                {"انتخاب فایل PDF"}
+              </Button>
+
+              {/* pdf list */}
+              <Box
+                sx={{
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography textAlign={"center"}>لیست فایل pdf</Typography>
+
+                <TableKit
+                  secondary
+                  headers={[
+                    { children: `نوع فایل` },
+                    { children: `عنوان` },
+                    { children: `حجم KB` },
+                    { children: `عملیات` },
+                  ]}
+                  rows={selectedFile?.map((item: any, index: any) => {
+                    return {
+                      id: index,
+                      data: {
+                        type: index == 0 ? "پاسخنامه" : "بودجه بندی",
+                        title: item.name ?? "-",
+                        link: bytesToKilobytes(item.size) ?? "-",
+                        action: (
+                          <>
+                            <IconButton>
+                              <PrompModalKit
+                                description={"آیا از حذف فایل پی دی اف مورد نظر مطمئن  هستید؟"}
+                                onConfirm={() => {
+                                  handleRemoveFile(item);
+                                }}
+                                approved={"بله"}
+                                denied={"خیر"}
+                              >
+                                <DeleteLightSvg width={16} height={16} />
+                              </PrompModalKit>
+                            </IconButton>
+                          </>
+                        ),
+                      },
+                    };
+                  })}
+                />
+              </Box>
+            </Box>
+          )}
 
           <Button
             variant="contained"

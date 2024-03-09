@@ -3,15 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UpdateStandardDto = {
+export type UpdateSubjectiveDto = {
     correctAnswer?: number;
     examNumber?: number;
     questionNumber?: number;
-    time?: string;
-    examType?: UpdateStandardDto.examType;
+    examType?: UpdateSubjectiveDto.examType;
 };
 
-export namespace UpdateStandardDto {
+export namespace UpdateSubjectiveDto {
 
     export enum examType {
         MULTIPLE_CHOICE_TEST = 'multipleChoiceTest',

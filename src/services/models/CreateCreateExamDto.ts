@@ -13,6 +13,7 @@ export type CreateCreateExamDto = {
      * Chapter
      */
     chapter: Chapter;
+    AnswerSheetSourcePdfFile: Blob;
     /**
      * Term
      */

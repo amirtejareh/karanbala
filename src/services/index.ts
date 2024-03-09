@@ -26,6 +26,7 @@ export type { CreateSampleTestQuestionsDto } from './models/CreateSampleTestQues
 export type { CreateSectionDto } from './models/CreateSectionDto';
 export { CreateStandardDto } from './models/CreateStandardDto';
 export type { CreateSubjectDto } from './models/CreateSubjectDto';
+export { CreateSubjectiveDto } from './models/CreateSubjectiveDto';
 export type { CreateTermOfStudyDto } from './models/CreateTermOfStudyDto';
 export type { CreateTipAndTestDto } from './models/CreateTipAndTestDto';
 export type { CreateUserDto } from './models/CreateUserDto';
@@ -56,6 +57,7 @@ export type { UpdateSampleTestQuestionsDto } from './models/UpdateSampleTestQues
 export type { UpdateSectionDto } from './models/UpdateSectionDto';
 export { UpdateStandardDto } from './models/UpdateStandardDto';
 export type { UpdateSubjectDto } from './models/UpdateSubjectDto';
+export { UpdateSubjectiveDto } from './models/UpdateSubjectiveDto';
 export type { UpdateTermOfStudyDto } from './models/UpdateTermOfStudyDto';
 export type { UpdateTipAndTestDto } from './models/UpdateTipAndTestDto';
 
@@ -82,6 +84,7 @@ export { SampleTestQuestionsService } from './services/SampleTestQuestionsServic
 export { SectionService } from './services/SectionService';
 export { StandardService } from './services/StandardService';
 export { SubjectService } from './services/SubjectService';
+export { SubjectiveService } from './services/SubjectiveService';
 export { TermOfStudyService } from './services/TermOfStudyService';
 export { TipAndTestService } from './services/TipAndTestService';
 export { UserService } from './services/UserService';
