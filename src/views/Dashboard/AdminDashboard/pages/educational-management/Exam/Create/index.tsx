@@ -72,6 +72,7 @@ const CreateExam = () => {
   const selectBookRef = useRef<any>();
   const selectChaptertRef = useRef<any>();
   const selectTypeRef = useRef<any>();
+  const selectExamTypeRef = useRef<any>();
   const selectTermRef = useRef<any>();
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
@@ -88,6 +89,8 @@ const CreateExam = () => {
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
   const [typeIds, setTypeIds] = React.useState<any>("");
+  const [examTypeIds, setExamTypeIds] = React.useState<any>("");
+  const [isPublished, setIsPublished] = useState<boolean>(false);
 
   const getGradeLevels = useGetGradeLevels();
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
@@ -135,6 +138,10 @@ const CreateExam = () => {
     setTypeIds(event.target.value as any);
   };
 
+  const handleExamTypeChange = (event: SelectChangeEvent) => {
+    setExamTypeIds(event.target.value as any);
+  };
+
   const getTermOfStudies = useGetTermOfStudies();
 
   const {
@@ -155,25 +162,10 @@ const CreateExam = () => {
     clearErrors();
   }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
 
-  const [options, setOptions] = useState({
-    option1: "",
-    option2: "",
-    option3: "",
-    option4: "",
-  });
-
-  const handleEditorChange = (newValue, editorName) => {
-    setOptions((prevOptions) => ({
-      ...prevOptions,
-      [editorName]: newValue,
-    }));
-  };
-
   const createCreateExam = useCreateCreateExam();
 
   const handleCreateCreateExam = async (data: any) => {
-    console.log(selectedFile);
-
+    data.isPublished = isPublished;
     createCreateExam.mutate(
       {
         ...data,
@@ -200,6 +192,7 @@ const CreateExam = () => {
 
   const handleUpdateCreateExam = async (data: any) => {
     setLoading(true);
+    data.isPublished = isPublished;
 
     updateCreateExam.mutate(
       {
@@ -363,6 +356,19 @@ const CreateExam = () => {
             </Select>
           </FormControl>
 
+          <FormControl className={classes.formField} fullWidth>
+            <InputLabel id="demo-simple-select-label">انتخاب (تستی، تشریحی)</InputLabel>
+            <Select
+              value={examTypeIds}
+              {...register("examType")}
+              onChange={handleExamTypeChange}
+              inputRef={selectExamTypeRef}
+            >
+              <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+              <MenuItem value={"essayTest"}>تشریحی</MenuItem>
+            </Select>
+          </FormControl>
+
           <FormControl className={classes.formField}>
             <TextField
               value={number}
@@ -391,91 +397,94 @@ const CreateExam = () => {
             />
           </FormControl>
 
+          <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">
+            انتشار
+          </Box>
+          <Switch onClick={() => setIsPublished(!isPublished)} id="my-switch" />
+
           {/* select pdf files */}
-          {bookIds && bookIds?.length > 0 && (
+          <Box
+            sx={{
+              width: "510px",
+              backgroundColor: "#ededed",
+              padding: "10px",
+              alignItems: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              borderRadius: "12px",
+              marginTop: "10px",
+            }}
+          >
+            <input
+              type="file"
+              accept=".pdf"
+              multiple
+              ref={(e) => {
+                pdfRef.current = e;
+              }}
+              hidden
+              onChange={(e) => {
+                onSelectFile(e);
+              }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              disabled={loading}
+              onClick={() => pdfRef.current.click()}
+            >
+              {"انتخاب فایل PDF"}
+            </Button>
+
+            {/* pdf list */}
             <Box
               sx={{
-                width: "510px",
-                backgroundColor: "#ededed",
-                padding: "10px",
+                width: "100%",
                 alignItems: "center",
-                display: "flex",
-                flexDirection: "column",
                 justifyContent: "center",
-                borderRadius: "12px",
-                marginTop: "10px",
               }}
             >
-              <input
-                type="file"
-                accept=".pdf"
-                multiple
-                ref={(e) => {
-                  pdfRef.current = e;
-                }}
-                hidden
-                onChange={(e) => {
-                  onSelectFile(e);
-                }}
+              <Typography textAlign={"center"}>لیست فایل pdf</Typography>
+
+              <TableKit
+                secondary
+                headers={[
+                  { children: `نوع فایل` },
+                  { children: `عنوان` },
+                  { children: `حجم KB` },
+                  { children: `عملیات` },
+                ]}
+                rows={selectedFile?.map((item: any, index: any) => {
+                  return {
+                    id: index,
+                    data: {
+                      type: index == 0 ? "پاسخنامه" : "بودجه بندی",
+                      title: item.name ?? "-",
+                      link: bytesToKilobytes(item.size) ?? "-",
+                      action: (
+                        <>
+                          <IconButton>
+                            <PrompModalKit
+                              description={"آیا از حذف فایل پی دی اف مورد نظر مطمئن  هستید؟"}
+                              onConfirm={() => {
+                                handleRemoveFile(item);
+                              }}
+                              approved={"بله"}
+                              denied={"خیر"}
+                            >
+                              <DeleteLightSvg width={16} height={16} />
+                            </PrompModalKit>
+                          </IconButton>
+                        </>
+                      ),
+                    },
+                  };
+                })}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.formButton}
-                disabled={loading}
-                onClick={() => pdfRef.current.click()}
-              >
-                {"انتخاب فایل PDF"}
-              </Button>
-
-              {/* pdf list */}
-              <Box
-                sx={{
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography textAlign={"center"}>لیست فایل pdf</Typography>
-
-                <TableKit
-                  secondary
-                  headers={[
-                    { children: `نوع فایل` },
-                    { children: `عنوان` },
-                    { children: `حجم KB` },
-                    { children: `عملیات` },
-                  ]}
-                  rows={selectedFile?.map((item: any, index: any) => {
-                    return {
-                      id: index,
-                      data: {
-                        type: index == 0 ? "پاسخنامه" : "بودجه بندی",
-                        title: item.name ?? "-",
-                        link: bytesToKilobytes(item.size) ?? "-",
-                        action: (
-                          <>
-                            <IconButton>
-                              <PrompModalKit
-                                description={"آیا از حذف فایل پی دی اف مورد نظر مطمئن  هستید؟"}
-                                onConfirm={() => {
-                                  handleRemoveFile(item);
-                                }}
-                                approved={"بله"}
-                                denied={"خیر"}
-                              >
-                                <DeleteLightSvg width={16} height={16} />
-                              </PrompModalKit>
-                            </IconButton>
-                          </>
-                        ),
-                      },
-                    };
-                  })}
-                />
-              </Box>
             </Box>
-          )}
+          </Box>
 
           <Button
             variant="contained"

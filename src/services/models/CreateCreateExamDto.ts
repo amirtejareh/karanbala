@@ -23,6 +23,7 @@ export type CreateCreateExamDto = {
      */
     number: string;
     type: CreateCreateExamDto.type;
+    examType: CreateCreateExamDto.examType;
 };
 
 export namespace CreateCreateExamDto {
@@ -30,6 +31,11 @@ export namespace CreateCreateExamDto {
     export enum type {
         STANDARD = 'standard',
         SUBJECTIVE = 'subjective',
+    }
+
+    export enum examType {
+        MULTIPLE_CHOICE_TEST = 'multipleChoiceTest',
+        ESSAY_TEST = 'essayTest',
     }
 
 

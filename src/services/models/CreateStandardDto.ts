@@ -8,15 +8,4 @@ export type CreateStandardDto = {
     examNumber: number;
     questionNumber: number;
     time: string;
-    examType: CreateStandardDto.examType;
 };
-
-export namespace CreateStandardDto {
-
-    export enum examType {
-        MULTIPLE_CHOICE_TEST = 'multipleChoiceTest',
-        ESSAY_TEST = 'essayTest',
-    }
-
-
-}

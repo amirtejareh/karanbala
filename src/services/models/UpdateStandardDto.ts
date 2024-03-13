@@ -8,15 +8,4 @@ export type UpdateStandardDto = {
     examNumber?: number;
     questionNumber?: number;
     time?: string;
-    examType?: UpdateStandardDto.examType;
 };
-
-export namespace UpdateStandardDto {
-
-    export enum examType {
-        MULTIPLE_CHOICE_TEST = 'multipleChoiceTest',
-        ESSAY_TEST = 'essayTest',
-    }
-
-
-}
