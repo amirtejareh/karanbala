@@ -27,6 +27,8 @@ import IconButton from "../../../../../../../components/kit/IconButton/IconButto
 import { PrompModalKit } from "../../../../../../../components/kit/Modal";
 import { TableKit } from "../../../../../../../components/kit/Table";
 import { DeleteLightSvg } from "../../../../../../../assets";
+import useGetSubjectsBasedOnSections from "../../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
+import useGetSectionsBasedOnChapters from "../../../../../../../hooks/section/useGetSectionsBasedOnChapters";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -73,11 +75,13 @@ const CreateExam = () => {
   const selectChaptertRef = useRef<any>();
   const selectTypeRef = useRef<any>();
   const selectExamTypeRef = useRef<any>();
+  const selectExamLevelRef = useRef<any>();
   const selectTermRef = useRef<any>();
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
   const timeRef = useRef<any>();
   const imageRef = useRef<any>();
+  const selectSubjectRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(1);
@@ -87,15 +91,23 @@ const CreateExam = () => {
   const [time, setTime] = React.useState<any>();
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
+  const [sectionIds, setSectionIds] = useState<any>(chapterIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
-  const [typeIds, setTypeIds] = React.useState<any>("");
+  const [typeIds, setTypeIds] = React.useState<any>("standard");
   const [examTypeIds, setExamTypeIds] = React.useState<any>("");
+  const [examLevelIds, setExamLevelIds] = React.useState<any>("");
   const [isPublished, setIsPublished] = useState<boolean>(false);
-
+  const [subjectIds, setSubjectIds] = useState<any>();
   const getGradeLevels = useGetGradeLevels();
+  const selectSectionRef = useRef<any>();
+
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
     gradeLevelIds?.length == 0 ? null : gradeLevelIds,
   );
+
+  const handleSubjectChange = (event: SelectChangeEvent) => {
+    setSubjectIds(event.target.value as any);
+  };
 
   useEffect(() => {
     if (bookIds && bookIds.length > 0) getTermOfStudies.refetch();
@@ -142,14 +154,32 @@ const CreateExam = () => {
     setExamTypeIds(event.target.value as any);
   };
 
+  const handleExamLevelChange = (event: SelectChangeEvent) => {
+    setExamLevelIds(event.target.value as any);
+  };
+
+  const subjectsBasedOnSections = useGetSubjectsBasedOnSections(
+    sectionIds?.length == 0 ? null : sectionIds,
+  );
+
   const getTermOfStudies = useGetTermOfStudies();
 
   const {
     handleSubmit,
     register,
     clearErrors,
+    unregister,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (typeIds === "standard") {
+      unregister(["examLevel", "subject", "section"]);
+    }
+    if (typeIds === "subjective") {
+      unregister(["number", "time"]);
+    }
+  }, [typeIds]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -163,6 +193,15 @@ const CreateExam = () => {
   }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
 
   const createCreateExam = useCreateCreateExam();
+
+  const handleSectionChange = (event: SelectChangeEvent) => {
+    setSectionIds(event.target.value as any);
+    setSubjectIds([]);
+  };
+
+  const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
+    chapterIds?.length == 0 ? null : chapterIds,
+  );
 
   const handleCreateCreateExam = async (data: any) => {
     data.isPublished = isPublished;
@@ -250,6 +289,14 @@ const CreateExam = () => {
     }
   };
 
+  useEffect(() => {
+    if (chapterIds) getSectionsBasedOnChapters.refetch();
+  }, [chapterIds]);
+
+  useEffect(() => {
+    if (sectionIds) subjectsBasedOnSections.refetch();
+  }, [sectionIds]);
+
   const handleRemoveFile = (fileToRemove) => {
     const updatedFiles = selectedFile.filter((file) => file !== fileToRemove);
     setSelectedFile(updatedFiles);
@@ -274,6 +321,7 @@ const CreateExam = () => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب (استاندارد، موضوعی)</InputLabel>
             <Select
+              required
               value={typeIds}
               {...register("type")}
               onChange={handleTypeChange}
@@ -287,6 +335,7 @@ const CreateExam = () => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
+              required
               value={gradeLevelIds ?? []}
               {...register("gradeLevel")}
               inputRef={selectGradeLevelRef}
@@ -306,6 +355,7 @@ const CreateExam = () => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
             <Select
+              required
               value={bookIds ?? []}
               {...register("books")}
               inputRef={selectBookRef}
@@ -341,24 +391,125 @@ const CreateExam = () => {
             </Select>
           </FormControl>
 
-          <FormControl className={classes.formField} fullWidth>
-            <InputLabel id="demo-simple-select-label">انتخاب (ترم یک، ترم دو، کل کتاب)</InputLabel>
-            <Select value={termIds ?? []} inputRef={selectTermRef} onChange={handleTermChange}>
-              {!getTermOfStudies?.isLoading &&
-                getTermOfStudies?.data != undefined &&
-                getTermOfStudies?.data?.map((element) => {
-                  return (
-                    <MenuItem key={element._id} value={element._id}>
-                      {element.title}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-          </FormControl>
+          {typeIds === "subjective" && (
+            <>
+              <FormControl className={classes.formField} fullWidth>
+                <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
+                <Select
+                  required
+                  value={sectionIds ?? []}
+                  {...register("section")}
+                  inputRef={selectSectionRef}
+                  onChange={handleSectionChange}
+                >
+                  {!getSectionsBasedOnChapters?.isLoading &&
+                    getSectionsBasedOnChapters?.data != undefined &&
+                    getSectionsBasedOnChapters?.data?.map((element) => {
+                      return (
+                        <MenuItem key={element._id} value={element._id}>
+                          {element.title}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+
+              <FormControl className={classes.formField} fullWidth>
+                <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
+                <Select
+                  required
+                  value={subjectIds ?? []}
+                  {...register("subject")}
+                  inputRef={selectSubjectRef}
+                  onChange={handleSubjectChange}
+                >
+                  {!subjectsBasedOnSections?.isLoading &&
+                    subjectsBasedOnSections?.data != undefined &&
+                    subjectsBasedOnSections?.data?.map((element) => {
+                      return (
+                        <MenuItem key={element._id} value={element._id}>
+                          {element.title}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+
+              <FormControl className={classes.formField} fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  انتخاب سطح آزمون (ساده / متوسط / سخت / چالشی)
+                </InputLabel>
+                <Select
+                  required
+                  value={examLevelIds}
+                  {...register("examLevel")}
+                  onChange={handleExamLevelChange}
+                  inputRef={selectExamLevelRef}
+                >
+                  <MenuItem value={"easy"}>ساده</MenuItem>
+                  <MenuItem value={"average"}>متوسط</MenuItem>
+                  <MenuItem value={"hard"}>سخت</MenuItem>
+                  <MenuItem value={"challenging"}>چالشی</MenuItem>
+                </Select>
+              </FormControl>
+            </>
+          )}
+
+          {typeIds === "standard" && (
+            <>
+              <FormControl className={classes.formField} fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  انتخاب (ترم یک، ترم دو، کل کتاب)
+                </InputLabel>
+                <Select value={termIds ?? []} inputRef={selectTermRef} onChange={handleTermChange}>
+                  {!getTermOfStudies?.isLoading &&
+                    getTermOfStudies?.data != undefined &&
+                    getTermOfStudies?.data?.map((element) => {
+                      return (
+                        <MenuItem key={element._id} value={element._id}>
+                          {element.title}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+
+              <FormControl className={classes.formField}>
+                <TextField
+                  required
+                  value={number}
+                  type="text"
+                  {...register("number")}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                    register("number").onChange(e);
+                  }}
+                  label="شماره آزمون"
+                  inputRef={inputNumberRef}
+                />
+              </FormControl>
+
+              <FormControl className={classes.formField}>
+                <TextField
+                  value={time}
+                  required
+                  type="text"
+                  {...register("time")}
+                  onChange={(e) => {
+                    setTime(e.target.value);
+                    register("time").onChange(e);
+                  }}
+                  label="مدت زمان آزمون ( به دقیقه )"
+                  inputRef={timeRef}
+                />
+              </FormControl>
+            </>
+          )}
 
           <FormControl className={classes.formField} fullWidth>
-            <InputLabel id="demo-simple-select-label">انتخاب (تستی، تشریحی)</InputLabel>
+            <InputLabel id="demo-simple-select-label">انتخاب نوع آزمون (تستی، تشریحی)</InputLabel>
             <Select
+              required
               value={examTypeIds}
               {...register("examType")}
               onChange={handleExamTypeChange}
@@ -367,34 +518,6 @@ const CreateExam = () => {
               <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
               <MenuItem value={"essayTest"}>تشریحی</MenuItem>
             </Select>
-          </FormControl>
-
-          <FormControl className={classes.formField}>
-            <TextField
-              value={number}
-              type="text"
-              {...register("number")}
-              onChange={(e) => {
-                setNumber(e.target.value);
-                register("number").onChange(e);
-              }}
-              label="شماره آزمون"
-              inputRef={inputNumberRef}
-            />
-          </FormControl>
-
-          <FormControl className={classes.formField}>
-            <TextField
-              value={time}
-              type="text"
-              {...register("time")}
-              onChange={(e) => {
-                setTime(e.target.value);
-                register("time").onChange(e);
-              }}
-              label="مدت زمان آزمون ( به دقیقه )"
-              inputRef={timeRef}
-            />
           </FormControl>
 
           <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">

@@ -111,6 +111,75 @@ bookId: string,
     }
 
     /**
+     * @param page 
+     * @param limit 
+     * @param chapterId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static createExamControllerFindCreateStandardExamsBasedOnChapters(
+page: number,
+limit: number,
+chapterId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/create-exam/standard/withChapters/{ChapterId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'ChapterId': chapterId,
+            },
+        });
+    }
+
+    /**
+     * @param page 
+     * @param limit 
+     * @param termId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static createExamControllerFindCreateStandardExamsBasedOnTerms(
+page: number,
+limit: number,
+termId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/create-exam/standard/withTerms/{TermId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'TermId': termId,
+            },
+        });
+    }
+
+    /**
+     * @param page 
+     * @param limit 
+     * @param subjectId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static createExamControllerFindCreateSubjectiveExamsBasedOnSubjects(
+page: number,
+limit: number,
+subjectId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/create-exam/subjective/withSubject/{SubjectId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'SubjectId': subjectId,
+            },
+        });
+    }
+
+    /**
      * @param id 
      * @returns any 
      * @throws ApiError
