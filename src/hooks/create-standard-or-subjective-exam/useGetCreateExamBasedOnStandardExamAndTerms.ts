@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { CreateExamService } from "../../services";
 
-const useGetCreateExamBasedOnStandardExamAndChapters = (
+const useGetCreateExamBasedOnStandardExamAndTerms = (
   page: number,
   limit: number,
   termId: string,
@@ -19,4 +19,4 @@ const useGetCreateExamBasedOnStandardExamAndChapters = (
   );
 };
 
-export default useGetCreateExamBasedOnStandardExamAndChapters;
+export default useGetCreateExamBasedOnStandardExamAndTerms;

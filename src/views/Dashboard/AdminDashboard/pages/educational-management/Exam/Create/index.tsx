@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -23,12 +24,14 @@ import useUpdateCreateExam from "../../../../../../../hooks/create-standard-or-s
 import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
 import useCreateCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useCreateCreateExam";
 import { bytesToKilobytes } from "../../../../../../../utils/helper";
-import IconButton from "../../../../../../../components/kit/IconButton/IconButton";
 import { PrompModalKit } from "../../../../../../../components/kit/Modal";
 import { TableKit } from "../../../../../../../components/kit/Table";
-import { DeleteLightSvg } from "../../../../../../../assets";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
 import useGetSubjectsBasedOnSections from "../../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
 import useGetSectionsBasedOnChapters from "../../../../../../../hooks/section/useGetSectionsBasedOnChapters";
+import useGetCreateExamBasedOnStandardExamAndChapters from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExamAndChapters";
+import useDeleteCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useDeleteCreateExam";
+import useGetCreateExamBasedOnStandardExamAndTerms from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExamAndTerms";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -78,15 +81,14 @@ const CreateExam = () => {
   const selectExamLevelRef = useRef<any>();
   const selectTermRef = useRef<any>();
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
-  const inputNumberRef = useRef<any>();
   const timeRef = useRef<any>();
-  const imageRef = useRef<any>();
   const selectSubjectRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(1);
-  const [pageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(0);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+  const [limit, _] = useState<number>(5);
   const [number, setNumber] = React.useState<any>();
   const [time, setTime] = React.useState<any>();
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
@@ -100,9 +102,23 @@ const CreateExam = () => {
   const [subjectIds, setSubjectIds] = useState<any>();
   const getGradeLevels = useGetGradeLevels();
   const selectSectionRef = useRef<any>();
+  const numberRef = useRef<any>(null);
 
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
     gradeLevelIds?.length == 0 ? null : gradeLevelIds,
+  );
+
+  const getCreateExamBasedOnStandardExamAndChapters =
+    useGetCreateExamBasedOnStandardExamAndChapters(
+      page === 0 ? 1 : page,
+      limit,
+      chapterIds?.length == 0 ? null : chapterIds,
+    );
+
+  const getCreateExamBasedOnStandardExamAndTerms = useGetCreateExamBasedOnStandardExamAndTerms(
+    page === 0 ? 1 : page,
+    limit,
+    termIds?.length == 0 ? null : termIds,
   );
 
   const handleSubjectChange = (event: SelectChangeEvent) => {
@@ -110,7 +126,7 @@ const CreateExam = () => {
   };
 
   useEffect(() => {
-    if (bookIds && bookIds.length > 0) getTermOfStudies.refetch();
+    if (bookIds && bookIds?.length > 0) getTermOfStudies.refetch();
   }, [bookIds]);
 
   useEffect(() => {
@@ -193,6 +209,22 @@ const CreateExam = () => {
   }, [errors["books"]?.message, errors["title"]?.message, errors["gradeLevels"]?.message]);
 
   const createCreateExam = useCreateCreateExam();
+  const deleteCreateExam = useDeleteCreateExam();
+
+  const handleDeleteQuestions = (id: string) => {
+    deleteCreateExam.mutate(id, {
+      onSuccess: async (result: { message: string; statusCode: number }) => {
+        if (result.statusCode === 200) {
+          setLoading(false);
+          toast(result.message);
+          getCreateExamBasedOnStandardExamAndChapters.refetch();
+        } else {
+          setLoading(false);
+          toast(result.message);
+        }
+      },
+    });
+  };
 
   const handleSectionChange = (event: SelectChangeEvent) => {
     setSectionIds(event.target.value as any);
@@ -214,11 +246,19 @@ const CreateExam = () => {
       },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
+          toast.success(result.message);
           setGradeLevelIds(null);
           setBookIds(null);
-          setChapterIds([]);
+          setChapterIds(null);
           setTermIds([]);
-          toast.success(result.message);
+          setGradeLevelIds(null);
+          setBookIds(null);
+          setTermIds([]);
+          setExamTypeIds("");
+          setNumber("");
+          setTime("");
+          setIsPublished(false);
+          getCreateExamBasedOnStandardExamAndChapters.refetch();
         },
         onError: async (e: any) => {
           toast.error(e.message);
@@ -235,11 +275,11 @@ const CreateExam = () => {
 
     updateCreateExam.mutate(
       {
+        ...data,
         id: value.id,
         AnswerSheetSourcePdfFile: selectedFile,
         chapter: chapterIds,
         term: termIds,
-        ...data,
       },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
@@ -249,8 +289,14 @@ const CreateExam = () => {
             setValue({ doUpdate: false, data: "", id: null });
             setGradeLevelIds(null);
             setBookIds(null);
-            setChapterIds([]);
+            setChapterIds(null);
             setTermIds([]);
+            setExamTypeIds("");
+            setNumber("");
+            setTime("");
+            setSelectedFile([]);
+            setIsPublished(false);
+            getCreateExamBasedOnStandardExamAndChapters.refetch();
           } else {
             setLoading(false);
             if (Array.isArray(result.message)) {
@@ -281,17 +327,46 @@ const CreateExam = () => {
 
   const onSelectFile = (e: any) => {
     const newFiles = Array.from(e.target.files);
-    if (selectedFile.length < 1) {
+    if (selectedFile?.length < 1) {
       setSelectedFile([...selectedFile, ...newFiles]);
     }
-    if (selectedFile.length === 1) {
+    if (selectedFile?.length === 1) {
       toast.error("شما تنها می‌توانید یک فایل پاسخنامه آپلود نمایید");
     }
   };
 
   useEffect(() => {
-    if (chapterIds) getSectionsBasedOnChapters.refetch();
+    if (chapterIds && chapterIds?.length > 0) {
+      getSectionsBasedOnChapters.refetch();
+      getCreateExamBasedOnStandardExamAndChapters.refetch();
+    }
   }, [chapterIds]);
+
+  useEffect(() => {
+    if (termIds && termIds?.length > 0) {
+      getCreateExamBasedOnStandardExamAndTerms.refetch();
+    }
+  }, [termIds]);
+
+  useEffect(() => {
+    if (
+      !getCreateExamBasedOnStandardExamAndChapters.isLoading &&
+      getCreateExamBasedOnStandardExamAndChapters?.data?.createExams
+    ) {
+      setPage(parseInt(getCreateExamBasedOnStandardExamAndChapters?.data?.currentPage ?? 1));
+      setPageSize(getCreateExamBasedOnStandardExamAndChapters?.data?.totalPages ?? 1);
+    }
+  }, [getCreateExamBasedOnStandardExamAndChapters?.data]);
+
+  useEffect(() => {
+    if (
+      !getCreateExamBasedOnStandardExamAndTerms.isLoading &&
+      getCreateExamBasedOnStandardExamAndTerms?.data?.createExams
+    ) {
+      setPage(parseInt(getCreateExamBasedOnStandardExamAndTerms?.data?.currentPage ?? 1));
+      setPageSize(getCreateExamBasedOnStandardExamAndTerms?.data?.totalPages ?? 1);
+    }
+  }, [getCreateExamBasedOnStandardExamAndTerms?.data]);
 
   useEffect(() => {
     if (sectionIds) subjectsBasedOnSections.refetch();
@@ -478,14 +553,15 @@ const CreateExam = () => {
                 <TextField
                   required
                   value={number}
-                  type="text"
                   {...register("number")}
                   onChange={(e) => {
                     setNumber(e.target.value);
                     register("number").onChange(e);
                   }}
                   label="شماره آزمون"
-                  inputRef={inputNumberRef}
+                  type="text"
+                  inputRef={numberRef}
+                  InputLabelProps={{ shrink: true }}
                 />
               </FormControl>
 
@@ -493,14 +569,15 @@ const CreateExam = () => {
                 <TextField
                   value={time}
                   required
-                  type="text"
                   {...register("time")}
                   onChange={(e) => {
                     setTime(e.target.value);
                     register("time").onChange(e);
                   }}
                   label="مدت زمان آزمون ( به دقیقه )"
+                  type="text"
                   inputRef={timeRef}
+                  InputLabelProps={{ shrink: true }}
                 />
               </FormControl>
             </>
@@ -523,7 +600,11 @@ const CreateExam = () => {
           <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">
             انتشار
           </Box>
-          <Switch onClick={() => setIsPublished(!isPublished)} id="my-switch" />
+          <Switch
+            checked={isPublished}
+            onClick={() => setIsPublished(!isPublished)}
+            id="my-switch"
+          />
 
           {/* select pdf files */}
           <Box
@@ -622,6 +703,177 @@ const CreateExam = () => {
       </Box>
       <Box className={classes.fieldOfStudy}>
         <Typography>لیست آزمون‌های استاندارد و موضوعی </Typography>
+
+        {!getCreateExamBasedOnStandardExamAndChapters.isLoading &&
+        getCreateExamBasedOnStandardExamAndChapters?.data &&
+        chapterIds?.length > 0 ? (
+          <TableKit
+            secondary
+            headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+            rows={getCreateExamBasedOnStandardExamAndChapters?.data?.createExams?.map(
+              (item: any, index: any) => {
+                return {
+                  id: item._id,
+                  data: {
+                    title: `آزمون شماره ${item.number} - ${
+                      item.type === "standard" ? "استاندارد" : "موضوعی"
+                    }`,
+                    action: (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            setValue({
+                              doUpdate: true,
+                              data: item.title,
+                              id: item._id,
+                            });
+                            setGradeLevelIds(item.gradeLevel[0]._id);
+                            setNumber(item.number);
+                            setChapterIds(item.chapter[0]._id);
+                            setBookIds(item.books[0]._id);
+                            setTime(item.time);
+                            setExamTypeIds(item.examType);
+                            setIsPublished(item.isPublished);
+                            setTimeout(() => {
+                              numberRef.current.focus();
+                            }, 300);
+                            setTimeout(() => {
+                              timeRef.current.focus();
+                            }, 330);
+
+                            setTimeout(() => {
+                              selectExamTypeRef.current.focus();
+                            }, 350);
+
+                            if (
+                              item.AnswerSheetSourcePdfFile &&
+                              item.AnswerSheetSourcePdfFile?.length > 0 &&
+                              item.AnswerSheetSourcePdfFile[0] != ""
+                            ) {
+                              const fileName = item.AnswerSheetSourcePdfFile[0].split("/").pop();
+                              const updatedSelectedFile = [{ name: fileName, size: null }];
+                              setSelectedFile(updatedSelectedFile);
+                            }
+                          }}
+                        >
+                          <EditLightSvg width={12} height={12} />
+                        </IconButton>
+                        <IconButton>
+                          <PrompModalKit
+                            description={`آیا از حذف آزمون  مطمئن  هستید؟`}
+                            onConfirm={() => {
+                              handleDeleteQuestions(item._id);
+                            }}
+                            approved={"بله"}
+                            denied={"خیر"}
+                          >
+                            <DeleteLightSvg width={16} height={16} />
+                          </PrompModalKit>
+                        </IconButton>
+                      </>
+                    ),
+                  },
+                };
+              },
+            )}
+            pagination={{
+              page: page,
+              count: pageSize,
+              rowsPerPage: limit,
+              onChange: (_, e) => {
+                setPage(e);
+              },
+              onRowsPerPageChange: () => {},
+            }}
+          />
+        ) : (
+          <></>
+        )}
+
+        {!getCreateExamBasedOnStandardExamAndTerms.isLoading &&
+        getCreateExamBasedOnStandardExamAndTerms?.data &&
+        termIds?.length > 0 ? (
+          <TableKit
+            secondary
+            headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+            rows={getCreateExamBasedOnStandardExamAndTerms?.data?.createExams?.map(
+              (item: any, index: any) => {
+                return {
+                  id: item._id,
+                  data: {
+                    title: `آزمون شماره ${item.number} - ${
+                      item.type === "standard" ? "استاندارد" : "موضوعی"
+                    }`,
+                    action: (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            console.log(item, "item");
+
+                            setValue({
+                              doUpdate: true,
+                              data: item.title,
+                              id: item._id,
+                            });
+                            setNumber(item.number);
+                            setTime(item.time);
+                            setExamTypeIds(item.examType);
+                            setIsPublished(item.isPublished);
+                            setTimeout(() => {
+                              numberRef.current.focus();
+                            }, 300);
+                            setTimeout(() => {
+                              timeRef.current.focus();
+                            }, 330);
+
+                            setTimeout(() => {
+                              selectExamTypeRef.current.focus();
+                            }, 350);
+
+                            if (
+                              item.AnswerSheetSourcePdfFile &&
+                              item.AnswerSheetSourcePdfFile?.length > 0 &&
+                              item.AnswerSheetSourcePdfFile[0] != ""
+                            ) {
+                              const fileName = item.AnswerSheetSourcePdfFile[0].split("/").pop();
+                              const updatedSelectedFile = [{ name: fileName, size: null }];
+                              setSelectedFile(updatedSelectedFile);
+                            }
+                          }}
+                        >
+                          <EditLightSvg width={12} height={12} />
+                        </IconButton>
+                        <IconButton>
+                          <PrompModalKit
+                            description={`آیا از حذف آزمون  مطمئن  هستید؟`}
+                            onConfirm={() => {
+                              handleDeleteQuestions(item._id);
+                            }}
+                            approved={"بله"}
+                            denied={"خیر"}
+                          >
+                            <DeleteLightSvg width={16} height={16} />
+                          </PrompModalKit>
+                        </IconButton>
+                      </>
+                    ),
+                  },
+                };
+              },
+            )}
+            pagination={{
+              page: page,
+              count: pageSize,
+              rowsPerPage: limit,
+              onChange: (_, e) => {
+                setPage(e);
+              },
+              onRowsPerPageChange: () => {},
+            }}
+          />
+        ) : (
+          <Box></Box>
+        )}
       </Box>
     </Box>
   );
