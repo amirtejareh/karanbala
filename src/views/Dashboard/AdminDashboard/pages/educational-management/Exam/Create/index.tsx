@@ -32,6 +32,8 @@ import useGetSectionsBasedOnChapters from "../../../../../../../hooks/section/us
 import useGetCreateExamBasedOnStandardExamAndChapters from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExamAndChapters";
 import useDeleteCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useDeleteCreateExam";
 import useGetCreateExamBasedOnStandardExamAndTerms from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExamAndTerms";
+import useGetCreateExamBasedOnSubjectiveExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExam";
+import useGetCreateExamBasedOnSubjectiveExamAndSubjects from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExamAndSubjects";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -113,6 +115,13 @@ const CreateExam = () => {
       page === 0 ? 1 : page,
       limit,
       chapterIds?.length == 0 ? null : chapterIds,
+    );
+
+  const getCreateExamBasedOnSubjectiveExamAndSubjects =
+    useGetCreateExamBasedOnSubjectiveExamAndSubjects(
+      page === 0 ? 1 : page,
+      limit,
+      subjectIds?.length == 0 ? null : subjectIds,
     );
 
   const getCreateExamBasedOnStandardExamAndTerms = useGetCreateExamBasedOnStandardExamAndTerms(
@@ -336,11 +345,23 @@ const CreateExam = () => {
   };
 
   useEffect(() => {
+    if (subjectIds && subjectIds?.length > 0) {
+      getCreateExamBasedOnStandardExamAndChapters.refetch();
+    }
+  }, [subjectIds]);
+
+  useEffect(() => {
     if (chapterIds && chapterIds?.length > 0) {
       getSectionsBasedOnChapters.refetch();
       getCreateExamBasedOnStandardExamAndChapters.refetch();
     }
   }, [chapterIds]);
+
+  useEffect(() => {
+    if (subjectIds && subjectIds?.length > 0) {
+      getCreateExamBasedOnSubjectiveExamAndSubjects.refetch();
+    }
+  }, [subjectIds]);
 
   useEffect(() => {
     if (termIds && termIds?.length > 0) {
@@ -706,7 +727,8 @@ const CreateExam = () => {
 
         {!getCreateExamBasedOnStandardExamAndChapters.isLoading &&
         getCreateExamBasedOnStandardExamAndChapters?.data &&
-        chapterIds?.length > 0 ? (
+        chapterIds?.length > 0 &&
+        typeIds === "standard" ? (
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
@@ -792,11 +814,98 @@ const CreateExam = () => {
 
         {!getCreateExamBasedOnStandardExamAndTerms.isLoading &&
         getCreateExamBasedOnStandardExamAndTerms?.data &&
-        termIds?.length > 0 ? (
+        termIds?.length > 0 &&
+        typeIds === "standard" ? (
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
             rows={getCreateExamBasedOnStandardExamAndTerms?.data?.createExams?.map(
+              (item: any, index: any) => {
+                return {
+                  id: item._id,
+                  data: {
+                    title: `آزمون شماره ${item.number} - ${
+                      item.type === "standard" ? "استاندارد" : "موضوعی"
+                    }`,
+                    action: (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            console.log(item, "item");
+
+                            setValue({
+                              doUpdate: true,
+                              data: item.title,
+                              id: item._id,
+                            });
+                            setNumber(item.number);
+                            setTime(item.time);
+                            setExamTypeIds(item.examType);
+                            setIsPublished(item.isPublished);
+                            setTimeout(() => {
+                              numberRef.current.focus();
+                            }, 300);
+                            setTimeout(() => {
+                              timeRef.current.focus();
+                            }, 330);
+
+                            setTimeout(() => {
+                              selectExamTypeRef.current.focus();
+                            }, 350);
+
+                            if (
+                              item.AnswerSheetSourcePdfFile &&
+                              item.AnswerSheetSourcePdfFile?.length > 0 &&
+                              item.AnswerSheetSourcePdfFile[0] != ""
+                            ) {
+                              const fileName = item.AnswerSheetSourcePdfFile[0].split("/").pop();
+                              const updatedSelectedFile = [{ name: fileName, size: null }];
+                              setSelectedFile(updatedSelectedFile);
+                            }
+                          }}
+                        >
+                          <EditLightSvg width={12} height={12} />
+                        </IconButton>
+                        <IconButton>
+                          <PrompModalKit
+                            description={`آیا از حذف آزمون  مطمئن  هستید؟`}
+                            onConfirm={() => {
+                              handleDeleteQuestions(item._id);
+                            }}
+                            approved={"بله"}
+                            denied={"خیر"}
+                          >
+                            <DeleteLightSvg width={16} height={16} />
+                          </PrompModalKit>
+                        </IconButton>
+                      </>
+                    ),
+                  },
+                };
+              },
+            )}
+            pagination={{
+              page: page,
+              count: pageSize,
+              rowsPerPage: limit,
+              onChange: (_, e) => {
+                setPage(e);
+              },
+              onRowsPerPageChange: () => {},
+            }}
+          />
+        ) : (
+          <Box></Box>
+        )}
+
+        {!getCreateExamBasedOnSubjectiveExamAndSubjects.isLoading &&
+        getCreateExamBasedOnSubjectiveExamAndSubjects?.data &&
+        subjectIds?.length > 0 &&
+        typeIds === "standard" ? (
+          <TableKit
+            secondary
+            headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+            rows={getCreateExamBasedOnSubjectiveExamAndSubjects?.data?.createExams?.map(
               (item: any, index: any) => {
                 return {
                   id: item._id,
