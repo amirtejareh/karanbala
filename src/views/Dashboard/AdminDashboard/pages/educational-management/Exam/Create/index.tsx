@@ -901,7 +901,7 @@ const CreateExam = () => {
         {!getCreateExamBasedOnSubjectiveExamAndSubjects.isLoading &&
         getCreateExamBasedOnSubjectiveExamAndSubjects?.data &&
         subjectIds?.length > 0 &&
-        typeIds === "standard" ? (
+        typeIds === "subjective" ? (
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
@@ -910,15 +910,13 @@ const CreateExam = () => {
                 return {
                   id: item._id,
                   data: {
-                    title: `آزمون شماره ${item.number} - ${
-                      item.type === "standard" ? "استاندارد" : "موضوعی"
+                    title: `آزمون  ${item.type === "standard" ? "استاندارد" : "موضوعی"} - ${
+                      item.gradeLevel[0].title
                     }`,
                     action: (
                       <>
                         <IconButton
                           onClick={() => {
-                            console.log(item, "item");
-
                             setValue({
                               doUpdate: true,
                               data: item.title,
