@@ -11,18 +11,21 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import RichTextEditor from "../../../../../../../utils/ReactQuill";
-import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
-import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
-import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
 import useUpdateStandardExam from "../../../../../../../hooks/standard-exam/useUpdateStandardExam";
 import useCreateStandardExam from "../../../../../../../hooks/standard-exam/useCreateStandardExam";
 import useGetCreateExamBasedOnStandardExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExam";
 import { Switch } from "@mui/base/Switch";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
+import { TableKit } from "../../../../../../../components/kit/Table";
+import useGetStandardExams from "../../../../../../../hooks/standard-exam/useGetStandardExams";
+import { PrompModalKit } from "../../../../../../../components/kit/Modal";
+import useDeleteStandardExam from "../../../../../../../hooks/standard-exam/useDeleteStandardExam";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -68,22 +71,21 @@ const StandardExam = () => {
   const selectChaptertRef = useRef<any>();
   const selectTypeRef = useRef<any>();
   const selectTermRef = useRef<any>();
-  const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
+  const [createExamIds, setCreateExamIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
+  const inputQuestionRef = useRef<any>();
   const imageRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const [limit, _] = useState<number>(5);
-
   const [page, setPage] = useState<number>(1);
-  const [pageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(0);
+  const [limit, _] = useState<number>(5);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
   const [number, setNumber] = React.useState<any>();
   const [correctAnswer, setCorrectAnswer] = React.useState<any>();
-  const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
-  const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
-  const [termIds, setTermIds] = React.useState<any>(bookIds);
+
   const [isMultipleChoiceTest, setMultipleChoiceTest] = React.useState<any>(false);
+  const selectCreateExamRef = useRef<any>();
 
   const getCreateExam = useGetCreateExamBasedOnStandardExam(page === 0 ? 1 : page, limit);
 
@@ -91,47 +93,14 @@ const StandardExam = () => {
     getCreateExam.refetch();
   }, []);
 
-  const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
-    gradeLevelIds?.length == 0 ? null : gradeLevelIds,
-  );
+  const getStandardExams = useGetStandardExams(page === 0 ? 1 : page, limit);
 
   useEffect(() => {
-    if (gradeLevelIds) {
-      getBooksBasedOnGradeLevels.refetch();
-    }
-  }, [gradeLevelIds]);
+    getStandardExams.refetch();
+  }, [getStandardExams.data]);
 
-  const getTermOfStudies = useGetTermOfStudies();
-
-  useEffect(() => {
-    if (bookIds && bookIds.length > 0) getTermOfStudies.refetch();
-  }, [bookIds]);
-
-  const handleGradeLevelChange = (event: SelectChangeEvent) => {
-    setGradeLevelIds(event.target.value as any);
-    setBookIds(null);
-    setChapterIds([]);
-  };
-
-  const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(bookIds?.length == 0 ? null : bookIds);
-
-  useEffect(() => {
-    if (bookIds) getChaptersBasedOnBooks.refetch();
-  }, [bookIds]);
-
-  const handleBookChange = (event: SelectChangeEvent) => {
-    setBookIds(event.target.value as any);
-    setChapterIds([]);
-  };
-
-  const handleChapterChange = (event: SelectChangeEvent) => {
-    setChapterIds(event.target.value as any);
-    setTermIds([]);
-  };
-
-  const handleTermChange = (event: SelectChangeEvent) => {
-    setTermIds(event.target.value as any);
-    setChapterIds([]);
+  const handleCreateExamChange = (event: SelectChangeEvent) => {
+    setCreateExamIds(event.target.value as any);
   };
 
   const {
@@ -182,7 +151,12 @@ const StandardExam = () => {
     if (quillEditorValue == "") {
       return toast.error("حداقل یک سوال باید ایجاد شود");
     }
-    data.options = options;
+
+    if (isMultipleChoiceTest) {
+      data.options = options;
+    } else {
+      data.options = [];
+    }
     data.question = quillEditorValue;
     data.isMultipleChoiceTest = isMultipleChoiceTest;
     setLoading(true);
@@ -191,9 +165,7 @@ const StandardExam = () => {
       onSuccess: async (result: { message: string; statusCode: number }) => {
         if (result.statusCode == 200) {
           setLoading(false);
-          setGradeLevelIds(null);
-          setBookIds(null);
-          setChapterIds(null);
+
           toast.success(result.message);
         } else {
           setLoading(false);
@@ -220,23 +192,65 @@ const StandardExam = () => {
     });
   };
 
+  useEffect(() => {
+    if (!getStandardExams.isLoading && getStandardExams?.data?.createExams) {
+      setPage(parseInt(getStandardExams?.data?.currentPage ?? 1));
+      setPageSize(getStandardExams?.data?.totalPages ?? 1);
+    }
+  }, [getStandardExams?.data]);
+
+  const deleteStandardExam = useDeleteStandardExam();
+
+  const handleDeleteQuestions = (id: string) => {
+    deleteStandardExam.mutate(id, {
+      onSuccess: async (result: { message: string; statusCode: number }) => {
+        if (result.statusCode === 200) {
+          setLoading(false);
+          toast(result.message);
+          getStandardExams.refetch();
+        } else {
+          setLoading(false);
+          toast(result.message);
+        }
+      },
+    });
+  };
+
   const updateStandardExam = useUpdateStandardExam();
 
   const handleUpdateStandardExam = async (data: any) => {
+    if (
+      (options.option1 == "" ||
+        options.option2 == "" ||
+        options.option3 == "" ||
+        options.option4 == "") &&
+      isMultipleChoiceTest
+    ) {
+      return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
+    }
+
+    if (quillEditorValue == "") {
+      return toast.error("حداقل یک سوال باید ایجاد شود");
+    }
+
+    if (isMultipleChoiceTest) {
+      data.options = options;
+    } else {
+      data.options = [];
+    }
+
     setLoading(true);
 
+    data.question = quillEditorValue;
+    data.isMultipleChoiceTest = isMultipleChoiceTest;
     updateStandardExam.mutate(
-      { id: value.id, chapter: chapterIds, term: termIds, ...data },
+      { id: value.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
             setLoading(false);
             toast.success(result.message);
             setValue({ doUpdate: false, data: "", id: null });
-            setGradeLevelIds(null);
-            setBookIds(null);
-            setChapterIds([]);
-            setTermIds([]);
           } else {
             setLoading(false);
             if (Array.isArray(result.message)) {
@@ -279,7 +293,12 @@ const StandardExam = () => {
         >
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
-            <Select {...register("createExam")}>
+            <Select
+              value={createExamIds ?? []}
+              {...register("createExam")}
+              inputRef={selectCreateExamRef}
+              onChange={handleCreateExamChange}
+            >
               {!getCreateExam?.isLoading &&
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
@@ -301,6 +320,7 @@ const StandardExam = () => {
                 setCorrectAnswer(e.target.value);
                 register("correctAnswer").onChange(e);
               }}
+              InputLabelProps={{ shrink: true }}
               label="گزینه صحیح"
               inputRef={inputNumberRef}
             />
@@ -309,14 +329,15 @@ const StandardExam = () => {
           <FormControl className={classes.formField}>
             <TextField
               value={number}
-              type="text"
+              type="number"
               {...register("number")}
               onChange={(e) => {
                 setNumber(e.target.value);
                 register("number").onChange(e);
               }}
+              InputLabelProps={{ shrink: true }}
               label="شماره سوال"
-              inputRef={inputNumberRef}
+              inputRef={inputQuestionRef}
             />
           </FormControl>
           <FormControl className={classes.formField}>
@@ -331,7 +352,11 @@ const StandardExam = () => {
           <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">
             نوع آزمون (تستی / تشریحی)
           </Box>
-          <Switch onClick={() => setMultipleChoiceTest(!isMultipleChoiceTest)} id="my-switch" />
+          <Switch
+            checked={isMultipleChoiceTest}
+            onClick={() => setMultipleChoiceTest(!isMultipleChoiceTest)}
+            id="my-switch"
+          />
 
           {isMultipleChoiceTest && (
             <>
@@ -383,6 +408,85 @@ const StandardExam = () => {
       </Box>
       <Box className={classes.fieldOfStudy}>
         <Typography>لیست آزمون‌های استاندارد </Typography>
+        {!getStandardExams.isLoading && getStandardExams?.data ? (
+          <TableKit
+            secondary
+            headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+            rows={getStandardExams?.data?.standards?.map((item: any, index: any) => {
+              return {
+                id: item._id,
+                data: {
+                  title: `آزمون شماره ${item.number} `,
+                  action: (
+                    <>
+                      <IconButton
+                        onClick={() => {
+                          setValue({
+                            doUpdate: true,
+                            data: item.title,
+                            id: item._id,
+                          });
+
+                          setNumber(item.number);
+                          setCorrectAnswer(item.correctAnswer);
+                          setCreateExamIds(item.createExam[0]);
+                          setQuillEditorValue(item.question);
+
+                          if (item.options.length > 0) {
+                            Object.entries(item.options[0]).map(([key, value]) => {
+                              setOptions((prevOptions) => ({
+                                ...prevOptions,
+                                [key]: value,
+                              }));
+                            });
+                          }
+
+                          console.log(item);
+
+                          setMultipleChoiceTest(item.isMultipleChoiceTest);
+                          setTimeout(() => {
+                            selectCreateExamRef.current.focus();
+                          }, 300);
+                          setTimeout(() => {
+                            inputNumberRef.current.focus();
+                          }, 320);
+                          setTimeout(() => {
+                            inputQuestionRef.current.focus();
+                          }, 330);
+                        }}
+                      >
+                        <EditLightSvg width={12} height={12} />
+                      </IconButton>
+                      <IconButton>
+                        <PrompModalKit
+                          description={`آیا از حذف آزمون  مطمئن  هستید؟`}
+                          onConfirm={() => {
+                            handleDeleteQuestions(item._id);
+                          }}
+                          approved={"بله"}
+                          denied={"خیر"}
+                        >
+                          <DeleteLightSvg width={16} height={16} />
+                        </PrompModalKit>
+                      </IconButton>
+                    </>
+                  ),
+                },
+              };
+            })}
+            pagination={{
+              page: page,
+              count: pageSize,
+              rowsPerPage: limit,
+              onChange: (_, e) => {
+                setPage(e);
+              },
+              onRowsPerPageChange: () => {},
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </Box>
     </Box>
   );
