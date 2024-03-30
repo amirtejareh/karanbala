@@ -12,6 +12,7 @@ import {
   MenuItem,
   SelectChangeEvent,
   IconButton,
+  Switch,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -20,7 +21,6 @@ import RichTextEditor from "../../../../../../../utils/ReactQuill";
 import useUpdateStandardExam from "../../../../../../../hooks/standard-exam/useUpdateStandardExam";
 import useCreateStandardExam from "../../../../../../../hooks/standard-exam/useCreateStandardExam";
 import useGetCreateExamBasedOnStandardExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExam";
-import { Switch } from "@mui/base/Switch";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
 import { TableKit } from "../../../../../../../components/kit/Table";
 import useGetStandardExams from "../../../../../../../hooks/standard-exam/useGetStandardExams";
@@ -303,8 +303,8 @@ const StandardExam = () => {
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
                     <MenuItem key={element._id} value={element._id}>
-                      {element.number} - {element.type === "standard" ? "استاندارد" : "موضوعی"} -{" "}
-                      {element.books[0].title} - {element.gradeLevel[0].title}
+                      {element.number} - {element.gradeLevel[0].title} - {element.books[0].title}
+                      {element?.chapter[0]?.title} - {element?.term[0]?.title}
                     </MenuItem>
                   );
                 })}

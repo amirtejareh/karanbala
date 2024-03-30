@@ -12,6 +12,7 @@ import {
   MenuItem,
   SelectChangeEvent,
   IconButton,
+  Switch,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -85,6 +86,7 @@ const SubjectiveExam = () => {
   const [termIds, setTermIds] = React.useState<any>(bookIds);
   const [createExamIds, setCreateExamIds] = useState<any>([]);
   const selectCreateExamRef = useRef<any>();
+  const [isMultipleChoiceTest, setMultipleChoiceTest] = React.useState<any>(false);
 
   const getCreateExam = useGetCreateExamBasedOnSubjectiveExam(page === 0 ? 1 : page, limit);
 
@@ -104,6 +106,16 @@ const SubjectiveExam = () => {
 
   const getSubjectiveExams = useGetSubjectiveExams(page === 0 ? 1 : page, limit);
   const handleCreateExamChange = (event: SelectChangeEvent) => {
+    const selectSpecificExam = getCreateExam?.data?.createExams?.find(
+      (element) => element._id === event.target.value,
+    );
+
+    if (selectSpecificExam.examType === "multipleChoiceTest") {
+      setMultipleChoiceTest(true);
+    } else {
+      setMultipleChoiceTest(false);
+    }
+
     setCreateExamIds(event.target.value as any);
   };
 
@@ -182,10 +194,11 @@ const SubjectiveExam = () => {
 
   const handleCreateSubjectiveExam = async (data: any) => {
     if (
-      options.option1 == "" ||
-      options.option2 == "" ||
-      options.option3 == "" ||
-      options.option4 == ""
+      (options.option1 == "" ||
+        options.option2 == "" ||
+        options.option3 == "" ||
+        options.option4 == "") &&
+      isMultipleChoiceTest
     ) {
       return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
     }
@@ -193,8 +206,14 @@ const SubjectiveExam = () => {
     if (quillEditorValue == "") {
       return toast.error("حداقل یک سوال باید ایجاد شود");
     }
-    data.options = options;
+
+    if (isMultipleChoiceTest) {
+      data.options = options;
+    } else {
+      data.options = [];
+    }
     data.question = quillEditorValue;
+    data.isMultipleChoiceTest = isMultipleChoiceTest;
     setLoading(true);
 
     createSubjectiveExam.mutate(data, {
@@ -235,10 +254,11 @@ const SubjectiveExam = () => {
 
   const handleUpdateSubjectiveExam = async (data: any) => {
     if (
-      options.option1 == "" ||
-      options.option2 == "" ||
-      options.option3 == "" ||
-      options.option4 == ""
+      (options.option1 == "" ||
+        options.option2 == "" ||
+        options.option3 == "" ||
+        options.option4 == "") &&
+      isMultipleChoiceTest
     ) {
       return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
     }
@@ -247,10 +267,15 @@ const SubjectiveExam = () => {
       return toast.error("حداقل یک سوال باید ایجاد شود");
     }
 
-    data.options = options;
-    data.question = quillEditorValue;
+    if (isMultipleChoiceTest) {
+      data.options = options;
+    } else {
+      data.options = [];
+    }
 
     setLoading(true);
+    data.question = quillEditorValue;
+    data.isMultipleChoiceTest = isMultipleChoiceTest;
 
     updateSubjectiveExam.mutate(
       { id: value.id, ...data },
@@ -317,10 +342,23 @@ const SubjectiveExam = () => {
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
                     <MenuItem key={element._id} value={element._id}>
-                      {` ${element.gradeLevel[0].title} - `}
-                      {` ${element.books[0].title} - `}
-                      {`${element.chapter[0].title} -  `}
-                      {`${element.subject[0].title}   `}
+                      {` ${element?.gradeLevel[0]?.title} - `}
+                      {` ${element?.books[0]?.title} - `}
+                      {`${element?.chapter[0]?.title} -  `}
+                      {`${element?.subject[0]?.title} -  `}
+                      {` ${
+                        element.examLevel === "easy"
+                          ? "آسان"
+                          : element.examLevel === "hard"
+                            ? "سخت"
+                            : element.examLevel === "average"
+                              ? "متوسط"
+                              : element.examLevel === "challenging"
+                                ? "چالشی"
+                                : ""
+                      } `}
+
+                      {`- ${element.examType === "multipleChoiceTest" ? "تستی" : "تشریحی"}`}
                     </MenuItem>
                   );
                 })}
@@ -362,38 +400,52 @@ const SubjectiveExam = () => {
               setValue={(newValue) => setQuillEditorValue(newValue)}
             />
           </FormControl>
-          <FormControl className={classes.formField}>
-            <Typography>گزینه اول</Typography>
-            <RichTextEditor
-              value={options.option1}
-              setValue={(value) => handleEditorChange(value, "option1")}
-            />
-          </FormControl>
-          <FormControl className={classes.formField}>
-            <Typography>گزینه دوم</Typography>
 
-            <RichTextEditor
-              value={options.option2}
-              setValue={(value) => handleEditorChange(value, "option2")}
-            />
-          </FormControl>
-          <FormControl className={classes.formField}>
-            <Typography>گزینه سوم</Typography>
+          <Box sx={{ margin: "0 1rem 0 1rem" }} component={"label"} htmlFor="my-switch">
+            نوع آزمون (تستی / تشریحی)
+          </Box>
+          <Switch
+            checked={isMultipleChoiceTest}
+            onClick={() => setMultipleChoiceTest(!isMultipleChoiceTest)}
+            id="my-switch"
+          />
 
-            <RichTextEditor
-              value={options.option3}
-              setValue={(value) => handleEditorChange(value, "option3")}
-            />
-          </FormControl>
+          {isMultipleChoiceTest && (
+            <>
+              <FormControl className={classes.formField}>
+                <Typography>گزینه اول</Typography>
+                <RichTextEditor
+                  value={options.option1}
+                  setValue={(value) => handleEditorChange(value, "option1")}
+                />
+              </FormControl>
+              <FormControl className={classes.formField}>
+                <Typography>گزینه دوم</Typography>
 
-          <FormControl className={classes.formField}>
-            <Typography>گزینه چهارم</Typography>
+                <RichTextEditor
+                  value={options.option2}
+                  setValue={(value) => handleEditorChange(value, "option2")}
+                />
+              </FormControl>
+              <FormControl className={classes.formField}>
+                <Typography>گزینه سوم</Typography>
 
-            <RichTextEditor
-              value={options.option4}
-              setValue={(value) => handleEditorChange(value, "option4")}
-            />
-          </FormControl>
+                <RichTextEditor
+                  value={options.option3}
+                  setValue={(value) => handleEditorChange(value, "option3")}
+                />
+              </FormControl>
+
+              <FormControl className={classes.formField}>
+                <Typography>گزینه چهارم</Typography>
+
+                <RichTextEditor
+                  value={options.option4}
+                  setValue={(value) => handleEditorChange(value, "option4")}
+                />
+              </FormControl>
+            </>
+          )}
 
           <Button
             variant="contained"
@@ -416,10 +468,10 @@ const SubjectiveExam = () => {
               return {
                 id: item._id,
                 data: {
-                  title: ` ${item?.createExam[0]?.gradeLevel[0].title} - 
-                  ${item?.createExam[0]?.books[0].title} 
-                  ${item?.createExam[0]?.chapter[0].title} -
-                  ${item?.createExam[0]?.subject[0].title}`,
+                  title: ` ${item?.createExam[0]?.gradeLevel[0]?.title} - 
+                  ${item?.createExam[0]?.books[0]?.title} 
+                  ${item?.createExam[0]?.chapter[0]?.title} -
+                  ${item?.createExam[0]?.subject[0]?.title}`,
 
                   action: (
                     <>
@@ -427,14 +479,12 @@ const SubjectiveExam = () => {
                         onClick={() => {
                           setValue({
                             doUpdate: true,
-                            data: item.title,
+                            data: item?.title,
                             id: item._id,
                           });
 
                           setNumber(item.number);
                           setCorrectAnswer(item.correctAnswer);
-
-                          console.log(item);
 
                           setCreateExamIds(item?.createExam[0]?._id);
                           if (item.options.length > 0) {
@@ -446,7 +496,7 @@ const SubjectiveExam = () => {
                             });
                           }
                           setQuillEditorValue(item.question);
-
+                          setMultipleChoiceTest(item.isMultipleChoiceTest);
                           setTimeout(() => {
                             selectCreateExamRef.current.focus();
                           }, 300);
