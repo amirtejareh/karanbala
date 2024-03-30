@@ -1,11 +1,11 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { SampleTestQuestionsService, StandardService } from "../../services";
+import { SubjectiveService } from "../../services";
 
-const useDeleteStandardExam = () => {
+const useDeleteSubjectiveExam = () => {
   return useMutation((request: string) => {
-    return StandardService.standardControllerRemove(request);
+    return SubjectiveService.subjectiveControllerRemove(request);
   });
 };
 
-export default useDeleteStandardExam;
+export default useDeleteSubjectiveExam;

@@ -1,15 +1,15 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { SampleTestQuestionsService, StandardService } from "../../services";
+import { SubjectiveService } from "../../services";
 
-const useGetStandardExams = (page: number, limit: number) => {
+const useGetSubjectiveExams = (page: number, limit: number) => {
   return useQuery(
-    ["Get-All-Sample-Test-Questions-Based-On-Book"],
+    ["Get-All-Subjective-Exam"],
     async () => {
-      return await StandardService.standardControllerFindAll(page, limit);
+      return await SubjectiveService.subjectiveControllerFindAll(page, limit);
     },
     { refetchOnWindowFocus: false, enabled: false },
   );
 };
 
-export default useGetStandardExams;
+export default useGetSubjectiveExams;

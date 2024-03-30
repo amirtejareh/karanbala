@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -22,6 +23,11 @@ import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGet
 import useUpdateSubjectiveExam from "../../../../../../../hooks/subjective-exam/useUpdateSubjectiveExam";
 import useCreateSubjectiveExam from "../../../../../../../hooks/subjective-exam/useCreateSubjectiveExam";
 import useGetCreateExamBasedOnSubjectiveExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExam";
+import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
+import { PrompModalKit } from "../../../../../../../components/kit/Modal";
+import { TableKit } from "../../../../../../../components/kit/Table";
+import useGetSubjectiveExams from "../../../../../../../hooks/subjective-exam/useGetSubjectiveExams";
+import useDeleteSubjectiveExam from "../../../../../../../hooks/subjective-exam/useDeleteSubjectiveExam";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -64,19 +70,21 @@ const SubjectiveExam = () => {
 
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
+  const inputQuestionRef = useRef<any>();
   const imageRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const [limit, _] = useState<number>(5);
-
   const [page, setPage] = useState<number>(1);
-  const [pageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(0);
+  const [limit, _] = useState<number>(5);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
   const [number, setNumber] = React.useState<any>();
   const [correctAnswer, setCorrectAnswer] = React.useState<any>();
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
+  const [createExamIds, setCreateExamIds] = useState<any>([]);
+  const selectCreateExamRef = useRef<any>();
 
   const getCreateExam = useGetCreateExamBasedOnSubjectiveExam(page === 0 ? 1 : page, limit);
 
@@ -93,6 +101,38 @@ const SubjectiveExam = () => {
       getBooksBasedOnGradeLevels.refetch();
     }
   }, [gradeLevelIds]);
+
+  const getSubjectiveExams = useGetSubjectiveExams(page === 0 ? 1 : page, limit);
+  const handleCreateExamChange = (event: SelectChangeEvent) => {
+    setCreateExamIds(event.target.value as any);
+  };
+
+  const deleteSubjectiveExam = useDeleteSubjectiveExam();
+
+  const handleDeleteQuestions = (id: string) => {
+    deleteSubjectiveExam.mutate(id, {
+      onSuccess: async (result: { message: string; statusCode: number }) => {
+        if (result.statusCode === 200) {
+          setLoading(false);
+          toast(result.message);
+          getSubjectiveExams.refetch();
+        } else {
+          setLoading(false);
+          toast(result.message);
+        }
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (!getSubjectiveExams.isLoading && getSubjectiveExams?.data?.createExams) {
+      setPage(parseInt(getSubjectiveExams?.data?.currentPage ?? 1));
+      setPageSize(getSubjectiveExams?.data?.totalPages ?? 1);
+    }
+  }, [getSubjectiveExams?.data]);
+  useEffect(() => {
+    getSubjectiveExams.refetch();
+  }, [getSubjectiveExams.data]);
 
   const getTermOfStudies = useGetTermOfStudies();
 
@@ -165,6 +205,7 @@ const SubjectiveExam = () => {
           setBookIds(null);
           setChapterIds(null);
           toast.success(result.message);
+          getSubjectiveExams.refetch();
         } else {
           setLoading(false);
           if (Array.isArray(result.message)) {
@@ -193,10 +234,26 @@ const SubjectiveExam = () => {
   const updateSubjectiveExam = useUpdateSubjectiveExam();
 
   const handleUpdateSubjectiveExam = async (data: any) => {
+    if (
+      options.option1 == "" ||
+      options.option2 == "" ||
+      options.option3 == "" ||
+      options.option4 == ""
+    ) {
+      return toast.error("هر ۴ گزینه باید مقدار داشته باشند");
+    }
+
+    if (quillEditorValue == "") {
+      return toast.error("حداقل یک سوال باید ایجاد شود");
+    }
+
+    data.options = options;
+    data.question = quillEditorValue;
+
     setLoading(true);
 
     updateSubjectiveExam.mutate(
-      { id: value.id, chapter: chapterIds, term: termIds, ...data },
+      { id: value.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -207,6 +264,7 @@ const SubjectiveExam = () => {
             setBookIds(null);
             setChapterIds([]);
             setTermIds([]);
+            getSubjectiveExams.refetch();
           } else {
             setLoading(false);
             if (Array.isArray(result.message)) {
@@ -249,12 +307,20 @@ const SubjectiveExam = () => {
         >
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
-            <Select {...register("createExam")}>
+            <Select
+              value={createExamIds ?? []}
+              {...register("createExam")}
+              inputRef={selectCreateExamRef}
+              onChange={handleCreateExamChange}
+            >
               {!getCreateExam?.isLoading &&
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
                     <MenuItem key={element._id} value={element._id}>
-                      {element.number} - {element.type === "subjective" ? "موضوعی" : "استاندارد"}
+                      {` ${element.gradeLevel[0].title} - `}
+                      {` ${element.books[0].title} - `}
+                      {`${element.chapter[0].title} -  `}
+                      {`${element.subject[0].title}   `}
                     </MenuItem>
                   );
                 })}
@@ -264,7 +330,7 @@ const SubjectiveExam = () => {
           <FormControl className={classes.formField}>
             <TextField
               value={correctAnswer}
-              type="text"
+              type="number"
               {...register("correctAnswer")}
               onChange={(e) => {
                 setCorrectAnswer(e.target.value);
@@ -278,14 +344,14 @@ const SubjectiveExam = () => {
           <FormControl className={classes.formField}>
             <TextField
               value={number}
-              type="text"
+              type="number"
               {...register("number")}
               onChange={(e) => {
                 setNumber(e.target.value);
                 register("number").onChange(e);
               }}
               label="شماره سوال"
-              inputRef={inputNumberRef}
+              inputRef={inputQuestionRef}
             />
           </FormControl>
           <FormControl className={classes.formField}>
@@ -342,6 +408,88 @@ const SubjectiveExam = () => {
       </Box>
       <Box className={classes.fieldOfStudy}>
         <Typography>لیست آزمون‌های موضوعی </Typography>
+        {!getSubjectiveExams.isLoading && getSubjectiveExams?.data ? (
+          <TableKit
+            secondary
+            headers={[{ children: `عنوان` }, { children: `عملیات` }]}
+            rows={getSubjectiveExams?.data?.subjectives?.map((item: any, index: any) => {
+              return {
+                id: item._id,
+                data: {
+                  title: ` ${item?.createExam[0]?.gradeLevel[0].title} - 
+                  ${item?.createExam[0]?.books[0].title} 
+                  ${item?.createExam[0]?.chapter[0].title} -
+                  ${item?.createExam[0]?.subject[0].title}`,
+
+                  action: (
+                    <>
+                      <IconButton
+                        onClick={() => {
+                          setValue({
+                            doUpdate: true,
+                            data: item.title,
+                            id: item._id,
+                          });
+
+                          setNumber(item.number);
+                          setCorrectAnswer(item.correctAnswer);
+
+                          console.log(item);
+
+                          setCreateExamIds(item?.createExam[0]?._id);
+                          if (item.options.length > 0) {
+                            Object.entries(item.options[0]).map(([key, value]) => {
+                              setOptions((prevOptions) => ({
+                                ...prevOptions,
+                                [key]: value,
+                              }));
+                            });
+                          }
+                          setQuillEditorValue(item.question);
+
+                          setTimeout(() => {
+                            selectCreateExamRef.current.focus();
+                          }, 300);
+                          setTimeout(() => {
+                            inputNumberRef.current.focus();
+                          }, 320);
+                          setTimeout(() => {
+                            inputQuestionRef.current.focus();
+                          }, 330);
+                        }}
+                      >
+                        <EditLightSvg width={12} height={12} />
+                      </IconButton>
+                      <IconButton>
+                        <PrompModalKit
+                          description={`آیا از حذف آزمون  مطمئن  هستید؟`}
+                          onConfirm={() => {
+                            handleDeleteQuestions(item._id);
+                          }}
+                          approved={"بله"}
+                          denied={"خیر"}
+                        >
+                          <DeleteLightSvg width={16} height={16} />
+                        </PrompModalKit>
+                      </IconButton>
+                    </>
+                  ),
+                },
+              };
+            })}
+            pagination={{
+              page: page,
+              count: pageSize,
+              rowsPerPage: limit,
+              onChange: (_, e) => {
+                setPage(e);
+              },
+              onRowsPerPageChange: () => {},
+            }}
+          />
+        ) : (
+          <>در حال بارگزاری...</>
+        )}
       </Box>
     </Box>
   );

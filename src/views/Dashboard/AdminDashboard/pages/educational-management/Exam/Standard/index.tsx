@@ -441,8 +441,6 @@ const StandardExam = () => {
                             });
                           }
 
-                          console.log(item);
-
                           setMultipleChoiceTest(item.isMultipleChoiceTest);
                           setTimeout(() => {
                             selectCreateExamRef.current.focus();
@@ -485,7 +483,7 @@ const StandardExam = () => {
             }}
           />
         ) : (
-          <></>
+          <>در حال بارگزاری...</>
         )}
       </Box>
     </Box>

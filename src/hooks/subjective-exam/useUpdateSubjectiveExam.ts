@@ -1,13 +1,13 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { StandardService } from "../../services";
+import { SubjectiveService } from "../../services";
 
-const useUpdateStandardExam = () => {
+const useUpdateSubjectiveExam = () => {
   return useMutation((request: any) => {
-    return StandardService.standardControllerUpdate(request.id, {
+    return SubjectiveService.subjectiveControllerUpdate(request.id, {
       ...request,
     });
   });
 };
 
-export default useUpdateStandardExam;
+export default useUpdateSubjectiveExam;
