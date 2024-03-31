@@ -756,6 +756,7 @@ const CreateExam = () => {
                             setTime(item.time);
                             setExamTypeIds(item.examType);
                             setIsPublished(item.isPublished);
+
                             setTimeout(() => {
                               numberRef.current.focus();
                             }, 300);
@@ -926,12 +927,6 @@ const CreateExam = () => {
                             setTime(item.time);
                             setExamTypeIds(item.examType);
                             setIsPublished(item.isPublished);
-                            setTimeout(() => {
-                              numberRef.current.focus();
-                            }, 300);
-                            setTimeout(() => {
-                              timeRef.current.focus();
-                            }, 330);
 
                             setTimeout(() => {
                               selectExamTypeRef.current.focus();
