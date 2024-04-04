@@ -114,6 +114,58 @@ bookId: string,
      * @param page 
      * @param limit 
      * @param chapterId 
+     * @param examTypeId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static createExamControllerFindCreateStandardExamsBasedOnChaptersAndExamTypes(
+page: number,
+limit: number,
+chapterId: string,
+examTypeId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/create-exam/standard/withChapters/{ChapterId}/withExamType/{ExamTypeId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'ChapterId': chapterId,
+                'ExamTypeId': examTypeId,
+            },
+        });
+    }
+
+    /**
+     * @param page 
+     * @param limit 
+     * @param termId 
+     * @param examTypeId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static createExamControllerFindCreateStandardExamsBasedOnTermsAndExamTypes(
+page: number,
+limit: number,
+termId: string,
+examTypeId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/create-exam/standard/withTerms/{TermId}/withExamType/{ExamTypeId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'TermId': termId,
+                'ExamTypeId': examTypeId,
+            },
+        });
+    }
+
+    /**
+     * @param page 
+     * @param limit 
+     * @param chapterId 
      * @returns any 
      * @throws ApiError
      */
@@ -175,6 +227,35 @@ subjectId: string,
                 'page': page,
                 'limit': limit,
                 'SubjectId': subjectId,
+            },
+        });
+    }
+
+    /**
+     * @param page 
+     * @param limit 
+     * @param subjectId 
+     * @param examLevelId 
+     * @param examTypeId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static createExamControllerFindCreateSubjectiveExamsBasedOnSubjectsExamLevelAndExamType(
+page: number,
+limit: number,
+subjectId: string,
+examLevelId: string,
+examTypeId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/create-exam/subjective/withSubject/{SubjectId}/withExamLevel/{ExamLevelId}/{withExamType}/{ExamTypeId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'SubjectId': subjectId,
+                'ExamLevelId': examLevelId,
+                'ExamTypeId': examTypeId,
             },
         });
     }

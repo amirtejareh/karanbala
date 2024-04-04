@@ -5,8 +5,6 @@ import { ThemeOptions } from "@mui/system";
 import { Player, BigPlayButton } from "video-react";
 import {
   ArrowDownSvg,
-  ArrowLeftSvg,
-  ArrowRightSvg,
   ArrowUpSvg,
   KaranbalaExamSvg,
   KaranbalaLogoTextSvg,
@@ -182,7 +180,7 @@ export const ModalQuiz = () => {
         <Box
           sx={{ cursor: "pointer" }}
           onClick={() => {
-            localStorage.setItem("examType", "topic");
+            localStorage.setItem("examType", "subjective");
             navigate("/education-details/quiz");
           }}
           display={"flex"}

@@ -832,8 +832,6 @@ const CreateExam = () => {
                       <>
                         <IconButton
                           onClick={() => {
-                            console.log(item, "item");
-
                             setValue({
                               doUpdate: true,
                               data: item.title,
