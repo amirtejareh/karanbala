@@ -279,6 +279,12 @@ const Quiz = () => {
     }
   }, [subjectIds]);
 
+  const [selectedExam, setSelectedExam] = useState<{ selected: number; id: string }>();
+
+  useEffect(() => {
+    console.log(selectedExam);
+  }, [selectedExam]);
+
   const generateCustomRadioGroup = (choices: {}, defaultValue?: string) => {
     return (
       <RadioGroup
@@ -430,7 +436,12 @@ const Quiz = () => {
             <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
               {examElement?.map((element: any, index: number) => {
                 return (
-                  <Box key={index} margin={"5rem 0"} paddingBottom={"5rem"}>
+                  <Box
+                    onClick={() => setSelectedExam({ selected: index, id: element._id })}
+                    key={index}
+                    margin={"5rem 0"}
+                    paddingBottom={"5rem"}
+                  >
                     <Box
                       display={"flex"}
                       alignItems={"center"}
@@ -439,6 +450,12 @@ const Quiz = () => {
                       bgcolor={theme?.palette?.others.warning.light}
                       padding={"1rem"}
                       borderRadius={"1rem"}
+                      border={"1px solid #000"}
+                      borderColor={
+                        selectedExam?.selected !== index
+                          ? theme?.palette?.others.warning.light
+                          : theme?.palette?.others.warning.main
+                      }
                     >
                       <Box
                         bgcolor={theme?.palette?.common.white}
@@ -459,7 +476,11 @@ const Quiz = () => {
               })}
             </Box>
             <Box display={"flex"} justifyContent={"center"} margin={"5rem 0"}>
-              <ButtonKit variant="contained">
+              <ButtonKit
+                onClick={() => navigate(`standard/${selectedExam.id}`)}
+                disabled={selectedExam?.selected >= 0 ? false : true}
+                variant="contained"
+              >
                 <Typography>مشاهده آزمون</Typography>
               </ButtonKit>
             </Box>

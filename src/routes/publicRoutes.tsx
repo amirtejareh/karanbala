@@ -26,85 +26,81 @@ import BookDescription from "../views/EducationDetails/pages/IntroductionBook/pa
 import BookInEntranceExam from "../views/EducationDetails/pages/IntroductionBook/page/BookInEntranceExam";
 import BookInFinalExam from "../views/EducationDetails/pages/IntroductionBook/page/BookInFinalExam";
 import BookReview from "../views/EducationDetails/pages/IntroductionBook/page/BookReview";
+import Start from "../views/EducationDetails/pages/Quiz/page/Start";
 
 const PublicRoutes = () => {
-    const user: any = userStore((state) => state);
-    return (
-        <PublicLayoutComponent>
-            <Routes>
-                <Route path={"/"} element={<ApplicationInfoView />} />
-                <Route path={"/major-requirements"} element={<MajorRequirements />} />
-                <Route path={"/shop"} element={<Shop />} />
+  const user: any = userStore((state) => state);
+  return (
+    <PublicLayoutComponent>
+      <Routes>
+        <Route path={"/"} element={<ApplicationInfoView />} />
+        <Route path={"/major-requirements"} element={<MajorRequirements />} />
+        <Route path={"/shop"} element={<Shop />} />
 
-                <Route path={"/education-details/*"} element={<EducationDetails />} />
-                <Route
-                    path="/objective-test"
-                    element={
-                        <AuthorizedRoute
-                            userRole={user?.user}
-                            route={{
-                                requiredRoles: ["SuperAdmin", "User"],
-                                resource: "post",
-                                action: "create",
-                            }}
-                        >
-                            <ObjectiveTest />
-                        </AuthorizedRoute>
-                    }
-                />
+        <Route path={"/education-details/*"} element={<EducationDetails />} />
+        <Route
+          path="/objective-test"
+          element={
+            <AuthorizedRoute
+              userRole={user?.user}
+              route={{
+                requiredRoles: ["SuperAdmin", "User"],
+                resource: "post",
+                action: "create",
+              }}
+            >
+              <ObjectiveTest />
+            </AuthorizedRoute>
+          }
+        />
 
-                <Route
-                    path="/objective-test/report/:examId"
-                    element={
-                        <AuthorizedRoute
-                            userRole={user?.user}
-                            route={{
-                                requiredRoles: ["SuperAdmin", "User"],
-                                resource: "post",
-                                action: "create",
-                            }}
-                        >
-                            <Report />
-                        </AuthorizedRoute>
-                    }
-                />
-                <Route path="/objective-test/report2" element={<Report2 />} />
-                <Route path={"/subjective-test"} element={<SubjectiveTest />} />
-                <Route
-                    path={"/education-details/introduction-book"}
-                    element={<IntroductionBook />}
-                />
+        <Route
+          path="/objective-test/report/:examId"
+          element={
+            <AuthorizedRoute
+              userRole={user?.user}
+              route={{
+                requiredRoles: ["SuperAdmin", "User"],
+                resource: "post",
+                action: "create",
+              }}
+            >
+              <Report />
+            </AuthorizedRoute>
+          }
+        />
+        <Route path="/objective-test/report2" element={<Report2 />} />
+        <Route path={"/subjective-test"} element={<SubjectiveTest />} />
+        <Route path={"/education-details/introduction-book"} element={<IntroductionBook />} />
 
-                <Route
-                    path={"/education-details/introduction-book/book-description"}
-                    element={<BookDescription />}
-                />
+        <Route
+          path={"/education-details/introduction-book/book-description"}
+          element={<BookDescription />}
+        />
 
-                <Route
-                    path={"/education-details/introduction-book/book-in-entrance-exam"}
-                    element={<BookInEntranceExam />}
-                />
+        <Route
+          path={"/education-details/introduction-book/book-in-entrance-exam"}
+          element={<BookInEntranceExam />}
+        />
 
-                <Route
-                    path={"/education-details/introduction-book/book-in-final-exam"}
-                    element={<BookInFinalExam />}
-                />
-                <Route
-                    path={"/education-details/introduction-book/book-review"}
-                    element={<BookReview />}
-                />
-                <Route path={"/education-details/lessons"} element={<Lessons />} />
-                <Route path={"/education-details/questions"} element={<Questions />} />
-                <Route path={"/education-details/exam"} element={<Exam />} />
-                <Route path={"/education-details/point-and-test"} element={<PointAndTest />} />
-                <Route path={"/education-details/example"} element={<Example />} />
-                <Route path={"/education-details/attach"} element={<Attach />} />
-                <Route path={"/education-details/practice"} element={<Practice />} />
-                <Route path={"/education-details/quiz"} element={<Quiz />} />
-                <Route path={"/education-details/karanbala"} element={<Karanbala />} />
-            </Routes>
-        </PublicLayoutComponent>
-    );
+        <Route
+          path={"/education-details/introduction-book/book-in-final-exam"}
+          element={<BookInFinalExam />}
+        />
+        <Route path={"/education-details/introduction-book/book-review"} element={<BookReview />} />
+        <Route path={"/education-details/lessons"} element={<Lessons />} />
+        <Route path={"/education-details/questions"} element={<Questions />} />
+        <Route path={"/education-details/exam"} element={<Exam />} />
+        <Route path={"/education-details/point-and-test"} element={<PointAndTest />} />
+        <Route path={"/education-details/example"} element={<Example />} />
+        <Route path={"/education-details/attach"} element={<Attach />} />
+        <Route path={"/education-details/practice"} element={<Practice />} />
+        <Route path={"/education-details/quiz"} element={<Quiz />} />
+        <Route path={"/education-details/quiz/standard/:id"} element={<Start />} />
+        <Route path={"/education-details/karanbala"} element={<Karanbala />} />
+      </Routes>
+    </PublicLayoutComponent>
+  );
 };
 
 export default PublicRoutes;
