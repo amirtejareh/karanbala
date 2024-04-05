@@ -100,6 +100,15 @@ const StandardExam = () => {
   }, [getStandardExams.data]);
 
   const handleCreateExamChange = (event: SelectChangeEvent) => {
+    const selectSpecificExam = getCreateExam?.data?.createExams?.find(
+      (element) => element._id === event.target.value,
+    );
+
+    if (selectSpecificExam.examType === "multipleChoiceTest") {
+      setMultipleChoiceTest(true);
+    } else {
+      setMultipleChoiceTest(false);
+    }
     setCreateExamIds(event.target.value as any);
   };
 

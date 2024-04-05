@@ -71,6 +71,29 @@ bookId: string,
     }
 
     /**
+     * @param page 
+     * @param limit 
+     * @param createExamId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static standardControllerFindStandardExamsBasedOnCreateExam(
+page: number,
+limit: number,
+createExamId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/standard/withCreateExam/{CreateExamId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'CreateExamId': createExamId,
+            },
+        });
+    }
+
+    /**
      * @param id 
      * @returns any 
      * @throws ApiError

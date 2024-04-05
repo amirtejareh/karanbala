@@ -1,19 +1,19 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { SampleTestQuestionsService, StandardService } from "../../services";
+import { StandardService } from "../../services";
 
-const useGetStandardExamBasedOnBooks = (page: number, limit: number, book: string) => {
+const useGetStandardExamBasedOnCreateExam = (page: number, limit: number, createExamId: string) => {
   return useQuery(
-    ["Get-All-Sample-Test-Questions-Based-On-Book"],
+    ["Get-All-Sample-Test-Questions-Based-On-Create-Exam"],
     async () => {
       return await StandardService.standardControllerFindStandardExamsBasedOnCreateExam(
         page,
         limit,
-        book,
+        createExamId,
       );
     },
     { refetchOnWindowFocus: false, enabled: false },
   );
 };
 
-export default useGetStandardExamBasedOnBooks;
+export default useGetStandardExamBasedOnCreateExam;

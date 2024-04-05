@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-
-import { useNavigate } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import EducationDetailStore from "../../../../../../stores/educationDetailStore";
 import { ButtonKit } from "../../../../../../components/kit/Button";
 import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../assets";
+import useGetStandardExamBasedOnCreateExam from "../../../../../../hooks/standard-exam/useGetStandardExamBasedOnBooks";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -27,6 +26,90 @@ const Start = () => {
   const [quizValue, setQuizValue] = useState("");
   const [, setSeasonValue] = useState(1);
   const { book } = EducationDetailStore();
+  const [page, setPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(0);
+  const [limit, _] = useState<number>(1);
+  const pathname = useLocation().pathname;
+  const segments = pathname.split("/");
+  const createExamId = segments[segments.length - 1];
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [elapseTime, setElapseTime] = useState<number>();
+  const [radioValue, setRadioValue] = React.useState<any>("");
+  const getStandardExamBasedOnCreateExam = useGetStandardExamBasedOnCreateExam(
+    page === 0 ? 1 : page,
+    limit,
+    createExamId,
+  );
+
+  const [examElement, setExamElement] = useState<any>();
+
+  useEffect(() => {
+    getStandardExamBasedOnCreateExam.refetch();
+  }, []);
+
+  useEffect(() => {
+    getStandardExamBasedOnCreateExam.refetch();
+  }, [page]);
+
+  useEffect(() => {
+    if (getStandardExamBasedOnCreateExam?.data) {
+      setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
+      setElapseTime(getStandardExamBasedOnCreateExam.data.standards[0].createExam[0].time);
+
+      console.log(getStandardExamBasedOnCreateExam.data.standards[0].createExam[0].time);
+
+      setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
+    }
+  }, [getStandardExamBasedOnCreateExam?.data]);
+
+  const handleRadioChange = ({ _id }, value) => {
+    if (value === radioValue) {
+      setRadioValue("-");
+    } else {
+      setRadioValue(value);
+    }
+    const optionValue = value;
+    const optionIndex = selectedOptions.findIndex((option) => option._id === _id);
+
+    if (optionIndex !== -1) {
+      const updatedOptions = [...selectedOptions];
+      updatedOptions[optionIndex].value = optionValue;
+      setSelectedOptions(updatedOptions);
+    } else {
+      setSelectedOptions([...selectedOptions, { _id, value: optionValue }]);
+    }
+  };
+
+  const handleNextQuestion = (id) => {
+    handleRadioChange(id, radioValue);
+
+    const targetId = id;
+    const defaultValue = "-";
+
+    const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
+
+    if (optionIndex === -1) {
+      setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
+    }
+  };
+
+  const [finishExam, setFinishExam] = useState(false);
+
+  useEffect(() => {
+    const time = setInterval(() => {
+      if (elapseTime > 0) {
+        setElapseTime(elapseTime - 1);
+      }
+      if (elapseTime < 2) {
+        setFinishExam(true);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(time);
+    };
+  }, [elapseTime]);
 
   const classes = useStyles();
 
@@ -51,62 +134,95 @@ const Start = () => {
           display={"flex"}
           flexWrap={"wrap"}
         >
-          <Box>
-            <Typography>آزمون استاندارد</Typography>
-          </Box>
-          <Box>
-            <Typography component="span">کتاب: </Typography>
-            <Typography component="span" variant="h6">
-              ریاضی سوم
-            </Typography>
-          </Box>
-          <Box>
-            <Typography component="span">آزمون درسی: </Typography>
-            <Typography component="span" variant="h6">
-              ترم اول
-            </Typography>
-          </Box>
-          <Box>
-            <Typography component="span">نوع آزمون: </Typography>
-            <Typography component="span" variant="h6">
-              تستی
-            </Typography>
-          </Box>
-          <Box>
-            <Typography component="span">شماره آزمون: </Typography>
-            <Typography component="span" variant="h6">
-              ۷
-            </Typography>
-          </Box>
-          <Box>
-            <Typography component="span">تعداد سوالات:</Typography>
-            <Typography component="span" variant="h6">
-              ۴۰
-            </Typography>
-          </Box>
+          {examElement != undefined && (
+            <>
+              <Box>
+                <Typography variant="h6">آزمون استاندارد</Typography>
+              </Box>
+              <Box>
+                <Typography component="span">کتاب: </Typography>
+                <Typography component="span" variant="h6">
+                  {examElement && examElement[0]?.createExam[0]?.books[0]?.title}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="span">آزمون درسی: </Typography>
+                <Typography component="span" variant="h6">
+                  {examElement && examElement[0]?.createExam[0]?.chapter?.length > 0
+                    ? examElement[0]?.createExam[0]?.chapter[0]?.title
+                    : examElement[0]?.createExam[0]?.term[0]?.title}{" "}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="span">نوع آزمون: </Typography>
+                <Typography component="span" variant="h6">
+                  {examElement && examElement[0]?.isMultipleChoiceTest ? "تستی" : "تشریحی"}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="span">شماره آزمون: </Typography>
+                <Typography component="span" variant="h6">
+                  {examElement && examElement[0]?.number}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="span">تعداد سوالات:</Typography>
+                <Typography component="span" variant="h6">
+                  {examElement && examElement.length}
+                </Typography>
+              </Box>
+            </>
+          )}
         </Box>
         <Box borderBottom={"1px solid #B2BFCB"} padding={"4rem 0"}>
-          <Box padding={"4rem 0"}>۱- سوال مربوط به آزمون</Box>
-          <Box>
-            <RadioGroup
-              row
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="radio-buttons-group"
-              defaultValue={0}
-            >
-              <FormControl>
-                <FormControlLabel value={0} control={<Radio />} label={"جواب ۱"} />
-              </FormControl>
-              <FormControl>
-                <FormControlLabel value={1} control={<Radio />} label={"جواب ۲"} />
-              </FormControl>
-              <FormControl>
-                <FormControlLabel value={2} control={<Radio />} label={"جواب ۳"} />
-              </FormControl>
-              <FormControl>
-                <FormControlLabel value={3} control={<Radio />} label={"جواب ۴"} />
-              </FormControl>
-            </RadioGroup>
+          {examElement && (
+            <Box
+              padding={"4rem 0"}
+              dangerouslySetInnerHTML={{
+                __html: examElement[0]?.question,
+              }}
+            ></Box>
+          )}
+          <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-radio-buttons-group-label"
+                value={radioValue}
+                name="radio-buttons-group"
+                onClick={(e: any) => handleRadioChange(examElement[0].question, e.target.value)}
+              >
+                {examElement && (
+                  <>
+                    {examElement[0]?.options?.map((options) => {
+                      return Object.values(options).map((option: any, index: any) => {
+                        return (
+                          <Box key={index}>
+                            <FormControlLabel
+                              value={index + 1}
+                              control={
+                                <Radio
+                                  onClick={(e: any) =>
+                                    handleRadioChange(examElement[0].question, e.target.value)
+                                  }
+                                />
+                              }
+                              label={
+                                <Box
+                                  dangerouslySetInnerHTML={{
+                                    __html: option,
+                                  }}
+                                ></Box>
+                              }
+                            />
+                          </Box>
+                        );
+                      });
+                    })}
+                  </>
+                )}
+              </RadioGroup>
+            </FormControl>
           </Box>
         </Box>
 
@@ -114,14 +230,36 @@ const Start = () => {
           <Typography component={"span"} variant="h6">
             زمان باقیمانده (دقیقه):{" "}
             <Typography variant="h6" component={"span"}>
-              70
+              {elapseTime}
             </Typography>
           </Typography>
           <Box display={"flex"} justifyContent={"center"} gap={"1rem"} flexWrap={"wrap"}>
-            <ButtonKit size="large" variant="contained">
-              <Typography></Typography>سوال بعدی
+            <ButtonKit
+              onClick={() => {
+                if (page == totalPage) {
+                  handleNextQuestion(examElement[0]._id);
+                }
+                if (page < totalPage) {
+                  handleNextQuestion(examElement[0]._id);
+                  setPage(page + 1);
+                }
+              }}
+              disabled={finishExam ? true : false}
+              size="large"
+              variant="contained"
+            >
+              <Typography>سوال بعدی</Typography>
             </ButtonKit>
-            <ButtonKit onClick={() => {}} size="large" variant="outlined">
+            <ButtonKit
+              onClick={() => {
+                if (page > 1) {
+                  setPage(page - 1);
+                }
+              }}
+              size="large"
+              variant="outlined"
+              disabled={finishExam ? true : false}
+            >
               <Typography></Typography>سوال قبلی
             </ButtonKit>
             <ButtonKit size="large" variant="outlined">
