@@ -312,8 +312,15 @@ const StandardExam = () => {
                 getCreateExam?.data?.createExams?.map((element: any) => {
                   return (
                     <MenuItem key={element._id} value={element._id}>
-                      {element.number} - {element.gradeLevel[0].title} - {element.books[0].title}
-                      {element?.chapter[0]?.title} - {element?.term[0]?.title}
+                      {`${element.gradeLevel[0].title} -  ${element.books[0].title} - ${
+                        element?.chapter.length > 0
+                          ? element.chapter[0]?.title
+                          : element?.term.length > 0
+                            ? element?.term[0]?.title
+                            : element?.term[0]?.title
+                      } - ${element.examType === "essayTest" ? " تشریحی " : " تستی"} - آزمون ${
+                        element.number
+                      }`}
                     </MenuItem>
                   );
                 })}

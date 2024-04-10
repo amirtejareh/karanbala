@@ -8,6 +8,8 @@ import EducationDetailStore from "../../../../../../stores/educationDetailStore"
 import { ButtonKit } from "../../../../../../components/kit/Button";
 import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../assets";
 import useGetStandardExamBasedOnCreateExam from "../../../../../../hooks/standard-exam/useGetStandardExamBasedOnBooks";
+import { toast } from "react-toastify";
+import { userStore } from "../../../../../../stores";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -36,6 +38,9 @@ const Start = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [elapseTime, setElapseTime] = useState<number>();
   const [radioValue, setRadioValue] = React.useState<any>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const user: any = userStore((state) => state);
+
   const getStandardExamBasedOnCreateExam = useGetStandardExamBasedOnCreateExam(
     page === 0 ? 1 : page,
     limit,
@@ -57,28 +62,45 @@ const Start = () => {
       setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
       setElapseTime(getStandardExamBasedOnCreateExam.data.standards[0].createExam[0].time);
 
-      console.log(getStandardExamBasedOnCreateExam.data.standards[0].createExam[0].time);
-
       setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
     }
   }, [getStandardExamBasedOnCreateExam?.data]);
 
-  const handleRadioChange = ({ _id }, value) => {
+  const handleRadioChange = (id, value) => {
     if (value === radioValue) {
       setRadioValue("-");
     } else {
       setRadioValue(value);
     }
     const optionValue = value;
-    const optionIndex = selectedOptions.findIndex((option) => option._id === _id);
+    const optionIndex = selectedOptions.findIndex((option) => option._id === id);
 
     if (optionIndex !== -1) {
       const updatedOptions = [...selectedOptions];
       updatedOptions[optionIndex].value = optionValue;
       setSelectedOptions(updatedOptions);
     } else {
-      setSelectedOptions([...selectedOptions, { _id, value: optionValue }]);
+      setSelectedOptions([...selectedOptions, { id, value: optionValue }]);
     }
+  };
+
+  const submitStandardOnlineGradeReport = () => {
+    if (selectedOptions.length === 0) {
+      return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
+    }
+    setLoading(true);
+    const data = {
+      user,
+      question: selectedOptions,
+      examId: examElement[0]?.createExam[0]._id,
+      examTitle:
+        examElement[0]?.createExam[0]?.chapter?.length > 0
+          ? examElement[0]?.createExam[0]?.chapter[0]?.title
+          : examElement[0]?.createExam[0]?.term[0]?.title,
+      examNumber: examElement[0]?.createExam[0].number,
+      type: examElement[0]?.isMultipleChoiceTest,
+      book: examElement[0]?.createExam[0]?.books[0]?.title,
+    };
   };
 
   const handleNextQuestion = (id) => {
@@ -168,7 +190,7 @@ const Start = () => {
               <Box>
                 <Typography component="span">تعداد سوالات:</Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement.length}
+                  {getStandardExamBasedOnCreateExam?.data?.totalItems}
                 </Typography>
               </Box>
             </>
@@ -262,7 +284,13 @@ const Start = () => {
             >
               <Typography></Typography>سوال قبلی
             </ButtonKit>
-            <ButtonKit size="large" variant="outlined">
+            <ButtonKit
+              onClick={() => {
+                submitStandardOnlineGradeReport();
+              }}
+              size="large"
+              variant="outlined"
+            >
               <Typography></Typography>اتمام آزمون
             </ButtonKit>
           </Box>
