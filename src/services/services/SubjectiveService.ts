@@ -125,4 +125,27 @@ id: string,
         });
     }
 
+    /**
+     * @param page 
+     * @param limit 
+     * @param createExamId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static subjectiveControllerFindSubjectiveExamsBasedOnCreateExam(
+page: number,
+limit: number,
+createExamId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/subjective/withCreateExam/{CreateExamId}',
+            query: {
+                'page': page,
+                'limit': limit,
+                'CreateExamId': createExamId,
+            },
+        });
+    }
+
 }

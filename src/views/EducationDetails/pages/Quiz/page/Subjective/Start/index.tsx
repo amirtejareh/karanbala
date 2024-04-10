@@ -4,12 +4,12 @@ import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { useLocation, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
-import EducationDetailStore from "../../../../../../stores/educationDetailStore";
-import { ButtonKit } from "../../../../../../components/kit/Button";
-import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../assets";
-import useGetStandardExamBasedOnCreateExam from "../../../../../../hooks/standard-exam/useGetStandardExamBasedOnBooks";
+import EducationDetailStore from "../../../../../../../stores/educationDetailStore";
+import { ButtonKit } from "../../../../../../../components/kit/Button";
+import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../../assets";
 import { toast } from "react-toastify";
-import { userStore } from "../../../../../../stores";
+import { userStore } from "../../../../../../../stores";
+import useGetSubjectiveExamBasedOnCreateExam from "../../../../../../../hooks/subjective-exam/useGetSubjectiveExamBasedOnCreateExam";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -36,13 +36,11 @@ const Start = () => {
   const segments = pathname.split("/");
   const createExamId = segments[segments.length - 1];
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [elapseMinuteTime, setElapseMinuteTime] = useState<number>();
-  const [elapseSecondTime, setElapseSecondTime] = useState<number>();
   const [radioValue, setRadioValue] = React.useState<any>("");
   const [loading, setLoading] = useState<boolean>(false);
   const user: any = userStore((state) => state);
 
-  const getStandardExamBasedOnCreateExam = useGetStandardExamBasedOnCreateExam(
+  const getSubjectiveExamBasedOnCreateExam = useGetSubjectiveExamBasedOnCreateExam(
     page === 0 ? 1 : page,
     limit,
     createExamId,
@@ -51,26 +49,18 @@ const Start = () => {
   const [examElement, setExamElement] = useState<any>();
 
   useEffect(() => {
-    getStandardExamBasedOnCreateExam.refetch();
+    getSubjectiveExamBasedOnCreateExam.refetch();
   }, []);
 
   useEffect(() => {
-    getStandardExamBasedOnCreateExam.refetch();
+    getSubjectiveExamBasedOnCreateExam.refetch();
   }, [page]);
 
   useEffect(() => {
-    if (getStandardExamBasedOnCreateExam?.data) {
-      setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
-      setElapseMinuteTime(
-        getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
-      );
-      setElapseSecondTime(
-        getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
-      );
-
-      setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
+    if (getSubjectiveExamBasedOnCreateExam?.data) {
+      setExamElement(getSubjectiveExamBasedOnCreateExam?.data?.subjectives);
     }
-  }, [getStandardExamBasedOnCreateExam?.data]);
+  }, [getSubjectiveExamBasedOnCreateExam?.data]);
 
   const handleRadioChange = (id, value) => {
     if (value === radioValue) {
@@ -90,7 +80,7 @@ const Start = () => {
     }
   };
 
-  const submitStandardOnlineGradeReport = () => {
+  const submitsubjectiveOnlineGradeReport = () => {
     if (selectedOptions.length === 0) {
       return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
     }
@@ -124,25 +114,6 @@ const Start = () => {
 
   const [finishExam, setFinishExam] = useState(false);
 
-  useEffect(() => {
-    const time = setInterval(() => {
-      if (elapseSecondTime > 0) {
-        setElapseSecondTime(elapseSecondTime - 1);
-      }
-      if (elapseSecondTime < 2) {
-        setFinishExam(true);
-      }
-
-      if (elapseSecondTime % 60 == 0 && elapseMinuteTime > 0) {
-        setElapseMinuteTime(elapseMinuteTime - 1);
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(time);
-    };
-  }, [elapseSecondTime]);
-
   const classes = useStyles();
 
   return (
@@ -169,7 +140,7 @@ const Start = () => {
           {examElement != undefined && (
             <>
               <Box>
-                <Typography variant="h6">آزمون استاندارد</Typography>
+                <Typography variant="h6">آزمون موضوعی</Typography>
               </Box>
               <Box>
                 <Typography component="span">کتاب: </Typography>
@@ -200,7 +171,7 @@ const Start = () => {
               <Box>
                 <Typography component="span">تعداد سوالات:</Typography>
                 <Typography component="span" variant="h6">
-                  {getStandardExamBasedOnCreateExam?.data?.totalItems}
+                  {getSubjectiveExamBasedOnCreateExam?.data?.totalItems}
                 </Typography>
               </Box>
             </>
@@ -259,12 +230,6 @@ const Start = () => {
         </Box>
 
         <Box padding={"4rem 0"}>
-          <Typography component={"span"} variant="h6">
-            زمان باقیمانده (دقیقه):{" "}
-            <Typography variant="h6" component={"span"}>
-              {elapseMinuteTime}
-            </Typography>
-          </Typography>
           <Box display={"flex"} justifyContent={"center"} gap={"1rem"} flexWrap={"wrap"}>
             <ButtonKit
               onClick={() => {
@@ -296,7 +261,7 @@ const Start = () => {
             </ButtonKit>
             <ButtonKit
               onClick={() => {
-                submitStandardOnlineGradeReport();
+                submitsubjectiveOnlineGradeReport();
               }}
               size="large"
               variant="outlined"

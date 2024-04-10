@@ -26,7 +26,8 @@ import BookDescription from "../views/EducationDetails/pages/IntroductionBook/pa
 import BookInEntranceExam from "../views/EducationDetails/pages/IntroductionBook/page/BookInEntranceExam";
 import BookInFinalExam from "../views/EducationDetails/pages/IntroductionBook/page/BookInFinalExam";
 import BookReview from "../views/EducationDetails/pages/IntroductionBook/page/BookReview";
-import Start from "../views/EducationDetails/pages/Quiz/page/Start";
+import StartSrandardExam from "../views/EducationDetails/pages/Quiz/page/Standard/Start";
+import StartSubjectiveExam from "../views/EducationDetails/pages/Quiz/page/Subjective/Start";
 
 const PublicRoutes = () => {
   const user: any = userStore((state) => state);
@@ -96,7 +97,8 @@ const PublicRoutes = () => {
         <Route path={"/education-details/attach"} element={<Attach />} />
         <Route path={"/education-details/practice"} element={<Practice />} />
         <Route path={"/education-details/quiz"} element={<Quiz />} />
-        <Route path={"/education-details/quiz/standard/:id"} element={<Start />} />
+        <Route path={"/education-details/quiz/standard/:id"} element={<StartSrandardExam />} />
+        <Route path={"/education-details/quiz/subjective/:id"} element={<StartSubjectiveExam />} />
         <Route path={"/education-details/karanbala"} element={<Karanbala />} />
       </Routes>
     </PublicLayoutComponent>

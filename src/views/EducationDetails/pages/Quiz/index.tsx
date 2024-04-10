@@ -72,7 +72,7 @@ const Quiz = () => {
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(0);
   const [limit, _] = useState<number>(5);
-  const [examElement, setExamElement] = useState<[]>();
+  const [examElement, setExamElement] = useState<any>();
 
   const [showItem, setShowItem] = useState<boolean | undefined>(undefined);
   const classes = useStyles();
@@ -267,9 +267,14 @@ const Quiz = () => {
 
   useEffect(() => {
     if (getCreateExamBasedOnSubjectiveExamSubjectsExamLevelAndExamType?.data?.createExams) {
+      setExamElement(
+        getCreateExamBasedOnSubjectiveExamSubjectsExamLevelAndExamType?.data?.createExams,
+      );
+
       setDisabledExam(false);
     } else {
       setDisabledExam(true);
+      setExamElement([]);
     }
   }, [getCreateExamBasedOnSubjectiveExamSubjectsExamLevelAndExamType.data]);
 
@@ -280,10 +285,6 @@ const Quiz = () => {
   }, [subjectIds]);
 
   const [selectedExam, setSelectedExam] = useState<{ selected: number; id: string }>();
-
-  useEffect(() => {
-    console.log(selectedExam);
-  }, [selectedExam]);
 
   const generateCustomRadioGroup = (choices: {}, defaultValue?: string) => {
     return (
@@ -610,7 +611,13 @@ const Quiz = () => {
             </Box>
             <Box>
               <Box display={"flex"} justifyContent={"center"} margin={"5rem 0"}>
-                <ButtonKit disabled={disabledExam} variant="contained">
+                <ButtonKit
+                  onClick={() => {
+                    navigate(`subjective/${examElement[0]._id}`);
+                  }}
+                  disabled={disabledExam}
+                  variant="contained"
+                >
                   <Typography>مشاهده آزمون</Typography>
                 </ButtonKit>
               </Box>

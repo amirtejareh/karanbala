@@ -4,7 +4,7 @@ import { SubjectiveService } from "../../services";
 
 const useGetSubjectiveExamBasedOnBooks = (page: number, limit: number, book: string) => {
   return useQuery(
-    ["Get-All-Sample-Test-Questions-Based-On-Book"],
+    ["Get-All-Subjective-Exam-Based-On-Book"],
     async () => {
       return await SubjectiveService.subjectiveControllerFindSubjectivesBasedOnBooks(
         page,
