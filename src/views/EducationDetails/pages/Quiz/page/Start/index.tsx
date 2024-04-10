@@ -36,7 +36,8 @@ const Start = () => {
   const segments = pathname.split("/");
   const createExamId = segments[segments.length - 1];
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [elapseTime, setElapseTime] = useState<number>();
+  const [elapseMinuteTime, setElapseMinuteTime] = useState<number>();
+  const [elapseSecondTime, setElapseSecondTime] = useState<number>();
   const [radioValue, setRadioValue] = React.useState<any>("");
   const [loading, setLoading] = useState<boolean>(false);
   const user: any = userStore((state) => state);
@@ -60,7 +61,12 @@ const Start = () => {
   useEffect(() => {
     if (getStandardExamBasedOnCreateExam?.data) {
       setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
-      setElapseTime(getStandardExamBasedOnCreateExam.data.standards[0].createExam[0].time);
+      setElapseMinuteTime(
+        getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
+      );
+      setElapseSecondTime(
+        getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
+      );
 
       setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
     }
@@ -120,18 +126,22 @@ const Start = () => {
 
   useEffect(() => {
     const time = setInterval(() => {
-      if (elapseTime > 0) {
-        setElapseTime(elapseTime - 1);
+      if (elapseSecondTime > 0) {
+        setElapseSecondTime(elapseSecondTime - 1);
       }
-      if (elapseTime < 2) {
+      if (elapseSecondTime < 2) {
         setFinishExam(true);
+      }
+
+      if (elapseSecondTime % 60 == 0 && elapseMinuteTime > 0) {
+        setElapseMinuteTime(elapseMinuteTime - 1);
       }
     }, 1000);
 
     return () => {
       clearInterval(time);
     };
-  }, [elapseTime]);
+  }, [elapseSecondTime]);
 
   const classes = useStyles();
 
@@ -252,7 +262,7 @@ const Start = () => {
           <Typography component={"span"} variant="h6">
             زمان باقیمانده (دقیقه):{" "}
             <Typography variant="h6" component={"span"}>
-              {elapseTime}
+              {elapseMinuteTime}
             </Typography>
           </Typography>
           <Box display={"flex"} justifyContent={"center"} gap={"1rem"} flexWrap={"wrap"}>
