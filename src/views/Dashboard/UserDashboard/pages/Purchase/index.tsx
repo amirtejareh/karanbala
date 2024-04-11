@@ -29,15 +29,10 @@ const Purchase = () => {
   const theme: ThemeOptions = useTheme();
   const classes = useStyles();
   const [type, setType] = useState<string>("multipleChoiceTest");
+  const [term, setTerm] = useState<string>("multipleChoiceTest");
+  const [books, setBooks] = useState<string>("");
   const [duration, setDuration] = useState<number>();
   const [tutorialExamType, setTutorialExamType] = useState<string>("multipleChoiceTest");
-
-  interface IGenerateSubscriptionBoxes {
-    imageLink: string;
-    bgColor: string;
-    type: "Assessment" | "Tutorial";
-  }
-
   const [examState, setExamState] = useState(0);
   const [number, setNumber] = useState(0);
   const [discount, setDiscount] = useState();
@@ -45,6 +40,13 @@ const Purchase = () => {
   const [tutorailTotalAmountWithDiscount, setTutorailTotalAmountWithDiscount] = useState(0);
   const [tutorailTotalAmount, setTutorailTotalAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+
+  interface IGenerateSubscriptionBoxes {
+    imageLink: string;
+    bgColor: string;
+    type: "Assessment" | "Tutorial";
+  }
+
   const {
     register,
     formState: { errors },
@@ -155,90 +157,6 @@ const Purchase = () => {
         </FormControl>
       </Box>
 
-      {examState === 1 && (
-        <Box margin={"4rem 0"} display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr "}>
-          <Box>
-            <Box>
-              <FormControl className={`${classes.formField} $`}>
-                <InputLabel id="demo-simple-select-label">نوع آزمون</InputLabel>
-                <Select
-                  {...register("type", {
-                    required: "لطفا نوع آزمون را مشخص کنید",
-                  })}
-                  value={type}
-                  onChange={(e: any) => setType(e.target.value)}
-                >
-                  <MenuItem key={1} value={"main"}>
-                    تستی
-                  </MenuItem>
-                  <MenuItem key={2} value={"remedial"}>
-                    تشریحی
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Box>
-              <TextField
-                {...register("discount")}
-                onChange={(e: any) => setDiscount(e.target.value)}
-                className={classes.formField}
-                variant="outlined"
-                label="کد تخفیف"
-                type="text"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Box>
-            <Box>
-              <TextField
-                {...register("totalAmountWithDiscount")}
-                onChange={(e: any) => setTotalAmountWithDiscount(e.target.value)}
-                className={classes.formField}
-                variant="outlined"
-                label="مبلغ کل با تخفیف"
-                type="number"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Box>
-          </Box>
-          <Box>
-            <Box>
-              <Box>
-                <FormControl className={`${classes.formField} $`}>
-                  <InputLabel id="demo-simple-select-label">شماره آزمون</InputLabel>
-                  <Select
-                    {...register("number", {
-                      required: "لطفا شماره آزمون را مشخص کنید",
-                    })}
-                    value={number}
-                    onChange={(e: any) => setNumber(e.target.value)}
-                  >
-                    <MenuItem key={1} value={"1"}>
-                      1
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </Box>
-            <Box>
-              <TextField
-                {...register("totalAmount")}
-                onChange={(e: any) => setTotalAmount(e.target.value)}
-                className={classes.formField}
-                variant="outlined"
-                label="مبلغ کل"
-                type="number"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Box>
-            <Box display={"flex"} justifyContent={"center"}>
-              <ButtonKit size="large" fullWidth variant="contained">
-                <Typography fontSize="1.4rem"> خرید/تمدید</Typography>
-              </ButtonKit>
-            </Box>
-          </Box>
-        </Box>
-      )}
-
       {examState === 0 && (
         <Box margin={"4rem 0"}>
           <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr 2fr"}>
@@ -327,6 +245,195 @@ const Purchase = () => {
             </Box>
           </Box>
         </Box>
+      )}
+
+      {examState === 1 && (
+        <>
+          {type === "multipleChoiceTest" && (
+            <Box margin={"4rem 0"} display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr "}>
+              <Box>
+                <Box>
+                  <FormControl className={`${classes.formField} $`}>
+                    <InputLabel id="demo-simple-select-label">نوع آزمون</InputLabel>
+                    <Select
+                      {...register("type", {
+                        required: "لطفا نوع آزمون را مشخص کنید",
+                      })}
+                      value={type}
+                      onChange={(e: any) => setType(e.target.value)}
+                    >
+                      <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+                      <MenuItem value={"essayTest"}>تشریحی</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Box>
+                  <TextField
+                    {...register("discount")}
+                    onChange={(e: any) => setDiscount(e.target.value)}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="کد تخفیف"
+                    type="text"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Box>
+                <Box>
+                  <TextField
+                    {...register("totalAmountWithDiscount")}
+                    onChange={(e: any) => setTotalAmountWithDiscount(e.target.value)}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="مبلغ کل با تخفیف"
+                    type="number"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Box>
+              </Box>
+              <Box>
+                <Box>
+                  <Box>
+                    <FormControl className={`${classes.formField} $`}>
+                      <InputLabel id="demo-simple-select-label">شماره آزمون</InputLabel>
+                      <Select
+                        {...register("number", {
+                          required: "لطفا شماره آزمون را مشخص کنید",
+                        })}
+                        value={number}
+                        onChange={(e: any) => setNumber(e.target.value)}
+                      >
+                        <MenuItem key={1} value={"1"}>
+                          1
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Box>
+                <Box>
+                  <TextField
+                    {...register("totalAmount")}
+                    onChange={(e: any) => setTotalAmount(e.target.value)}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="مبلغ کل"
+                    type="number"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Box>
+                <Box display={"flex"} justifyContent={"center"}>
+                  <ButtonKit size="large" fullWidth variant="contained">
+                    <Typography fontSize="1.4rem"> خرید/تمدید</Typography>
+                  </ButtonKit>
+                </Box>
+              </Box>
+            </Box>
+          )}
+          {type === "essayTest" && (
+            <Box margin={"4rem 0"} display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr"}>
+              <Box>
+                <Box>
+                  <FormControl className={`${classes.formField} $`}>
+                    <InputLabel id="demo-simple-select-label">نوع آزمون</InputLabel>
+                    <Select
+                      {...register("type", {
+                        required: "لطفا نوع آزمون را مشخص کنید",
+                      })}
+                      value={type}
+                      onChange={(e: any) => setType(e.target.value)}
+                    >
+                      <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+                      <MenuItem value={"essayTest"}>تشریحی</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Box>
+                  <FormControl className={`${classes.formField} $`}>
+                    <InputLabel id="demo-simple-select-label">شماره آزمون</InputLabel>
+                    <Select
+                      {...register("number", {
+                        required: "لطفا شماره آزمون را مشخص کنید",
+                      })}
+                      value={number}
+                      onChange={(e: any) => setNumber(e.target.value)}
+                    >
+                      <MenuItem key={1} value={"1"}>
+                        1
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+                <FormControl className={`${classes.formField} $`}>
+                  <InputLabel id="demo-simple-select-label">ترم مورد نظر </InputLabel>
+                  <Select
+                    {...register("term", {
+                      required: "لطفا ترم را مشخص کنید",
+                    })}
+                    value={term}
+                    onChange={(e: any) => setTerm(e.target.value)}
+                  >
+                    <MenuItem value={0}>ترم اول</MenuItem>
+                    <MenuItem value={1}>ترم دوم</MenuItem>
+                    <MenuItem value={2}>سالیانه </MenuItem>
+                  </Select>
+                </FormControl>
+                <Box>
+                  <FormControl className={`${classes.formField} $`}>
+                    <InputLabel id="demo-simple-select-label">کتاب مورد نظر</InputLabel>
+                    <Select
+                      {...register("books", {
+                        required: "لطفا کتاب مورد نظر را مشخص کنید",
+                      })}
+                      value={books}
+                      onChange={(e: any) => setBooks(e.target.value)}
+                    >
+                      <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Box>
+              <Box>
+                <Box>
+                  <TextField
+                    {...register("totalAmount")}
+                    onChange={(e: any) => setTotalAmount(e.target.value)}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="مبلغ کل"
+                    type="number"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Box>
+                <Box>
+                  <TextField
+                    {...register("discount")}
+                    onChange={(e: any) => setDiscount(e.target.value)}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="کد تخفیف"
+                    type="text"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Box>
+                <Box>
+                  <TextField
+                    {...register("tutorailTotalAmountWithDiscount")}
+                    onChange={(e: any) => setTutorailTotalAmountWithDiscount(e.target.value)}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="مبلغ کل با تخفیف"
+                    type="number"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Box>
+                <Box display={"flex"} justifyContent={"center"}>
+                  <ButtonKit size="large" fullWidth variant="contained">
+                    <Typography fontSize="1.4rem"> خرید/تمدید</Typography>
+                  </ButtonKit>
+                </Box>
+              </Box>
+            </Box>
+          )}
+        </>
       )}
     </Box>
   );
