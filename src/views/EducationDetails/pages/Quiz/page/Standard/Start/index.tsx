@@ -79,7 +79,7 @@ const Start = () => {
       setRadioValue(value);
     }
     const optionValue = value;
-    const optionIndex = selectedOptions.findIndex((option) => option._id === id);
+    const optionIndex = selectedOptions?.findIndex((option) => option?._id === id);
 
     if (optionIndex !== -1) {
       const updatedOptions = [...selectedOptions];
@@ -103,7 +103,7 @@ const Start = () => {
         examElement[0]?.createExam[0]?.chapter?.length > 0
           ? examElement[0]?.createExam[0]?.chapter[0]?.title
           : examElement[0]?.createExam[0]?.term[0]?.title,
-      examNumber: examElement[0]?.createExam[0].number,
+      examNumber: examElement[0]?.createExam[0]?.number,
       type: examElement[0]?.isMultipleChoiceTest,
       book: examElement[0]?.createExam[0]?.books[0]?.title,
     };
@@ -115,7 +115,7 @@ const Start = () => {
     const targetId = id;
     const defaultValue = "-";
 
-    const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
+    const optionIndex = selectedOptions?.findIndex((option) => option._id === targetId);
 
     if (optionIndex === -1) {
       setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
@@ -222,7 +222,7 @@ const Start = () => {
                 aria-labelledby="demo-radio-buttons-group-label"
                 value={radioValue}
                 name="radio-buttons-group"
-                onClick={(e: any) => handleRadioChange(examElement[0].question, e.target.value)}
+                onClick={(e: any) => handleRadioChange(examElement[0]?.question, e?.target?.value)}
               >
                 {examElement && (
                   <>
@@ -235,7 +235,7 @@ const Start = () => {
                               control={
                                 <Radio
                                   onClick={(e: any) =>
-                                    handleRadioChange(examElement[0].question, e.target.value)
+                                    handleRadioChange(examElement[0]?.question, e?.target?.value)
                                   }
                                 />
                               }

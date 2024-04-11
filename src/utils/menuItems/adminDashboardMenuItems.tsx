@@ -8,11 +8,7 @@ export const adminDashboardMenuItems = [
     to: "/",
     startIcon: <HomeWork />,
   },
-  {
-    title: "داشبورد",
-    to: "/dashboard/admin",
-    startIcon: <DashboardSvg />,
-  },
+
   {
     category: {
       children: [
