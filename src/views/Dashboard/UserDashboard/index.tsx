@@ -87,7 +87,7 @@ const UserDashboard = () => {
         </Box>
       </Box>
 
-      <Box display={"flex"} mt={"50px"} gap={"4rem"} flexWrap={"wrap"}>
+      <Box display={"flex"} mt={"50px"} gap={"2rem"} flexWrap={"wrap"}>
         <Box className={classes.menu}>
           <MenuCreator items={userDashboardMenuItems} />
         </Box>
