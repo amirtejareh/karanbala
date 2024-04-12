@@ -61,14 +61,18 @@ const Start = () => {
   useEffect(() => {
     if (getStandardExamBasedOnCreateExam?.data) {
       setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
-      setElapseMinuteTime(
-        getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
-      );
-      setElapseSecondTime(
-        getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
-      );
+
+      if (elapseSecondTime == undefined && finishExam == false) {
+        setElapseMinuteTime(
+          getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
+        );
+        setElapseSecondTime(
+          getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
+        );
+      }
 
       setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
+      console.log(elapseSecondTime, "elapseSecondTime");
     }
   }, [getStandardExamBasedOnCreateExam?.data]);
 
@@ -194,7 +198,8 @@ const Start = () => {
               <Box>
                 <Typography component="span">شماره آزمون: </Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement[0]?.number}
+                  {examElement &&
+                    getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time}
                 </Typography>
               </Box>
               <Box>
