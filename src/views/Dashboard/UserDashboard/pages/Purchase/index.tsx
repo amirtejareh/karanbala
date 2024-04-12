@@ -30,7 +30,7 @@ const Purchase = () => {
   const classes = useStyles();
   const [type, setType] = useState<string>("multipleChoiceTest");
   const [term, setTerm] = useState<string>("multipleChoiceTest");
-  const [books, setBooks] = useState<string>("");
+  const [books, setBooks] = useState<string>("multipleChoiceTest");
   const [duration, setDuration] = useState<number>();
   const [tutorialExamType, setTutorialExamType] = useState<string>("multipleChoiceTest");
   const [examState, setExamState] = useState(0);
@@ -100,8 +100,8 @@ const Purchase = () => {
         </Typography>
       </Box>
 
-      <Box display={"flex"} justifyContent={"center"}>
-        <FormControl>
+      <Box>
+        <FormControl sx={{ width: "100%" }}>
           <RadioGroup
             row
             aria-labelledby="demo-radio-buttons-group-label"
@@ -109,7 +109,13 @@ const Purchase = () => {
             name="radio-buttons-group"
             onClick={(e: any) => {}}
           >
-            <Box display={"flex"} gap={"50px"} flexWrap={"wrap"}>
+            <Box
+              gap={"50px"}
+              display={"flex"}
+              flexWrap={"wrap"}
+              width={"100%"}
+              justifyContent={"space-between"}
+            >
               <Box>
                 <FormControlLabel
                   value={0}
@@ -302,9 +308,7 @@ const Purchase = () => {
                         value={number}
                         onChange={(e: any) => setNumber(e.target.value)}
                       >
-                        <MenuItem key={1} value={"1"}>
-                          1
-                        </MenuItem>
+                        <MenuItem value={"1"}>1</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
@@ -386,7 +390,8 @@ const Purchase = () => {
                       value={books}
                       onChange={(e: any) => setBooks(e.target.value)}
                     >
-                      <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+                      <MenuItem value={"0"}>فیزیک۱</MenuItem>
+                      <MenuItem value={"1"}>فیزیک۲</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
