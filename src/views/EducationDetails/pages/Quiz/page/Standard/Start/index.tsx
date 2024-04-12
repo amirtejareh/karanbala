@@ -72,7 +72,6 @@ const Start = () => {
       }
 
       setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
-      console.log(elapseSecondTime, "elapseSecondTime");
     }
   }, [getStandardExamBasedOnCreateExam?.data]);
 

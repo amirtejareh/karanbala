@@ -60,6 +60,8 @@ const Start = () => {
     if (getSubjectiveExamBasedOnCreateExam?.data) {
       setExamElement(getSubjectiveExamBasedOnCreateExam?.data?.subjectives);
     }
+
+    setTotalPage(getSubjectiveExamBasedOnCreateExam?.data?.totalItems);
   }, [getSubjectiveExamBasedOnCreateExam?.data]);
 
   const handleRadioChange = (id, value) => {
@@ -149,11 +151,18 @@ const Start = () => {
                 </Typography>
               </Box>
               <Box>
-                <Typography component="span">آزمون درسی: </Typography>
+                <Typography component="span">درس: </Typography>
                 <Typography component="span" variant="h6">
                   {examElement && examElement[0]?.createExam[0]?.chapter?.length > 0
                     ? examElement[0]?.createExam[0]?.chapter[0]?.title
                     : examElement[0]?.createExam[0]?.term[0]?.title}{" "}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography component="span">شماره درس: </Typography>
+                <Typography component="span" variant="h6">
+                  {examElement && examElement[0]?.createExam[0]?.section[0]?.title}
                 </Typography>
               </Box>
               <Box>
@@ -162,16 +171,19 @@ const Start = () => {
                   {examElement && examElement[0]?.isMultipleChoiceTest ? "تستی" : "تشریحی"}
                 </Typography>
               </Box>
+
               <Box>
-                <Typography component="span">شماره آزمون: </Typography>
+                <Typography component="span">سطح سوال:</Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement[0]?.number}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography component="span">تعداد سوالات:</Typography>
-                <Typography component="span" variant="h6">
-                  {getSubjectiveExamBasedOnCreateExam?.data?.totalItems}
+                  {examElement && examElement[0]?.createExam[0]?.examLevel === "easy"
+                    ? "آسان"
+                    : examElement[0]?.createExam[0]?.examLevel === "hard"
+                      ? "سخت"
+                      : examElement[0]?.createExam[0]?.examLevel === "average"
+                        ? "متوسط"
+                        : examElement[0]?.createExam[0]?.examLevel === "challenging"
+                          ? "چالشی"
+                          : ""}
                 </Typography>
               </Box>
             </>
@@ -179,12 +191,17 @@ const Start = () => {
         </Box>
         <Box borderBottom={"1px solid #B2BFCB"} padding={"4rem 0"}>
           {examElement && (
-            <Box
-              padding={"4rem 0"}
-              dangerouslySetInnerHTML={{
-                __html: examElement[0]?.question,
-              }}
-            ></Box>
+            <Box>
+              <Box component={"span"}>سوال: {`${examElement[0]?.number}- `}</Box>
+              <Box
+                component={"span"}
+                sx={{ "& p": { display: "inline-block" } }}
+                padding={"4rem 0"}
+                dangerouslySetInnerHTML={{
+                  __html: examElement[0]?.question,
+                }}
+              ></Box>
+            </Box>
           )}
           <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
             <FormControl>
