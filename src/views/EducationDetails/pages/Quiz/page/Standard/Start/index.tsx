@@ -199,7 +199,7 @@ const Start = () => {
                 <Typography component="span">شماره آزمون: </Typography>
                 <Typography component="span" variant="h6">
                   {examElement &&
-                    getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time}
+                    getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.number}
                 </Typography>
               </Box>
               <Box>
