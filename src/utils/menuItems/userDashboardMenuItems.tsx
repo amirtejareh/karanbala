@@ -10,21 +10,6 @@ export const userDashboardMenuItems = [
   },
 
   {
-    title: "خرید/تمدید اشتراک",
-    to: "/dashboard/user/purchase",
-    startIcon: <ProfileSvg />,
-  },
-  {
-    title: "لیست خریدها",
-    to: "/dashboard/user/shopping_list",
-    startIcon: <ShoppingListSvg />,
-  },
-  {
-    title: "تراکنش مالی",
-    to: "/dashboard/user/transaction",
-    startIcon: <TransactionSvg />,
-  },
-  {
     title: "مشخصات کاربری",
     to: "/dashboard/user/profile",
     startIcon: <ProfileSvg />,

@@ -14,10 +14,10 @@ import {
 import { makeStyles, useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import React, { useState } from "react";
-import { ButtonKit } from "../../../../../components/kit/Button";
 import AssessmentImage from "../../../../../assets/images/assessment.png";
 import TutorialImage from "../../../../../assets/images/tutorial.png";
 import { useForm } from "react-hook-form";
+import { ButtonKit } from "../../../../../components/kit/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
   formField: {

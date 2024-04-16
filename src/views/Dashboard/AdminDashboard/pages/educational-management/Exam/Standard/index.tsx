@@ -79,7 +79,7 @@ const StandardExam = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(0);
-  const [limit, _] = useState<number>(5);
+  const [limit, _] = useState<number>(1000);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
   const [number, setNumber] = React.useState<any>();
   const [correctAnswer, setCorrectAnswer] = React.useState<any>();
