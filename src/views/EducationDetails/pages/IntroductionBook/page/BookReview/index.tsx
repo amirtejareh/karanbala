@@ -72,7 +72,11 @@ const BookReview = () => {
             return (
               <Box className={classes.attachments}>
                 <Box display={"flex"} padding={"0.5rem"}>
-                  <IconButtonKit>
+                  <IconButtonKit
+                    onClick={() => {
+                      window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${pdf.link}`;
+                    }}
+                  >
                     <Box display={"flex"} gap={"1rem"}>
                       <ShowSvg />
                       <Typography variant="caption">{pdf.title}</Typography>

@@ -348,7 +348,11 @@ const Attach = () => {
                           <Box className={classes.attachments}>
                             {element.pdfFiles?.map((element: any, index: any) => (
                               <Box key={index} display={"flex"} padding={"0.5rem"}>
-                                <IconButtonKit onClick={() => navigate(element.address)}>
+                                <IconButtonKit
+                                  onClick={() => {
+                                    window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${element.link}`;
+                                  }}
+                                >
                                   <Box display={"flex"} gap={"1rem"}>
                                     <ShowSvg />
                                     <Typography variant="caption">{element.title}</Typography>

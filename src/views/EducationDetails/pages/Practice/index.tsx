@@ -523,7 +523,11 @@ const Practice = () => {
                                   <Box className={classes.attachments}>
                                     {subject.pdfFiles?.map((pdf: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
-                                        <IconButtonKit onClick={() => navigate(pdf.link)}>
+                                        <IconButtonKit
+                                          onClick={() => {
+                                            window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${pdf.link}`;
+                                          }}
+                                        >
                                           <Box display={"flex"} gap={"1rem"}>
                                             <ShowSvg />
                                             <Typography variant="caption">sss</Typography>

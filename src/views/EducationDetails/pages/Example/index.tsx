@@ -340,16 +340,22 @@ const Example = () => {
                       {parentEpisodeVisible["parent-episode-" + (index + 1)] && (
                         <Box className={classes.content}>
                           <Box className={classes.attachments}>
-                            {element.pdfFiles?.map((element: any, index: any) => (
-                              <Box key={index} display={"flex"} padding={"0.5rem"}>
-                                <IconButtonKit onClick={() => navigate(element.address)}>
-                                  <Box display={"flex"} gap={"1rem"}>
-                                    <ShowSvg />
-                                    <Typography variant="caption">{element.title}</Typography>
-                                  </Box>
-                                </IconButtonKit>
-                              </Box>
-                            ))}
+                            {element.pdfFiles?.map((element: any, index: any) => {
+                              return (
+                                <Box key={index} display={"flex"} padding={"0.5rem"}>
+                                  <IconButtonKit
+                                    onClick={() => {
+                                      window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${element.link}`;
+                                    }}
+                                  >
+                                    <Box display={"flex"} gap={"1rem"}>
+                                      <ShowSvg />
+                                      <Typography variant="caption">{element.title}</Typography>
+                                    </Box>
+                                  </IconButtonKit>
+                                </Box>
+                              );
+                            })}
                           </Box>
                           <Box
                             sx={{
