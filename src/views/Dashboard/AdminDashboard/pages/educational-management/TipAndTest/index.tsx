@@ -396,7 +396,7 @@ const TipAndTest = () => {
               sx={{
                 width: "510px",
                 backgroundColor: "#ededed",
-                padding: "10px",
+                padding: "0 30px 0 10px",
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: "12px",
@@ -429,19 +429,83 @@ const TipAndTest = () => {
               </Box>
 
               {/* list */}
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
+              <Box display={"flex"}>
                 {/* video list */}
+
                 <Box
-                  sx={{
-                    width: "350px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  width={"100%"}
+                  alignItems={"center"}
+                  justifyContent={"space-around"}
+                  display={"flex"}
                 >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      padding: "0 10px",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      className={classes.formButton}
+                      disabled={loading}
+                      sx={{
+                        height: "40px",
+                        position: "relative",
+                      }}
+                      onClick={() => {
+                        if (videoEditItemIndex === -1) {
+                          const videoItem = {
+                            title: videoTitle,
+                            link: videoLink,
+                          };
+                          setVideoList([...videoList, videoItem]);
+                        } else {
+                          const videoItem = {
+                            title: videoTitle,
+                            link: videoLink,
+                          };
+                          setVideoList(
+                            videoList.map((item, index) =>
+                              videoEditItemIndex === index ? videoItem : item,
+                            ),
+                          );
+                          setVideoEditItemIndex(-1);
+                        }
+                        setVideoTitle("");
+                        setVideoLink("");
+                      }}
+                    >
+                      {videoEditItemIndex === -1 ? "افزودن ویدیو" : "ویرایش ویدیو"}
+                    </Button>
+                    {videoEditItemIndex !== -1 && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        className={classes.formButton}
+                        disabled={loading}
+                        sx={{
+                          width: "130px !important",
+                          height: "40px",
+                          position: "relative",
+                        }}
+                        onClick={() => {
+                          setVideoEditItemIndex(-1);
+                          setVideoTitle("");
+                          setVideoLink("");
+                        }}
+                      >
+                        {"انصراف"}
+                      </Button>
+                    )}
+                  </Box>
+                </Box>
+
+                {/* buttons */}
+              </Box>
+              <div>
+                <Box width={"100%"} alignItems={"center"} justifyContent={"space-around"}>
                   <Typography textAlign={"center"}>لیست ویدیوها</Typography>
 
                   <TableKit
@@ -483,70 +547,7 @@ const TipAndTest = () => {
                     })}
                   />
                 </Box>
-
-                {/* buttons */}
-                <Box
-                  sx={{
-                    width: "130px",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.formButton}
-                    disabled={loading}
-                    sx={{
-                      width: "130px !important",
-                      height: "40px",
-                      position: "relative",
-                    }}
-                    onClick={() => {
-                      if (videoEditItemIndex === -1) {
-                        const videoItem = {
-                          title: videoTitle,
-                          link: videoLink,
-                        };
-                        setVideoList([...videoList, videoItem]);
-                      } else {
-                        const videoItem = {
-                          title: videoTitle,
-                          link: videoLink,
-                        };
-                        setVideoList(
-                          videoList.map((item, index) =>
-                            videoEditItemIndex === index ? videoItem : item,
-                          ),
-                        );
-                        setVideoEditItemIndex(-1);
-                      }
-                      setVideoTitle("");
-                      setVideoLink("");
-                    }}
-                  >
-                    {videoEditItemIndex === -1 ? "افزودن ویدیو" : "ویرایش ویدیو"}
-                  </Button>
-                  {videoEditItemIndex !== -1 && (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      className={classes.formButton}
-                      disabled={loading}
-                      sx={{
-                        width: "130px !important",
-                        height: "40px",
-                        position: "relative",
-                      }}
-                      onClick={() => {
-                        setVideoEditItemIndex(-1);
-                        setVideoTitle("");
-                        setVideoLink("");
-                      }}
-                    >
-                      {"انصراف"}
-                    </Button>
-                  )}
-                </Box>
-              </Box>
+              </div>
             </Box>
           )}
 
