@@ -117,7 +117,7 @@ const EssayQuestions = () => {
     }
 
     const newFiles = Array.from(e.target.files);
-    setSelectedFile([...selectedFile, ...newFiles]);
+    setSelectedFile((prev) => [...prev, ...newFiles]);
   };
 
   const handleRemoveFile = (fileToRemove) => {
@@ -243,7 +243,7 @@ const EssayQuestions = () => {
     setLoading(true);
 
     updateEssayQuestion.mutate(
-      { id: value.id, ...data },
+      { id: value.id, videos: videoList, pdfFiles: selectedFile, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -396,7 +396,7 @@ const EssayQuestions = () => {
               sx={{
                 width: "510px",
                 backgroundColor: "#ededed",
-                padding: "10px",
+                padding: "0 30px 0 10px",
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: "12px",
@@ -429,124 +429,116 @@ const EssayQuestions = () => {
               </Box>
 
               {/* list */}
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
+              <Box display={"flex"}>
                 {/* video list */}
                 <Box
-                  sx={{
-                    width: "350px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  width={"100%"}
+                  alignItems={"center"}
+                  justifyContent={"space-around"}
+                  display={"flex"}
                 >
-                  <Typography textAlign={"center"}>لیست ویدیوها</Typography>
-
-                  <TableKit
-                    secondary
-                    headers={[{ children: `عنوان` }, { children: `لینک` }, { children: `عملیات` }]}
-                    rows={videoList.map((item: IVideo, index: any) => {
-                      return {
-                        id: index,
-                        data: {
-                          title: item?.title ?? "-",
-                          link: item?.link ?? "-",
-                          action: (
-                            <>
-                              <IconButton
-                                onClick={() => {
-                                  setVideoEditItemIndex(index);
-                                  setVideoTitle(item?.title ?? "");
-                                  setVideoLink(item?.link ?? "");
-                                }}
-                              >
-                                <EditLightSvg width={12} height={12} />
-                              </IconButton>
-                              <IconButton>
-                                <PrompModalKit
-                                  description={"آیا از حذف ویدیو مورد نظر مطمئن  هستید؟"}
-                                  onConfirm={() =>
-                                    setVideoList(videoList.filter((item, i) => i !== index))
-                                  }
-                                  approved={"بله"}
-                                  denied={"خیر"}
-                                >
-                                  <DeleteLightSvg width={16} height={16} />
-                                </PrompModalKit>
-                              </IconButton>
-                            </>
-                          ),
-                        },
-                      };
-                    })}
-                  />
-                </Box>
-
-                {/* buttons */}
-                <Box
-                  sx={{
-                    width: "130px",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.formButton}
-                    disabled={loading}
+                  <Box
                     sx={{
-                      width: "130px !important",
-                      height: "40px",
-                      position: "relative",
-                    }}
-                    onClick={() => {
-                      if (videoEditItemIndex === -1) {
-                        const videoItem = {
-                          title: videoTitle,
-                          link: videoLink,
-                        };
-                        setVideoList([...videoList, videoItem]);
-                      } else {
-                        const videoItem = {
-                          title: videoTitle,
-                          link: videoLink,
-                        };
-                        setVideoList(
-                          videoList.map((item, index) =>
-                            videoEditItemIndex === index ? videoItem : item,
-                          ),
-                        );
-                        setVideoEditItemIndex(-1);
-                      }
-                      setVideoTitle("");
-                      setVideoLink("");
+                      width: "100%",
+                      padding: "0 10px",
                     }}
                   >
-                    {videoEditItemIndex === -1 ? "افزودن ویدیو" : "ویرایش ویدیو"}
-                  </Button>
-                  {videoEditItemIndex !== -1 && (
                     <Button
                       variant="contained"
-                      color="secondary"
+                      color="primary"
+                      fullWidth
                       className={classes.formButton}
                       disabled={loading}
-                      sx={{
-                        width: "130px !important",
-                        height: "40px",
-                        position: "relative",
-                      }}
                       onClick={() => {
-                        setVideoEditItemIndex(-1);
+                        if (videoEditItemIndex === -1) {
+                          const videoItem = {
+                            title: videoTitle,
+                            link: videoLink,
+                          };
+                          setVideoList([...videoList, videoItem]);
+                        } else {
+                          const videoItem = {
+                            title: videoTitle,
+                            link: videoLink,
+                          };
+                          setVideoList(
+                            videoList.map((item, index) =>
+                              videoEditItemIndex === index ? videoItem : item,
+                            ),
+                          );
+                          setVideoEditItemIndex(-1);
+                        }
                         setVideoTitle("");
                         setVideoLink("");
                       }}
                     >
-                      {"انصراف"}
+                      {videoEditItemIndex === -1 ? "افزودن ویدیو" : "ویرایش ویدیو"}
                     </Button>
-                  )}
+                    {videoEditItemIndex !== -1 && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        className={classes.formButton}
+                        disabled={loading}
+                        sx={{
+                          width: "130px !important",
+                          height: "40px",
+                          position: "relative",
+                        }}
+                        onClick={() => {
+                          setVideoEditItemIndex(-1);
+                          setVideoTitle("");
+                          setVideoLink("");
+                        }}
+                      >
+                        {"انصراف"}
+                      </Button>
+                    )}
+                  </Box>
                 </Box>
               </Box>
+              <div>
+                <Typography textAlign={"center"}>لیست ویدیوها</Typography>
+
+                <TableKit
+                  secondary
+                  headers={[{ children: `عنوان` }, { children: `لینک` }, { children: `عملیات` }]}
+                  rows={videoList.map((item: IVideo, index: any) => {
+                    return {
+                      id: index,
+                      data: {
+                        title: item?.title ?? "-",
+                        link: item?.link ?? "-",
+                        action: (
+                          <>
+                            <IconButton
+                              onClick={() => {
+                                setVideoEditItemIndex(index);
+                                setVideoTitle(item?.title ?? "");
+                                setVideoLink(item?.link ?? "");
+                              }}
+                            >
+                              <EditLightSvg width={12} height={12} />
+                            </IconButton>
+                            <IconButton>
+                              <PrompModalKit
+                                description={"آیا از حذف ویدیو مورد نظر مطمئن  هستید؟"}
+                                onConfirm={() =>
+                                  setVideoList(videoList.filter((item, i) => i !== index))
+                                }
+                                approved={"بله"}
+                                denied={"خیر"}
+                              >
+                                <DeleteLightSvg width={16} height={16} />
+                              </PrompModalKit>
+                            </IconButton>
+                          </>
+                        ),
+                      },
+                    };
+                  })}
+                />
+              </div>
             </Box>
           )}
 
@@ -667,6 +659,16 @@ const EssayQuestions = () => {
                               return newItem;
                             }),
                           );
+
+                          if (item.pdfFiles && item.pdfFiles?.length > 0) {
+                            item.pdfFiles.map((pdf) => {
+                              const fileName = pdf?.link?.split("/").pop();
+                              setSelectedFile((prev) => [
+                                ...prev,
+                                ...[{ name: fileName, size: null }],
+                              ]);
+                            });
+                          }
                         }}
                       >
                         <EditLightSvg width={12} height={12} />

@@ -223,8 +223,6 @@ const LearningMaterial = (props: any) => {
   };
 
   const handleCreateSubject = async (data: any) => {
-    console.log(selectedFile, "selectedFile");
-
     createLearningMaterial.mutate(
       { ...data, videos: videoList, pdfFiles: selectedFile },
       {
@@ -672,7 +670,6 @@ const LearningMaterial = (props: any) => {
                               return newItem;
                             }),
                           );
-                          console.log(item.pdfFiles);
 
                           if (item.pdfFiles && item.pdfFiles?.length > 0) {
                             item.pdfFiles.map((pdf) => {
