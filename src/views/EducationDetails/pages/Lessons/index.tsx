@@ -183,7 +183,7 @@ const Lessons = () => {
   const [seasonVisible, setSeasonVisible] = useState<any>({});
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book } = EducationDetailStore();
+  const { book, setBook } = EducationDetailStore();
 
   const getLearningMaterialBasedOnBooks = useGetLearningMaterialBasedOnBooks([book]);
 
@@ -302,6 +302,12 @@ const Lessons = () => {
   }, [courses]);
 
   useEffect(() => {
+    return () => {
+      setBook(null);
+    };
+  }, []);
+
+  useEffect(() => {
     const myEpisodeArray = chapters?.chapters[0]?.sections?.map((element: any, index: any) => {
       return {
         id: "parent-episode-" + (index + 1),
@@ -347,6 +353,12 @@ const Lessons = () => {
       }, {}),
     );
   }, [courses]);
+
+  useEffect(() => {
+    return () => {
+      setBook(null);
+    };
+  }, []);
 
   useEffect(() => {
     setSeasonVisible((prev: any) => {

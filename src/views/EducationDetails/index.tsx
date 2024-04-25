@@ -106,14 +106,10 @@ const MajorRequirements = () => {
   useEffect(() => {
     if (selectValue || book) {
       setDisable(false);
+    } else {
+      setDisable(true);
     }
   }, [selectValue, book]);
-
-  useEffect(() => {
-    return () => {
-      setBook(null);
-    };
-  }, []);
 
   return (
     <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>

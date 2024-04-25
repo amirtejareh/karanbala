@@ -185,7 +185,7 @@ const PointAndTest = () => {
 
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book } = EducationDetailStore();
+  const { book, setBook } = EducationDetailStore();
 
   const getTipAndTestBasedOnBooks = useGetTipAndTestBasedOnBooks([book]);
 
@@ -299,6 +299,12 @@ const PointAndTest = () => {
       setsubjects(chapters?.chapters[season - 1]?.sections);
     }
   }, [seasonVisible]);
+
+  useEffect(() => {
+    return () => {
+      setBook(null);
+    };
+  }, []);
 
   useEffect(() => {
     setsubjects(chapters?.chapters[0]?.sections);

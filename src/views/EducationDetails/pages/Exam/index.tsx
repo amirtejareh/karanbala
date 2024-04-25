@@ -17,6 +17,7 @@ import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import { ModalKit } from "../../../../components/kit/Modal";
 import Num2persian from "num2persian";
+import EducationDetailStore from "../../../../stores/educationDetailStore";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   courses: {
@@ -238,6 +239,7 @@ const ModalExam = () => {
 const Exam = () => {
   const theme: ThemeOptions = useTheme();
   const classes = useStyles();
+  const { book, setBook } = EducationDetailStore();
 
   const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
   const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
@@ -534,6 +536,12 @@ const Exam = () => {
         ["season-" + 1]: !seasonVisible["season-" + 1],
       };
     });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      setBook(null);
+    };
   }, []);
 
   const navigate = useNavigate();

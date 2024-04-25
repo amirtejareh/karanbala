@@ -246,7 +246,7 @@ const Karanbala = () => {
 
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book } = EducationDetailStore();
+  const { book, setBook } = EducationDetailStore();
 
   const getEssayKaranbalaBasedOnBooks = useGetKaranbalaBasedOnBooks([book]);
 
@@ -423,7 +423,11 @@ const Karanbala = () => {
 
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
+  useEffect(() => {
+    return () => {
+      setBook(null);
+    };
+  }, []);
   return (
     <>
       <ModalKit

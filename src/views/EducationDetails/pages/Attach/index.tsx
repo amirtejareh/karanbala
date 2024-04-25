@@ -180,7 +180,7 @@ const Attach = () => {
   const [seasonVisible, setSeasonVisible] = useState<any>({});
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book } = EducationDetailStore();
+  const { book, setBook } = EducationDetailStore();
 
   const getAttachBasedOnBooks = useGetAttachBasedOnBooks([book]);
 
@@ -242,6 +242,11 @@ const Attach = () => {
     seasonRef?.current?.click();
   }, [seasonRef?.current]);
 
+  useEffect(() => {
+    return () => {
+      setBook(null);
+    };
+  }, []);
   return (
     <>
       <ModalKit
