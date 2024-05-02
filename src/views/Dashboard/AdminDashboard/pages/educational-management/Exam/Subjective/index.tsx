@@ -13,6 +13,7 @@ import {
   SelectChangeEvent,
   IconButton,
   Switch,
+  Autocomplete,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
@@ -88,7 +89,7 @@ const SubjectiveExam = () => {
   const selectCreateExamRef = useRef<any>();
   const [isMultipleChoiceTest, setMultipleChoiceTest] = React.useState<any>(false);
 
-  const getCreateExam = useGetCreateExamBasedOnSubjectiveExam(page === 0 ? 1 : page, limit);
+  const getCreateExam = useGetCreateExamBasedOnSubjectiveExam();
 
   useEffect(() => {
     getCreateExam.refetch();
@@ -105,19 +106,6 @@ const SubjectiveExam = () => {
   }, [gradeLevelIds]);
 
   const getSubjectiveExams = useGetSubjectiveExams(page === 0 ? 1 : page, limit);
-  const handleCreateExamChange = (event: SelectChangeEvent) => {
-    const selectSpecificExam = getCreateExam?.data?.createExams?.find(
-      (element) => element._id === event.target.value,
-    );
-
-    if (selectSpecificExam.examType === "multipleChoiceTest") {
-      setMultipleChoiceTest(true);
-    } else {
-      setMultipleChoiceTest(false);
-    }
-
-    setCreateExamIds(event.target.value as any);
-  };
 
   const deleteSubjectiveExam = useDeleteSubjectiveExam();
 
@@ -250,6 +238,26 @@ const SubjectiveExam = () => {
     });
   };
 
+  const handleCreateExamChange = (event, value) => {
+    const selectedValue = value;
+
+    if (selectedValue == null || selectedValue.value === "") {
+      setCreateExamIds(null);
+      return;
+    }
+
+    const selectSpecificExam = getCreateExam?.data?.createExams?.find(
+      (element) => element._id === selectedValue.value,
+    );
+
+    if (selectSpecificExam.examType === "multipleChoiceTest") {
+      setMultipleChoiceTest(true);
+    } else {
+      setMultipleChoiceTest(false);
+    }
+    setCreateExamIds(selectedValue);
+  };
+
   const updateSubjectiveExam = useUpdateSubjectiveExam();
 
   const handleUpdateSubjectiveExam = async (data: any) => {
@@ -315,6 +323,31 @@ const SubjectiveExam = () => {
       },
     );
   };
+  const [selectOptions, setSelectOptions] = useState([]);
+
+  useEffect(() => {
+    if (getCreateExam?.data) {
+      setSelectOptions((prev: any) => [
+        ...prev,
+        ...getCreateExam?.data?.createExams?.map((element) => ({
+          value: element._id,
+
+          label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${element?.chapter[0]
+            ?.title} - ${element?.subject[0]?.title} - ${
+            element.examLevel === "easy"
+              ? "آسان"
+              : element.examLevel === "hard"
+                ? "سخت"
+                : element.examLevel === "average"
+                  ? "متوسط"
+                  : element.examLevel === "challenging"
+                    ? "چالشی"
+                    : ""
+          } - ${element.examType === "multipleChoiceTest" ? "تستی" : "تشریحی"} `,
+        })),
+      ]);
+    }
+  }, [getCreateExam?.data]);
 
   return (
     <Box className={classes.container}>
@@ -331,39 +364,13 @@ const SubjectiveExam = () => {
           }
         >
           <FormControl className={classes.formField} fullWidth>
-            <InputLabel id="demo-simple-select-label">انتخاب آزمون</InputLabel>
-            <Select
-              value={createExamIds ?? []}
-              {...register("createExam")}
-              inputRef={selectCreateExamRef}
+            <Autocomplete
+              options={selectOptions}
               onChange={handleCreateExamChange}
-            >
-              {!getCreateExam?.isLoading &&
-                getCreateExam?.data?.createExams?.map((element: any) => {
-                  
-                  return (
-                    <MenuItem key={element._id} value={element._id}>
-                      {` ${element?.gradeLevel[0]?.title} - `}
-                      {` ${element?.books[0]?.title} - `}
-                      {`${element?.chapter[0]?.title} -  `}
-                      {`${element?.subject[0]?.title} -  `}
-                      {` ${
-                        element.examLevel === "easy"
-                          ? "آسان"
-                          : element.examLevel === "hard"
-                            ? "سخت"
-                            : element.examLevel === "average"
-                              ? "متوسط"
-                              : element.examLevel === "challenging"
-                                ? "چالشی"
-                                : ""
-                      } `}
-
-                      {`- ${element.examType === "multipleChoiceTest" ? "تستی" : "تشریحی"}`}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
+              renderInput={(params) => (
+                <TextField {...params} label="یک آزمون انتخاب کنید" variant="outlined" />
+              )}
+            />
           </FormControl>
 
           <FormControl className={classes.formField}>

@@ -48,42 +48,24 @@ limit: number,
     }
 
     /**
-     * @param page 
-     * @param limit 
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerFindAllCreateExamsBasedOnStandardExam(
-page: number,
-limit: number,
-): CancelablePromise<any> {
+    public static createExamControllerFindAllCreateExamsBasedOnStandardExam(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/create-exam/withStandardExam',
-            query: {
-                'page': page,
-                'limit': limit,
-            },
         });
     }
 
     /**
-     * @param page 
-     * @param limit 
      * @returns any 
      * @throws ApiError
      */
-    public static createExamControllerFindAllCreateExamsBasedOnSubjectiveExam(
-page: number,
-limit: number,
-): CancelablePromise<any> {
+    public static createExamControllerFindAllCreateExamsBasedOnSubjectiveExam(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/create-exam/withSubjectiveExam',
-            query: {
-                'page': page,
-                'limit': limit,
-            },
         });
     }
 

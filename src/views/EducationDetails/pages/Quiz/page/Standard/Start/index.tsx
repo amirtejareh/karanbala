@@ -210,16 +210,21 @@ const Start = () => {
             </>
           )}
         </Box>
-        <Box borderBottom={"1px solid #B2BFCB"} padding={"4rem 0"}>
+        <Box
+          padding={"4rem 0"}
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          borderBottom={"1px solid #B2BFCB"}
+        >
           {examElement && (
             <Box
-              padding={"4rem 0"}
               dangerouslySetInnerHTML={{
                 __html: examElement[0]?.question,
               }}
             ></Box>
           )}
-          <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
+          <Box borderRadius={"1rem"} padding={"4rem 0"}>
             <FormControl>
               <RadioGroup
                 row
