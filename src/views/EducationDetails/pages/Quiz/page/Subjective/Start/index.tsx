@@ -10,6 +10,8 @@ import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../../assets";
 import { toast } from "react-toastify";
 import { userStore } from "../../../../../../../stores";
 import useGetSubjectiveExamBasedOnCreateExam from "../../../../../../../hooks/subjective-exam/useGetSubjectiveExamBasedOnCreateExam";
+import { IconButtonKit } from "../../../../../../../components/kit/IconButton";
+import { Button } from "@mui/base";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -281,9 +283,15 @@ const Start = () => {
             justifyContent={"center"}
             borderRadius={"1rem"}
             bgcolor={theme?.palette?.grey[100]}
+            sx={{ cursor: "pointer" }}
             margin={"0 1rem 0 0"}
+            onClick={() => {
+              window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${examElement[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0]}`;
+            }}
           >
-            <Typography variant="subtitle1">پاسخنامه</Typography>
+            <>
+              <Typography variant="subtitle1">پاسخنامه</Typography>
+            </>
           </Box>
           <Box
             display={"flex"}

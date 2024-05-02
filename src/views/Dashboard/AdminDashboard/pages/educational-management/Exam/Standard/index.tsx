@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const StandardExam = () => {
   const classes = useStyles();
 
-  const [, setCreateExamIds] = useState<any>([]);
+  const [createExamIds, setCreateExamIds] = useState<any>([]);
   const inputNumberRef = useRef<any>();
   const inputQuestionRef = useRef<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
@@ -111,7 +111,7 @@ const StandardExam = () => {
     } else {
       setMultipleChoiceTest(false);
     }
-    setCreateExamIds(selectedValue);
+    setCreateExamIds(selectedValue.value);
   };
 
   const {
@@ -172,35 +172,38 @@ const StandardExam = () => {
     data.isMultipleChoiceTest = isMultipleChoiceTest;
     setLoading(true);
 
-    createStandardExam.mutate(data, {
-      onSuccess: async (result: { message: string; statusCode: number }) => {
-        if (result.statusCode == 200) {
-          setLoading(false);
+    createStandardExam.mutate(
+      { ...data, createExam: createExamIds },
+      {
+        onSuccess: async (result: { message: string; statusCode: number }) => {
+          if (result.statusCode == 200) {
+            setLoading(false);
 
-          toast.success(result.message);
-        } else {
-          setLoading(false);
-          if (Array.isArray(result.message)) {
-            toast.error(
-              <ul>
-                {result.message.map((msg: string) => (
-                  <li key={msg}>{msg}</li>
-                ))}
-              </ul>,
-            );
+            toast.success(result.message);
           } else {
-            toast.error(
-              <ul>
-                <li key={result.message}>{result.message}</li>
-              </ul>,
-            );
+            setLoading(false);
+            if (Array.isArray(result.message)) {
+              toast.error(
+                <ul>
+                  {result.message.map((msg: string) => (
+                    <li key={msg}>{msg}</li>
+                  ))}
+                </ul>,
+              );
+            } else {
+              toast.error(
+                <ul>
+                  <li key={result.message}>{result.message}</li>
+                </ul>,
+              );
+            }
           }
-        }
+        },
+        onError: async (e: any) => {
+          toast.error(e.message);
+        },
       },
-      onError: async (e: any) => {
-        toast.error(e.message);
-      },
-    });
+    );
   };
 
   useEffect(() => {

@@ -30,6 +30,7 @@ import { PrompModalKit } from "../../../../../../../components/kit/Modal";
 import { TableKit } from "../../../../../../../components/kit/Table";
 import useGetSubjectiveExams from "../../../../../../../hooks/subjective-exam/useGetSubjectiveExams";
 import useDeleteSubjectiveExam from "../../../../../../../hooks/subjective-exam/useDeleteSubjectiveExam";
+import CreateExam from "../Create";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -204,38 +205,41 @@ const SubjectiveExam = () => {
     data.isMultipleChoiceTest = isMultipleChoiceTest;
     setLoading(true);
 
-    createSubjectiveExam.mutate(data, {
-      onSuccess: async (result: { message: string; statusCode: number }) => {
-        if (result.statusCode == 200) {
-          setLoading(false);
-          setGradeLevelIds(null);
-          setBookIds(null);
-          setChapterIds(null);
-          toast.success(result.message);
-          getSubjectiveExams.refetch();
-        } else {
-          setLoading(false);
-          if (Array.isArray(result.message)) {
-            toast.error(
-              <ul>
-                {result.message.map((msg: string) => (
-                  <li key={msg}>{msg}</li>
-                ))}
-              </ul>,
-            );
+    createSubjectiveExam.mutate(
+      { ...data, createExam: createExamIds },
+      {
+        onSuccess: async (result: { message: string; statusCode: number }) => {
+          if (result.statusCode == 200) {
+            setLoading(false);
+            setGradeLevelIds(null);
+            setBookIds(null);
+            setChapterIds(null);
+            toast.success(result.message);
+            getSubjectiveExams.refetch();
           } else {
-            toast.error(
-              <ul>
-                <li key={result.message}>{result.message}</li>
-              </ul>,
-            );
+            setLoading(false);
+            if (Array.isArray(result.message)) {
+              toast.error(
+                <ul>
+                  {result.message.map((msg: string) => (
+                    <li key={msg}>{msg}</li>
+                  ))}
+                </ul>,
+              );
+            } else {
+              toast.error(
+                <ul>
+                  <li key={result.message}>{result.message}</li>
+                </ul>,
+              );
+            }
           }
-        }
+        },
+        onError: async (e: any) => {
+          toast.error(e.message);
+        },
       },
-      onError: async (e: any) => {
-        toast.error(e.message);
-      },
-    });
+    );
   };
 
   const handleCreateExamChange = (event, value) => {
@@ -255,7 +259,7 @@ const SubjectiveExam = () => {
     } else {
       setMultipleChoiceTest(false);
     }
-    setCreateExamIds(selectedValue);
+    setCreateExamIds(selectedValue.value);
   };
 
   const updateSubjectiveExam = useUpdateSubjectiveExam();
