@@ -185,7 +185,7 @@ const Questions = () => {
 
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book, setBook } = EducationDetailStore();
+  const { book } = EducationDetailStore();
 
   const getEssayQuestionBasedOnBooks = useGetEssayQuestionBasedOnBooks([book]);
 
@@ -304,12 +304,6 @@ const Questions = () => {
   useEffect(() => {
     setsubjects(chapters?.chapters[0]?.sections);
   }, [courses]);
-
-  useEffect(() => {
-    return () => {
-      setBook(null);
-    };
-  }, []);
 
   useEffect(() => {
     const myEpisodeArray = chapters?.chapters[0]?.sections?.map((element: any, index: any) => {

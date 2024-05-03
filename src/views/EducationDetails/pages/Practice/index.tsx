@@ -182,7 +182,7 @@ const Practice = () => {
   const [seasonVisible, setSeasonVisible] = useState<any>({});
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book, setBook } = EducationDetailStore();
+  const { book } = EducationDetailStore();
 
   const getSampleExampleQuestionsBasedOnBooks = useGetSampleExampleQuestionsBasedOnBooks([book]);
 
@@ -362,11 +362,7 @@ const Practice = () => {
 
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  useEffect(() => {
-    return () => {
-      setBook(null);
-    };
-  }, []);
+
   return (
     <>
       <ModalKit

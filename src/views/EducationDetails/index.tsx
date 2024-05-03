@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
   },
 }));
 
-const MajorRequirements = () => {
+const EducationDetails = () => {
   const theme: ThemeOptions = useTheme();
   const classes = useStyles();
   const navigate = useNavigate();
@@ -207,4 +207,4 @@ const MajorRequirements = () => {
   );
 };
 
-export default MajorRequirements;
+export default EducationDetails;

@@ -239,7 +239,7 @@ const ModalExam = () => {
 const Exam = () => {
   const theme: ThemeOptions = useTheme();
   const classes = useStyles();
-  const { book, setBook } = EducationDetailStore();
+  const { book } = EducationDetailStore();
 
   const [parentEpisodeVisible, setParentEpisodeVisible] = useState<any>({});
   const [childrenEpisodeVisible, setChildrenEpisodeVisible] = useState<any>({});
@@ -536,12 +536,6 @@ const Exam = () => {
         ["season-" + 1]: !seasonVisible["season-" + 1],
       };
     });
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      setBook(null);
-    };
   }, []);
 
   const navigate = useNavigate();

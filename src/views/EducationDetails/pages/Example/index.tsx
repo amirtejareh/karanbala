@@ -171,7 +171,7 @@ const Example = () => {
   const [seasonVisible, setSeasonVisible] = useState<any>({});
   const [subjects, setsubjects] = useState<any>({});
   const [courses, setCourses] = useState<any>();
-  const { book, setBook } = EducationDetailStore();
+  const { book } = EducationDetailStore();
 
   const getSampleTestQuestionsBasedOnBooks = useGetSampleTestQuestionsBasedOnBooks([book]);
 
@@ -242,11 +242,6 @@ const Example = () => {
   useEffect(() => {
     seasonRef?.current?.click();
   }, [seasonRef?.current]);
-  useEffect(() => {
-    return () => {
-      setBook(null);
-    };
-  }, []);
 
   return (
     <>

@@ -37,6 +37,7 @@ import useGetSubjectsBasedOnSections from "../../../../hooks/subject/useGetSubje
 import useGetSectionsBasedOnChapters from "../../../../hooks/section/useGetSectionsBasedOnChapters";
 import useGetCreateExamBasedOnSubjectiveExamsBasedOnSubjectsAndExamLevel from "../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExamSubjectsExamLevelAndExamType";
 import useGetCreateExamBasedOnSubjectiveExamSubjectsExamLevelAndExamType from "../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExamSubjectsExamLevelAndExamType";
+import { is } from "date-fns-jalali/locale";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -52,12 +53,7 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
 const Quiz = () => {
   const theme: ThemeOptions = useTheme();
   const navigate = useNavigate();
-  const [examValue, setExamValue] = useState(2);
   const [quizValue, setQuizValue] = useState("");
-  const [examTypeValue, setExamTypeValue] = useState(2);
-  const [, setSeasonValue] = useState(1);
-  const [lessonValue, setLessonValue] = useState(1);
-  const [episodeValue, setEpisodeValue] = useState(1);
   const { book } = EducationDetailStore();
   const [chapterIds, setChapterIds] = React.useState<any>([book]);
   const [sectionIds, setSectionIds] = useState<any>(chapterIds);
@@ -75,6 +71,7 @@ const Quiz = () => {
   const [examElement, setExamElement] = useState<any>();
 
   const [showItem, setShowItem] = useState<boolean | undefined>(undefined);
+  const [isItemLoading, setIsItemLoading] = useState<boolean>(true);
   const classes = useStyles();
 
   const getCreateExamBasedOnStandardExamChaptersAndExamTypes =
@@ -137,21 +134,6 @@ const Quiz = () => {
     termIds?.length == 0 ? null : termIds,
   );
 
-  const season = [
-    { title: "فصل۱: تابع", value: 0 },
-    { title: "فصل۲: مثلثات", value: 1 },
-  ];
-
-  const lesson = [
-    { title: "درس اول", value: 0 },
-    { title: "درس دوم", value: 1 },
-  ];
-
-  const episode = [
-    { title: "تابع پیوسته", value: 0 },
-    { title: "تابع گسسته", value: 1 },
-  ];
-
   const text = ["کران بالا", "درس نامه", "سوالات تشریحی", "نکته و تست"];
   const logo = [<KaranbalaExamSvg />, <TextBookSvg />, <QuestionsSvg />, <PointAndTestSvg />];
 
@@ -167,8 +149,10 @@ const Quiz = () => {
     } else {
       if (localStorage.getItem("examType")) {
         setShowItem(localStorage.getItem("examType") === "subjective" ? true : false);
+        setIsItemLoading(false);
       } else {
         setShowItem(true);
+        setIsItemLoading(false);
       }
     }
   }, [showItem]);
@@ -373,297 +357,304 @@ const Quiz = () => {
             standard: "آزمون استاندارد",
           })}
         </Box>
-        {!showItem ? (
-          <>
-            <Box gap={"3rem"} display={"flex"} flexWrap={"wrap"}>
-              <Box width={"25%"} sx={{ "& > label": { margin: "1rem 0" } }}>
-                <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
-                <Select
-                  fullWidth
-                  onChange={handleChapterChange}
-                  value={chapterIds ?? []}
-                  inputRef={selectChaptertRef}
-                >
-                  {!getChaptersBasedOnBooks?.isLoading &&
-                    getChaptersBasedOnBooks?.data != undefined &&
-                    getChaptersBasedOnBooks?.data?.map((element) => {
-                      return (
-                        <MenuItem key={element._id} value={element._id}>
-                          {element.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </Box>
-              <Box flexBasis={"25%"} sx={{ "& > label": { margin: "1rem 0" } }}>
-                <InputLabel id="demo-simple-select-label">
-                  انتخاب (ترم یک، ترم دو، کل کتاب)
-                </InputLabel>
-                <Select
-                  fullWidth
-                  value={termIds ?? []}
-                  inputRef={selectTermRef}
-                  onChange={handleTermChange}
-                >
-                  {!getTermOfStudies?.isLoading &&
-                    getTermOfStudies?.data != undefined &&
-                    getTermOfStudies?.data?.map((element) => {
-                      return (
-                        <MenuItem key={element._id} value={element._id}>
-                          {element.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </Box>
-              <Box flexBasis={"25%"} sx={{ "& > label": { margin: "1rem 0" } }}>
-                <InputLabel id="demo-simple-select-label">
-                  نوع و سطح آزمون را انتخاب کنید
-                </InputLabel>
-                <Select
-                  fullWidth
-                  value={quizValue}
-                  label={"نوع و سطح آزمون را انتخاب کنید"}
-                  onChange={({ target: { value } }) => {
-                    setQuizValue(value);
-                  }}
-                >
-                  <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
-                  <MenuItem value={"essayTest"}>تشریحی</MenuItem>
-                </Select>
-              </Box>
-            </Box>
 
-            <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
-              {examElement?.map((element: any, index: number) => {
-                return (
-                  <Box
-                    onClick={() => setSelectedExam({ selected: index, id: element._id })}
-                    key={index}
-                    margin={"5rem 0"}
-                    paddingBottom={"5rem"}
-                  >
-                    <Box
-                      display={"flex"}
-                      alignItems={"center"}
-                      flexDirection={"column"}
-                      width={"17.35rem"}
-                      bgcolor={theme?.palette?.others.warning.light}
-                      padding={"1rem"}
-                      borderRadius={"1rem"}
-                      border={"1px solid #000"}
-                      borderColor={
-                        selectedExam?.selected !== index
-                          ? theme?.palette?.others.warning.light
-                          : theme?.palette?.others.warning.main
-                      }
-                    >
-                      <Box
-                        bgcolor={theme?.palette?.common.white}
-                        padding={"1rem"}
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        borderRadius={"1rem"}
-                      >
-                        <QuizSvg />
-                      </Box>
-                      <Box margin={"1rem"}>
-                        <Typography variant="subtitle1">{`آزمون ${element.number}`}</Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                );
-              })}
-            </Box>
-            <Box display={"flex"} justifyContent={"center"} margin={"5rem 0"}>
-              <ButtonKit
-                onClick={() => navigate(`standard/${selectedExam.id}`)}
-                disabled={selectedExam?.selected >= 0 ? false : true}
-                variant="contained"
-              >
-                <Typography>مشاهده آزمون</Typography>
-              </ButtonKit>
-            </Box>
-          </>
+        {isItemLoading ? (
+          <></>
         ) : (
           <>
-            <Box borderBottom={"1px solid grey"} marginBottom={"5rem"} marginTop={"2rem"}></Box>
-            <Box
-              display={"flex"}
-              justifyContent={"space-around"}
-              borderBottom={"1px solid grey"}
-              paddingBottom={"5rem"}
-              marginTop={"2rem"}
-              gap={"1rem"}
-              sx={{
-                "&  label": { margin: "1rem 0", height: "23px" },
-                "& > div": { flexBasis: "40%" },
-              }}
-            >
-              <Box>
-                <FormControl className={classes.formField} fullWidth>
-                  <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
-                  <Select
-                    onChange={handleChapterChange}
-                    value={chapterIds ?? []}
-                    inputRef={selectChaptertRef}
-                  >
-                    {!getChaptersBasedOnBooks?.isLoading &&
-                      getChaptersBasedOnBooks?.data != undefined &&
-                      getChaptersBasedOnBooks?.data?.map((element) => {
-                        return (
-                          <MenuItem key={element._id} value={element._id}>
-                            {element.title}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl className={classes.formField} fullWidth>
-                  <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
-                  <Select
-                    required
-                    value={sectionIds ?? []}
-                    inputRef={selectSectionRef}
-                    onChange={handleSectionChange}
-                  >
-                    {!getSectionsBasedOnChapters?.isLoading &&
-                      getSectionsBasedOnChapters?.data != undefined &&
-                      getSectionsBasedOnChapters?.data?.map((element) => {
-                        return (
-                          <MenuItem key={element._id} value={element._id}>
-                            {element.title}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl className={classes.formField} fullWidth>
-                  <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
-                  <Select
-                    required
-                    value={subjectIds ?? []}
-                    inputRef={selectSubjectRef}
-                    onChange={handleSubjectChange}
-                  >
-                    {!subjectsBasedOnSections?.isLoading &&
-                      subjectsBasedOnSections?.data != undefined &&
-                      subjectsBasedOnSections?.data?.map((element) => {
-                        return (
-                          <MenuItem key={element._id} value={element._id}>
-                            {element.title}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
-              </Box>
-            </Box>
-            <Box
-              display={"flex"}
-              alignItems={"end"}
-              gap={"5rem"}
-              marginBottom={"5rem"}
-              marginTop={"2rem"}
-            >
-              <Box
-                sx={{
-                  "& > label": { margin: "1rem 0" },
-                }}
-                flexBasis={"30%"}
-              >
-                <InputLabel id="demo-simple-select-label">
-                  نوع و سطح آزمون را انتخاب کنید
-                </InputLabel>
-                <Select
-                  fullWidth
-                  value={quizValue}
-                  label={"نوع و سطح آزمون را انتخاب کنید"}
-                  onChange={({ target: { value } }) => {
-                    setQuizValue(value);
-                  }}
-                >
-                  <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
-                  <MenuItem value={"essayTest"}>تشریحی</MenuItem>
-                </Select>
-              </Box>
-              <Box>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    name="radio-buttons-group"
-                    value={examLevelId}
-                    onChange={(e) => setExamLevelId(e.target.value)}
-                  >
-                    <FormControlLabel value="challenging" control={<Radio />} label="چالشی" />
-                    <FormControlLabel value="hard" control={<Radio />} label="سخت" />
-                    <FormControlLabel value="normal" control={<Radio />} label="متوسط" />
-                    <FormControlLabel value="easy" control={<Radio />} label="آسان" />
-                  </RadioGroup>
-                </FormControl>
-              </Box>
-            </Box>
-            <Box>
-              <Box display={"flex"} justifyContent={"center"} margin={"5rem 0"}>
-                <ButtonKit
-                  onClick={() => {
-                    navigate(`subjective/${examElement[0]._id}`);
-                  }}
-                  disabled={disabledExam}
-                  variant="contained"
-                >
-                  <Typography>مشاهده آزمون</Typography>
-                </ButtonKit>
-              </Box>
-            </Box>
-            <Box
-              display={"flex"}
-              flexWrap={"wrap"}
-              gap={"5rem"}
-              justifyContent={"center"}
-              margin={"7.5rem auto"}
-              className={`${classes.QuizBox}`}
-            >
-              {text.map((value: string, index: number) => {
-                return (
-                  <ButtonKit key={index} onClick={() => navigate(path[index])}>
-                    <Box
-                      width={"100%"}
-                      height={"16rem"}
-                      display={"flex"}
-                      borderRadius={"2rem"}
-                      flexDirection={"column"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      bgcolor={theme?.palette?.others.info.light}
+            {!showItem ? (
+              <>
+                <Box gap={"3rem"} display={"flex"} flexWrap={"wrap"}>
+                  <Box width={"25%"} sx={{ "& > label": { margin: "1rem 0" } }}>
+                    <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
+                    <Select
+                      fullWidth
+                      onChange={handleChapterChange}
+                      value={chapterIds ?? []}
+                      inputRef={selectChaptertRef}
                     >
+                      {!getChaptersBasedOnBooks?.isLoading &&
+                        getChaptersBasedOnBooks?.data != undefined &&
+                        getChaptersBasedOnBooks?.data?.map((element) => {
+                          return (
+                            <MenuItem key={element._id} value={element._id}>
+                              {element.title}
+                            </MenuItem>
+                          );
+                        })}
+                    </Select>
+                  </Box>
+                  <Box flexBasis={"25%"} sx={{ "& > label": { margin: "1rem 0" } }}>
+                    <InputLabel id="demo-simple-select-label">
+                      انتخاب (ترم یک، ترم دو، کل کتاب)
+                    </InputLabel>
+                    <Select
+                      fullWidth
+                      value={termIds ?? []}
+                      inputRef={selectTermRef}
+                      onChange={handleTermChange}
+                    >
+                      {!getTermOfStudies?.isLoading &&
+                        getTermOfStudies?.data != undefined &&
+                        getTermOfStudies?.data?.map((element) => {
+                          return (
+                            <MenuItem key={element._id} value={element._id}>
+                              {element.title}
+                            </MenuItem>
+                          );
+                        })}
+                    </Select>
+                  </Box>
+                  <Box flexBasis={"25%"} sx={{ "& > label": { margin: "1rem 0" } }}>
+                    <InputLabel id="demo-simple-select-label">
+                      نوع و سطح آزمون را انتخاب کنید
+                    </InputLabel>
+                    <Select
+                      fullWidth
+                      value={quizValue}
+                      label={"نوع و سطح آزمون را انتخاب کنید"}
+                      onChange={({ target: { value } }) => {
+                        setQuizValue(value);
+                      }}
+                    >
+                      <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+                      <MenuItem value={"essayTest"}>تشریحی</MenuItem>
+                    </Select>
+                  </Box>
+                </Box>
+
+                <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
+                  {examElement?.map((element: any, index: number) => {
+                    return (
                       <Box
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        width={"5rem"}
-                        height={"5rem"}
-                        margin={"1rem"}
-                        bgcolor={theme?.palette?.common.white}
-                        borderRadius={"1rem"}
-                        padding={"1rem"}
+                        onClick={() => setSelectedExam({ selected: index, id: element._id })}
+                        key={index}
+                        margin={"5rem 0"}
+                        paddingBottom={"5rem"}
                       >
-                        {logo[index]}
+                        <Box
+                          display={"flex"}
+                          alignItems={"center"}
+                          flexDirection={"column"}
+                          width={"17.35rem"}
+                          bgcolor={theme?.palette?.others.warning.light}
+                          padding={"1rem"}
+                          borderRadius={"1rem"}
+                          border={"1px solid #000"}
+                          borderColor={
+                            selectedExam?.selected !== index
+                              ? theme?.palette?.others.warning.light
+                              : theme?.palette?.others.warning.main
+                          }
+                        >
+                          <Box
+                            bgcolor={theme?.palette?.common.white}
+                            padding={"1rem"}
+                            display={"flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            borderRadius={"1rem"}
+                          >
+                            <QuizSvg />
+                          </Box>
+                          <Box margin={"1rem"}>
+                            <Typography variant="subtitle1">{`آزمون ${element.number}`}</Typography>
+                          </Box>
+                        </Box>
                       </Box>
-                      <Box>
-                        <Typography variant="subtitle1">{value}</Typography>
-                      </Box>
-                    </Box>
+                    );
+                  })}
+                </Box>
+                <Box display={"flex"} justifyContent={"center"} margin={"5rem 0"}>
+                  <ButtonKit
+                    onClick={() => navigate(`standard/${selectedExam.id}`)}
+                    disabled={selectedExam?.selected >= 0 ? false : true}
+                    variant="contained"
+                  >
+                    <Typography>مشاهده آزمون</Typography>
                   </ButtonKit>
-                );
-              })}
-            </Box>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box borderBottom={"1px solid grey"} marginBottom={"5rem"} marginTop={"2rem"}></Box>
+                <Box
+                  display={"flex"}
+                  justifyContent={"space-around"}
+                  borderBottom={"1px solid grey"}
+                  paddingBottom={"5rem"}
+                  marginTop={"2rem"}
+                  gap={"1rem"}
+                  sx={{
+                    "&  label": { margin: "1rem 0", height: "23px" },
+                    "& > div": { flexBasis: "40%" },
+                  }}
+                >
+                  <Box>
+                    <FormControl className={classes.formField} fullWidth>
+                      <InputLabel id="demo-simple-select-label">انتخاب فصل</InputLabel>
+                      <Select
+                        onChange={handleChapterChange}
+                        value={chapterIds ?? []}
+                        inputRef={selectChaptertRef}
+                      >
+                        {!getChaptersBasedOnBooks?.isLoading &&
+                          getChaptersBasedOnBooks?.data != undefined &&
+                          getChaptersBasedOnBooks?.data?.map((element) => {
+                            return (
+                              <MenuItem key={element._id} value={element._id}>
+                                {element.title}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <FormControl className={classes.formField} fullWidth>
+                      <InputLabel id="demo-simple-select-label">انتخاب بخش</InputLabel>
+                      <Select
+                        required
+                        value={sectionIds ?? []}
+                        inputRef={selectSectionRef}
+                        onChange={handleSectionChange}
+                      >
+                        {!getSectionsBasedOnChapters?.isLoading &&
+                          getSectionsBasedOnChapters?.data != undefined &&
+                          getSectionsBasedOnChapters?.data?.map((element) => {
+                            return (
+                              <MenuItem key={element._id} value={element._id}>
+                                {element.title}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <FormControl className={classes.formField} fullWidth>
+                      <InputLabel id="demo-simple-select-label">انتخاب موضوع</InputLabel>
+                      <Select
+                        required
+                        value={subjectIds ?? []}
+                        inputRef={selectSubjectRef}
+                        onChange={handleSubjectChange}
+                      >
+                        {!subjectsBasedOnSections?.isLoading &&
+                          subjectsBasedOnSections?.data != undefined &&
+                          subjectsBasedOnSections?.data?.map((element) => {
+                            return (
+                              <MenuItem key={element._id} value={element._id}>
+                                {element.title}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Box>
+                <Box
+                  display={"flex"}
+                  alignItems={"end"}
+                  gap={"5rem"}
+                  marginBottom={"5rem"}
+                  marginTop={"2rem"}
+                >
+                  <Box
+                    sx={{
+                      "& > label": { margin: "1rem 0" },
+                    }}
+                    flexBasis={"30%"}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      نوع و سطح آزمون را انتخاب کنید
+                    </InputLabel>
+                    <Select
+                      fullWidth
+                      value={quizValue}
+                      label={"نوع و سطح آزمون را انتخاب کنید"}
+                      onChange={({ target: { value } }) => {
+                        setQuizValue(value);
+                      }}
+                    >
+                      <MenuItem value={"multipleChoiceTest"}>تستی</MenuItem>
+                      <MenuItem value={"essayTest"}>تشریحی</MenuItem>
+                    </Select>
+                  </Box>
+                  <Box>
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="radio-buttons-group"
+                        value={examLevelId}
+                        onChange={(e) => setExamLevelId(e.target.value)}
+                      >
+                        <FormControlLabel value="challenging" control={<Radio />} label="چالشی" />
+                        <FormControlLabel value="hard" control={<Radio />} label="سخت" />
+                        <FormControlLabel value="normal" control={<Radio />} label="متوسط" />
+                        <FormControlLabel value="easy" control={<Radio />} label="آسان" />
+                      </RadioGroup>
+                    </FormControl>
+                  </Box>
+                </Box>
+                <Box>
+                  <Box display={"flex"} justifyContent={"center"} margin={"5rem 0"}>
+                    <ButtonKit
+                      onClick={() => {
+                        navigate(`subjective/${examElement[0]._id}`);
+                      }}
+                      disabled={disabledExam}
+                      variant="contained"
+                    >
+                      <Typography>مشاهده آزمون</Typography>
+                    </ButtonKit>
+                  </Box>
+                </Box>
+                <Box
+                  display={"flex"}
+                  flexWrap={"wrap"}
+                  gap={"5rem"}
+                  justifyContent={"center"}
+                  margin={"7.5rem auto"}
+                  className={`${classes.QuizBox}`}
+                >
+                  {text.map((value: string, index: number) => {
+                    return (
+                      <ButtonKit key={index} onClick={() => navigate(path[index])}>
+                        <Box
+                          width={"100%"}
+                          height={"16rem"}
+                          display={"flex"}
+                          borderRadius={"2rem"}
+                          flexDirection={"column"}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          bgcolor={theme?.palette?.others.info.light}
+                        >
+                          <Box
+                            display={"flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            width={"5rem"}
+                            height={"5rem"}
+                            margin={"1rem"}
+                            bgcolor={theme?.palette?.common.white}
+                            borderRadius={"1rem"}
+                            padding={"1rem"}
+                          >
+                            {logo[index]}
+                          </Box>
+                          <Box>
+                            <Typography variant="subtitle1">{value}</Typography>
+                          </Box>
+                        </Box>
+                      </ButtonKit>
+                    );
+                  })}
+                </Box>
+              </>
+            )}
           </>
         )}
       </Box>
