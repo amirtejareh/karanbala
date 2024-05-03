@@ -87,7 +87,6 @@ const SubjectiveExam = () => {
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
   const [termIds, setTermIds] = React.useState<any>(bookIds);
   const [createExamIds, setCreateExamIds] = useState<any>([]);
-  const selectCreateExamRef = useRef<any>();
   const [isMultipleChoiceTest, setMultipleChoiceTest] = React.useState<any>(false);
 
   const getCreateExam = useGetCreateExamBasedOnSubjectiveExam();
@@ -330,7 +329,7 @@ const SubjectiveExam = () => {
   const [selectOptions, setSelectOptions] = useState([]);
 
   useEffect(() => {
-    if (getCreateExam?.data) {
+    if (getCreateExam?.data && getCreateExam?.data.length > 0) {
       setSelectOptions((prev: any) => [
         ...prev,
         ...getCreateExam?.data?.createExams?.map((element) => ({
@@ -509,9 +508,7 @@ const SubjectiveExam = () => {
                           }
                           setQuillEditorValue(item.question);
                           setMultipleChoiceTest(item.isMultipleChoiceTest);
-                          setTimeout(() => {
-                            selectCreateExamRef.current.focus();
-                          }, 300);
+
                           setTimeout(() => {
                             inputNumberRef.current.focus();
                           }, 320);
