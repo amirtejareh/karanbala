@@ -125,7 +125,7 @@ const SubjectiveExam = () => {
   };
 
   useEffect(() => {
-    if (!getSubjectiveExams.isLoading && getSubjectiveExams?.data?.createExams) {
+    if (!getSubjectiveExams.isLoading && getSubjectiveExams?.data) {
       setPage(parseInt(getSubjectiveExams?.data?.currentPage ?? 1));
       setPageSize(getSubjectiveExams?.data?.totalPages ?? 1);
     }
@@ -249,7 +249,7 @@ const SubjectiveExam = () => {
       return;
     }
 
-    const selectSpecificExam = getCreateExam?.data?.createExams?.find(
+    const selectSpecificExam = getCreateExam?.data?.find(
       (element) => element._id === selectedValue.value,
     );
 
@@ -327,12 +327,10 @@ const SubjectiveExam = () => {
     );
   };
   const [selectOptions, setSelectOptions] = useState([]);
-
   useEffect(() => {
     if (getCreateExam?.data && getCreateExam?.data.length > 0) {
       setSelectOptions((prev: any) => [
-        ...prev,
-        ...getCreateExam?.data?.createExams?.map((element) => ({
+        ...getCreateExam?.data?.map((element) => ({
           value: element._id,
 
           label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${element?.chapter[0]

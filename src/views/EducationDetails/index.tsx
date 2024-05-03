@@ -171,7 +171,7 @@ const EducationDetails = () => {
       >
         {text.map((value: string, index: number) => {
           return (
-            <ButtonKit disabled={disable} onClick={() => navigate(path[index])}>
+            <ButtonKit key={index} disabled={disable} onClick={() => navigate(path[index])}>
               <Box
                 width={"100%"}
                 height={"16rem"}

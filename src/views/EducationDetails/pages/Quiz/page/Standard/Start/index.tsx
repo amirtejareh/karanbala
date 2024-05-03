@@ -48,6 +48,8 @@ const Start = () => {
     createExamId,
   );
 
+  console.log(" ia m eheere");
+
   const [examElement, setExamElement] = useState<any>();
 
   useEffect(() => {
@@ -57,23 +59,24 @@ const Start = () => {
   useEffect(() => {
     getStandardExamBasedOnCreateExam.refetch();
   }, [page]);
+  console.log(getStandardExamBasedOnCreateExam);
 
-  useEffect(() => {
-    if (getStandardExamBasedOnCreateExam?.data) {
-      setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
+  // useEffect(() => {
+  //   if (getStandardExamBasedOnCreateExam?.data) {
+  //     setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
 
-      if (elapseSecondTime == undefined && finishExam == false) {
-        setElapseMinuteTime(
-          getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
-        );
-        setElapseSecondTime(
-          getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
-        );
-      }
+  //     if (elapseSecondTime == undefined && finishExam == false) {
+  //       setElapseMinuteTime(
+  //         getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
+  //       );
+  //       setElapseSecondTime(
+  //         getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
+  //       );
+  //     }
 
-      setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
-    }
-  }, [getStandardExamBasedOnCreateExam?.data]);
+  //     setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
+  //   }
+  // }, [getStandardExamBasedOnCreateExam?.data]);
 
   const handleRadioChange = (id, value) => {
     if (value === radioValue) {

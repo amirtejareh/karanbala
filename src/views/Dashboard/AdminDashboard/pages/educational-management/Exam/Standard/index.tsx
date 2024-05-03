@@ -101,7 +101,7 @@ const StandardExam = () => {
       return;
     }
 
-    const selectSpecificExam = getCreateExam?.data?.createExams?.find(
+    const selectSpecificExam = getCreateExam?.data?.find(
       (element) => element._id === selectedValue.value,
     );
 
@@ -206,7 +206,7 @@ const StandardExam = () => {
   };
 
   useEffect(() => {
-    if (!getStandardExams.isLoading && getStandardExams?.data?.createExams) {
+    if (!getStandardExams.isLoading && getStandardExams?.data) {
       setPage(parseInt(getStandardExams?.data?.currentPage ?? 1));
       setPageSize(getStandardExams?.data?.totalPages ?? 1);
     }
@@ -291,13 +291,11 @@ const StandardExam = () => {
   };
 
   const [selectOptions, setSelectOptions] = useState([]);
-  console.log(getCreateExam?.data, "getCreateExam?.data");
 
   useEffect(() => {
     if (getCreateExam?.data && getCreateExam?.data.length > 0) {
       setSelectOptions((prev: any) => [
-        ...prev,
-        ...getCreateExam?.data?.createExams?.map((element) => ({
+        ...getCreateExam?.data?.map((element) => ({
           value: element._id,
           label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${
             element?.chapter.length > 0
