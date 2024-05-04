@@ -19,6 +19,8 @@ import StartSubjectiveExam from "../views/EducationDetails/pages/Quiz/page/Subje
 import EducationDetails from "../views/EducationDetails";
 import { useEffect } from "react";
 import EducationDetailStore from "../stores/educationDetailStore";
+import StandardReport from "../views/EducationDetails/pages/Quiz/page/Standard/Report";
+import SubjectiveReport from "../views/EducationDetails/pages/Quiz/page/Subjective/Report";
 
 const EducationDetailsRoutes = () => {
   const { setBook, book } = EducationDetailStore((state) => state);
@@ -47,7 +49,10 @@ const EducationDetailsRoutes = () => {
         <Route path={"/practice"} element={<Practice />} />
         <Route path={"/quiz"} element={<Quiz />} />
         <Route path={"/quiz/standard/:id"} element={<StartSrandardExam />} />
+        <Route path={"/quiz/standard/:id/report"} element={<StandardReport />} />
         <Route path={"/quiz/subjective/:id"} element={<StartSubjectiveExam />} />
+        <Route path={"/quiz/subjective/:id/report"} element={<SubjectiveReport />} />
+
         <Route path={"/karanbala"} element={<Karanbala />} />
       </Routes>
     </EducationLayoutComponent>

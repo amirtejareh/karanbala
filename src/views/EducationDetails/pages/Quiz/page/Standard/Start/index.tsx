@@ -10,6 +10,7 @@ import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../../assets";
 import useGetStandardExamBasedOnCreateExam from "../../../../../../../hooks/standard-exam/useGetStandardExamBasedOnBooks";
 import { toast } from "react-toastify";
 import { userStore } from "../../../../../../../stores";
+import useCreateStandardGradeReport from "../../../../../../../hooks/standard-exam-report/useCreateStandardExamReport";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -41,14 +42,13 @@ const Start = () => {
   const [radioValue, setRadioValue] = React.useState<any>("");
   const [loading, setLoading] = useState<boolean>(false);
   const user: any = userStore((state) => state);
+  const createStandardExam = useCreateStandardGradeReport();
 
   const getStandardExamBasedOnCreateExam = useGetStandardExamBasedOnCreateExam(
     page === 0 ? 1 : page,
     limit,
     createExamId,
   );
-
-  console.log(" ia m eheere");
 
   const [examElement, setExamElement] = useState<any>();
 
@@ -59,24 +59,24 @@ const Start = () => {
   useEffect(() => {
     getStandardExamBasedOnCreateExam.refetch();
   }, [page]);
-  console.log(getStandardExamBasedOnCreateExam);
 
-  // useEffect(() => {
-  //   if (getStandardExamBasedOnCreateExam?.data) {
-  //     setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
+  useEffect(() => {
+    if (getStandardExamBasedOnCreateExam?.data) {
+      setExamElement(getStandardExamBasedOnCreateExam?.data?.standards);
 
-  //     if (elapseSecondTime == undefined && finishExam == false) {
-  //       setElapseMinuteTime(
-  //         getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time,
-  //       );
-  //       setElapseSecondTime(
-  //         getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time * 60,
-  //       );
-  //     }
+      if (elapseSecondTime == undefined && finishExam == false) {
+        setElapseMinuteTime(
+          Number(getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time) + 1,
+        );
+        setElapseSecondTime(
+          (Number(getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time) + 1) *
+            60,
+        );
+      }
 
-  //     setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
-  //   }
-  // }, [getStandardExamBasedOnCreateExam?.data]);
+      setTotalPage(getStandardExamBasedOnCreateExam?.data?.totalItems);
+    }
+  }, [getStandardExamBasedOnCreateExam?.data]);
 
   const handleRadioChange = (id, value) => {
     if (value === radioValue) {
@@ -101,8 +101,9 @@ const Start = () => {
       return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
     }
     setLoading(true);
+
     const data = {
-      user,
+      user: user.user,
       question: selectedOptions,
       examId: examElement[0]?.createExam[0]._id,
       examTitle:
@@ -111,8 +112,19 @@ const Start = () => {
           : examElement[0]?.createExam[0]?.term[0]?.title,
       examNumber: examElement[0]?.createExam[0]?.number,
       type: examElement[0]?.isMultipleChoiceTest,
-      book: examElement[0]?.createExam[0]?.books[0]?.title,
+      book: examElement[0]?.createExam[0]?.books[0]?._id,
+      gradeLevel: examElement[0]?.createExam[0]?.gradeLevel[0]?._id,
     };
+    createStandardExam.mutate(data, {
+      onSuccess: async (result: { message: string; statusCode: number; access_token: string }) => {
+        setLoading(false);
+        toast(result.message);
+      },
+      onError: async (result: { message: string; statusCode: number; access_token: string }) => {
+        setLoading(false);
+        toast(result.message);
+      },
+    });
   };
 
   const handleNextQuestion = (id) => {
@@ -132,10 +144,10 @@ const Start = () => {
 
   useEffect(() => {
     const time = setInterval(() => {
-      if (elapseSecondTime > 0) {
+      if (elapseSecondTime > 60) {
         setElapseSecondTime(elapseSecondTime - 1);
       }
-      if (elapseSecondTime < 2) {
+      if (elapseSecondTime < 61) {
         setFinishExam(true);
       }
 
@@ -215,26 +227,29 @@ const Start = () => {
         </Box>
         <Box
           padding={"4rem 0"}
-          display={"flex"}
-          justifyContent={"center"}
           alignItems={"center"}
+          marginLeft={"10px"}
           borderBottom={"1px solid #B2BFCB"}
         >
           {examElement && (
-            <Box
-              dangerouslySetInnerHTML={{
-                __html: examElement[0]?.question,
-              }}
-            ></Box>
+            <Box display={"flex"}>
+              <Box component={"span"}>{`${examElement[0]?.number}-`} &nbsp;</Box>
+              <Box
+                component={"span"}
+                dangerouslySetInnerHTML={{
+                  __html: examElement[0]?.question,
+                }}
+              ></Box>
+            </Box>
           )}
-          <Box borderRadius={"1rem"} padding={"4rem 0"}>
+          <Box borderRadius={"1rem"}>
             <FormControl>
               <RadioGroup
                 row
                 aria-labelledby="demo-radio-buttons-group-label"
                 value={radioValue}
                 name="radio-buttons-group"
-                onClick={(e: any) => handleRadioChange(examElement[0]?.question, e?.target?.value)}
+                onClick={(e: any) => handleRadioChange(examElement[0]?._id, e?.target?.value)}
               >
                 {examElement && (
                   <>
@@ -247,7 +262,7 @@ const Start = () => {
                               control={
                                 <Radio
                                   onClick={(e: any) =>
-                                    handleRadioChange(examElement[0]?.question, e?.target?.value)
+                                    handleRadioChange(examElement[0]?._id, e?.target?.value)
                                   }
                                 />
                               }
@@ -274,7 +289,10 @@ const Start = () => {
           <Typography component={"span"} variant="h6">
             زمان باقیمانده (دقیقه):{" "}
             <Typography variant="h6" component={"span"}>
-              {elapseMinuteTime}
+              {elapseMinuteTime ===
+              Number(getStandardExamBasedOnCreateExam?.data?.standards[0]?.createExam[0]?.time) + 1
+                ? elapseMinuteTime - 1
+                : elapseMinuteTime}
             </Typography>
           </Typography>
           <Box display={"flex"} justifyContent={"center"} gap={"1rem"} flexWrap={"wrap"}>
@@ -288,7 +306,7 @@ const Start = () => {
                   setPage(page + 1);
                 }
               }}
-              disabled={finishExam ? true : false}
+              disabled={page == totalPage || finishExam ? true : false}
               size="large"
               variant="contained"
             >
@@ -302,18 +320,20 @@ const Start = () => {
               }}
               size="large"
               variant="outlined"
-              disabled={finishExam ? true : false}
+              disabled={page == 1 || finishExam}
             >
               <Typography></Typography>سوال قبلی
             </ButtonKit>
             <ButtonKit
               onClick={() => {
+                // if (page == totalPage && finishExam) submitStandardOnlineGradeReport();
                 submitStandardOnlineGradeReport();
               }}
               size="large"
               variant="outlined"
+              // disabled={!finishExam}
             >
-              <Typography></Typography>اتمام آزمون
+              <Typography>اتمام آزمون</Typography>{" "}
             </ButtonKit>
           </Box>
         </Box>
@@ -326,11 +346,12 @@ const Start = () => {
           <Box
             display={"flex"}
             justifyContent={"center"}
+            sx={{ cursor: "pointer" }}
             borderRadius={"1rem"}
             bgcolor={theme?.palette?.grey[100]}
             margin={"0 1rem 0 0"}
             onClick={() => {
-              window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${examElement[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0]}`;
+              window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${examElement[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0].link}`;
             }}
           >
             <Typography variant="subtitle1">پاسخنامه</Typography>
@@ -338,9 +359,15 @@ const Start = () => {
           <Box
             display={"flex"}
             justifyContent={"center"}
+            sx={{ cursor: "pointer" }}
             borderRadius={"1rem"}
             bgcolor={theme?.palette?.grey[100]}
             margin={"0 0 0 1rem"}
+            onClick={() =>
+              navigate(
+                `/education-details/quiz/standard/${examElement[0]?.createExam[0]._id}/report`,
+              )
+            }
           >
             <Typography variant="subtitle1">کارنامه</Typography>
           </Box>

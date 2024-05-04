@@ -7,11 +7,12 @@ import { makeStyles } from "@mui/styles";
 import EducationDetailStore from "../../../../../../../stores/educationDetailStore";
 import { ButtonKit } from "../../../../../../../components/kit/Button";
 import { KaranbalaLogoTextSvg, QuizSvg } from "../../../../../../../assets";
+
 import { toast } from "react-toastify";
 import { userStore } from "../../../../../../../stores";
+
 import useGetSubjectiveExamBasedOnCreateExam from "../../../../../../../hooks/subjective-exam/useGetSubjectiveExamBasedOnCreateExam";
-import { IconButtonKit } from "../../../../../../../components/kit/IconButton";
-import { Button } from "@mui/base";
+import useCreateSubjectiveExamReport from "../../../../../../../hooks/subjective-exam-report/useCreateSubjectiveExamReport";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   QuizBox: {
@@ -36,16 +37,19 @@ const Start = () => {
   const [limit, _] = useState<number>(1);
   const pathname = useLocation().pathname;
   const segments = pathname.split("/");
-  const createExamId = segments[segments.length - 1];
+  const subjectivesId = segments[segments.length - 1];
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [elapseMinuteTime, setElapseMinuteTime] = useState<number>();
+  const [elapseSecondTime, setElapseSecondTime] = useState<number>();
   const [radioValue, setRadioValue] = React.useState<any>("");
   const [loading, setLoading] = useState<boolean>(false);
   const user: any = userStore((state) => state);
+  const createsubjectivesExam = useCreateSubjectiveExamReport();
 
   const getSubjectiveExamBasedOnCreateExam = useGetSubjectiveExamBasedOnCreateExam(
     page === 0 ? 1 : page,
     limit,
-    createExamId,
+    subjectivesId,
   );
 
   const [examElement, setExamElement] = useState<any>();
@@ -55,14 +59,14 @@ const Start = () => {
   }, []);
 
   useEffect(() => {
-    getSubjectiveExamBasedOnCreateExam.refetch();
-  }, [page]);
+    if (getSubjectiveExamBasedOnCreateExam.data) {
+      setExamElement(getSubjectiveExamBasedOnCreateExam.data);
+    }
+  }, [getSubjectiveExamBasedOnCreateExam.data]);
 
   useEffect(() => {
-    if (getSubjectiveExamBasedOnCreateExam?.data) {
-      setExamElement(getSubjectiveExamBasedOnCreateExam?.data?.subjectives);
-    }
-  }, [getSubjectiveExamBasedOnCreateExam?.data]);
+    getSubjectiveExamBasedOnCreateExam.refetch();
+  }, [page]);
 
   const handleRadioChange = (id, value) => {
     if (value === radioValue) {
@@ -71,7 +75,7 @@ const Start = () => {
       setRadioValue(value);
     }
     const optionValue = value;
-    const optionIndex = selectedOptions.findIndex((option) => option._id === id);
+    const optionIndex = selectedOptions?.findIndex((option) => option?._id === id);
 
     if (optionIndex !== -1) {
       const updatedOptions = [...selectedOptions];
@@ -81,25 +85,42 @@ const Start = () => {
       setSelectedOptions([...selectedOptions, { id, value: optionValue }]);
     }
   };
-
-  const submitsubjectiveOnlineGradeReport = () => {
+  const submitsubjectivesOnlineGradeReport = () => {
     if (selectedOptions.length === 0) {
       return toast.error("میبایست حداقل به یک سوال پاسخ دهید تا کارنامه برای شما صادر گردد");
     }
+
     setLoading(true);
+    console.log(
+      examElement?.subjectives[0]?.createExam[0]?.number,
+      "examElement?.subjectives[0]?.createExam[0]?.number",
+    );
+
     const data = {
-      user,
+      user: user.user,
       question: selectedOptions,
-      examId: examElement[0]?.createExam[0]._id,
+      examId: examElement?.subjectives[0]?.createExam[0]._id,
       examTitle:
-        examElement[0]?.createExam[0]?.chapter?.length > 0
-          ? examElement[0]?.createExam[0]?.chapter[0]?.title
-          : examElement[0]?.createExam[0]?.term[0]?.title,
-      examNumber: examElement[0]?.createExam[0].number,
-      type: examElement[0]?.isMultipleChoiceTest,
-      book: examElement[0]?.createExam[0]?.books[0]?.title,
+        examElement?.subjectives[0]?.createExam[0]?.chapter?.length > 0
+          ? examElement?.subjectives[0]?.createExam[0]?.chapter[0]?.title
+          : examElement?.subjectives[0]?.createExam[0]?.term[0]?.title,
+      type: examElement?.subjectives[0]?.isMultipleChoiceTest,
+      book: examElement?.subjectives[0]?.createExam[0]?.books[0]?._id,
+      gradeLevel: examElement?.subjectives[0]?.createExam[0]?.gradeLevel[0]?._id,
     };
+    createsubjectivesExam.mutate(data, {
+      onSuccess: async (result: { message: string; statusCode: number; access_token: string }) => {
+        setLoading(false);
+        toast(result.message);
+      },
+      onError: async (result: { message: string; statusCode: number; access_token: string }) => {
+        setLoading(false);
+        toast(result.message);
+      },
+    });
   };
+
+  console.log(examElement, "exam");
 
   const handleNextQuestion = (id) => {
     handleRadioChange(id, radioValue);
@@ -107,14 +128,12 @@ const Start = () => {
     const targetId = id;
     const defaultValue = "-";
 
-    const optionIndex = selectedOptions.findIndex((option) => option._id === targetId);
+    const optionIndex = selectedOptions?.findIndex((option) => option._id === targetId);
 
     if (optionIndex === -1) {
       setSelectedOptions([...selectedOptions, { _id: targetId, value: defaultValue }]);
     }
   };
-
-  const [finishExam, setFinishExam] = useState(false);
 
   const classes = useStyles();
 
@@ -147,27 +166,28 @@ const Start = () => {
               <Box>
                 <Typography component="span">کتاب: </Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement[0]?.createExam[0]?.books[0]?.title}
+                  {examElement && examElement?.subjectives[0]?.createExam[0]?.books[0]?.title}
                 </Typography>
               </Box>
               <Box>
                 <Typography component="span">آزمون درسی: </Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement[0]?.createExam[0]?.chapter?.length > 0
-                    ? examElement[0]?.createExam[0]?.chapter[0]?.title
-                    : examElement[0]?.createExam[0]?.term[0]?.title}{" "}
+                  {examElement && examElement?.subjectives[0]?.createExam[0]?.chapter?.length > 0
+                    ? examElement?.subjectives[0]?.createExam[0]?.chapter[0]?.title
+                    : examElement?.subjectives[0]?.createExam[0]?.term[0]?.title}{" "}
                 </Typography>
               </Box>
               <Box>
                 <Typography component="span">نوع آزمون: </Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement[0]?.isMultipleChoiceTest ? "تستی" : "تشریحی"}
+                  {examElement && examElement?.isMultipleChoiceTest ? "تستی" : "تشریحی"}
                 </Typography>
               </Box>
               <Box>
                 <Typography component="span">شماره آزمون: </Typography>
                 <Typography component="span" variant="h6">
-                  {examElement && examElement[0]?.number}
+                  {examElement &&
+                    getSubjectiveExamBasedOnCreateExam?.data?.subjectives[0]?.createExam[0]?.number}
                 </Typography>
               </Box>
               <Box>
@@ -179,27 +199,37 @@ const Start = () => {
             </>
           )}
         </Box>
-        <Box borderBottom={"1px solid #B2BFCB"} padding={"4rem 0"}>
+        <Box
+          padding={"4rem 0"}
+          alignItems={"center"}
+          marginLeft={"10px"}
+          borderBottom={"1px solid #B2BFCB"}
+        >
           {examElement && (
-            <Box
-              padding={"4rem 0"}
-              dangerouslySetInnerHTML={{
-                __html: examElement[0]?.question,
-              }}
-            ></Box>
+            <Box display={"flex"}>
+              <Box component={"span"}>{`${examElement?.subjectives[0].number}-`} &nbsp;</Box>
+              <Box
+                component={"span"}
+                dangerouslySetInnerHTML={{
+                  __html: examElement?.subjectives[0].question,
+                }}
+              ></Box>
+            </Box>
           )}
-          <Box borderRadius={"1rem"} padding={"0 2rem 0 0"}>
+          <Box borderRadius={"1rem"}>
             <FormControl>
               <RadioGroup
                 row
                 aria-labelledby="demo-radio-buttons-group-label"
                 value={radioValue}
                 name="radio-buttons-group"
-                onClick={(e: any) => handleRadioChange(examElement[0].question, e.target.value)}
+                onClick={(e: any) =>
+                  handleRadioChange(examElement?.subjectives[0]?._id, e?.target?.value)
+                }
               >
                 {examElement && (
                   <>
-                    {examElement[0]?.options?.map((options) => {
+                    {examElement?.subjectives[0]?.options?.map((options) => {
                       return Object.values(options).map((option: any, index: any) => {
                         return (
                           <Box key={index}>
@@ -208,7 +238,10 @@ const Start = () => {
                               control={
                                 <Radio
                                   onClick={(e: any) =>
-                                    handleRadioChange(examElement[0].question, e.target.value)
+                                    handleRadioChange(
+                                      examElement?.subjectives[0]?._id,
+                                      e?.target?.value,
+                                    )
                                   }
                                 />
                               }
@@ -236,14 +269,14 @@ const Start = () => {
             <ButtonKit
               onClick={() => {
                 if (page == totalPage) {
-                  handleNextQuestion(examElement[0]._id);
+                  handleNextQuestion(examElement._id);
                 }
                 if (page < totalPage) {
-                  handleNextQuestion(examElement[0]._id);
+                  handleNextQuestion(examElement._id);
                   setPage(page + 1);
                 }
               }}
-              disabled={finishExam ? true : false}
+              disabled={page == totalPage ? true : false}
               size="large"
               variant="contained"
             >
@@ -257,18 +290,18 @@ const Start = () => {
               }}
               size="large"
               variant="outlined"
-              disabled={finishExam ? true : false}
+              disabled={page == 1}
             >
               <Typography></Typography>سوال قبلی
             </ButtonKit>
             <ButtonKit
               onClick={() => {
-                submitsubjectiveOnlineGradeReport();
+                submitsubjectivesOnlineGradeReport();
               }}
               size="large"
               variant="outlined"
             >
-              <Typography></Typography>اتمام آزمون
+              <Typography>اتمام آزمون</Typography>{" "}
             </ButtonKit>
           </Box>
         </Box>
@@ -281,24 +314,28 @@ const Start = () => {
           <Box
             display={"flex"}
             justifyContent={"center"}
+            sx={{ cursor: "pointer" }}
             borderRadius={"1rem"}
             bgcolor={theme?.palette?.grey[100]}
-            sx={{ cursor: "pointer" }}
             margin={"0 1rem 0 0"}
             onClick={() => {
-              window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${examElement[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0]}`;
+              window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${examElement?.subjectives[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0].link}`;
             }}
           >
-            <>
-              <Typography variant="subtitle1">پاسخنامه</Typography>
-            </>
+            <Typography variant="subtitle1">پاسخنامه</Typography>
           </Box>
           <Box
             display={"flex"}
             justifyContent={"center"}
+            sx={{ cursor: "pointer" }}
             borderRadius={"1rem"}
             bgcolor={theme?.palette?.grey[100]}
             margin={"0 0 0 1rem"}
+            onClick={() =>
+              navigate(
+                `/education-details/quiz/subjective/${examElement?.subjectives[0]?.createExam[0]._id}/report`,
+              )
+            }
           >
             <Typography variant="subtitle1">کارنامه</Typography>
           </Box>
