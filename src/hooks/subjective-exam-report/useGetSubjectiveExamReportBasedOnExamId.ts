@@ -1,12 +1,12 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { ReportStandardExamService, StandardService } from "../../services";
+import { ReportSubjectiveExamService } from "../../services";
 
-const useGetStandardExamReportBasedOnExamId = (examId: string, username: string) => {
+const useGetSubjectiveExamReportBasedOnExamId = (examId: string, username: string) => {
   return useQuery(
     ["Get-All-Book-References-Based-On-Objective-Test-Id"],
     async () => {
-      return await ReportStandardExamService.reportStandardControllerFindStandardReportBasedOnExamId(
+      return await ReportSubjectiveExamService.reportSubjectiveControllerFindSubjectiveReportBasedOnExamId(
         examId,
         username,
       );
@@ -15,4 +15,4 @@ const useGetStandardExamReportBasedOnExamId = (examId: string, username: string)
   );
 };
 
-export default useGetStandardExamReportBasedOnExamId;
+export default useGetSubjectiveExamReportBasedOnExamId;
