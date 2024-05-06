@@ -62,6 +62,18 @@ const useStyles = makeStyles((theme: Theme) => ({
       textAlign: "center",
     },
   },
+  true: {
+    backgroundColor: `${theme.palette.success.main} !important`,
+    color: "white",
+  },
+  false: {
+    backgroundColor: `${theme.palette.error["400"]} !important`,
+    color: "white",
+  },
+  undone: {
+    backgroundColor: `${theme.palette.grey["500"]} !important`,
+    color: "white",
+  },
 }));
 const Report = () => {
   const theme: ThemeOptions = useTheme();
@@ -88,6 +100,7 @@ const Report = () => {
       setData(getStandardExamReportBasedOnExamId.data.data);
     }
   }, [getStandardExamReportBasedOnExamId.data]);
+  const [categoryTitle, setCategoryTitle] = useState("کل");
 
   return (
     <Box margin={"0.75rem 3.25rem 0 3.25rem"} paddingBottom={"7.5rem"}>
@@ -161,6 +174,104 @@ const Report = () => {
           </TableRow>
         ))}
       </TableBody> */}
+        </Table>
+      </Box>
+
+      <Box mt="20px">
+        <Table className={classes.table2} component={Paper}>
+          <TableHead>
+            <TableRow>
+              <TableCell>شماره سوال</TableCell>
+              <TableCell>گزینه۱</TableCell>
+              <TableCell>گزینه۲</TableCell>
+              <TableCell>گزینه۳</TableCell>
+              <TableCell>گزینه۴</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {data && (
+              <>
+                {data && (
+                  <>
+                    {data.userAnswers
+                      ?.find((item) => item.title == categoryTitle)
+                      .children.map((answer, ix) => {
+                        return (
+                          <TableRow key={ix}>
+                            <TableCell key={ix}>{answer.number}</TableCell>
+                            <TableCell key={ix}>
+                              {answer.userAnswer == answer.correctAnswer &&
+                              1 == answer.correctAnswer ? (
+                                <Typography className={classes.true}>صحیح</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer != "-" &&
+                                1 == answer.correctAnswer ? (
+                                <Typography className={classes.false}>غلط</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer == "-" &&
+                                1 == answer.correctAnswer ? (
+                                <Typography className={classes.undone}>نزده</Typography>
+                              ) : (
+                                ""
+                              )}
+                            </TableCell>
+                            <TableCell key={ix}>
+                              {answer.userAnswer == answer.correctAnswer &&
+                              2 == answer.correctAnswer ? (
+                                <Typography className={classes.true}>صحیح</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer != "-" &&
+                                2 == answer.correctAnswer ? (
+                                <Typography className={classes.false}>غلط</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer == "-" &&
+                                2 == answer.correctAnswer ? (
+                                <Typography className={classes.undone}>نزده</Typography>
+                              ) : (
+                                ""
+                              )}
+                            </TableCell>
+                            <TableCell key={ix}>
+                              {answer.userAnswer == answer.correctAnswer &&
+                              3 == answer.correctAnswer ? (
+                                <Typography className={classes.true}>صحیح</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer != "-" &&
+                                3 == answer.correctAnswer ? (
+                                <Typography className={classes.false}>غلط</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer == "-" &&
+                                3 == answer.correctAnswer ? (
+                                <Typography className={classes.undone}>نزده</Typography>
+                              ) : (
+                                ""
+                              )}
+                            </TableCell>
+                            <TableCell key={ix}>
+                              {answer.userAnswer == answer.correctAnswer &&
+                              4 == answer.correctAnswer ? (
+                                <Typography className={classes.true}>صحیح</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer != "-" &&
+                                4 == answer.correctAnswer ? (
+                                <Typography className={classes.false}>غلط</Typography>
+                              ) : answer.userAnswer != answer.correctAnswer &&
+                                answer.userAnswer == "-" &&
+                                4 == answer.correctAnswer ? (
+                                <Typography className={classes.undone}>نزده</Typography>
+                              ) : (
+                                ""
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </>
+                )}
+              </>
+            )}
+          </TableBody>
         </Table>
       </Box>
     </Box>

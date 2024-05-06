@@ -60,8 +60,6 @@ const MajorRequirements = () => {
     }
   }, [gradeLevelId]);
 
-  console.log(getGradeLevelBasedOnId, "getGradeLevelBasedOnId");
-
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const ModalExam = () => {
     const theme: ThemeOptions = useTheme();

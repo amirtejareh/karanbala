@@ -91,10 +91,6 @@ const Start = () => {
     }
 
     setLoading(true);
-    console.log(
-      examElement?.subjectives[0]?.createExam[0]?.number,
-      "examElement?.subjectives[0]?.createExam[0]?.number",
-    );
 
     const data = {
       user: user.user,
@@ -119,8 +115,6 @@ const Start = () => {
       },
     });
   };
-
-  console.log(examElement, "exam");
 
   const handleNextQuestion = (id) => {
     handleRadioChange(id, radioValue);
