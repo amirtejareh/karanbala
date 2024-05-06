@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 import useGetBooksBasedOnGradeLevels from "../../hooks/book/useGetBooksBasedOnGradeLevels";
 import EducationDetailStore from "../../stores/educationDetailStore";
+import useGetBookBasedOnId from "../../hooks/book/useGetBookBasedOnId";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   educationDetailsBox: {
@@ -43,6 +44,14 @@ const EducationDetails = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
+
+  const getBookBasedOnId = useGetBookBasedOnId(book);
+
+  useEffect(() => {
+    if (book) {
+      getBookBasedOnId.refetch();
+    }
+  }, [book]);
 
   const text = [
     "معرفی کتاب",
@@ -141,23 +150,16 @@ const EducationDetails = () => {
           alignItems={"center"}
         >
           <Box flexBasis={"40%"}>
-            <Typography
-              variant="subtitle1"
-              fontSize="2.5rem"
-              marginTop={"8rem"}
-              marginBottom={"2rem"}
-            >
-              پروفسور سمیعی
-            </Typography>
-            <Typography lineHeight={"3.5rem"}>
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-              گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
-              طراحان گرافیک لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
-              از طراحان گرافیک است.
-            </Typography>
+            <Typography lineHeight={"3.5rem"}>{getBookBasedOnId?.data?.description}</Typography>
           </Box>
           <Box flexBasis={"60%"} textAlign={"right"}>
-            <img src={`${DrSamiee}`} alt="dr samieee" width={"273rem"} height={"271rem"} />
+            <img
+              style={{ borderRadius: "50%" }}
+              src={`${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${getBookBasedOnId?.data?.image}`}
+              alt="dr samieee"
+              width={"273rem"}
+              height={"271rem"}
+            />
           </Box>
         </Box>
       </Box>
