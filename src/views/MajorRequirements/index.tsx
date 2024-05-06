@@ -22,10 +22,11 @@ import Education from "../../assets/images/education.png";
 import Exam from "../../assets/images/exam.png";
 import Communication from "../../assets/images/communication.png";
 import { makeStyles } from "@mui/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ModalKit } from "../../components/kit/Modal";
 import { userStore } from "../../stores";
 import { toast } from "react-toastify";
+import useGetGradeLevelBasedOnId from "../../hooks/grade-level/useGetGradeLevelBasedOnId";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   parentEducationBoxes: {
     "& > div": {
@@ -46,10 +47,20 @@ const MajorRequirements = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const user: any = userStore((state) => state);
-
+  const gradeLevelId = localStorage.getItem("gradeLevel");
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
+
+  const getGradeLevelBasedOnId = useGetGradeLevelBasedOnId(gradeLevelId);
+
+  useEffect(() => {
+    if (gradeLevelId) {
+      getGradeLevelBasedOnId.refetch();
+    }
+  }, [gradeLevelId]);
+
+  console.log(getGradeLevelBasedOnId, "getGradeLevelBasedOnId");
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const ModalExam = () => {
@@ -222,34 +233,22 @@ const MajorRequirements = () => {
             alignItems={"center"}
           >
             <Box flexBasis={"40%"}>
-              <Typography
-                variant="subtitle1"
-                fontSize="2.5rem"
-                marginTop={"8rem"}
-                marginBottom={"2rem"}
-              >
-                پروفسور سمیعی
-              </Typography>
               <Typography lineHeight={"3.5rem"}>
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
-                از طراحان گرافیک لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                چاپ و با استفاده از طراحان گرافیک لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی
-                نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک وم متن ساختگی با تولید سادگی
-                نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک لورم ایپسوم متن ساختگی با تولید
-                سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی
-                با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک گی نامفهوم از صنعت
-                چاپ و با استفاده از طراحان گرافیک وم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
-                با استفاده از طراحان گرافیک لورم ایپسوم متن ساختگی با تولید
+                {getGradeLevelBasedOnId?.data?.description}
               </Typography>
             </Box>
             <Box flexBasis={"60%"} textAlign={"right"}>
-              <img src={`${DrSamiee}`} alt="dr samieee" width={"273rem"} height={"271rem"} />
+              <img
+                style={{ borderRadius: "50%" }}
+                src={`${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${getGradeLevelBasedOnId?.data?.image}`}
+                alt="dr samieee"
+                width={"273rem"}
+                height={"271rem"}
+              />
             </Box>
           </Box>
         </Box>
+
         <Box
           display={"flex"}
           marginTop={"9rem"}
