@@ -235,7 +235,7 @@ const ModalExam = () => {
   );
 };
 
-const Exam = () => {
+const ComprehensiveTest = () => {
   const theme: ThemeOptions = useTheme();
   const classes = useStyles();
 
@@ -703,4 +703,4 @@ const Exam = () => {
   );
 };
 
-export default Exam;
+export default ComprehensiveTest;

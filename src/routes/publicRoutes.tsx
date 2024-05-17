@@ -12,7 +12,7 @@ import PointAndTest from "../views/EducationDetails/pages/PointAndTest";
 import Example from "../views/EducationDetails/pages/Example";
 import Attach from "../views/EducationDetails/pages/Attach";
 import Practice from "../views/EducationDetails/pages/Practice";
-import Exam from "../views/EducationDetails/pages/Exam";
+import ComprehensiveTest from "../views/EducationDetails/pages/ComprehensiveTest";
 import Karanbala from "../views/EducationDetails/pages/Karanbala";
 import ObjectiveTest from "../views/Tests/ObjectiveTest";
 import SubjectiveTest from "../views/Tests/SubjectiveTest";
@@ -91,7 +91,7 @@ const PublicRoutes = () => {
         <Route path={"/education-details/introduction-book/book-review"} element={<BookReview />} />
         <Route path={"/education-details/lessons"} element={<Lessons />} />
         <Route path={"/education-details/questions"} element={<Questions />} />
-        <Route path={"/education-details/exam"} element={<Exam />} />
+        <Route path={"/education-details/comprehensive-test"} element={<ComprehensiveTest />} />
         <Route path={"/education-details/point-and-test"} element={<PointAndTest />} />
         <Route path={"/education-details/example"} element={<Example />} />
         <Route path={"/education-details/attach"} element={<Attach />} />

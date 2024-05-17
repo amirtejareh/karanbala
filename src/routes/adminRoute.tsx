@@ -26,6 +26,7 @@ import Example from "../views/Dashboard/AdminDashboard/pages/educational-managem
 import StandardExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Standard";
 import CreateExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Create";
 import SubjectiveExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Subjective";
+import CreateComprehensiveTest from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/Create";
 
 const AdminDashboardRoute = () => {
   const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -391,6 +392,22 @@ const AdminDashboardRoute = () => {
             }}
           >
             <CreateExam />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
+        path="/comprehensive-tests/create"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <CreateComprehensiveTest />
           </AuthorizedRoute>
         }
       />

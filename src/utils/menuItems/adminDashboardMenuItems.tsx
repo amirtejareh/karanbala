@@ -104,6 +104,15 @@ export const adminDashboardMenuItems = [
           ],
         },
         {
+          title: "مدیریت آموزش - تست‌های جامع",
+          submenu: [
+            {
+              title: "ایجاد تست‌های جامع",
+              to: "/dashboard/admin/comprehensive-tests/create",
+            },
+          ],
+        },
+        {
           title: "مدیریت آزمون",
           submenu: [
             {

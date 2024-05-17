@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 
   menu: {
-    width: "26rem",
+    width: "31rem",
     padding: "2.4rem",
     backgroundColor: theme.palette.primary["600"],
     color: theme.palette.common.white,
@@ -91,7 +91,7 @@ const UserDashboard = () => {
         <Box className={classes.menu}>
           <MenuCreator items={userDashboardMenuItems} />
         </Box>
-        <Box width={"calc(100% - 320px)"}>
+        <Box width={"calc(100% - 350px)"}>
           <UserDashboardRoute />
         </Box>
       </Box>

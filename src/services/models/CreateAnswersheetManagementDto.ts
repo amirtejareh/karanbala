@@ -4,5 +4,5 @@
 /* eslint-disable */
 
 export type CreateAnswersheetManagementDto = {
-    AnswerSheetSourcePdfFile: Blob;
+  AnswerSheetSourcePdfFile: Blob;
 };

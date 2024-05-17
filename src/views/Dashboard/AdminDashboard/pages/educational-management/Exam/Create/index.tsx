@@ -12,11 +12,11 @@ import {
   MenuItem,
   SelectChangeEvent,
   IconButton,
+  Switch,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Switch } from "@mui/base/Switch";
 import useGetGradeLevels from "../../../../../../../hooks/grade-level/useGetGradeLevels";
 import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
