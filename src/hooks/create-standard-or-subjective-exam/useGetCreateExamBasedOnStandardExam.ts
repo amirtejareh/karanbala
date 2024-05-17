@@ -5,10 +5,7 @@ const useGetCreateExamBasedOnStandardExam = (page: number, limit: number) => {
   return useQuery(
     ["Get-All-Create-Exam-Based-On-Standard-Exam"],
     async () => {
-      return await CreateExamService.createExamControllerFindAllCreateExamsBasedOnStandardExam(
-        page,
-        limit,
-      );
+      return await CreateExamService.createExamControllerFindAllCreateExamsBasedOnStandardExam();
     },
     { refetchOnWindowFocus: false, enabled: false },
   );

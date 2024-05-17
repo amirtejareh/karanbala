@@ -20,17 +20,13 @@ import { toast } from "react-toastify";
 import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
 import { PrompModalKit } from "../../../../../../../components/kit/Modal";
-import { bytesToKilobytes } from "../../../../../../../utils/helper";
-import { IVideo } from "../../../../../../../interface/IEntity";
-import { TableKit } from "../../../../../../../components/kit/Table";
-import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
 import useGetGradeLevels from "../../../../../../../hooks/grade-level/useGetGradeLevels";
-import useCreateLearningMaterial from "../../../../../../../hooks/learning-material/useCreateLearningMaterial";
-import useDeleteLearningMaterial from "../../../../../../../hooks/learning-material/useDeleteLearningMaterial";
-import useUpdateLearningMaterial from "../../../../../../../hooks/learning-material/useUpdateLearningMaterial";
-import useGetSectionsBasedOnChapters from "../../../../../../../hooks/section/useGetSectionsBasedOnChapters";
-import useGetSubjectsBasedOnSections from "../../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
-import useGetLearningMaterialBasedOnSubjects from "../../../../../../../hooks/learning-material/useGetLearningMaterialBasedOnSubjects";
+import useCreateComprehensiveTest from "../../../../../../../hooks/comprehensive-test/useCreateComprehensiveTest";
+import useDeleteComprehensiveTest from "../../../../../../../hooks/comprehensive-test/useDeleteComprehensiveTest";
+import useUpdateComprehensiveTest from "../../../../../../../hooks/comprehensive-test/useUpdateComprehensiveTest";
+import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+import useGetComprehensiveTestBasedOnChapters from "../../../../../../../hooks/comprehensive-test/useGetComprehensiveTestBasedOnChapters";
+import { TableKit } from "../../../../../../../components/kit/Table";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -73,8 +69,6 @@ const CreateComprehensiveTest = (props: any) => {
   const selectGradeLevelRef = useRef<any>();
   const selectBookRef = useRef<any>();
   const selectChaptertRef = useRef<any>();
-  const selectSectionRef = useRef<any>();
-  const selectSubjectRef = useRef<any>();
   const imageRef = useRef<any>();
 
   const {
@@ -96,42 +90,19 @@ const CreateComprehensiveTest = (props: any) => {
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
   const [chapterIds, setChapterIds] = React.useState<any>(bookIds);
-  const [sectionIds, setSectionIds] = useState<any>(chapterIds);
-  const [subjectIds, setSubjectIds] = useState<any>();
-
-  const [videoTitle, setVideoTitle] = useState<string>("");
-  const [videoLink, setVideoLink] = useState<string>("");
-  const [videoList, setVideoList] = useState<any[]>([]);
-  const [videoEditItemIndex, setVideoEditItemIndex] = useState<number>(-1);
-  const [selectedFile, setSelectedFile] = useState<any[]>([]);
 
   const getGradeLevels = useGetGradeLevels();
-  const createLearningMaterial = useCreateLearningMaterial();
-  const deleteLearningMaterial = useDeleteLearningMaterial();
-  const updateLearningMaterial = useUpdateLearningMaterial();
+  const createComprehensiveTest = useCreateComprehensiveTest();
+  const deleteComprehensiveTest = useDeleteComprehensiveTest();
+  const updateComprehensiveTest = useUpdateComprehensiveTest();
   const [isPublished, setIsPublished] = useState<boolean>(false);
 
-  const onSelectFile = (e: any) => {
-    if (!imageRef.current.files || imageRef.current.files.length === 0) {
-      setSelectedFile(undefined);
-      return;
-    }
-
-    const newFiles = Array.from(e.target.files);
-    setSelectedFile([...selectedFile, ...newFiles]);
-  };
-
-  const handleRemoveFile = (fileToRemove) => {
-    const updatedFiles = selectedFile.filter((file) => file !== fileToRemove);
-    setSelectedFile(updatedFiles);
-  };
-
-  const handleDeleteSubject = (id: string) => {
-    deleteLearningMaterial.mutate(id, {
+  const handleDeleteComprehensiveTest = (id: string) => {
+    deleteComprehensiveTest.mutate(id, {
       onSuccess: async (result: { message: string; statusCode: number; access_token: string }) => {
         if (result.statusCode == 200) {
           setLoading(false);
-          learningMaterialBasedOnSubjects.refetch();
+          comprehensiveTestBasedOnChapters.refetch();
           toast.success(result.message);
         } else {
           setLoading(false);
@@ -147,16 +118,8 @@ const CreateComprehensiveTest = (props: any) => {
 
   const getChaptersBasedOnBooks = useGetChaptersBasedOnBooks(bookIds?.length == 0 ? null : bookIds);
 
-  const getSectionsBasedOnChapters = useGetSectionsBasedOnChapters(
-    chapterIds?.length == 0 ? null : chapterIds,
-  );
-
-  const subjectsBasedOnSections = useGetSubjectsBasedOnSections(
-    sectionIds?.length == 0 ? null : sectionIds,
-  );
-
-  const learningMaterialBasedOnSubjects = useGetLearningMaterialBasedOnSubjects(
-    subjectIds?.length == 0 ? [null] : [subjectIds],
+  const comprehensiveTestBasedOnChapters = useGetComprehensiveTestBasedOnChapters(
+    chapterIds?.length == 0 ? [null] : [chapterIds],
   );
 
   useEffect(() => {
@@ -170,22 +133,14 @@ const CreateComprehensiveTest = (props: any) => {
   }, [bookIds]);
 
   useEffect(() => {
-    if (chapterIds) getSectionsBasedOnChapters.refetch();
-  }, [chapterIds]);
-
-  useEffect(() => {
-    if (sectionIds) subjectsBasedOnSections.refetch();
-  }, [sectionIds]);
-
-  useEffect(() => {
-    if (!learningMaterialBasedOnSubjects.isLoading) {
-      learningMaterialBasedOnSubjects.refetch();
+    if (!comprehensiveTestBasedOnChapters.isLoading) {
+      comprehensiveTestBasedOnChapters.refetch();
     }
-  }, [learningMaterialBasedOnSubjects.data]);
+  }, [comprehensiveTestBasedOnChapters.data]);
 
   useEffect(() => {
-    if (subjectIds) learningMaterialBasedOnSubjects.refetch();
-  }, [subjectIds]);
+    if (chapterIds) comprehensiveTestBasedOnChapters.refetch();
+  }, [chapterIds]);
 
   useEffect(() => {
     toast.error(errors["books"]?.message?.toString());
@@ -198,45 +153,26 @@ const CreateComprehensiveTest = (props: any) => {
     setGradeLevelIds(event.target.value as any);
     setBookIds(null);
     setChapterIds(null);
-    setSectionIds(null);
-    setSubjectIds([]);
   };
 
   const handleBookChange = (event: SelectChangeEvent) => {
     setBookIds(event.target.value as any);
     setChapterIds(null);
-    setSectionIds(null);
-    setSubjectIds([]);
   };
 
   const handleChapterChange = (event: SelectChangeEvent) => {
     setChapterIds(event.target.value as any);
-    setSectionIds(null);
-    setSubjectIds([]);
   };
 
-  const handleSectionChange = (event: SelectChangeEvent) => {
-    setSectionIds(event.target.value as any);
-    setSubjectIds([]);
-  };
-
-  const handleSubjectChange = (event: SelectChangeEvent) => {
-    setSubjectIds(event.target.value as any);
-  };
-
-  const handleCreateSubject = async (data: any) => {
-    createLearningMaterial.mutate(
-      { ...data, videos: videoList, pdfFiles: selectedFile },
+  const handleCreateComprehensiveTest = async (data: any) => {
+    createComprehensiveTest.mutate(
+      { ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
-          learningMaterialBasedOnSubjects.refetch();
+          comprehensiveTestBasedOnChapters.refetch();
           setGradeLevelIds(null);
           setBookIds(null);
           setChapterIds(null);
-          setSectionIds(null);
-          setSubjectIds([]);
-          setVideoList([]);
-          setSelectedFile([]);
           toast.success(result.message);
         },
         onError: async (e: any) => {
@@ -246,16 +182,15 @@ const CreateComprehensiveTest = (props: any) => {
     );
   };
 
-  const handleUpdateSubject = async (data: any) => {
+  const handleUpdateComprehensiveTest = async (data: any) => {
     setLoading(true);
 
-    updateLearningMaterial.mutate(
+    updateComprehensiveTest.mutate(
       { id: value.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
             setLoading(false);
-            subjectsBasedOnSections.refetch();
             toast.success(result.message);
             setValue({ doUpdate: false, data: "", id: null });
             setGradeLevelIds(null);
@@ -295,7 +230,9 @@ const CreateComprehensiveTest = (props: any) => {
       >
         <form
           onSubmit={
-            value.doUpdate ? handleSubmit(handleUpdateSubject) : handleSubmit(handleCreateSubject)
+            value.doUpdate
+              ? handleSubmit(handleUpdateComprehensiveTest)
+              : handleSubmit(handleCreateComprehensiveTest)
           }
         >
           <FormControl className={classes.formField} fullWidth>
@@ -361,248 +298,11 @@ const CreateComprehensiveTest = (props: any) => {
             انتشار
           </Box>
           <Switch
+            {...register("isPublished")}
             checked={isPublished}
             onClick={() => setIsPublished(!isPublished)}
             id="my-switch"
           />
-
-          {/* video link */}
-          {subjectIds && subjectIds?.length > 0 && (
-            <Box
-              sx={{
-                width: "510px",
-                backgroundColor: "#ededed",
-                padding: "10px",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "12px",
-              }}
-            >
-              {/* inputs */}
-              <Box
-                sx={{
-                  width: "100%",
-                }}
-              >
-                <TextField
-                  label="عنوان ویدیو "
-                  variant="outlined"
-                  className={classes.formField}
-                  value={videoTitle}
-                  onChange={(e) => {
-                    setVideoTitle(e.target.value);
-                  }}
-                />
-                <TextField
-                  label="لینک ویدیو"
-                  variant="outlined"
-                  className={classes.formField}
-                  value={videoLink}
-                  onChange={(e) => {
-                    setVideoLink(e.target.value);
-                  }}
-                />
-              </Box>
-
-              {/* list */}
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                {/* video list */}
-                <Box
-                  sx={{
-                    width: "350px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography textAlign={"center"}>لیست ویدیوها</Typography>
-
-                  <TableKit
-                    secondary
-                    headers={[{ children: `عنوان` }, { children: `لینک` }, { children: `عملیات` }]}
-                    rows={videoList.map((item: IVideo, index: any) => {
-                      return {
-                        id: index,
-                        data: {
-                          title: item?.title ?? "-",
-                          link: item?.link ?? "-",
-                          action: (
-                            <>
-                              <IconButton
-                                onClick={() => {
-                                  setVideoEditItemIndex(index);
-                                  setVideoTitle(item?.title ?? "");
-                                  setVideoLink(item?.link ?? "");
-                                }}
-                              >
-                                <EditLightSvg width={12} height={12} />
-                              </IconButton>
-                              <IconButton>
-                                <PrompModalKit
-                                  description={"آیا از حذف ویدیو مورد نظر مطمئن  هستید؟"}
-                                  onConfirm={() =>
-                                    setVideoList(videoList.filter((item, i) => i !== index))
-                                  }
-                                  approved={"بله"}
-                                  denied={"خیر"}
-                                >
-                                  <DeleteLightSvg width={16} height={16} />
-                                </PrompModalKit>
-                              </IconButton>
-                            </>
-                          ),
-                        },
-                      };
-                    })}
-                  />
-                </Box>
-
-                {/* buttons */}
-                <Box
-                  sx={{
-                    width: "130px",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.formButton}
-                    disabled={loading}
-                    sx={{
-                      width: "130px !important",
-                      height: "40px",
-                      position: "relative",
-                    }}
-                    onClick={() => {
-                      if (videoEditItemIndex === -1) {
-                        const videoItem = {
-                          title: videoTitle,
-                          link: videoLink,
-                        };
-                        setVideoList([...videoList, videoItem]);
-                      } else {
-                        const videoItem = {
-                          title: videoTitle,
-                          link: videoLink,
-                        };
-                        setVideoList(
-                          videoList.map((item, index) =>
-                            videoEditItemIndex === index ? videoItem : item,
-                          ),
-                        );
-                        setVideoEditItemIndex(-1);
-                      }
-                      setVideoTitle("");
-                      setVideoLink("");
-                    }}
-                  >
-                    {videoEditItemIndex === -1 ? "افزودن ویدیو" : "ویرایش ویدیو"}
-                  </Button>
-                  {videoEditItemIndex !== -1 && (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      className={classes.formButton}
-                      disabled={loading}
-                      sx={{
-                        width: "130px !important",
-                        height: "40px",
-                        position: "relative",
-                      }}
-                      onClick={() => {
-                        setVideoEditItemIndex(-1);
-                        setVideoTitle("");
-                        setVideoLink("");
-                      }}
-                    >
-                      {"انصراف"}
-                    </Button>
-                  )}
-                </Box>
-              </Box>
-            </Box>
-          )}
-
-          {/* select pdf files */}
-          {subjectIds && subjectIds?.length > 0 && (
-            <Box
-              sx={{
-                width: "510px",
-                backgroundColor: "#ededed",
-                padding: "10px",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "12px",
-                marginTop: "10px",
-              }}
-            >
-              <input
-                type="file"
-                accept=".pdf"
-                multiple
-                ref={(e) => {
-                  imageRef.current = e;
-                }}
-                hidden
-                onChange={(e) => {
-                  onSelectFile(e);
-                }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.formButton}
-                disabled={loading}
-                onClick={() => imageRef.current.click()}
-              >
-                {"انتخاب فایل PDF"}
-              </Button>
-
-              {/* pdf list */}
-              <Box
-                sx={{
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography textAlign={"center"}>لیست فایل pdf</Typography>
-
-                <TableKit
-                  secondary
-                  headers={[{ children: `عنوان` }, { children: `حجم KB` }, { children: `عملیات` }]}
-                  rows={selectedFile.map((item: any, index: any) => {
-                    return {
-                      id: index,
-                      data: {
-                        title: item.name ?? "-",
-                        link: bytesToKilobytes(item.size) ?? "-",
-                        action: (
-                          <>
-                            <IconButton>
-                              <PrompModalKit
-                                description={"آیا از حذف موضوع مورد نظر مطمئن  هستید؟"}
-                                onConfirm={() => {
-                                  handleRemoveFile(item);
-                                }}
-                                approved={"بله"}
-                                denied={"خیر"}
-                              >
-                                <DeleteLightSvg width={16} height={16} />
-                              </PrompModalKit>
-                            </IconButton>
-                          </>
-                        ),
-                      },
-                    };
-                  })}
-                />
-              </Box>
-            </Box>
-          )}
 
           <Button
             variant="contained"
@@ -617,11 +317,11 @@ const CreateComprehensiveTest = (props: any) => {
       </Box>
       <Box className={classes.fieldOfStudy}>
         <Typography>لیست تست‌های جامع </Typography>
-        {!learningMaterialBasedOnSubjects.isLoading ? (
+        {!comprehensiveTestBasedOnChapters.isLoading ? (
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-            rows={learningMaterialBasedOnSubjects?.data?.map((item: any, index: any) => {
+            rows={comprehensiveTestBasedOnChapters?.data?.map((item: any, index: any) => {
               return {
                 id: item._id,
                 data: {
@@ -635,14 +335,6 @@ const CreateComprehensiveTest = (props: any) => {
                             data: "",
                             id: item._id,
                           });
-
-                          setVideoList(
-                            item.videos.map((item) => {
-                              const newItem: IVideo =
-                                typeof item === "string" ? JSON.parse(item) : item;
-                              return newItem;
-                            }),
-                          );
                         }}
                       >
                         <EditLightSvg width={12} height={12} />
@@ -650,7 +342,7 @@ const CreateComprehensiveTest = (props: any) => {
                       <IconButton>
                         <PrompModalKit
                           description={"آیا از حذف موضوع مورد نظر مطمئن  هستید؟"}
-                          onConfirm={() => handleDeleteSubject(item._id)}
+                          onConfirm={() => handleDeleteComprehensiveTest(item._id)}
                           approved={"بله"}
                           denied={"خیر"}
                         >

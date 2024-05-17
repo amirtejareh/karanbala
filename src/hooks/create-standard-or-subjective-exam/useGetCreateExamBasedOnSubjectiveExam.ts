@@ -5,10 +5,7 @@ const useGetCreateExamBasedOnSubjectiveExam = (page: number, limit: number) => {
   return useQuery(
     ["Get-All-Create-Exam-Based-On-Subjective-Exam"],
     async () => {
-      return await CreateExamService.createExamControllerFindAllCreateExamsBasedOnSubjectiveExam(
-        page,
-        limit,
-      );
+      return await CreateExamService.createExamControllerFindAllCreateExamsBasedOnSubjectiveExam();
     },
     { refetchOnWindowFocus: false, enabled: false },
   );

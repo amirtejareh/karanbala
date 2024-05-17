@@ -94,35 +94,18 @@ id: string,
     }
 
     /**
-     * @param subjectsId 
+     * @param chapterId 
      * @returns any 
      * @throws ApiError
      */
-    public static comprehensiveTestControllerFindComprehensiveTestBasedOnSubject(
-subjectsId: Array<string>,
+    public static comprehensiveTestControllerFindComprehensiveTestBasedOnChapters(
+chapterId: Array<string>,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/comprehensive-test/withSubjects/{subjectsId}',
+            url: '/comprehensive-test/withChapters/{chapterId}',
             path: {
-                'subjectsId': subjectsId,
-            },
-        });
-    }
-
-    /**
-     * @param booksId 
-     * @returns any 
-     * @throws ApiError
-     */
-    public static comprehensiveTestControllerFindComprehensiveTestBasedOnBooks(
-booksId: Array<string>,
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/comprehensive-test/withBooks/{booksId}',
-            path: {
-                'booksId': booksId,
+                'chapterId': chapterId,
             },
         });
     }
