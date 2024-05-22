@@ -104,6 +104,27 @@ export const adminDashboardMenuItems = [
           ],
         },
         {
+          title: "مدیریت آموزش - تست‌های جامع",
+          submenu: [
+            {
+              title: "ایجاد تست‌های جامع",
+              to: "/dashboard/admin/comprehensive-tests/create",
+            },
+            {
+              title: "ایجاد سوال اصلی ",
+              to: "/dashboard/admin/comprehensive-tests/create-primary-question",
+            },
+            {
+              title: "ایجاد سوال مشابه اول ",
+              to: "/dashboard/admin/comprehensive-tests/create-first-question",
+            },
+            {
+              title: "ایجاد سوال مشابه دوم ",
+              to: "/dashboard/admin/comprehensive-tests/create-second-question",
+            },
+          ],
+        },
+        {
           title: "مدیریت آزمون",
           submenu: [
             {

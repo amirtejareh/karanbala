@@ -26,6 +26,10 @@ import Example from "../views/Dashboard/AdminDashboard/pages/educational-managem
 import StandardExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Standard";
 import CreateExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Create";
 import SubjectiveExam from "../views/Dashboard/AdminDashboard/pages/educational-management/Exam/Subjective";
+import CreateComprehensiveTest from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/Create";
+import CreatePrimaryQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreatePrimaryQuestion";
+import CreateFirstQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreateFirstQuestion";
+import CreateSecondQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreateSecondQuestion";
 
 const AdminDashboardRoute = () => {
   const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -391,6 +395,70 @@ const AdminDashboardRoute = () => {
             }}
           >
             <CreateExam />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
+        path="/comprehensive-tests/create"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <CreateComprehensiveTest />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
+        path="/comprehensive-tests/create-primary-question"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <CreatePrimaryQuestion />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
+        path="/comprehensive-tests/create-first-question"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <CreateFirstQuestion />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
+        path="/comprehensive-tests/create-second-question"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <CreateSecondQuestion />
           </AuthorizedRoute>
         }
       />
