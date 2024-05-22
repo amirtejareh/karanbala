@@ -5,6 +5,7 @@
 
 export type { Book } from './models/Book';
 export type { Chapter } from './models/Chapter';
+export type { ComprehensiveTest } from './models/ComprehensiveTest';
 export type { CreateAnswersheetManagementDto } from './models/CreateAnswersheetManagementDto';
 export type { CreateAttachDto } from './models/CreateAttachDto';
 export type { CreateBookDto } from './models/CreateBookDto';
@@ -21,6 +22,7 @@ export type { CreateLearningMaterialDto } from './models/CreateLearningMaterialD
 export { CreateObjectiveTestDto } from './models/CreateObjectiveTestDto';
 export type { CreateObjectiveTestManagementDto } from './models/CreateObjectiveTestManagementDto';
 export type { CreateOnlineGradeReportDto } from './models/CreateOnlineGradeReportDto';
+export type { CreatePrimaryQuestionDto } from './models/CreatePrimaryQuestionDto';
 export { CreateQuestionDto } from './models/CreateQuestionDto';
 export type { CreateReportStandardDto } from './models/CreateReportStandardDto';
 export type { CreateReportSubjectiveDto } from './models/CreateReportSubjectiveDto';
@@ -55,6 +57,7 @@ export type { UpdateLearningMaterialDto } from './models/UpdateLearningMaterialD
 export { UpdateObjectiveTestDto } from './models/UpdateObjectiveTestDto';
 export type { UpdateObjectiveTestManagementDto } from './models/UpdateObjectiveTestManagementDto';
 export type { UpdateOnlineGradeReportDto } from './models/UpdateOnlineGradeReportDto';
+export type { UpdatePrimaryQuestionDto } from './models/UpdatePrimaryQuestionDto';
 export { UpdateQuestionDto } from './models/UpdateQuestionDto';
 export type { UpdateReportStandardDto } from './models/UpdateReportStandardDto';
 export type { UpdateReportSubjectiveDto } from './models/UpdateReportSubjectiveDto';
@@ -85,6 +88,7 @@ export { LearningMaterialService } from './services/LearningMaterialService';
 export { ObjectiveTestService } from './services/ObjectiveTestService';
 export { ObjectiveTestManagementService } from './services/ObjectiveTestManagementService';
 export { OnlineGradeReportService } from './services/OnlineGradeReportService';
+export { PrimaryQuestionService } from './services/PrimaryQuestionService';
 export { QuestionService } from './services/QuestionService';
 export { ReportStandardExamService } from './services/ReportStandardExamService';
 export { ReportSubjectiveExamService } from './services/ReportSubjectiveExamService';
