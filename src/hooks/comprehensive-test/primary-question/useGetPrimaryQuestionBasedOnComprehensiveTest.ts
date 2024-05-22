@@ -4,7 +4,7 @@ import { PrimaryQuestionService } from "../../../services";
 
 const useGetPrimaryQuestionBasedOnComprehensiveTest = (comprehensiveTestId: string[]) => {
   return useQuery(
-    ["Get-All-Learning-Material-Based-On-Season"],
+    ["Get-Primary-Questions-Based-On-Comprehensive-Test"],
     async () => {
       return await PrimaryQuestionService.primaryQuestionControllerFindPrimaryTestsBasedOnComprehensiveTestId(
         comprehensiveTestId,
