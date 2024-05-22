@@ -21,6 +21,12 @@ import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGe
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
 import { PrompModalKit } from "../../../../../../../components/kit/Modal";
 import useGetGradeLevels from "../../../../../../../hooks/grade-level/useGetGradeLevels";
+import useCreateComprehensiveTest from "../../../../../../../hooks/comprehensive-test/useCreateComprehensiveTest";
+import useDeleteComprehensiveTest from "../../../../../../../hooks/comprehensive-test/useDeleteComprehensiveTest";
+import useUpdateComprehensiveTest from "../../../../../../../hooks/comprehensive-test/useUpdateComprehensiveTest";
+import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
+import useGetComprehensiveTestBasedOnChapters from "../../../../../../../hooks/comprehensive-test/useGetComprehensiveTestBasedOnChapters";
+import { TableKit } from "../../../../../../../components/kit/Table";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -178,7 +184,6 @@ const CreateComprehensiveTest = (props: any) => {
 
   const handleUpdateComprehensiveTest = async (data: any) => {
     setLoading(true);
-
     updateComprehensiveTest.mutate(
       { id: value.id, ...data },
       {
@@ -319,7 +324,9 @@ const CreateComprehensiveTest = (props: any) => {
               return {
                 id: item._id,
                 data: {
-                  title: `${index + 1} درس نامه`,
+                  title: `${item.gradeLevel[0].title} - ${item.book[0].title} - ${
+                    item.chapter[0].title
+                  } - ${item.isPublished ? "منتشر شده" : "منتشر نشده"}  `,
                   action: (
                     <>
                       <IconButton

@@ -4,38 +4,12 @@ import {
   Box,
   TextField,
   Button,
-  CircularProgress,
   Typography,
   FormControl,
   InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  IconButton,
-  Switch,
   Autocomplete,
-  AutocompleteRenderInputParams,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import useGetGradeLevels from "../../../../../../../hooks/grade-level/useGetGradeLevels";
-import useGetBooksBasedOnGradeLevels from "../../../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
-import useGetChaptersBasedOnBooks from "../../../../../../../hooks/chapter/useGetChaptersBasedOnBooks";
-import useUpdateCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useUpdateCreateExam";
-import useGetTermOfStudies from "../../../../../../../hooks/term-of-study/useGetTermOfStudies";
-import useCreateCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useCreateCreateExam";
-import { bytesToKilobytes } from "../../../../../../../utils/helper";
-import { PrompModalKit } from "../../../../../../../components/kit/Modal";
-import { TableKit } from "../../../../../../../components/kit/Table";
-import { DeleteLightSvg, EditLightSvg } from "../../../../../../../assets";
-import useGetSubjectsBasedOnSections from "../../../../../../../hooks/subject/useGetSubjectsBasedOnSections";
-import useGetSectionsBasedOnChapters from "../../../../../../../hooks/section/useGetSectionsBasedOnChapters";
-import useGetCreateExamBasedOnStandardExamAndChapters from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExamAndChapters";
-import useDeleteCreateExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useDeleteCreateExam";
-import useGetCreateExamBasedOnStandardExamAndTerms from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnStandardExamAndTerms";
-import useGetCreateExamBasedOnSubjectiveExam from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExam";
-import useGetCreateExamBasedOnSubjectiveExamAndSubjects from "../../../../../../../hooks/create-standard-or-subjective-exam/useGetCreateExamBasedOnSubjectiveExamAndSubjects";
 import RichTextEditor from "../../../../../../../utils/ReactQuill";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -94,7 +68,6 @@ const CreatePrimaryQuestion = () => {
               disablePortal
               id="combo-box-demo"
               options={top100Films}
-              sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField {...params} label="آزمون مورد نظر را انتخاب کنید" />
               )}
