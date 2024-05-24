@@ -94,11 +94,15 @@ id: string,
     }
 
     /**
+     * @param page 
+     * @param limit 
      * @param comprehensiveTestIds 
      * @returns any 
      * @throws ApiError
      */
     public static primaryQuestionControllerFindPrimaryTestsBasedOnComprehensiveTestId(
+page: number,
+limit: number,
 comprehensiveTestIds: Array<string>,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
@@ -106,6 +110,10 @@ comprehensiveTestIds: Array<string>,
             url: '/primary-question/withComprehensiveTest/{comprehensiveTestIds}',
             path: {
                 'comprehensiveTestIds': comprehensiveTestIds,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
             },
         });
     }

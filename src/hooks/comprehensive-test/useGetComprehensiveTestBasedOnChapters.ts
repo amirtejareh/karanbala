@@ -4,7 +4,7 @@ import { ComprehensiveTestService } from "../../services";
 
 const useGetComprehensiveTestBasedOnChapters = (book: string[]) => {
   return useQuery(
-    ["Get-All-Learning-Material-Based-On-Season"],
+    ["Get-All-Comprehensive-Test-Based-On-Chapters"],
     async () => {
       return await ComprehensiveTestService.comprehensiveTestControllerFindComprehensiveTestBasedOnChapters(
         book,

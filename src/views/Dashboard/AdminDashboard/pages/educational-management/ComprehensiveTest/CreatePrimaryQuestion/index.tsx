@@ -78,8 +78,11 @@ const CreatePrimaryQuestion = () => {
   const getComprehensiveTests = useGetComprehensiveTests();
   const [comprehensiveTestOptions, setComprehensiveTestOptions] = useState();
   const [comprehensiveTestId, setComprehensiveTestId] = useState<any>([]);
-  const getPrimaryQuestionBasedOnComprehensiveTest =
-    useGetPrimaryQuestionBasedOnComprehensiveTest(comprehensiveTestId);
+  const getPrimaryQuestionBasedOnComprehensiveTest = useGetPrimaryQuestionBasedOnComprehensiveTest(
+    1,
+    5000,
+    comprehensiveTestId,
+  );
 
   const deletePrimaryQuestion = useDeletePrimaryQuestion();
 

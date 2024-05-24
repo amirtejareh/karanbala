@@ -24,7 +24,7 @@
     </defs>
     <g data-name="vecteezy_the-salesperson-has-successfully-confirmed-the-big-project_ [Converted]" transform="translate(-18.571 -28.328)">
         <rect data-name="Rectangle 2818" width="123.787" height="82.01" rx="10.55" transform="translate(48.479 39.756)" style="fill:#f1f2f5"/>
-        <g data-name="Group 2068" transform="translate(48.479 39.756)" style="clip-path:url(#obxqe7odba)">
+        <g data-name="Group 2068" transform="translate(48.479 39.756)" style="clipPath:url(#obxqe7odba)">
             <path data-name="Rectangle 2819" style="fill:#d2d6e1" d="M0 0h123.787v7.841H0z"/>
         </g>
         <circle data-name="Ellipse 213" cx="24.425" cy="24.425" r="24.425" transform="translate(85.947 58.351)" style="fill:#fff"/>
@@ -46,18 +46,18 @@
         <path data-name="Path 1859" d="M2226.49 348.829s5.309 2.81 2.669 8.288l10.84.811s.486-10.664-13.5-9.1" transform="translate(-1980.214 -310.105)" style="fill:#e4e6ed"/>
         <path data-name="Path 1860" d="M2155.39 352.324a9.8 9.8 0 0 1 .8-.6c.276-.187.553-.367.843-.536a17.31 17.31 0 0 1 1.779-.917 18.5 18.5 0 0 1 1.872-.716 19.748 19.748 0 0 1 1.941-.5 18.156 18.156 0 0 1 1.985-.278l.5-.033c.167-.01.332-.01.5-.015.332-.017.664 0 1 0a16.739 16.739 0 0 1 3.939.639 20.63 20.63 0 0 0-3.943-.451 19.116 19.116 0 0 0-3.938.369 19.98 19.98 0 0 0-3.784 1.159c-.61.254-1.211.533-1.8.846a15.393 15.393 0 0 0-1.694 1.033z" transform="translate(-1916.978 -310.15)" style="fill:#9ea9bd"/>
         <rect data-name="Rectangle 2821" width="46.77" height="10.914" rx="5.457" transform="translate(52.407 194.227)" style="fill:#d2d6e1"/>
-        <g data-name="Group 2069" transform="translate(52.407 194.227)" style="clip-path:url(#1mz1lnsdob)">
+        <g data-name="Group 2069" transform="translate(52.407 194.227)" style="clipPath:url(#1mz1lnsdob)">
             <path data-name="Rectangle 2822" transform="translate(4.323 -1.099)" style="fill:#f1f2f5" d="M0 0h2.363v12.89H0z"/>
             <path data-name="Rectangle 2823" transform="translate(8.72 -1.099)" style="fill:#f1f2f5" d="M0 0h2.363v12.89H0z"/>
             <path data-name="Rectangle 2824" transform="translate(35.179)" style="fill:#f1f2f5" d="M0 0h2.363v12.89H0z"/>
             <path data-name="Rectangle 2825" transform="translate(39.576)" style="fill:#f1f2f5" d="M0 0h2.363v12.89H0z"/>
         </g>
         <rect data-name="Rectangle 2827" width="46.77" height="10.914" rx="5.457" transform="translate(50.839 163.84)" style="fill:#f1f2f5"/>
-        <g data-name="Group 2070" transform="translate(50.839 163.84)" style="clip-path:url(#v8ajpe1inc)">
+        <g data-name="Group 2070" transform="translate(50.839 163.84)" style="clipPath:url(#v8ajpe1inc)">
             <path data-name="Rectangle 2828" transform="translate(-1.722 3.827)" style="fill:#d2d6e1" d="M0 0h49.234v3.259H0z"/>
         </g>
         <rect data-name="Rectangle 2830" width="36.666" height="8.556" rx="4.278" transform="translate(53.371 174.754)" style="fill:#d2d6e1"/>
-        <g data-name="Group 2071" transform="translate(53.371 174.754)" style="clip-path:url(#kmmzzpebjd)">
+        <g data-name="Group 2071" transform="translate(53.371 174.754)" style="clipPath:url(#kmmzzpebjd)">
             <circle data-name="Ellipse 217" cx="2.86" cy="2.86" r="2.86" transform="rotate(-40.9 12.486 -17.175)" style="fill:#f1f2f5"/>
             <path data-name="Path 1861" d="M504.49 1565.12c.352.956.64 1.926.909 2.9s.507 1.955.726 2.94.416 1.974.588 2.97.319 1.991.4 3.011c-.353-.955-.64-1.925-.909-2.9s-.507-1.954-.725-2.939-.416-1.975-.587-2.971-.316-1.997-.402-3.011z" transform="translate(-502.059 -1566.753)" style="fill:#f1f2f5"/>
             <path data-name="Path 1862" d="M531.82 1570c.353.956.64 1.926.909 2.9s.507 1.954.726 2.94.416 1.974.588 2.97.319 1.991.4 3.011c-.353-.956-.64-1.925-.909-2.9s-.507-1.954-.724-2.939-.416-1.976-.587-2.971-.317-1.998-.403-3.011z" transform="translate(-526.366 -1571.093)" style="fill:#f1f2f5"/>
@@ -65,7 +65,7 @@
             <path data-name="Path 1864" d="M765.62 1567.56c.352.955.639 1.925.908 2.9s.507 1.955.726 2.939.417 1.974.588 2.97.319 1.991.4 3.012c-.352-.956-.64-1.926-.908-2.9s-.508-1.954-.726-2.94-.416-1.974-.587-2.97-.315-1.997-.401-3.011z" transform="translate(-734.305 -1568.923)" style="fill:#f1f2f5"/>
         </g>
         <rect data-name="Rectangle 2832" width="46.77" height="10.914" rx="5.457" transform="translate(56.73 183.314)" style="fill:#f1f2f5"/>
-        <g data-name="Group 2072" transform="translate(56.73 183.314)" style="clip-path:url(#v8ajpe1inc)">
+        <g data-name="Group 2072" transform="translate(56.73 183.314)" style="clipPath:url(#v8ajpe1inc)">
             <circle data-name="Ellipse 218" cx="5.388" cy="5.388" r="5.388" transform="translate(5.263 -5.544)" style="fill:#fff"/>
             <circle data-name="Ellipse 219" cx="5.388" cy="5.388" r="5.388" transform="rotate(-17.92 13.77 32.185)" style="fill:#d2d6e1"/>
             <circle data-name="Ellipse 220" cx="3.519" cy="3.519" r="3.519" transform="rotate(-22.03 36.705 -77.073)" style="fill:#fff"/>
@@ -73,7 +73,7 @@
             <circle data-name="Ellipse 222" cx="2.339" cy="2.339" r="2.339" transform="translate(40.879 .768)" style="fill:#d2d6e1"/>
         </g>
         <rect data-name="Rectangle 2834" width="46.77" height="10.914" rx="5.457" transform="translate(53.371 153.027)" style="fill:#f1f2f5"/>
-        <g data-name="Group 2073" transform="translate(53.371 153.027)" style="clip-path:url(#v8ajpe1inc)">
+        <g data-name="Group 2073" transform="translate(53.371 153.027)" style="clipPath:url(#v8ajpe1inc)">
             <path data-name="Path 1865" d="m513.858 1385.766-1.418-1.932 1.316-1.792-1.316-1.793 1.316-1.792-1.316-1.792 1.316-1.792-1.316-1.792 1.418-1.931.378.279-1.213 1.653 1.316 1.792-1.316 1.792 1.316 1.792-1.316 1.792 1.316 1.793-1.316 1.792 1.213 1.654z" transform="translate(-509.129 -1372.512)" style="fill:#d2d6e1"/>
             <path data-name="Path 1866" d="m540.868 1386.565-1.418-1.931 1.316-1.793-1.316-1.792 1.316-1.792-1.316-1.792 1.316-1.792-1.316-1.793 1.418-1.93.378.278-1.213 1.653 1.316 1.793-1.316 1.792 1.316 1.792-1.316 1.792 1.316 1.792-1.316 1.793 1.214 1.654z" transform="translate(-533.152 -1373.223)" style="fill:#d2d6e1"/>
             <path data-name="Path 1867" d="m834.828 1392.125-1.418-1.931 1.316-1.793-1.316-1.792 1.316-1.792-1.316-1.792 1.316-1.792-1.316-1.792 1.418-1.931.378.278-1.213 1.654 1.316 1.792-1.316 1.792 1.316 1.792-1.316 1.792 1.316 1.792-1.316 1.793 1.213 1.654z" transform="translate(-794.596 -1378.168)" style="fill:#d2d6e1"/>
@@ -88,7 +88,7 @@
         <path data-name="Path 1875" d="M999.04 1227.3v69.619h2.345l3.9-69.619z" transform="translate(-888.534 -1091.546)" style="fill:#9ea9bd"/>
         <path data-name="Path 1876" d="M2086.006 1227.3v69.619h-2.346l-3.9-69.619z" transform="translate(-1849.714 -1091.546)" style="fill:#9ea9bd"/>
         <path data-name="Path 1877" d="M2228.148 1637.422h-41.238l1.059-11.018-1.059-7.086v-8.638h41.238l-.356 7.758 1.266 8.412-.909 5.193z" transform="translate(-1945.011 -1432.52)" style="fill:#f1f2f5"/>
-        <g data-name="Group 2074" transform="translate(241.898 178.161)" style="clip-path:url(#z8fs96a1pe)">
+        <g data-name="Group 2074" transform="translate(241.898 178.161)" style="clipPath:url(#z8fs96a1pe)">
             <path data-name="Path 1878" d="M2174.94 1833.82s18.749 1.184 19.342 1.184 22.676-.493 22.676-.493l.584 1.88-43.581.3z" transform="translate(-2175.393 -1809.138)" style="fill:#e4e6ed"/>
         </g>
         <path data-name="Path 1880" d="M2186.91 1688.77h10.533l-10.268 1.776z" transform="translate(-1945.011 -1501.972)" style="fill:#e4e6ed"/>
@@ -99,7 +99,7 @@
         <path data-name="Path 1885" d="M2313.594 1807.114c.425-.023.85-.041 1.273-.057l1.274-.05 2.544-.074 2.544-.045c.425 0 .85-.018 1.274-.018s.849.007 1.273.012l2.544.034 1.273.017 1.274.029 2.544.062c.849.03 1.7.052 2.544.091v.018l-10.191-.074-1.273-.01c-.425 0-.849.007-1.274.009l-2.544.026-5.095.05z" transform="translate(-2057.67 -1607.008)" style="fill:#9ea9bd"/>
         <path data-name="Path 1886" d="M2463.014 1721.6c-.518.034-1.035.05-1.549.075l-1.548.042c-.518.019-1.036.014-1.549.022l-1.554.013-1.549-.013c-.518-.007-1.035 0-1.549-.022l-1.549-.043c-.518-.024-1.035-.04-1.549-.074v-.019l6.212-.009 6.213.009z" transform="translate(-2179.552 -1531.144)" style="fill:#9ea9bd"/>
         <path data-name="Path 1887" d="M2334.263 1510.161h-10.073l1.414-12.5h6.692z" transform="translate(-2067.107 -1332.001)" style="fill:#d2d6e1"/>
-        <g data-name="Group 2075" transform="translate(257.083 165.659)" style="clip-path:url(#fql2po9tif)">
+        <g data-name="Group 2075" transform="translate(257.083 165.659)" style="clipPath:url(#fql2po9tif)">
             <path data-name="Path 1888" d="m2328.481 1498.434-11.111-7.186v-4.468h11.111z" transform="translate(-2318.125 -1487.984)" style="opacity:.53;fill:#9ea9bd"/>
         </g>
         <path data-name="Path 1890" d="M2300.791 1414.146a7.025 7.025 0 0 0-7.471-6.057c.243 1.009.29 2.148.528 3.158a5.228 5.228 0 0 0 1.239 2.4 3.618 3.618 0 0 0 2.4 1.159 6.237 6.237 0 0 0 2.042-.366c.299-.09.966-.21 1.262-.294z" transform="translate(-2039.652 -1252.32)" style="fill:#f8d12f"/>
@@ -113,7 +113,7 @@
         <path data-name="Path 1898" d="M1006.234 1023.651h-24.94l-6.9-18.051h24.94z" transform="translate(-866.611 -894.369)" style="fill:#1d2238"/>
         <path data-name="Path 1899" d="M1071.329 1168.79h-34.519l.782 2.123h46.614v-2.123z" transform="translate(-922.126 -1039.508)" style="fill:#1d2238"/>
         <path data-name="Path 1900" d="m1015.487 1030.037-6.668-17.257H986.01l6.654 17.257z" transform="translate(-876.945 -900.754)" style="fill:#1d2238"/>
-        <g data-name="Group 2076" transform="translate(109.065 112.026)" style="clip-path:url(#np9m9e1kxg)">
+        <g data-name="Group 2076" transform="translate(109.065 112.026)" style="clipPath:url(#np9m9e1kxg)">
             <path data-name="Path 1901" d="M1006.762 975.374c-.085.343-7.522 12.417-7.522 12.417l2.39 5.887 8.242-11.406-7.147 14.3h10.2l5.744-9.552-3.847 9.722h6.55l7.686-11.6-5.62-13.142-8.617 14.444 4.957-13.6z" transform="translate(-997.777 -976.511)" style="opacity:.24;fill:#9ea9bd"/>
         </g>
         <rect data-name="Rectangle 2837" width="3.755" height=".767" rx=".383" transform="translate(117.176 130.006)" style="fill:#9ea9bd"/>

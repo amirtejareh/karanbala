@@ -69,7 +69,7 @@ const useStyles = makeStyles<Theme, IUseStyles>((theme: Theme) => ({
       width: 18,
       height: 18,
       //   backgroundImage:
-      //     "url(\"data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.996' height='7.358' viewBox='0 0 10.996 7.358'%3E%3Cpath d='M16.875,10l-5.547,5.547L8,12.219' transform='translate(-6.939 -8.939)' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E\")",
+      //     "url(\"data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.996' height='7.358' viewBox='0 0 10.996 7.358'%3E%3Cpath d='M16.875,10l-5.547,5.547L8,12.219' transform='translate(-6.939 -8.939)' fill='none' stroke='%23fff' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'/%3E%3C/svg%3E\")",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       [theme.breakpoints.down(600)]: {

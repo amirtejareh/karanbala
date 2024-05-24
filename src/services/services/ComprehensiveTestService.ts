@@ -110,4 +110,21 @@ chapterId: Array<string>,
         });
     }
 
+    /**
+     * @param bookId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static comprehensiveTestControllerFindComprehensiveTestBasedOnBooks(
+bookId: Array<string>,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/comprehensive-test/withBooks/{bookId}',
+            path: {
+                'bookId': bookId,
+            },
+        });
+    }
+
 }
