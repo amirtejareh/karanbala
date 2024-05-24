@@ -238,7 +238,7 @@ const MajorRequirements = () => {
             <Box flexBasis={"60%"} textAlign={"right"}>
               <img
                 style={{ borderRadius: "50%" }}
-                src={`${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${getGradeLevelBasedOnId?.data?.image}`}
+                src={`${process.env.REACT_APP_BASE_URL}/${getGradeLevelBasedOnId?.data?.image}`}
                 alt="dr samieee"
                 width={"273rem"}
                 height={"271rem"}
