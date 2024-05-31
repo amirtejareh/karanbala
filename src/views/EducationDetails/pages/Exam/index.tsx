@@ -27,6 +27,8 @@ import EducationDetailStore from "../../../../stores/educationDetailStore";
 import useGetComprehensiveTestBasedOnBooks from "../../../../hooks/comprehensive-test/useComprehensiveTestBasedOnbooks";
 import { userStore } from "../../../../stores";
 import useGetPrimaryQuestionBasedOnComprehensiveTest from "../../../../hooks/comprehensive-test/primary-question/useGetPrimaryQuestionBasedOnComprehensiveTest";
+import useGetFirstQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId from "../../../../hooks/comprehensive-test/first-question/useGetFirstQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId";
+import useGetSecondQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId from "../../../../hooks/comprehensive-test/second-question/useGetSecondQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   courses: {
@@ -177,77 +179,6 @@ const useStyles = makeStyles((theme: ThemeOptions) => ({
   },
 }));
 
-const ModalExam = () => {
-  const theme: ThemeOptions = useTheme();
-
-  return (
-    <Box>
-      <Box>
-        <Typography>سوال مشابه ۱</Typography>
-        <Box display={"flex"} justifyContent={"center"}>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="جواب ۱"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="جواب ۱" control={<Radio />} label="جواب ۱" />
-              <FormControlLabel value="جواب ۲" control={<Radio />} label="جواب ۲" />
-              <FormControlLabel value="جواب ۳" control={<Radio />} label="جواب ۳" />
-              <FormControlLabel value="جواب ۴" control={<Radio />} label="جواب ۴" />
-            </RadioGroup>
-          </FormControl>
-        </Box>
-      </Box>
-      <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        borderBottom={"1px solid grey"}
-        paddingBottom={"25px"}
-        marginBottom={"3rem"}
-      >
-        <Box>
-          <Typography>پاسخنامه</Typography>
-        </Box>
-        <Box>
-          <Typography>
-            <ArrowLeftIcon />
-          </Typography>
-        </Box>
-      </Box>
-      <Box>
-        <Typography>سوال مشابه ۲</Typography>
-        <Box display={"flex"} justifyContent={"center"}>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="جواب ۲"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="جواب ۱" control={<Radio />} label="جواب ۱" />
-              <FormControlLabel value="جواب ۲" control={<Radio />} label="جواب ۲" />
-              <FormControlLabel value="جواب ۳" control={<Radio />} label="جواب ۳" />
-              <FormControlLabel value="جواب ۴" control={<Radio />} label="جواب ۴" />
-            </RadioGroup>
-          </FormControl>
-        </Box>
-      </Box>
-      <Box display={"flex"} justifyContent={"space-between"}>
-        <Box>
-          <Typography>پاسخنامه</Typography>
-        </Box>
-        <Box>
-          <Typography>
-            <ArrowLeftIcon />
-          </Typography>
-        </Box>
-      </Box>
-    </Box>
-  );
-};
-
 const Exam = () => {
   const theme: ThemeOptions = useTheme();
   const classes = useStyles();
@@ -258,19 +189,20 @@ const Exam = () => {
   const [pageSize, setPageSize] = useState<number>(0);
   const [chapterVisible, setChapterVisible] = useState<any>({});
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [primaryQuestionId, setPrimaryQuestionId] = useState();
 
   const getComprehensiveTestBasedOnBooks = useGetComprehensiveTestBasedOnBooks([book]);
   const [courses, setCourses] = useState<any>();
   const [radioValue, setRadioValue] = React.useState<any>("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [comprehensiveTestId, setComprehensiveTestId] = useState();
+
   const getPrimaryQuestionsBasedOnComprehensiveTestId =
     useGetPrimaryQuestionBasedOnComprehensiveTest(
       page === 0 ? 1 : page,
       limit,
       comprehensiveTestId,
     );
-  console.log(getPrimaryQuestionsBasedOnComprehensiveTestId);
 
   const handleRadioChange = (id, value) => {
     if (value === radioValue) {
@@ -289,12 +221,6 @@ const Exam = () => {
       setSelectedOptions([...selectedOptions, { id, value: optionValue }]);
     }
   };
-
-  useEffect(() => {
-    if (comprehensiveTestId) {
-      getPrimaryQuestionsBasedOnComprehensiveTestId.refetch();
-    }
-  }, [comprehensiveTestId]);
 
   useEffect(() => {
     if (getComprehensiveTestBasedOnBooks?.data) {
@@ -317,6 +243,15 @@ const Exam = () => {
     }
   }, [getComprehensiveTestBasedOnBooks?.data]);
 
+  const getFirstQuestion = useGetFirstQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId(
+    primaryQuestionId,
+    comprehensiveTestId,
+  );
+  const getSecondQuestion = useGetSecondQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId(
+    primaryQuestionId,
+    comprehensiveTestId,
+  );
+
   const chapters = courses?.filter((element) => element.chapters != null)[0];
 
   useEffect(() => {
@@ -335,20 +270,177 @@ const Exam = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (comprehensiveTestId) {
+      getPrimaryQuestionsBasedOnComprehensiveTestId.refetch();
+    }
+  }, [comprehensiveTestId, page]);
+
+  useEffect(() => {
+    if (
+      getPrimaryQuestionsBasedOnComprehensiveTestId?.data &&
+      comprehensiveTestId &&
+      primaryQuestionId
+    ) {
+      getFirstQuestion.refetch();
+      getSecondQuestion.refetch();
+    }
+  }, [comprehensiveTestId, getPrimaryQuestionsBasedOnComprehensiveTestId?.data, primaryQuestionId]);
+
+  useEffect(() => {
+    if (getPrimaryQuestionsBasedOnComprehensiveTestId?.data) {
+      setTotalPage(getPrimaryQuestionsBasedOnComprehensiveTestId?.data?.totalPages);
+      setPrimaryQuestionId(
+        getPrimaryQuestionsBasedOnComprehensiveTestId?.data?.primaryTests?.[0]?._id,
+      );
+    }
+  }, [getPrimaryQuestionsBasedOnComprehensiveTestId]);
+
   const navigate = useNavigate();
+
+  const ModalExam = ({ first, second }) => {
+    const theme: ThemeOptions = useTheme();
+
+    const [showFirstGuideline, setShowFirstGuideline] = useState(false);
+    const [showSecondGuideline, setShowSecondGuideline] = useState(false);
+
+    return (
+      <Box>
+        <Box>
+          <Box
+            component={"span"}
+            dangerouslySetInnerHTML={{
+              __html: first[0]?.question,
+            }}
+          ></Box>
+          <Box display={"flex"} justifyContent={"center"}>
+            <RadioGroup sx={{ display: "flex", flexDirection: "row" }} name="radio-buttons-group">
+              {first?.[0]?.options?.map((options) => {
+                return Object.values(options).map((option: any, index: any) => {
+                  return (
+                    <Box key={index}>
+                      <FormControlLabel
+                        value={index + 1}
+                        control={<Radio />}
+                        label={
+                          <Box
+                            dangerouslySetInnerHTML={{
+                              __html: option,
+                            }}
+                          ></Box>
+                        }
+                      />
+                    </Box>
+                  );
+                });
+              })}
+            </RadioGroup>
+          </Box>
+        </Box>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          borderBottom={"1px solid grey"}
+          paddingBottom={"25px"}
+          marginBottom={"3rem"}
+          sx={{ cursor: "pointer" }}
+          onClick={(e) => setShowFirstGuideline(!showFirstGuideline)}
+        >
+          <Box>
+            <Typography>پاسخنامه</Typography>
+            {showFirstGuideline && (
+              <Box
+                component={"span"}
+                dangerouslySetInnerHTML={{
+                  __html: first[0]?.answersheet,
+                }}
+              ></Box>
+            )}
+          </Box>
+          <Box>
+            <Typography>
+              <ArrowLeftIcon />
+            </Typography>
+          </Box>
+        </Box>
+        <Box>
+          <Box
+            component={"span"}
+            dangerouslySetInnerHTML={{
+              __html: second[0]?.question,
+            }}
+          ></Box>{" "}
+          <Box display={"flex"} justifyContent={"center"}>
+            <RadioGroup sx={{ display: "flex", flexDirection: "row" }} name="radio-buttons-group">
+              {second?.[0]?.options?.map((options) => {
+                return Object.values(options).map((option: any, index: any) => {
+                  return (
+                    <Box key={index}>
+                      <FormControlLabel
+                        value={index + 1}
+                        control={<Radio />}
+                        label={
+                          <Box
+                            dangerouslySetInnerHTML={{
+                              __html: option,
+                            }}
+                          ></Box>
+                        }
+                      />
+                    </Box>
+                  );
+                });
+              })}
+            </RadioGroup>
+          </Box>
+        </Box>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          borderBottom={"1px solid grey"}
+          paddingBottom={"25px"}
+          marginBottom={"3rem"}
+          sx={{ cursor: "pointer" }}
+          onClick={(e) => setShowSecondGuideline(!showSecondGuideline)}
+        >
+          <Box>
+            <Typography>پاسخنامه</Typography>
+            {showSecondGuideline && (
+              <Box
+                component={"span"}
+                dangerouslySetInnerHTML={{
+                  __html: second[0]?.answersheet,
+                }}
+              ></Box>
+            )}{" "}
+          </Box>
+          <Box>
+            <Typography>
+              <ArrowLeftIcon />
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <>
-      {" "}
-      <ModalKit
-        onClose={() => {
-          setModalOpen(false);
-        }}
-        modalState={modalOpen}
-        title={<>سوال مشابه</>}
-        maxWidth={"sm"}
-      >
-        {({ handleApproved }: any) => <ModalExam />}
-      </ModalKit>
+      {getFirstQuestion.data && getSecondQuestion.data && (
+        <ModalKit
+          onClose={() => {
+            setModalOpen(false);
+          }}
+          modalState={modalOpen}
+          title={<>سوال مشابه</>}
+          maxWidth={"sm"}
+        >
+          {({ handleApproved }: any) => (
+            <ModalExam first={getFirstQuestion.data} second={getSecondQuestion.data} />
+          )}
+        </ModalKit>
+      )}
+
       <Box
         margin={"0.75rem 3.25rem 0 3.25rem"}
         paddingBottom={"7.5rem"}
@@ -524,8 +616,16 @@ const Exam = () => {
                 </Accordion>
               </Box>
               <Box display={"flex"} justifyContent={"center"} gap={"1rem"} flexWrap={"wrap"}>
-                <ButtonKit size="large" variant="contained">
-                  <Typography></Typography>سوال بعدی
+                <ButtonKit
+                  onClick={() => {
+                    if (page < totalPage) {
+                      setPage(page + 1);
+                    }
+                  }}
+                  size="large"
+                  variant="contained"
+                >
+                  <Typography>سوال بعدی</Typography>
                 </ButtonKit>
                 <ButtonKit
                   onClick={() => {
@@ -536,7 +636,15 @@ const Exam = () => {
                 >
                   <Typography></Typography>سوال مشابه
                 </ButtonKit>
-                <ButtonKit size="large" variant="contained">
+                <ButtonKit
+                  onClick={() => {
+                    if (page > 1) {
+                      setPage(page - 1);
+                    }
+                  }}
+                  size="large"
+                  variant="contained"
+                >
                   <Typography></Typography>سوال قبلی
                 </ButtonKit>
               </Box>
