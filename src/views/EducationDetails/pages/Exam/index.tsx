@@ -277,24 +277,21 @@ const Exam = () => {
   }, [comprehensiveTestId, page]);
 
   useEffect(() => {
-    if (
-      getPrimaryQuestionsBasedOnComprehensiveTestId?.data &&
-      comprehensiveTestId &&
-      primaryQuestionId
-    ) {
-      getFirstQuestion.refetch();
-      getSecondQuestion.refetch();
-    }
-  }, [comprehensiveTestId, getPrimaryQuestionsBasedOnComprehensiveTestId?.data, primaryQuestionId]);
-
-  useEffect(() => {
     if (getPrimaryQuestionsBasedOnComprehensiveTestId?.data) {
       setTotalPage(getPrimaryQuestionsBasedOnComprehensiveTestId?.data?.totalPages);
+
       setPrimaryQuestionId(
         getPrimaryQuestionsBasedOnComprehensiveTestId?.data?.primaryTests?.[0]?._id,
       );
     }
   }, [getPrimaryQuestionsBasedOnComprehensiveTestId]);
+
+  useEffect(() => {
+    if (primaryQuestionId) {
+      getFirstQuestion.refetch();
+      getSecondQuestion.refetch();
+    }
+  }, [primaryQuestionId]);
 
   const navigate = useNavigate();
 
@@ -426,20 +423,18 @@ const Exam = () => {
 
   return (
     <>
-      {getFirstQuestion.data && getSecondQuestion.data && (
-        <ModalKit
-          onClose={() => {
-            setModalOpen(false);
-          }}
-          modalState={modalOpen}
-          title={<>سوال مشابه</>}
-          maxWidth={"sm"}
-        >
-          {({ handleApproved }: any) => (
-            <ModalExam first={getFirstQuestion.data} second={getSecondQuestion.data} />
-          )}
-        </ModalKit>
-      )}
+      <ModalKit
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        modalState={modalOpen}
+        title={<>سوال مشابه</>}
+        maxWidth={"sm"}
+      >
+        {({ handleApproved }: any) => (
+          <ModalExam first={getFirstQuestion.data} second={getSecondQuestion.data} />
+        )}
+      </ModalKit>
 
       <Box
         margin={"0.75rem 3.25rem 0 3.25rem"}
