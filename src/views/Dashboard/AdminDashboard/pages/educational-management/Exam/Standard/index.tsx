@@ -96,13 +96,13 @@ const StandardExam = () => {
   const handleCreateExamChange = (event, value) => {
     const selectedValue = value;
 
-    if (selectedValue == null || selectedValue.value === "") {
+    if (selectedValue == null || selectedValue?.value === "") {
       setCreateExamIds(null);
       return;
     }
 
     const selectSpecificExam = getCreateExam?.data?.find(
-      (element) => element._id === selectedValue.value,
+      (element) => element._id === selectedValue?.value,
     );
 
     if (selectSpecificExam.examType === "multipleChoiceTest") {
@@ -110,7 +110,7 @@ const StandardExam = () => {
     } else {
       setMultipleChoiceTest(false);
     }
-    setCreateExamIds(selectedValue.value);
+    setCreateExamIds(selectedValue?.value);
   };
 
   const {
@@ -257,7 +257,7 @@ const StandardExam = () => {
     data.question = quillEditorValue;
     data.isMultipleChoiceTest = isMultipleChoiceTest;
     updateStandardExam.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -318,7 +318,7 @@ const StandardExam = () => {
       >
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateStandardExam)
               : handleSubmit(handleCreateStandardExam)
           }
@@ -424,7 +424,7 @@ const StandardExam = () => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

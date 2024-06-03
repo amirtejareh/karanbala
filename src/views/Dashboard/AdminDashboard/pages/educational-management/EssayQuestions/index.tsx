@@ -243,7 +243,7 @@ const EssayQuestions = () => {
     setLoading(true);
 
     updateEssayQuestion.mutate(
-      { id: value.id, videos: videoList, pdfFiles: selectedFile, ...data },
+      { id: value?.id, videos: videoList, pdfFiles: selectedFile, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -288,7 +288,7 @@ const EssayQuestions = () => {
       >
         <form
           onSubmit={
-            value.doUpdate ? handleSubmit(handleUpdateSubject) : handleSubmit(handleCreateSubject)
+            value?.doUpdate ? handleSubmit(handleUpdateSubject) : handleSubmit(handleCreateSubject)
           }
         >
           <FormControl className={classes.formField} fullWidth>
@@ -627,7 +627,7 @@ const EssayQuestions = () => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

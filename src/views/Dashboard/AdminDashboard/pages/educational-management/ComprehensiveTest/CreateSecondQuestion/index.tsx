@@ -160,8 +160,6 @@ const CreateSecondQuestion = () => {
     }
   }, [getSecondQuestionBasedOnComprehensiveTest.data]);
 
-  console.log(getSecondQuestionBasedOnComprehensiveTest);
-
   useEffect(() => {
     if (getComprehensiveTests.data) {
       setComprehensiveTestOptions(
@@ -177,12 +175,12 @@ const CreateSecondQuestion = () => {
 
   const handleCreateComprehensiveTestChange = (event, value) => {
     const selectedValue = value;
-    setComprehensiveTestId(selectedValue.value);
+    setComprehensiveTestId(selectedValue?.value);
   };
 
   const handleCreatePrimaryQuestionChange = (event, value) => {
     const selectedValue = value;
-    setPrimaryQuestionId(selectedValue.value);
+    setPrimaryQuestionId(selectedValue?.value);
   };
 
   const createSecondQuestion = useCreateSecondQuestion();
@@ -262,7 +260,7 @@ const CreateSecondQuestion = () => {
     data.answersheet = answersheetEditorValue;
     data.questionNumber = questionNumber;
     updateSecondQuestion.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -304,7 +302,7 @@ const CreateSecondQuestion = () => {
       >
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateSecondQuestion)
               : handleSubmit(handleCreateSecondQuestion)
           }
@@ -385,7 +383,7 @@ const CreateSecondQuestion = () => {
           </FormControl>
 
           <Button variant="contained" color="primary" className={classes.formButton} type="submit">
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

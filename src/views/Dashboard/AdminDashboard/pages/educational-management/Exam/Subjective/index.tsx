@@ -289,7 +289,7 @@ const SubjectiveExam = () => {
     data.isMultipleChoiceTest = isMultipleChoiceTest;
 
     updateSubjectiveExam.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -359,7 +359,7 @@ const SubjectiveExam = () => {
       >
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateSubjectiveExam)
               : handleSubmit(handleCreateSubjectiveExam)
           }
@@ -463,7 +463,7 @@ const SubjectiveExam = () => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

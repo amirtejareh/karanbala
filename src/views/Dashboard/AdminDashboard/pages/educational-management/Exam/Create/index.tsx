@@ -285,7 +285,7 @@ const CreateExam = () => {
     updateCreateExam.mutate(
       {
         ...data,
-        id: value.id,
+        id: value?.id,
         AnswerSheetSourcePdfFile: selectedFile,
         chapter: chapterIds,
         term: termIds,
@@ -409,7 +409,7 @@ const CreateExam = () => {
       >
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateCreateExam)
               : handleSubmit(handleCreateCreateExam)
           }
@@ -718,7 +718,7 @@ const CreateExam = () => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

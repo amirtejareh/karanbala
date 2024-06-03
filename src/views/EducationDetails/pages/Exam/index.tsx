@@ -458,7 +458,6 @@ const Exam = () => {
           {chapters?.chapters?.map((value, index) => {
             if (index === 0) {
               if (comprehensiveTestId == undefined) {
-                console.log(comprehensiveTestId);
               }
             }
             return (
@@ -483,7 +482,7 @@ const Exam = () => {
                 }}
               >
                 <Typography>
-                  فصل {Num2persian(index + 1)}: {value.chapterTitle}
+                  فصل {Num2persian(index + 1)}: {value?.chapterTitle}
                 </Typography>
                 <Typography className={classes.arrowLeftParent}>
                   <IconButton>

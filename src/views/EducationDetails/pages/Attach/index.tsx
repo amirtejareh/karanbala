@@ -2,14 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import {
-  ArrowDownSvg,
-  ArrowLeftSvg,
-  ArrowRightSvg,
-  KaranbalaLogoTextSvg,
-  ShowSvg,
-  TextBookSvg,
-} from "../../../../assets";
+import { ArrowDownSvg, KaranbalaLogoTextSvg, ShowSvg, TextBookSvg } from "../../../../assets";
 import { Player, BigPlayButton } from "video-react";
 
 import { makeStyles } from "@mui/styles";

@@ -204,65 +204,81 @@ const Lessons = () => {
 
           if (existingChapter) {
             mapItem.subject.forEach((subMap) => {
-              const existingSection = existingChapter.sections.find(
-                (section) => section.title === subMap.title,
-              );
+              const existingSection = existingChapter.sections.find((section) => {
+                return section.id === subMap.sections[0]._id;
+              });
 
               if (existingSection) {
-                existingSection.attachment.push(
-                  ...subMap.attachment?.map((file) => ({
-                    title: file.title,
-                    address: file.address,
-                  })),
-                );
+                existingSection.subjects.push({
+                  title: subMap.title,
+                  karanbala: "#",
+                  lessonPlan: "#",
+                  pointAndTest: "#",
+                  questions: "#",
+                  quiz: "#",
+                  videos:
+                    mapItem.videos?.map((video) => ({
+                      link: JSON.parse(video).link ?? "#",
+                      title: JSON.parse(video).title,
+                    })) ?? "#",
+                  pdfFiles:
+                    mapItem.pdfFiles?.map((pdf) => ({
+                      link: pdf?.link ?? "#",
+                      title: pdf?.title,
+                    })) ?? "#",
+                });
               } else {
                 existingChapter.sections.push({
+                  id: subMap?.sections[0]?._id,
+                  title: subMap?.sections[0]?.title,
                   subjects: [
                     {
                       title: subMap.title,
-
                       karanbala: "#",
                       lessonPlan: "#",
                       pointAndTest: "#",
                       questions: "#",
                       quiz: "#",
-                      videos: mapItem.videos?.map((video) => ({
-                        link: JSON.parse(video).link ?? "#",
-                        title: JSON.parse(video).title,
-                      })),
-                      pdfFiles: mapItem.pdfFiles?.map((pdf) => ({
-                        link: pdf?.link ?? "#",
-                        title: pdf?.title,
-                      })),
+                      videos:
+                        mapItem.videos?.map((video) => ({
+                          link: JSON.parse(video).link ?? "#",
+                          title: JSON.parse(video).title,
+                        })) ?? "#",
+                      pdfFiles:
+                        mapItem.pdfFiles?.map((pdf) => ({
+                          link: pdf?.link ?? "#",
+                          title: pdf?.title,
+                        })) ?? "#",
                     },
                   ],
                 });
               }
             });
           } else {
-            const sections = mapItem.subject?.map((subMap) => {
-              return {
-                subjects: [
-                  {
-                    title: subMap.title,
-                    karanbala: "#",
-                    lessonPlan: "#",
-                    pointAndTest: "#",
-                    questions: "#",
-                    quiz: "#",
-                    videos:
-                      mapItem.videos?.map((video) => ({
-                        link: JSON.parse(video).link ?? "#",
-                        title: JSON.parse(video).title,
-                      })) ?? "#",
-                    pdfFiles: mapItem.pdfFiles?.map((pdf) => ({
+            const sections = mapItem.subject?.map((subMap) => ({
+              id: subMap?.sections[0]?._id,
+              title: subMap?.sections[0]?.title,
+              subjects: [
+                {
+                  title: subMap.title,
+                  karanbala: "#",
+                  lessonPlan: "#",
+                  pointAndTest: "#",
+                  questions: "#",
+                  quiz: "#",
+                  videos:
+                    mapItem.videos?.map((video) => ({
+                      link: JSON.parse(video).link ?? "#",
+                      title: JSON.parse(video).title,
+                    })) ?? "#",
+                  pdfFiles:
+                    mapItem.pdfFiles?.map((pdf) => ({
                       link: pdf?.link ?? "#",
                       title: pdf?.title,
-                    })),
-                  },
-                ],
-              };
-            });
+                    })) ?? "#",
+                },
+              ],
+            }));
             chapters.push({
               chapterTitle,
               sections,
@@ -401,7 +417,7 @@ const Lessons = () => {
                 }
               >
                 <Typography>
-                  فصل {Num2persian(index + 1)}: {value.chapterTitle}
+                  فصل {Num2persian(index + 1)}: {value?.chapterTitle}
                 </Typography>
                 <Typography className={classes.arrowLeftParent}>
                   <IconButton
@@ -443,7 +459,7 @@ const Lessons = () => {
                 >
                   <Box className={classes.episodeBoxes}>
                     <Box className={classes.episodeTitle}>
-                      <Typography>درس {Num2persian(index + 1)}</Typography>
+                      <Typography>{value?.title}</Typography>
                       <Typography>
                         <IconButton
                           onClick={(e: any) => {
@@ -517,7 +533,7 @@ const Lessons = () => {
                               ] && (
                                 <Box className={classes.content}>
                                   <Box className={classes.attachments}>
-                                    {value.pdfFiles?.map((element: any, index: any) => (
+                                    {value?.pdfFiles?.map((element: any, index: any) => (
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
                                         <IconButtonKit
                                           onClick={() => {

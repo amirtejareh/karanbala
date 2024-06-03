@@ -244,7 +244,7 @@ const Practice = () => {
     setLoading(true);
 
     updateSampleExampleQestions.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -289,7 +289,7 @@ const Practice = () => {
       >
         <form
           onSubmit={
-            value.doUpdate ? handleSubmit(handleUpdateSubject) : handleSubmit(handleCreateSubject)
+            value?.doUpdate ? handleSubmit(handleUpdateSubject) : handleSubmit(handleCreateSubject)
           }
         >
           <FormControl className={classes.formField} fullWidth>
@@ -632,7 +632,7 @@ const Practice = () => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

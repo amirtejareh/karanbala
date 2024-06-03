@@ -260,7 +260,7 @@ const Book = (props: any) => {
             label="توضیحات  کتاب"
             variant="outlined"
             className={classes.formField}
-            value={descriptionValue.data}
+            value={descriptionValue?.data}
             {...register("description", {
               required: "لطفا توضیحات کتاب را وارد کنید",
             })}

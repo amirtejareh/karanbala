@@ -185,7 +185,7 @@ const CreateComprehensiveTest = (props: any) => {
   const handleUpdateComprehensiveTest = async (data: any) => {
     setLoading(true);
     updateComprehensiveTest.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -229,7 +229,7 @@ const CreateComprehensiveTest = (props: any) => {
       >
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateComprehensiveTest)
               : handleSubmit(handleCreateComprehensiveTest)
           }
@@ -310,7 +310,7 @@ const CreateComprehensiveTest = (props: any) => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

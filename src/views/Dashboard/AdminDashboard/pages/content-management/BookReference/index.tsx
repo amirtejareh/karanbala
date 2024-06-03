@@ -187,7 +187,7 @@ const BookReference = (props: any) => {
     setLoading(true);
 
     updateBookReference.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -228,7 +228,7 @@ const BookReference = (props: any) => {
       <Box className={classes.container}>
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateBookReference)
               : handleSubmit(handleCreateBookReference)
           }
@@ -238,13 +238,13 @@ const BookReference = (props: any) => {
             variant="outlined"
             className={classes.formField}
             inputRef={inputBookReferenceRef}
-            value={value.data}
+            value={value?.data}
             {...register("title", {
               required: "لطفا نام کتاب را وارد کنید",
             })}
             onChange={(e) => {
-              if (value.doUpdate) {
-                setValue({ doUpdate: true, data: e.target.value, id: value.id });
+              if (value?.doUpdate) {
+                setValue({ doUpdate: true, data: e.target.value, id: value?.id });
               } else {
                 setValue({ doUpdate: false, data: e.target.value, id: null });
               }
@@ -327,7 +327,7 @@ const BookReference = (props: any) => {
             disabled={loading}
             type="submit"
           >
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>

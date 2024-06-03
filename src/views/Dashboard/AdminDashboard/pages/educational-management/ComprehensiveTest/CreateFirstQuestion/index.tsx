@@ -160,8 +160,6 @@ const CreateFirstQuestion = () => {
     }
   }, [getFirstQuestionBasedOnComprehensiveTest.data]);
 
-  console.log(getFirstQuestionBasedOnComprehensiveTest);
-
   useEffect(() => {
     if (getComprehensiveTests.data) {
       setComprehensiveTestOptions(
@@ -177,12 +175,12 @@ const CreateFirstQuestion = () => {
 
   const handleCreateComprehensiveTestChange = (event, value) => {
     const selectedValue = value;
-    setComprehensiveTestId(selectedValue.value);
+    setComprehensiveTestId(selectedValue?.value);
   };
 
   const handleCreatePrimaryQuestionChange = (event, value) => {
     const selectedValue = value;
-    setPrimaryQuestionId(selectedValue.value);
+    setPrimaryQuestionId(selectedValue?.value);
   };
 
   const createFirstQuestion = useCreateFirstQuestion();
@@ -262,7 +260,7 @@ const CreateFirstQuestion = () => {
     data.answersheet = answersheetEditorValue;
     data.questionNumber = questionNumber;
     updateFirstQuestion.mutate(
-      { id: value.id, ...data },
+      { id: value?.id, ...data },
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode == 200) {
@@ -304,7 +302,7 @@ const CreateFirstQuestion = () => {
       >
         <form
           onSubmit={
-            value.doUpdate
+            value?.doUpdate
               ? handleSubmit(handleUpdateFirstQuestion)
               : handleSubmit(handleCreateFirstQuestion)
           }
@@ -385,7 +383,7 @@ const CreateFirstQuestion = () => {
           </FormControl>
 
           <Button variant="contained" color="primary" className={classes.formButton} type="submit">
-            {loading ? <CircularProgress size={24} /> : value.doUpdate ? "ویرایش" : "ذخیره"}
+            {loading ? <CircularProgress size={24} /> : value?.doUpdate ? "ویرایش" : "ذخیره"}
           </Button>
         </form>
       </Box>
