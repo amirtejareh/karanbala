@@ -97,6 +97,7 @@
     "@types/react-dom": "*",
     "@types/react-helmet": "*",
     "@types/react-router-dom": "*",
+    "ajv": "^7.2.4",
     "prettier": "*"
   }
 }
