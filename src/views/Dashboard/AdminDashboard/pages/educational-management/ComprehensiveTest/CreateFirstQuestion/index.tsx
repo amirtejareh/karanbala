@@ -78,7 +78,7 @@ const CreateFirstQuestion = () => {
   const [loading, setLoading] = useState(false);
   const getComprehensiveTests = useGetComprehensiveTests();
   const [comprehensiveTestOptions, setComprehensiveTestOptions] = useState();
-  const [primaryQuestionOptions, setPrimaryQuestionOptions] = useState();
+  const [primaryQuestionOptions, setPrimaryQuestionOptions] = useState([]);
   const [comprehensiveTestId, setComprehensiveTestId] = useState<any>([]);
   const [primaryQuestionId, setPrimaryQuestionId] = useState<any>([]);
   const getFirstQuestionBasedOnComprehensiveTest = useGetPrimaryQuestionBasedOnComprehensiveTest(
@@ -148,17 +148,17 @@ const CreateFirstQuestion = () => {
   }, [comprehensiveTestId]);
 
   useEffect(() => {
-    if (getFirstQuestionBasedOnComprehensiveTest.data) {
+    if (getFirstQuestionBasedOnComprehensiveTest?.data) {
       setPrimaryQuestionOptions(
-        getFirstQuestionBasedOnComprehensiveTest.data.map((primaryQuestion) => {
+        getFirstQuestionBasedOnComprehensiveTest?.data?.primaryTests?.map((primaryQuestion) => {
           return {
             label: ` ${primaryQuestion.questionNumber} `,
             value: primaryQuestion._id,
           };
-        }),
+        }) ?? [],
       );
     }
-  }, [getFirstQuestionBasedOnComprehensiveTest.data]);
+  }, [getFirstQuestionBasedOnComprehensiveTest?.data]);
 
   useEffect(() => {
     if (getComprehensiveTests.data) {

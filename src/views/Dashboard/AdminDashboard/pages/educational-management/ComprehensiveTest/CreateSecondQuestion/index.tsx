@@ -77,8 +77,8 @@ const CreateSecondQuestion = () => {
   const [questionNumber, setQuestionNumber] = useState<number>();
   const [loading, setLoading] = useState(false);
   const getComprehensiveTests = useGetComprehensiveTests();
-  const [comprehensiveTestOptions, setComprehensiveTestOptions] = useState();
-  const [primaryQuestionOptions, setPrimaryQuestionOptions] = useState();
+  const [comprehensiveTestOptions, setComprehensiveTestOptions] = useState([]);
+  const [primaryQuestionOptions, setPrimaryQuestionOptions] = useState([]);
   const [comprehensiveTestId, setComprehensiveTestId] = useState<any>([]);
   const [primaryQuestionId, setPrimaryQuestionId] = useState<any>([]);
   const getSecondQuestionBasedOnComprehensiveTest = useGetPrimaryQuestionBasedOnComprehensiveTest(
@@ -126,7 +126,7 @@ const CreateSecondQuestion = () => {
   }, []);
 
   useEffect(() => {
-    if (comprehensiveTestId && comprehensiveTestId.length > 0) {
+    if (comprehensiveTestId && comprehensiveTestId?.length > 0) {
       getSecondQuestionBasedOnComprehensiveTest.refetch();
     }
   }, [comprehensiveTestId]);
@@ -148,17 +148,19 @@ const CreateSecondQuestion = () => {
   }, [comprehensiveTestId]);
 
   useEffect(() => {
-    if (getSecondQuestionBasedOnComprehensiveTest.data) {
+    if (getSecondQuestionBasedOnComprehensiveTest?.data) {
       setPrimaryQuestionOptions(
-        getSecondQuestionBasedOnComprehensiveTest.data.map((primaryQuestion) => {
+        getSecondQuestionBasedOnComprehensiveTest?.data?.primaryTests?.map((primaryQuestion) => {
           return {
             label: ` ${primaryQuestion.questionNumber} `,
             value: primaryQuestion._id,
           };
-        }),
+        }) ?? [],
       );
     }
-  }, [getSecondQuestionBasedOnComprehensiveTest.data]);
+  }, [getSecondQuestionBasedOnComprehensiveTest?.data]);
+
+  console.log(primaryQuestionOptions);
 
   useEffect(() => {
     if (getComprehensiveTests.data) {
@@ -394,7 +396,7 @@ const CreateSecondQuestion = () => {
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-            rows={getSecondQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId?.data?.map(
+            rows={getSecondQuestionBasedOnComprehensiveTestIdAndPrimaryQuestionId?.data?.primaryTests?.map(
               (item: any, index: any) => {
                 return {
                   id: item._id,

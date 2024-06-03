@@ -118,6 +118,11 @@ const CreatePrimaryQuestion = () => {
     getComprehensiveTests.refetch();
   }, []);
 
+  console.log(
+    getPrimaryQuestionBasedOnComprehensiveTest?.data,
+    "getPrimaryQuestionBasedOnComprehensiveTest",
+  );
+
   useEffect(() => {
     if (comprehensiveTestId && comprehensiveTestId.length > 0) {
       getPrimaryQuestionBasedOnComprehensiveTest.refetch();
@@ -364,56 +369,58 @@ const CreatePrimaryQuestion = () => {
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-            rows={getPrimaryQuestionBasedOnComprehensiveTest?.data?.map((item: any, index: any) => {
-              return {
-                id: item._id,
-                data: {
-                  title: `سوال شماره ${item.questionNumber} `,
-                  action: (
-                    <>
-                      <IconButton
-                        onClick={() => {
-                          setValue({
-                            doUpdate: true,
-                            data: item.title,
-                            id: item._id,
-                          });
-
-                          setQuestionNumber(item.questionNumber);
-                          setCorrectAnswer(item.correctAnswer);
-                          setComprehensiveTestId(item.comprehensiveTestId[0]);
-                          setQuillEditorValue(item.question);
-                          setGuideLineEditorValue(item.guideLine);
-
-                          if (item.options.length > 0) {
-                            Object.entries(item.options[0]).map(([key, value]) => {
-                              setOptions((prevOptions) => ({
-                                ...prevOptions,
-                                [key]: value,
-                              }));
+            rows={getPrimaryQuestionBasedOnComprehensiveTest?.data?.primaryTests?.map(
+              (item: any, index: any) => {
+                return {
+                  id: item._id,
+                  data: {
+                    title: `سوال شماره ${item.questionNumber} `,
+                    action: (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            setValue({
+                              doUpdate: true,
+                              data: item.title,
+                              id: item._id,
                             });
-                          }
-                        }}
-                      >
-                        <EditLightSvg width={12} height={12} />
-                      </IconButton>
-                      <IconButton>
-                        <PrompModalKit
-                          description={`آیا از حذف آزمون  مطمئن  هستید؟`}
-                          onConfirm={() => {
-                            handleDeleteQuestions(item._id);
+
+                            setQuestionNumber(item.questionNumber);
+                            setCorrectAnswer(item.correctAnswer);
+                            setComprehensiveTestId(item.comprehensiveTestId[0]);
+                            setQuillEditorValue(item.question);
+                            setGuideLineEditorValue(item.guideLine);
+
+                            if (item.options.length > 0) {
+                              Object.entries(item.options[0]).map(([key, value]) => {
+                                setOptions((prevOptions) => ({
+                                  ...prevOptions,
+                                  [key]: value,
+                                }));
+                              });
+                            }
                           }}
-                          approved={"بله"}
-                          denied={"خیر"}
                         >
-                          <DeleteLightSvg width={16} height={16} />
-                        </PrompModalKit>
-                      </IconButton>
-                    </>
-                  ),
-                },
-              };
-            })}
+                          <EditLightSvg width={12} height={12} />
+                        </IconButton>
+                        <IconButton>
+                          <PrompModalKit
+                            description={`آیا از حذف آزمون  مطمئن  هستید؟`}
+                            onConfirm={() => {
+                              handleDeleteQuestions(item._id);
+                            }}
+                            approved={"بله"}
+                            denied={"خیر"}
+                          >
+                            <DeleteLightSvg width={16} height={16} />
+                          </PrompModalKit>
+                        </IconButton>
+                      </>
+                    ),
+                  },
+                };
+              },
+            )}
             // pagination={{
             //   page: page,
             //   count: pageSize,
