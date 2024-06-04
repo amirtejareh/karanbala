@@ -118,11 +118,6 @@ const CreatePrimaryQuestion = () => {
     getComprehensiveTests.refetch();
   }, []);
 
-  console.log(
-    getPrimaryQuestionBasedOnComprehensiveTest?.data,
-    "getPrimaryQuestionBasedOnComprehensiveTest",
-  );
-
   useEffect(() => {
     if (comprehensiveTestId && comprehensiveTestId.length > 0) {
       getPrimaryQuestionBasedOnComprehensiveTest.refetch();

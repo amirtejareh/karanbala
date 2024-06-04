@@ -160,8 +160,6 @@ const CreateSecondQuestion = () => {
     }
   }, [getSecondQuestionBasedOnComprehensiveTest?.data]);
 
-  console.log(primaryQuestionOptions);
-
   useEffect(() => {
     if (getComprehensiveTests.data) {
       setComprehensiveTestOptions(

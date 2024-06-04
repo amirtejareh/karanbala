@@ -69,12 +69,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (Object.values(errors).length > 0) {
-      console.log(errors);
-    }
-  }, [errors]);
-
-  useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
       return;
