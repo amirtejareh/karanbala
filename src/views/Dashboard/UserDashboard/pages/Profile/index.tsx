@@ -235,7 +235,7 @@ const Profile = () => {
 
             <Box flexBasis={"336px"}>
               <TextField
-                {...register("natioalCode", {
+                {...register("national_id_number", {
                   required: "کد ملی  الزامی است",
                 })}
                 className={classes.formField}
