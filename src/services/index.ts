@@ -38,7 +38,7 @@ export type { CreateSubjectDto } from './models/CreateSubjectDto';
 export { CreateSubjectiveDto } from './models/CreateSubjectiveDto';
 export type { CreateTermOfStudyDto } from './models/CreateTermOfStudyDto';
 export type { CreateTipAndTestDto } from './models/CreateTipAndTestDto';
-export type { CreateUserDto } from './models/CreateUserDto';
+export { CreateUserDto } from './models/CreateUserDto';
 export type { GradeLevel } from './models/GradeLevel';
 export type { ObjectiveTest } from './models/ObjectiveTest';
 export type { Section } from './models/Section';
@@ -77,6 +77,7 @@ export type { UpdateSubjectDto } from './models/UpdateSubjectDto';
 export { UpdateSubjectiveDto } from './models/UpdateSubjectiveDto';
 export type { UpdateTermOfStudyDto } from './models/UpdateTermOfStudyDto';
 export type { UpdateTipAndTestDto } from './models/UpdateTipAndTestDto';
+export { UpdateUserDto } from './models/UpdateUserDto';
 
 export { AnswersheetManagementService } from './services/AnswersheetManagementService';
 export { AttachService } from './services/AttachService';

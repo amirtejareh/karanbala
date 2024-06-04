@@ -3,41 +3,41 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type CreateUserDto = {
+export type UpdateUserDto = {
     /**
      * Username of the user
      */
-    username: string;
+    username?: string;
     /**
      * Email of the user
      */
-    email: string;
+    email?: string;
     /**
      * Password of the user
      */
-    password: string;
+    password?: string;
     /**
      * Mobile of the user
      */
-    mobile: string;
+    mobile?: string;
     /**
      * National Id Number of the user
      */
-    national_id_number: string;
+    national_id_number?: string;
     /**
      * Gender of the individual
      */
-    gender: CreateUserDto.gender;
+    gender?: UpdateUserDto.gender;
     familyName?: string;
     firstName?: string;
     birthday?: string;
     fathersName?: string;
     phone?: string;
     parentsPhone?: string;
-    profilePhoto: Blob;
+    profilePhoto?: Blob;
 };
 
-export namespace CreateUserDto {
+export namespace UpdateUserDto {
 
     /**
      * Gender of the individual
