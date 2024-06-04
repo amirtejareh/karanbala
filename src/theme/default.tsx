@@ -184,6 +184,8 @@ const theme: ThemeOptions = {
             fontSize: "14px",
             lineHeight: "1.6375em",
             borderRadius: "4px",
+            height: "100%",
+
             "&.Mui-focused": {
               "& .MuiOutlinedInput-notchedOutline": {
                 borderColor: "#313743 !important",
@@ -195,6 +197,8 @@ const theme: ThemeOptions = {
             fontSize: "14px",
             lineHeight: "1.6375em",
             borderRadius: "4px",
+            height: "100%",
+
             backgroundColor: "#272b37",
             "&:before": {
               display: "none",
@@ -284,6 +288,7 @@ const theme: ThemeOptions = {
             },
           },
           "& .MuiTextField-root": {
+            height: "100%",
             "&:hover": {
               borderColor: "#313743 !important",
             },
@@ -486,10 +491,9 @@ const theme: ThemeOptions = {
         },
         option: {
           fontSize: 12,
+          padding: "5px",
 
           "@media (min-width:600px) and (max-width:1440px)": {
-            paddingRight: "0px !important",
-            paddingLeft: "0px !important",
             fontSize: 12,
             "& .MuiCheckbox-root": {
               marginLeft: "0px !important",

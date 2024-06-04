@@ -2,26 +2,26 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateSecondQuestionDto } from '../models/CreateSecondQuestionDto';
-import type { UpdateSecondQuestionDto } from '../models/UpdateSecondQuestionDto';
+import type { CreateProvinceDto } from '../models/CreateProvinceDto';
+import type { UpdateProvinceDto } from '../models/UpdateProvinceDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class SecondQuestionService {
+export class ProvinceService {
 
     /**
      * @param requestBody 
      * @returns any 
      * @throws ApiError
      */
-    public static secondQuestionControllerCreate(
-requestBody: CreateSecondQuestionDto,
+    public static provinceControllerCreate(
+requestBody: CreateProvinceDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/second-question',
+            url: '/province',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -31,10 +31,10 @@ requestBody: CreateSecondQuestionDto,
      * @returns any 
      * @throws ApiError
      */
-    public static secondQuestionControllerFindAll(): CancelablePromise<any> {
+    public static provinceControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/second-question',
+            url: '/province',
         });
     }
 
@@ -43,12 +43,12 @@ requestBody: CreateSecondQuestionDto,
      * @returns any 
      * @throws ApiError
      */
-    public static secondQuestionControllerFindOne(
+    public static provinceControllerFindOne(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/second-question/{id}',
+            url: '/province/{id}',
             path: {
                 'id': id,
             },
@@ -61,13 +61,13 @@ id: string,
      * @returns any 
      * @throws ApiError
      */
-    public static secondQuestionControllerUpdate(
+    public static provinceControllerUpdate(
 id: string,
-requestBody: UpdateSecondQuestionDto,
+requestBody: UpdateProvinceDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/second-question/{id}',
+            url: '/province/{id}',
             path: {
                 'id': id,
             },
@@ -81,34 +81,14 @@ requestBody: UpdateSecondQuestionDto,
      * @returns any 
      * @throws ApiError
      */
-    public static secondQuestionControllerRemove(
+    public static provinceControllerRemove(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/second-question/{id}',
+            url: '/province/{id}',
             path: {
                 'id': id,
-            },
-        });
-    }
-
-    /**
-     * @param primaryQuestionlId 
-     * @param comprehensiveTestId 
-     * @returns any 
-     * @throws ApiError
-     */
-    public static secondQuestionControllerFindSecondQuestionBasedOnPrimaryQuestionIdAndComprehensiveTestId(
-primaryQuestionlId: string,
-comprehensiveTestId: string,
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/second-question/withPrimaryQuestions/{primaryQuestionId}/{primaryQuestionlId}',
-            query: {
-                'primaryQuestionlId': primaryQuestionlId,
-                'comprehensiveTestId': comprehensiveTestId,
             },
         });
     }
