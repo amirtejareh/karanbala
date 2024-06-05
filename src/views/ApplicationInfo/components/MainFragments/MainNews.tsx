@@ -29,10 +29,12 @@ const MainNews = () => {
   const getReadingPostTime = (text) => {
     var div = document.createElement("div");
     div.innerHTML = text;
-    const wordCount = div.innerText.trim().split(/\s+/).length;
+    const wordCount = div.innerText.trim().split(/\s+/)?.length;
     const readingTime = Math.ceil(wordCount / 200);
     return readingTime;
   };
+
+  console.log(getSomeNews, "getSomeNews");
 
   return (
     <Box>
@@ -59,7 +61,7 @@ const MainNews = () => {
           },
         }}
       >
-        {getSomeNews?.data && getSomeNews?.data?.news.length > 0 && (
+        {getSomeNews?.data && getSomeNews?.data?.news?.length > 0 && (
           <Slide slidesToScroll={2} slidesToShow={2}>
             {getSomeNews?.data?.news?.map((news) => {
               return (
