@@ -39,6 +39,23 @@ formData: CreateNewsDto,
     }
 
     /**
+     * @param limit 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static newsControllerFindSome(
+limit: number,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/news/withLimit',
+            query: {
+                'limit': limit,
+            },
+        });
+    }
+
+    /**
      * @param id 
      * @returns any 
      * @throws ApiError

@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import ApplicationInfoView from "../views/ApplicationInfo";
 import MajorRequirements from "../views/MajorRequirements";
-import EducationDetails from "../views/EducationDetails";
 import ObjectiveTest from "../views/Tests/ObjectiveTest";
 import SubjectiveTest from "../views/Tests/SubjectiveTest";
 import Report from "../views/Tests/ObjectiveTest/Report";
@@ -13,6 +12,8 @@ import { userStore } from "../stores";
 import PublicLayoutComponent from "../components/PublicLayoutComponent";
 import Shop from "../views/Shop";
 import EducationDetailsRoutes from "./educationDetailsRoutes";
+import SingleNews from "../views/News/single";
+import News from "../views/News";
 
 const PublicRoutes = () => {
   const user: any = userStore((state) => state);
@@ -56,6 +57,8 @@ const PublicRoutes = () => {
         />
         <Route path="/objective-test/report2" element={<Report2 />} />
         <Route path={"/subjective-test"} element={<SubjectiveTest />} />
+        <Route path={"/news/:id"} element={<SingleNews />} />
+        <Route path={"/news"} element={<News />} />
       </Routes>
     </PublicLayoutComponent>
   );

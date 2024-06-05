@@ -30,12 +30,28 @@ import CreateComprehensiveTest from "../views/Dashboard/AdminDashboard/pages/edu
 import CreatePrimaryQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreatePrimaryQuestion";
 import CreateFirstQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreateFirstQuestion";
 import CreateSecondQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreateSecondQuestion";
+import News from "../views/Dashboard/AdminDashboard/pages/content-management/News";
 
 const AdminDashboardRoute = () => {
   const user: any = useSelector((state: MainReducerInterface) => state.user);
 
   return (
     <Routes>
+      <Route
+        path="/news"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <News />
+          </AuthorizedRoute>
+        }
+      />
       <Route
         path="/field-of-study"
         element={

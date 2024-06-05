@@ -191,9 +191,11 @@ import TableArrowNegative9 from "./images/TableArrowNegative9.svg";
 import TableArrowNegative10 from "./images/TableArrowNegative10.svg";
 
 import AuthBackground from "./images/authBackground.png";
+import { ReactComponent as Logout2Svg } from "./images/logout.svg";
 
 export {
   NoteSvgIcon,
+  Logout2Svg,
   PortfoDetailSvgIcon,
   NewsSvg,
   AnalysisSvg,

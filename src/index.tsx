@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import "video-react/dist/video-react.css";
 import "./coreui.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-slideshow-image/dist/styles.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(

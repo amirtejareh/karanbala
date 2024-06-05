@@ -8,7 +8,7 @@ const useGetNewsBasedOnId = (id: string) => {
     async () => {
       return await NewsService.newsControllerFindOne(id);
     },
-    { refetchOnWindowFocus: false, enabled: false },
+    { refetchOnWindowFocus: false, enabled: !!id },
   );
 };
 

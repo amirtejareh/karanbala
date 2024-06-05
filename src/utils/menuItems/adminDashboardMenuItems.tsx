@@ -13,6 +13,15 @@ export const adminDashboardMenuItems = [
     category: {
       children: [
         {
+          title: "مدیریت خبر",
+          submenu: [
+            {
+              title: "ایجاد خبر",
+              to: "/dashboard/admin/news",
+            },
+          ],
+        },
+        {
           title: "مدیریت محتوا",
           submenu: [
             {
