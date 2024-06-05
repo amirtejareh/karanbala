@@ -313,7 +313,7 @@ const Start = () => {
             bgcolor={theme?.palette?.grey[100]}
             margin={"0 1rem 0 0"}
             onClick={() => {
-              window.location.href = `${window.location.protocol}//${process.env.REACT_APP_BASE_URL}/${examElement?.subjectives[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0].link}`;
+              window.location.href = `${window.location.protocol}://${process.env.REACT_APP_BASE_URL}/${examElement?.subjectives[0]?.createExam[0]?.AnswerSheetSourcePdfFile[0].link}`;
             }}
           >
             <Typography variant="subtitle1">پاسخنامه</Typography>
