@@ -767,17 +767,7 @@ const Profile = () => {
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
               <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
                 <FormHelperText sx={{ color: "red" }}>
-                  {errors?.phone?.message?.toString()}
-                </FormHelperText>
-              </Box>
-              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
-                <FormHelperText sx={{ color: "red" }}>
-                  {errors?.parentsPhone?.message?.toString()}
-                </FormHelperText>
-              </Box>
-              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
-                <FormHelperText sx={{ color: "red" }}>
-                  {errors?.email?.message?.toString()}
+                  {errors?.slogan?.message?.toString()}
                 </FormHelperText>
               </Box>
             </Box>
