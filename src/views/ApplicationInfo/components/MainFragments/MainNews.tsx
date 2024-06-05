@@ -34,8 +34,6 @@ const MainNews = () => {
     return readingTime;
   };
 
-  console.log(getSomeNews, "getSomeNews");
-
   return (
     <Box>
       <Box margin={"5rem 3.25rem 2.5rem 2.5rem"} display={"flex"} justifyContent={"space-between"}>
