@@ -21,7 +21,16 @@ const News = () => {
   const getSomeSectionOfDescription = (text) => {
     var div = document.createElement("div");
     div.innerHTML = text;
-    return div.innerText.slice(0.5);
+    console.log(
+      div.innerText.slice(0.5) === "undefined" ?? "s",
+      ' div.innerText.slice(0.5) ?? "s"',
+    );
+
+    if (div.innerText.slice(0.5) === "undefined") {
+      return "";
+    } else {
+      return div.innerText.slice(0.5);
+    }
   };
 
   const getSomeNews = useGetSomeNews(6);
@@ -91,7 +100,7 @@ const News = () => {
             ?.filter((item: any) => {
               return item?._id !== getNews?.data?.[0]?._id;
             })
-            .map((news) => {
+            ?.map((news) => {
               return (
                 <Box
                   sx={{
@@ -148,7 +157,7 @@ const News = () => {
         </Typography>
         <Box marginTop={"24px"}>
           <Box flexBasis={"543px"} display={"flex"} flexDirection={"column"} gap={"40px"}>
-            {getSomeNews?.data?.news.map((news) => {
+            {getSomeNews?.data?.news?.map((news) => {
               return (
                 <Box
                   sx={{
