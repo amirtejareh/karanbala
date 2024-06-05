@@ -65,22 +65,30 @@ const News = (props: any) => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
-  const [limit, _] = useState<number>(5);
   const [loading, setLoading] = useState(false);
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const createNews = useCreateNews();
   const updateNews = useUpdateNews();
   const inputNewsRef = useRef<any>();
   const [page, setPage] = useState<number>(1);
-  const [pageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(1);
+  const [limit, _] = useState<number>(1);
   const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
   const [preview, setPreview] = useState<any>();
   const [selectedFile, setSelectedFile] = useState<any>();
   const [quillEditorValue, setQuillEditorValue] = useState<any>();
 
   const imageRef = useRef<any>();
-
   const News = useGetNews(page, limit);
+  useEffect(() => {
+    if (News?.data) {
+      setPageSize(News?.data?.totalPages);
+    }
+  }, [News?.data]);
+
+  useEffect(() => {
+    News.refetch();
+  }, [page]);
 
   const deleteNews = useDeleteNews();
 
@@ -316,7 +324,7 @@ const News = (props: any) => {
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-            rows={News?.data.map((item: any, index: any) => {
+            rows={News?.data?.allNews.map((item: any, index: any) => {
               return {
                 id: item._id,
                 data: {
@@ -359,8 +367,8 @@ const News = (props: any) => {
             })}
             pagination={{
               page: page,
-              count: 1,
-              rowsPerPage: pageSize,
+              count: pageSize,
+              rowsPerPage: limit,
               onChange: (_, e) => {
                 setPage(e);
               },

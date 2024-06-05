@@ -71,8 +71,12 @@ const News = () => {
         borderBottom={"1px solid #B2BFCB"}
       >
         <Box display={"flex"} gap={"1rem"}>
-          <KaranbalaLogoSvg />
-          <KaranbalaLogoTextSvg />
+          <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+            <KaranbalaLogoSvg />
+          </Box>
+          <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+            <KaranbalaLogoTextSvg />
+          </Box>
         </Box>
         {user?.user && (
           <Box display={"flex"} gap={"10px"}>
@@ -101,87 +105,90 @@ const News = () => {
           </Box>
         )}
       </Box>
-      <Box display={"flex"} padding={"12px 52px"} gap={"10px"}>
-        <Box flexBasis={"769px"}>
-          <Box
-            sx={{
-              backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/${getNews?.data?.allNews?.[0]?.image}')`,
-            }}
-            display={"flex"}
-            flexBasis={"769px"}
-            height={"368px"}
-            borderRadius={"1rem"}
-          ></Box>
-          <Box id="title" fontSize={"24px"} marginTop={"24px"}>
-            {getSomeNews?.data?.news?.[0]?.title}
-          </Box>
-          <Box marginTop={"24px"} id={"description"}>
-            {getSomeSectionOfDescription(getSomeNews?.data?.news?.[0]?.description)}
-          </Box>
-          <Box marginTop={"24px"} id="read_more">
-            <Button
-              onClick={() => navigate(`/news/${getSomeNews?.data?.news?.[0]?._id}`)}
-              variant="contained"
-            >
-              بیشتر
-            </Button>
-          </Box>
-        </Box>
-        <Box flexBasis={"543px"} display={"flex"} flexDirection={"column"} gap={"10px"}>
-          {getSomeNews?.data?.news
-            ?.filter((item: any) => {
-              return item?._id !== getSomeNews?.data?.news?.[0]?._id;
-            })
-            ?.map((news) => {
-              return (
-                <Box
-                  sx={{
-                    direction: "ltr !important",
-                    cursor: "pointer",
-                    display: "flex",
-                  }}
-                  onClick={() => navigate(`/news/${news._id}`)}
-                >
-                  <Box
-                    bgcolor={theme?.palette?.secondary["50"]}
-                    borderRadius={"2rem"}
-                    height={"116px"}
-                    width={"192px"}
-                    component={"img"}
-                    src={`${process.env.REACT_APP_BASE_URL}/${news?.image}`}
-                  ></Box>
 
+      {getSomeNews?.data?.news?.[0]?.isPublished === true && (
+        <Box display={"flex"} padding={"12px 52px"} gap={"10px"}>
+          <Box flexBasis={"769px"}>
+            <Box
+              sx={{
+                backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/${getNews?.data?.allNews?.[0]?.image}')`,
+              }}
+              display={"flex"}
+              flexBasis={"769px"}
+              height={"368px"}
+              borderRadius={"1rem"}
+            ></Box>
+            <Box id="title" fontSize={"24px"} marginTop={"24px"}>
+              {getSomeNews?.data?.news?.[0]?.title}
+            </Box>
+            <Box marginTop={"24px"} id={"description"}>
+              {getSomeSectionOfDescription(getSomeNews?.data?.news?.[0]?.description)}
+            </Box>
+            <Box marginTop={"24px"} id="read_more">
+              <Button
+                onClick={() => navigate(`/news/${getSomeNews?.data?.news?.[0]?._id}`)}
+                variant="contained"
+              >
+                بیشتر
+              </Button>
+            </Box>
+          </Box>
+          <Box flexBasis={"543px"} display={"flex"} flexDirection={"column"} gap={"10px"}>
+            {getSomeNews?.data?.news
+              ?.filter((item: any) => {
+                return item?._id !== getSomeNews?.data?.news?.[0]?._id && item.isPublished === true;
+              })
+              ?.map((news) => {
+                return (
                   <Box
-                    margin={"1.5rem 2rem"}
-                    width={"245px"}
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    flexDirection={"column"}
+                    sx={{
+                      direction: "ltr !important",
+                      cursor: "pointer",
+                      display: "flex",
+                    }}
+                    onClick={() => navigate(`/news/${news._id}`)}
                   >
-                    <Box textAlign={"left"}>
-                      <Typography>{news?.title}</Typography>
-                    </Box>
-                    <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
-                      <Box>
-                        <Typography>
-                          {toPersianDate({
-                            value: news.createdAt.split("T")[0],
-                            format: "YYYY/MM/DD",
-                          })}
-                        </Typography>
+                    <Box
+                      bgcolor={theme?.palette?.secondary["50"]}
+                      borderRadius={"2rem"}
+                      height={"116px"}
+                      width={"192px"}
+                      component={"img"}
+                      src={`${process.env.REACT_APP_BASE_URL}/${news?.image}`}
+                    ></Box>
+
+                    <Box
+                      margin={"1.5rem 2rem"}
+                      width={"245px"}
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      flexDirection={"column"}
+                    >
+                      <Box textAlign={"left"}>
+                        <Typography>{news?.title}</Typography>
                       </Box>
-                      <Box>
-                        <Typography>
-                          {getReadingPostTime(news?.description)} دقیقه مطالعه
-                        </Typography>
+                      <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
+                        <Box>
+                          <Typography>
+                            {toPersianDate({
+                              value: news.createdAt.split("T")[0],
+                              format: "YYYY/MM/DD",
+                            })}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography>
+                            {getReadingPostTime(news?.description)} دقیقه مطالعه
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
-                </Box>
-              );
-            })}
+                );
+              })}
+          </Box>
         </Box>
-      </Box>
+      )}
 
       <Box padding={"12px 52px"} gap={"10px"}>
         <Typography fontWeight={"bold"} fontSize={"32px"} lineHeight={"40px"}>
@@ -189,59 +196,63 @@ const News = () => {
         </Typography>
         <Box marginTop={"24px"}>
           <Box flexBasis={"543px"} display={"flex"} flexDirection={"column"} gap={"40px"}>
-            {getNews?.data?.allNews?.map((news) => {
-              return (
-                <Box
-                  sx={{
-                    direction: "ltr !important",
-                    cursor: "pointer",
-                    display: "flex",
-                  }}
-                  onClick={() => navigate(`/news/${news._id}`)}
-                >
-                  <Box
-                    margin={"1.5rem 2rem"}
-                    flexBasis={"792px"}
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    flexDirection={"column"}
-                  >
-                    <Box>
-                      <Box textAlign={"left"}>
-                        <Typography fontSize={"24px"}>{news?.title}</Typography>
-                      </Box>
-                      <Box lineHeight={"24px"} marginTop={"24px"}>
-                        {getSomeSectionOfDescription(news?.description)}
-                      </Box>
-                    </Box>
+            {getNews?.data?.allNews
 
-                    <Box display={"flex"} gap={"73px"} flexWrap={"wrap"}>
+              ?.filter((element) => element.isPublished === true)
+
+              ?.map((news) => {
+                return (
+                  <Box
+                    sx={{
+                      direction: "ltr !important",
+                      cursor: "pointer",
+                      display: "flex",
+                    }}
+                    onClick={() => navigate(`/news/${news._id}`)}
+                  >
+                    <Box
+                      margin={"1.5rem 2rem"}
+                      flexBasis={"792px"}
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      flexDirection={"column"}
+                    >
                       <Box>
-                        <Typography color={"#32074F"}>
-                          {getReadingPostTime(news?.description)} دقیقه مطالعه
-                        </Typography>
+                        <Box textAlign={"left"}>
+                          <Typography fontSize={"24px"}>{news?.title}</Typography>
+                        </Box>
+                        <Box lineHeight={"24px"} marginTop={"24px"}>
+                          {getSomeSectionOfDescription(news?.description)}
+                        </Box>
                       </Box>
-                      <Box>
-                        <Typography color={"#32074F"}>
-                          {toPersianDate({
-                            value: news.createdAt.split("T")[0],
-                            format: "YYYY/MM/DD",
-                          })}
-                        </Typography>
+
+                      <Box display={"flex"} gap={"73px"} flexWrap={"wrap"}>
+                        <Box>
+                          <Typography color={"#32074F"}>
+                            {getReadingPostTime(news?.description)} دقیقه مطالعه
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography color={"#32074F"}>
+                            {toPersianDate({
+                              value: news.createdAt.split("T")[0],
+                              format: "YYYY/MM/DD",
+                            })}
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
+                    <Box
+                      bgcolor={theme?.palette?.secondary["50"]}
+                      borderRadius={"2rem"}
+                      height={"172px"}
+                      width={"384px"}
+                      component={"img"}
+                      src={`${process.env.REACT_APP_BASE_URL}/${news?.image}`}
+                    ></Box>
                   </Box>
-                  <Box
-                    bgcolor={theme?.palette?.secondary["50"]}
-                    borderRadius={"2rem"}
-                    height={"172px"}
-                    width={"384px"}
-                    component={"img"}
-                    src={`${process.env.REACT_APP_BASE_URL}/${news?.image}`}
-                  ></Box>
-                </Box>
-              );
-            })}
+                );
+              })}
           </Box>
         </Box>
       </Box>

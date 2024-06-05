@@ -61,55 +61,57 @@ const MainNews = () => {
       >
         {getSomeNews?.data && getSomeNews?.data?.news?.length > 0 && (
           <Slide slidesToScroll={2} slidesToShow={2}>
-            {getSomeNews?.data?.news?.map((news) => {
-              return (
-                <Box
-                  sx={{
-                    direction: "ltr !important",
-                    cursor: "pointer",
-                  }}
-                  width={"543px"}
-                  display={"flex"}
-                  onClick={() => navigate(`/news/${news._id}`)}
-                >
+            {getSomeNews?.data?.news
+              ?.filter((element) => element.isPublished === true)
+              ?.map((news) => {
+                return (
                   <Box
-                    bgcolor={theme?.palette?.secondary["50"]}
-                    borderRadius={"2rem"}
-                    height={"116px"}
-                    width={"192px"}
-                    component={"img"}
-                    src={`${process.env.REACT_APP_BASE_URL}/${news?.image}`}
-                  ></Box>
-
-                  <Box
-                    margin={"1.5rem 2rem"}
-                    width={"245px"}
+                    sx={{
+                      direction: "ltr !important",
+                      cursor: "pointer",
+                    }}
+                    width={"543px"}
                     display={"flex"}
-                    justifyContent={"space-between"}
-                    flexDirection={"column"}
+                    onClick={() => navigate(`/news/${news._id}`)}
                   >
-                    <Box textAlign={"left"}>
-                      <Typography>{news?.title}</Typography>
-                    </Box>
-                    <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
-                      <Box>
-                        <Typography>
-                          {toPersianDate({
-                            value: news.createdAt.split("T")[0],
-                            format: "YYYY/MM/DD",
-                          })}
-                        </Typography>
+                    <Box
+                      bgcolor={theme?.palette?.secondary["50"]}
+                      borderRadius={"2rem"}
+                      height={"116px"}
+                      width={"192px"}
+                      component={"img"}
+                      src={`${process.env.REACT_APP_BASE_URL}/${news?.image}`}
+                    ></Box>
+
+                    <Box
+                      margin={"1.5rem 2rem"}
+                      width={"245px"}
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      flexDirection={"column"}
+                    >
+                      <Box textAlign={"left"}>
+                        <Typography>{news?.title}</Typography>
                       </Box>
-                      <Box>
-                        <Typography>
-                          {getReadingPostTime(news?.description)} دقیقه مطالعه
-                        </Typography>
+                      <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
+                        <Box>
+                          <Typography>
+                            {toPersianDate({
+                              value: news.createdAt.split("T")[0],
+                              format: "YYYY/MM/DD",
+                            })}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography>
+                            {getReadingPostTime(news?.description)} دقیقه مطالعه
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
-                </Box>
-              );
-            })}
+                );
+              })}
           </Slide>
         )}
       </Box>

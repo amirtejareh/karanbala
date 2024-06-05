@@ -29,8 +29,12 @@ const News = () => {
         borderBottom={"1px solid #B2BFCB"}
       >
         <Box display={"flex"} gap={"1rem"}>
-          <KaranbalaLogoSvg />
-          <KaranbalaLogoTextSvg />
+          <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+            <KaranbalaLogoSvg />
+          </Box>
+          <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+            <KaranbalaLogoTextSvg />
+          </Box>
         </Box>
         {user?.user && (
           <Box display={"flex"} gap={"10px"}>
