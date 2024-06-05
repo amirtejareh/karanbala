@@ -29,12 +29,12 @@ export type CreateUserDto = {
      */
     gender: CreateUserDto.gender;
     familyName?: string;
+    slogan?: string;
     firstName?: string;
     birthday?: string;
     fathersName?: string;
     phone?: string;
     parentsPhone?: string;
-    profilePhoto: Blob;
 };
 
 export namespace CreateUserDto {
