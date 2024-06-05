@@ -276,9 +276,7 @@ const Attach = () => {
                     : classes.chapters
                 }
               >
-                <Typography>
-                  فصل {Num2persian(index + 1)}: {element.title}
-                </Typography>
+                <Typography>{element.title}</Typography>
                 <Typography className={classes.arrowLeftParent}>
                   <IconButton
                     ref={index == 0 ? seasonRef : null}

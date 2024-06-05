@@ -726,6 +726,62 @@ const Profile = () => {
               </Box>
             </Box>
 
+            <Typography marginBottom={"2.4rem"} variant="caption">
+              شعار
+            </Typography>
+
+            <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
+              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+                <FormControl className={`${classes.formField}`}>
+                  <Controller
+                    control={control}
+                    name="slogan"
+                    render={({ field: { onChange } }) => (
+                      <Autocomplete
+                        options={[
+                          { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
+                          { value: "2", label: "صبر، حوصله، دقت و پشتکار" },
+                          { value: "3", label: "به کسی کاری ندارم، هدف مشخص است" },
+                          { value: "4", label: "انحراف به چپ ممنوع، مستقیم تا مقصد" },
+                          { value: "5", label: "جاده باریک و پر سنگلاخ، ولی من قوی ترم" },
+                        ]}
+                        getOptionLabel={(option) => option.label}
+                        onChange={(event, item) => {
+                          onChange(item.value);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            InputLabelProps={{ shrink: true }}
+                            label="شعار"
+                            error={!!errors.slogan}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Box>
+            </Box>
+
+            <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
+              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+                <FormHelperText sx={{ color: "red" }}>
+                  {errors?.phone?.message?.toString()}
+                </FormHelperText>
+              </Box>
+              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+                <FormHelperText sx={{ color: "red" }}>
+                  {errors?.parentsPhone?.message?.toString()}
+                </FormHelperText>
+              </Box>
+              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+                <FormHelperText sx={{ color: "red" }}>
+                  {errors?.email?.message?.toString()}
+                </FormHelperText>
+              </Box>
+            </Box>
+
             <Box display={"flex"} gap={"1rem"}>
               <Box sx={{ flexBasis: "336px" }}></Box>
               <Box display={"flex"} justifyContent={"flex-end"} sx={{ flexBasis: "336px" }}></Box>

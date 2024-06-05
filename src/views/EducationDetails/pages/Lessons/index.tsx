@@ -416,9 +416,7 @@ const Lessons = () => {
                     : classes.chapters
                 }
               >
-                <Typography>
-                  فصل {Num2persian(index + 1)}: {value?.chapterTitle}
-                </Typography>
+                <Typography>{value?.chapterTitle}</Typography>
                 <Typography className={classes.arrowLeftParent}>
                   <IconButton
                     onClick={(e: any) => {
