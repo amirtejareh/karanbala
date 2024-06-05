@@ -536,7 +536,7 @@ const PointAndTest = () => {
                                       <Box key={index} display={"flex"} padding={"0.5rem"}>
                                         <IconButtonKit
                                           onClick={() => {
-                                            window.location.href = `$${process.env.REACT_APP_BASE_URL}/${element.link}`;
+                                            window.location.href = `${process.env.REACT_APP_BASE_URL}/${element.link}`;
                                           }}
                                         >
                                           <Box display={"flex"} gap={"1rem"}>
