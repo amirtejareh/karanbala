@@ -65,14 +65,22 @@ const News = (props: any) => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
-
+  const [limit, _] = useState<number>(5);
   const [loading, setLoading] = useState(false);
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const createNews = useCreateNews();
   const updateNews = useUpdateNews();
   const inputNewsRef = useRef<any>();
+  const [page, setPage] = useState<number>(1);
+  const [pageSize] = useState<number>(10);
+  const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
+  const [preview, setPreview] = useState<any>();
+  const [selectedFile, setSelectedFile] = useState<any>();
+  const [quillEditorValue, setQuillEditorValue] = useState<any>();
 
-  const News = useGetNews();
+  const imageRef = useRef<any>();
+
+  const News = useGetNews(page, limit);
 
   const deleteNews = useDeleteNews();
 
@@ -91,15 +99,6 @@ const News = (props: any) => {
     });
   };
 
-  const [page, setPage] = useState<number>(1);
-  const [pageSize] = useState<number>(10);
-  const [value, setValue] = useState({ doUpdate: false, data: "", id: null });
-  const [preview, setPreview] = useState<any>();
-  const [selectedFile, setSelectedFile] = useState<any>();
-  const [quillEditorValue, setQuillEditorValue] = useState<any>();
-
-  const imageRef = useRef<any>();
-
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -113,8 +112,6 @@ const News = (props: any) => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
-
-  const descriptionInputRef = useRef<any>(null);
 
   const onSelectFile = (e: any) => {
     if (!imageRef.current.files || imageRef.current.files.length === 0) {

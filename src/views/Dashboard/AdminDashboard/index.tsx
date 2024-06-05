@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Theme, Box, Typography, IconButton } from "@mui/material";
+import { Theme, Box, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { MenuCreator } from "../../../components/MenuCreator";
 import { adminDashboardMenuItems } from "../../../utils/menuItems/adminDashboardMenuItems";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AdminDashboardRoute from "../../../routes/adminRoute";
 import { authStore, userStore } from "../../../stores";
+import { ButtonKit } from "../../../components/kit/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -82,9 +83,9 @@ const AdminDashboard = () => {
           })}
         </Box>
         <Box>
-          <IconButton className={classes.button} onClick={handleLogout}>
+          <ButtonKit className={classes.button} onClick={handleLogout}>
             <ExitToAppIcon />
-          </IconButton>
+          </ButtonKit>
         </Box>
       </Box>
 

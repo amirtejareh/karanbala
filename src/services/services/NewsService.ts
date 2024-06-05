@@ -28,13 +28,22 @@ formData: CreateNewsDto,
     }
 
     /**
+     * @param page 
+     * @param limit 
      * @returns any 
      * @throws ApiError
      */
-    public static newsControllerFindAll(): CancelablePromise<any> {
+    public static newsControllerFindAll(
+page: number,
+limit: number,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/news',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
         });
     }
 

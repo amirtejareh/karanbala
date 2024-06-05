@@ -1,15 +1,23 @@
 import { Box, useTheme } from "@mui/material";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ButtonKit } from "../../components/kit/Button";
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg, Logout2Svg, TelevisionSvg } from "../../assets";
 import useGetNewsBasedOnId from "../../hooks/news/useGetNewsBasedOnId";
+import { authStore, userStore } from "../../stores";
 
 const News = () => {
   const { id } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
+  const user: any = userStore((state) => state);
+  const { setAccessToken } = authStore((state) => state);
   const getOneNews = useGetNewsBasedOnId(id);
+  const handleLogout = () => {
+    setAccessToken("");
+    user.setUser(null);
+    localStorage.removeItem("auth-storage");
+    navigate("/");
+  };
 
   return (
     <Box>
@@ -24,26 +32,32 @@ const News = () => {
           <KaranbalaLogoSvg />
           <KaranbalaLogoTextSvg />
         </Box>
-        <Box display={"flex"} gap={"10px"}>
-          <Box
-            sx={{
-              padding: "8px",
-              borderRadius: "8px",
-              backgroundColor: `${theme.palette.grey["50"]} !important`,
-            }}
-          >
-            <TelevisionSvg />
+        {user?.user && (
+          <Box display={"flex"} gap={"10px"}>
+            <Box
+              sx={{
+                padding: "8px",
+                borderRadius: "8px",
+                backgroundColor: `${theme.palette.grey["50"]} !important`,
+                cursor: "pointer",
+              }}
+            >
+              <TelevisionSvg />
+            </Box>
+
+            <Box
+              sx={{
+                padding: "8px",
+                borderRadius: "8px",
+                backgroundColor: `${theme.palette.grey["50"]} !important`,
+                cursor: "pointer",
+              }}
+              onClick={handleLogout}
+            >
+              <Logout2Svg />
+            </Box>
           </Box>
-          <Box
-            sx={{
-              padding: "8px",
-              borderRadius: "8px",
-              backgroundColor: `${theme.palette.grey["50"]} !important`,
-            }}
-          >
-            <Logout2Svg />
-          </Box>
-        </Box>
+        )}
       </Box>
 
       <Box padding={"12px 52px"}>

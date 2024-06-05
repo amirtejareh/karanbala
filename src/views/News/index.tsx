@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 
 import { KaranbalaLogoSvg, KaranbalaLogoTextSvg, Logout2Svg, TelevisionSvg } from "../../assets";
@@ -6,10 +6,18 @@ import { useNavigate } from "react-router-dom";
 import useGetNews from "../../hooks/news/useGetNews";
 import useGetSomeNews from "../../hooks/news/useGetSomeNews";
 import { toPersianDate } from "../../utils/helper";
+import { authStore, userStore } from "../../stores";
+
 const News = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const getNews = useGetNews();
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(1);
+  const [limit, _] = useState<number>(20);
+
+  const user: any = userStore((state) => state);
+  const { setAccessToken } = authStore((state) => state);
+
   const getReadingPostTime = (text) => {
     var div = document.createElement("div");
     div.innerHTML = text;
@@ -18,22 +26,40 @@ const News = () => {
     return readingTime;
   };
 
+  const handleLogout = () => {
+    setAccessToken("");
+    user.setUser(null);
+    localStorage.removeItem("auth-storage");
+    navigate("/");
+  };
+
   const getSomeSectionOfDescription = (text) => {
     var div = document.createElement("div");
     div.innerHTML = text;
-    console.log(
-      div.innerText.slice(0.5) === "undefined" ?? "s",
-      ' div.innerText.slice(0.5) ?? "s"',
-    );
 
-    if (div.innerText.slice(0.5) === "undefined") {
+    if (div.innerText.slice(0, 50) === "undefined") {
       return "";
     } else {
-      return div.innerText.slice(0.5);
+      return div.innerText.slice(0, 250) + "[...]";
     }
   };
 
   const getSomeNews = useGetSomeNews(6);
+  const getNews = useGetNews(page, limit);
+
+  useEffect(() => {
+    if (page > 0) {
+      getNews.refetch();
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (getNews?.data) {
+      setPageSize(getNews?.data?.totalPages);
+    }
+  }, [getNews?.data]);
+
+  console.log(getNews);
 
   return (
     <Box>
@@ -48,32 +74,38 @@ const News = () => {
           <KaranbalaLogoSvg />
           <KaranbalaLogoTextSvg />
         </Box>
-        <Box display={"flex"} gap={"10px"}>
-          <Box
-            sx={{
-              padding: "8px",
-              borderRadius: "8px",
-              backgroundColor: `${theme.palette.grey["50"]} !important`,
-            }}
-          >
-            <TelevisionSvg />
+        {user?.user && (
+          <Box display={"flex"} gap={"10px"}>
+            <Box
+              sx={{
+                padding: "8px",
+                borderRadius: "8px",
+                backgroundColor: `${theme.palette.grey["50"]} !important`,
+                cursor: "pointer",
+              }}
+            >
+              <TelevisionSvg />
+            </Box>
+
+            <Box
+              sx={{
+                padding: "8px",
+                borderRadius: "8px",
+                backgroundColor: `${theme.palette.grey["50"]} !important`,
+                cursor: "pointer",
+              }}
+              onClick={handleLogout}
+            >
+              <Logout2Svg />
+            </Box>
           </Box>
-          <Box
-            sx={{
-              padding: "8px",
-              borderRadius: "8px",
-              backgroundColor: `${theme.palette.grey["50"]} !important`,
-            }}
-          >
-            <Logout2Svg />
-          </Box>
-        </Box>
+        )}
       </Box>
       <Box display={"flex"} padding={"12px 52px"} gap={"10px"}>
         <Box flexBasis={"769px"}>
           <Box
             sx={{
-              backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/${getNews?.data?.[0]?.image}')`,
+              backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/${getNews?.data?.allNews?.[0]?.image}')`,
             }}
             display={"flex"}
             flexBasis={"769px"}
@@ -81,14 +113,14 @@ const News = () => {
             borderRadius={"1rem"}
           ></Box>
           <Box id="title" fontSize={"24px"} marginTop={"24px"}>
-            {getNews?.data?.[0]?.title}
+            {getSomeNews?.data?.news?.[0]?.title}
           </Box>
-          <Box marginTop={"24px"} id={"description"} fontSize={"16px"}>
-            {getSomeSectionOfDescription(getNews?.data?.[0]?.description)}
+          <Box marginTop={"24px"} id={"description"}>
+            {getSomeSectionOfDescription(getSomeNews?.data?.news?.[0]?.description)}
           </Box>
           <Box marginTop={"24px"} id="read_more">
             <Button
-              onClick={() => navigate(`/news/${getNews?.data?.[0]?._id}`)}
+              onClick={() => navigate(`/news/${getSomeNews?.data?.news?.[0]?._id}`)}
               variant="contained"
             >
               بیشتر
@@ -98,7 +130,7 @@ const News = () => {
         <Box flexBasis={"543px"} display={"flex"} flexDirection={"column"} gap={"10px"}>
           {getSomeNews?.data?.news
             ?.filter((item: any) => {
-              return item?._id !== getNews?.data?.[0]?._id;
+              return item?._id !== getSomeNews?.data?.news?.[0]?._id;
             })
             ?.map((news) => {
               return (
@@ -157,7 +189,7 @@ const News = () => {
         </Typography>
         <Box marginTop={"24px"}>
           <Box flexBasis={"543px"} display={"flex"} flexDirection={"column"} gap={"40px"}>
-            {getSomeNews?.data?.news?.map((news) => {
+            {getNews?.data?.allNews?.map((news) => {
               return (
                 <Box
                   sx={{
@@ -178,7 +210,7 @@ const News = () => {
                       <Box textAlign={"left"}>
                         <Typography fontSize={"24px"}>{news?.title}</Typography>
                       </Box>
-                      <Box lineHeight={"24px"} marginTop={"24px"} fontSize={"1rem"}>
+                      <Box lineHeight={"24px"} marginTop={"24px"}>
                         {getSomeSectionOfDescription(news?.description)}
                       </Box>
                     </Box>
@@ -212,6 +244,36 @@ const News = () => {
             })}
           </Box>
         </Box>
+      </Box>
+
+      <Box
+        flexWrap={"wrap"}
+        gap={"2px"}
+        display={"flex"}
+        id="pagination"
+        textAlign={"center"}
+        padding={"50px"}
+      >
+        {Array(pageSize)
+          .fill(0)
+          .map((e, i) => i + 1)
+          .map((element) => (
+            <Box
+              width={"50px"}
+              height={"50px"}
+              borderRadius={"10px"}
+              padding={"5px"}
+              sx={{ cursor: "pointer" }}
+              bgcolor={"blue"}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              color={"#fff"}
+              onClick={() => setPage(element)}
+            >
+              {element}
+            </Box>
+          ))}
       </Box>
     </Box>
   );
