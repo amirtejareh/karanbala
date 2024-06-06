@@ -299,6 +299,7 @@ const LearningMaterial = (props: any) => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
+              multiple
               value={gradeLevelIds ?? []}
               {...register("gradeLevel")}
               inputRef={selectGradeLevelRef}
@@ -662,6 +663,7 @@ const LearningMaterial = (props: any) => {
                             data: "",
                             id: item._id,
                           });
+                          setGradeLevelIds(item?.gradeLevel);
 
                           setVideoList(
                             item.videos.map((item) => {

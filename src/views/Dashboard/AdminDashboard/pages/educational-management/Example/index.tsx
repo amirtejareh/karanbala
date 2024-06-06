@@ -22,7 +22,6 @@ import useGetGradeLevels from "../../../../../../hooks/grade-level/useGetGradeLe
 import { TableKit } from "../../../../../../components/kit/Table";
 import { DeleteLightSvg, EditLightSvg } from "../../../../../../assets";
 import { PrompModalKit } from "../../../../../../components/kit/Modal";
-import useGetSectionsBasedOnChapters from "../../../../../../hooks/section/useGetSectionsBasedOnChapters";
 import { bytesToKilobytes } from "../../../../../../utils/helper";
 import { IVideo } from "../../../../../../interface/IEntity";
 import useCreateSampleTestQuestions from "../../../../../../hooks/sample-test-questions/useCreateSampleTestQuestions";
@@ -288,6 +287,7 @@ const SampleTestQuestions = () => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
+              multiple
               value={gradeLevelIds ?? []}
               {...register("gradeLevel")}
               inputRef={selectGradeLevelRef}
@@ -646,6 +646,8 @@ const SampleTestQuestions = () => {
                               return newItem;
                             }),
                           );
+
+                          setGradeLevelIds(item?.gradeLevel);
 
                           setTypeIds(item.type);
 

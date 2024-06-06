@@ -295,6 +295,7 @@ const Practice = () => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
+              multiple
               value={gradeLevelIds ?? []}
               {...register("gradeLevel")}
               inputRef={selectGradeLevelRef}
@@ -656,6 +657,8 @@ const Practice = () => {
                             data: "",
                             id: item._id,
                           });
+
+                          setGradeLevelIds(item?.gradeLevel);
 
                           setVideoList(
                             item.videos.map((item) => {
