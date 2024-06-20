@@ -23,6 +23,23 @@ export class UserService {
 
     /**
      * @param username 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static usersControllerGetUserBasedOnUsername(
+username: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/users/withUsername/{username}',
+            path: {
+                'username': username,
+            },
+        });
+    }
+
+    /**
+     * @param username 
      * @param formData 
      * @returns any 
      * @throws ApiError

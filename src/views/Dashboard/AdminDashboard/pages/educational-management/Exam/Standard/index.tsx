@@ -295,16 +295,22 @@ const StandardExam = () => {
   useEffect(() => {
     if (getCreateExam?.data && getCreateExam?.data.length > 0) {
       setSelectOptions((prev: any) => [
-        ...getCreateExam?.data?.map((element) => ({
-          value: element._id,
-          label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${
-            element?.chapter.length > 0
-              ? element.chapter[0]?.title
-              : element?.term.length > 0
-                ? element?.term[0]?.title
-                : element?.term[0]?.title
-          } - ${element.examType === "essayTest" ? " تشریحی " : " تستی"} - آزمون ${element.number}`,
-        })),
+        ...getCreateExam?.data
+          ?.filter((item) => item?.type === "standard")
+          ?.map((element) => {
+            return {
+              value: element._id,
+              label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${
+                element?.chapter.length > 0
+                  ? element.chapter[0]?.title
+                  : element?.term.length > 0
+                    ? element?.term[0]?.title
+                    : element?.term[0]?.title
+              } - ${element.examType === "essayTest" ? " تشریحی " : " تستی"} - آزمون ${
+                element.number
+              }`,
+            };
+          }),
       ]);
     }
   }, [getCreateExam?.data]);

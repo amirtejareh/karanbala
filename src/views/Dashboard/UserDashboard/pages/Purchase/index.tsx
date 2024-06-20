@@ -18,6 +18,10 @@ import { ButtonKit } from "../../../../../components/kit/Button";
 import AssessmentImage from "../../../../../assets/images/assessment.png";
 import TutorialImage from "../../../../../assets/images/tutorial.png";
 import { useForm } from "react-hook-form";
+import { userStore } from "../../../../../stores";
+import useCreateOrder from "../../../../../hooks/order/useCreateOrder";
+import useGetUserBasedOnUsername from "../../../../../hooks/user/useGetUser";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme: Theme) => ({
   formField: {
@@ -46,11 +50,35 @@ const Purchase = () => {
     bgColor: string;
     type: "Assessment" | "Tutorial";
   }
-
   const {
     register,
     formState: { errors },
   } = useForm();
+
+  const userData: any = userStore((state) => state.user);
+  const createOrder = useCreateOrder();
+  const getUser = useGetUserBasedOnUsername(userData?.username);
+
+  const test = () => {
+    if (!getUser?.data[0]?.mobile) {
+      toast.error("لطفا ابتدا موبایل خود را در مشخصات کاربری ثبت کنید");
+      return;
+    }
+    createOrder.mutate(
+      {
+        amount: 1000,
+        email: getUser?.data[0]?.email,
+        userId: userData?.sub,
+        mobile: getUser?.data[0]?.mobile,
+      },
+      {
+        onSuccess: async (result) => {
+          window.location.href = result.data;
+        },
+      },
+    );
+  };
+
   const GenerateSubscriptionBoxes = ({ imageLink, bgColor, type }: IGenerateSubscriptionBoxes) => {
     return (
       <Box
@@ -245,7 +273,7 @@ const Purchase = () => {
             <Box></Box>
             <Box>
               {" "}
-              <ButtonKit size="large" fullWidth variant="contained">
+              <ButtonKit onClick={() => test()} size="large" fullWidth variant="contained">
                 <Typography fontSize="1.4rem"> خرید/تمدید</Typography>
               </ButtonKit>
             </Box>

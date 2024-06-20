@@ -237,6 +237,7 @@ const CreateComprehensiveTest = (props: any) => {
           <FormControl className={classes.formField} fullWidth>
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
+              multiple
               value={gradeLevelIds ?? []}
               {...register("gradeLevel")}
               inputRef={selectGradeLevelRef}
@@ -336,6 +337,7 @@ const CreateComprehensiveTest = (props: any) => {
                             data: "",
                             id: item._id,
                           });
+                          setGradeLevelIds(item?.gradeLevel);
                         }}
                       >
                         <EditLightSvg width={12} height={12} />

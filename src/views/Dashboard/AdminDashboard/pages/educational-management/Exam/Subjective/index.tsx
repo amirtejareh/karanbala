@@ -330,22 +330,26 @@ const SubjectiveExam = () => {
   useEffect(() => {
     if (getCreateExam?.data && getCreateExam?.data.length > 0) {
       setSelectOptions((prev: any) => [
-        ...getCreateExam?.data?.map((element) => ({
-          value: element._id,
+        ...getCreateExam?.data
+          ?.filter((item) => item?.type == "subjective")
+          ?.map((element) => {
+            return {
+              value: element._id,
 
-          label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${element?.chapter[0]
-            ?.title} - ${element?.subject[0]?.title} - ${
-            element.examLevel === "easy"
-              ? "آسان"
-              : element.examLevel === "hard"
-                ? "سخت"
-                : element.examLevel === "average"
-                  ? "متوسط"
-                  : element.examLevel === "challenging"
-                    ? "چالشی"
-                    : ""
-          } - ${element.examType === "multipleChoiceTest" ? "تستی" : "تشریحی"} `,
-        })),
+              label: `${element.gradeLevel[0].title} - ${element.books[0].title} - ${element
+                ?.chapter[0]?.title} - ${element?.subject[0]?.title} - ${
+                element.examLevel === "easy"
+                  ? "آسان"
+                  : element.examLevel === "hard"
+                    ? "سخت"
+                    : element.examLevel === "average"
+                      ? "متوسط"
+                      : element.examLevel === "challenging"
+                        ? "چالشی"
+                        : ""
+              } - ${element.examType === "multipleChoiceTest" ? "تستی" : "تشریحی"} `,
+            };
+          }),
       ]);
     }
   }, [getCreateExam?.data]);
