@@ -22,6 +22,15 @@ export const adminDashboardMenuItems = [
           ],
         },
         {
+          title: "تنظیمات",
+          submenu: [
+            {
+              title: "قیمت گذاری",
+              to: "/dashboard/admin/settings/pricing",
+            },
+          ],
+        },
+        {
           title: "مدیریت محتوا",
           submenu: [
             {
