@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   formField: {
     margin: "1rem 0",
     flexBasis: "336px",
-    height: "56px",
+    height: "56px !important",
   },
   textField: {
     marginTop: "5px",
@@ -329,6 +329,7 @@ const Profile = () => {
                   rules={{ required: "جنسیت الزامی است" }}
                   render={({ field: { onChange } }) => (
                     <Autocomplete
+                      sx={{ "& > div div": { height: "56px" } }}
                       options={[
                         { value: "male", label: "مرد" },
                         { value: "female", label: "زن" },
@@ -361,6 +362,7 @@ const Profile = () => {
                       className={classes.formField}
                       variant="outlined"
                       label="نام خانوادگی"
+                      sx={{ "& > div": { height: "56px" } }}
                       type="text"
                       InputLabelProps={{ shrink: true }}
                       error={!!errors.familyName}
@@ -377,6 +379,7 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
+                      sx={{ "& > div": { height: "56px" } }}
                       className={classes.formField}
                       variant="outlined"
                       label="نام "
@@ -419,7 +422,10 @@ const Profile = () => {
                         slots={{ openPickerIcon: CalendarDarkSvg }}
                         label="روز تولد"
                         onChange={(value) => field.onChange(value)}
-                        sx={{ height: "56px" }}
+                        sx={{
+                          "& > div": { height: "56px" },
+                          "& div > button": { padding: "0 20px" },
+                        }}
                         slotProps={{
                           textField: {
                             InputLabelProps: { shrink: true },
@@ -444,6 +450,7 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
+                      sx={{ "& > div": { height: "56px" } }}
                       className={classes.formField}
                       variant="outlined"
                       label="کد ملی"
@@ -468,6 +475,7 @@ const Profile = () => {
                       className={classes.formField}
                       variant="outlined"
                       label="نام پدر "
+                      sx={{ "& > div": { height: "56px" } }}
                       type="text"
                       InputLabelProps={{ shrink: true }}
                       error={!!errors.fathersName}
@@ -511,6 +519,7 @@ const Profile = () => {
                       {...field}
                       fullWidth
                       className={classes.formField}
+                      sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="شماره تلفن همراه"
                       type="text"
@@ -533,6 +542,7 @@ const Profile = () => {
                       {...field}
                       fullWidth
                       className={classes.formField}
+                      sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="شماره تلفن همراه والدین"
                       type="text"
@@ -554,6 +564,7 @@ const Profile = () => {
                       {...field}
                       fullWidth
                       className={classes.formField}
+                      sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="ایمیل"
                       type="text"
@@ -738,6 +749,7 @@ const Profile = () => {
                     name="slogan"
                     render={({ field: { onChange } }) => (
                       <Autocomplete
+                        sx={{ "& > div div": { height: "56px" } }}
                         options={[
                           { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
                           { value: "2", label: "صبر، حوصله، دقت و پشتکار" },

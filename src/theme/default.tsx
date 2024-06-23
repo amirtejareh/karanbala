@@ -114,6 +114,7 @@ const theme: ThemeOptions = {
             },
           },
           "& .MuiOutlinedInput-root": {
+            padding: "0 !important",
             "& input::placeholder": {
               color: "#d6d5dd",
               opacity: "unset",
@@ -473,9 +474,9 @@ const theme: ThemeOptions = {
           backgroundImage: "none !important",
         },
         root: {
-          "& .MuiOutlinedInput-root": {
-            padding: "11px 10px !important",
-          },
+          // "& .MuiOutlinedInput-root": {
+          //   padding: "11px 10px !important",
+          // },
           "& .MuiFilledInput-root": {
             padding: "3px 10px !important",
             "& .MuiInputAdornment-root": {
