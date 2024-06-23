@@ -324,7 +324,7 @@ const News = (props: any) => {
           <TableKit
             secondary
             headers={[{ children: `عنوان` }, { children: `عملیات` }]}
-            rows={News?.data?.allNews.map((item: any, index: any) => {
+            rows={News?.data?.allNews?.map((item: any, index: any) => {
               return {
                 id: item._id,
                 data: {
