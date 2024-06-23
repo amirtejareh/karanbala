@@ -222,7 +222,7 @@ const Purchase = () => {
                   {...register("duration", {
                     required: "لطفا مدت زمان را مشخص کنید",
                   })}
-                  value={tutorialExamType}
+                  value={duration}
                   onChange={(e: any) => setDuration(e.target.value)}
                 >
                   <MenuItem value={0}>ترم اول</MenuItem>

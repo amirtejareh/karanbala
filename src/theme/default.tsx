@@ -184,7 +184,6 @@ const theme: ThemeOptions = {
             fontSize: "14px",
             lineHeight: "1.6375em",
             borderRadius: "4px",
-            height: "100%",
 
             "&.Mui-focused": {
               "& .MuiOutlinedInput-notchedOutline": {
