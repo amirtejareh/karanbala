@@ -68,6 +68,7 @@ const ContentEducationalPricing = () => {
   const selectGradeLevelRef = useRef<any>();
   const selectBookRef = useRef<any>();
   const inputPriceRef = useRef<any>();
+  const selectTypeRef = useRef<any>();
 
   const {
     handleSubmit,
@@ -87,6 +88,7 @@ const ContentEducationalPricing = () => {
 
   const [gradeLevelIds, setGradeLevelIds] = useState<any>([]);
   const [bookIds, setBookIds] = useState<any>(gradeLevelIds);
+  const [typeIds, setTypeIds] = React.useState<any>("");
 
   const getGradeLevels = useGetGradeLevels();
   const createContentEducationalPricing = useCreateContentEducationalPricing();
@@ -114,6 +116,10 @@ const ContentEducationalPricing = () => {
 
   const getContentEducationalPricings = useGetContentEducationalPricing();
 
+  const handleTypeChange = (event: SelectChangeEvent) => {
+    setTypeIds(event.target.value as any);
+  };
+
   useEffect(() => {
     if (getContentEducationalPricings.data && !getContentEducationalPricings.isLoading) {
       getContentEducationalPricings.refetch();
@@ -130,8 +136,14 @@ const ContentEducationalPricing = () => {
     toast.error(errors["book"]?.message?.toString());
     toast.error(errors["price"]?.message?.toString());
     toast.error(errors["gradeLevel"]?.message?.toString());
+    toast.error(errors["type"]?.message?.toString());
     clearErrors();
-  }, [errors["book"]?.message, errors["price"]?.message, errors["gradeLevel"]?.message]);
+  }, [
+    errors["book"]?.message,
+    errors["price"]?.message,
+    errors["gradeLevel"]?.message,
+    errors["type"]?.message,
+  ]);
 
   const handleGradeLevelChange = (event: SelectChangeEvent) => {
     setGradeLevelIds(event.target.value as any);
@@ -216,7 +228,9 @@ const ContentEducationalPricing = () => {
             <InputLabel id="demo-simple-select-label">انتخاب پایه</InputLabel>
             <Select
               value={gradeLevelIds ?? []}
-              {...register("gradeLevel")}
+              {...register("gradeLevel", {
+                required: "لطفا پایه را مشخص کنید",
+              })}
               inputRef={selectGradeLevelRef}
               onChange={handleGradeLevelChange}
             >
@@ -235,7 +249,9 @@ const ContentEducationalPricing = () => {
             <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
             <Select
               value={bookIds ?? []}
-              {...register("book")}
+              {...register("book", {
+                required: "لطفا کتاب را مشخص کنید",
+              })}
               inputRef={selectBookRef}
               onChange={handleBookChange}
             >
@@ -250,6 +266,22 @@ const ContentEducationalPricing = () => {
                 })}
             </Select>
           </FormControl>
+
+          <FormControl className={classes.formField} fullWidth>
+            <InputLabel id="demo-simple-select-label"> انتخاب نوع مورد اشتراکی</InputLabel>
+            <Select
+              value={typeIds}
+              {...register("type", {
+                required: "لطفا مورد اشتراکی را مشخص کنید",
+              })}
+              onChange={handleTypeChange}
+              inputRef={selectTypeRef}
+            >
+              <MenuItem value={"comprehensive_test"}>تست جامع</MenuItem>
+              <MenuItem value={"quiz"}>آزمون انتخابی</MenuItem>
+            </Select>
+          </FormControl>
+
           <FormControl className={classes.formField} fullWidth>
             <TextField
               label="قیمت"
@@ -257,7 +289,7 @@ const ContentEducationalPricing = () => {
               inputRef={inputPriceRef}
               value={value.data}
               {...register("price", {
-                required: "لطفا قیمت  را وارد کنید",
+                required: "لطفا قیمت را وارد کنید",
               })}
               onChange={(e) => {
                 if (value.doUpdate) {
@@ -290,7 +322,7 @@ const ContentEducationalPricing = () => {
               return {
                 id: item._id,
                 data: {
-                  title: `${item.gradeLevel[0]?.title} - ${item.book[0]?.title} - ${item.price} هزار تومان`,
+                  title: `${item.gradeLevel[0]?.title} - ${item.book[0]?.title} - ${item.price}  تومان`,
                   action: (
                     <>
                       <IconButton
@@ -304,6 +336,8 @@ const ContentEducationalPricing = () => {
                           setGradeLevelIds(item.gradeLevel[0]?._id);
                           setBookIds(item.book[0]?._id);
 
+                          setTypeIds(item.type);
+
                           setTimeout(() => {
                             selectGradeLevelRef.current.focus();
                           }, 200);
@@ -315,6 +349,10 @@ const ContentEducationalPricing = () => {
                           setTimeout(() => {
                             inputPriceRef.current.focus();
                           }, 600);
+
+                          setTimeout(() => {
+                            selectTypeRef.current.focus();
+                          }, 800);
                         }}
                       >
                         <EditLightSvg width={12} height={12} />
