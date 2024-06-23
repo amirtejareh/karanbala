@@ -20,4 +20,8 @@ export type UpdateOrderDto = {
      * mobile of the user
      */
     mobile?: number;
+    /**
+     * userId of the user
+     */
+    userId?: string;
 };
