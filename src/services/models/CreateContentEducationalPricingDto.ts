@@ -19,4 +19,15 @@ export type CreateContentEducationalPricingDto = {
      * Price
      */
     price: number;
+    type: CreateContentEducationalPricingDto.type;
 };
+
+export namespace CreateContentEducationalPricingDto {
+
+    export enum type {
+        COMPREHENSIVE_TEST = 'comprehensive_test',
+        QUIZ = 'quiz',
+    }
+
+
+}

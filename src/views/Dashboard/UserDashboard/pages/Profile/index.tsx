@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ButtonKit } from "../../../../../components/kit/Button";
 import { CalendarDarkSvg, EditDarkSvg } from "../../../../../assets";
 import UserImage from "../../../../../assets/images/user.jpg";
@@ -29,6 +29,8 @@ import { userStore } from "../../../../../stores";
 import { ModalKit } from "../../../../../components/kit/Modal";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import useGetUserBasedOnUsername from "../../../../../hooks/user/useGetUser";
+import moment from "moment-jalaali";
 
 const useStyles = makeStyles((theme: Theme) => ({
   formField: {
@@ -179,17 +181,32 @@ const Profile = () => {
   const {
     control,
     formState: { errors },
+    setValue,
     handleSubmit,
   } = useForm();
 
   const classes = useStyles();
   const [provinceOptions, setProvinceOptions] = useState([]);
+  const [familyNameValue, setFamilyNameValue] = useState("");
+  const [firstNameValue, setFirstNameValue] = useState("");
+  const [nationalCodeValue, setNationalCodeValue] = useState("");
+  const [fathersNameValue, setFathersNameValue] = useState("");
+  const [mobileValue, setMobileValue] = useState("");
+  const [parentsPhoneValue, setParentsPhoneValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
   const [cityOptions, setCityOptions] = useState([]);
   const [gradeLevelOptions, setGradeLevelOptions] = useState([]);
   const [fieldOfStudyOptions, setfieldOfStudyOptions] = useState([]);
-  const [provinceId, setProvinceId] = useState<string>("0");
+  const [genderValue, setGenderValue] = useState(null);
+  const [sloganValue, setSloganValue] = useState(null);
+  const [provinceId, setProvinceId] = useState(null);
+  const [gradeLevelId, setGradeLevelId] = useState(null);
+  const [fieldOfStudyId, setFieldOfStudyId] = useState(null);
+  const [cityId, setCityId] = useState(null);
   const getProvinces = useGetProvinces();
-  const getCitiesBasedOnProvinceId = useGetCitiesBasedOnProvinceId(provinceId);
+  const getCitiesBasedOnProvinceId = useGetCitiesBasedOnProvinceId(
+    provinceId?.value ? provinceId.value : provinceId,
+  );
   const getFiledOfStudies = useGetFieldOfStudies();
   const getGradeLevels = useGetGradeLevels();
   const [selectedFile, setSelectedFile] = useState();
@@ -198,6 +215,121 @@ const Profile = () => {
   const updateUserData = useUpdateUser();
   const userData: any = userStore((state) => state.user);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const sloganOptions = [
+    { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
+    { value: "2", label: "صبر، حوصله، دقت و پشتکار" },
+    { value: "3", label: "به کسی کاری ندارم، هدف مشخص است" },
+    { value: "4", label: "انحراف به چپ ممنوع، مستقیم تا مقصد" },
+    { value: "5", label: "جاده باریک و پر سنگلاخ، ولی من قوی ترم" },
+  ];
+
+  const genderOptions = [
+    { value: "male", label: "مرد" },
+    { value: "female", label: "زن" },
+  ];
+
+  const getUser: any = useGetUserBasedOnUsername(userData?.username);
+  useEffect(() => {
+    if (getUser?.data?.[0]) {
+      setValue("province", getUser?.data?.[0]?.province ?? provinceId);
+      setValue("city", getUser?.data?.[0]?.city ?? cityId);
+      setValue("gradeLevel", getUser?.data?.[0]?.gradeLevel ?? gradeLevelId);
+      setValue("fieldOfStudy", getUser?.data?.[0]?.fieldOfStudy ?? fieldOfStudyId);
+      setValue("firstName", getUser?.data?.[0]?.firstName ?? firstNameValue);
+      setValue("familyName", getUser?.data?.[0]?.familyName ?? familyNameValue);
+      setValue("parentsPhone", getUser?.data?.[0]?.parentsPhone ?? parentsPhoneValue);
+      setValue("fathersName", getUser?.data?.[0]?.fathersName ?? fathersNameValue);
+      setValue("email", getUser?.data?.[0]?.email ?? emailValue);
+      setValue("mobile", getUser?.data?.[0]?.mobile ?? mobileValue);
+      setValue("gender", getUser?.data?.[0]?.gender ?? genderValue);
+      setValue("national_id_number", getUser?.data?.[0]?.national_id_number ?? nationalCodeValue);
+
+      if (getUser?.data?.[0]?.birthday) {
+        setValue(
+          "birthday",
+          moment(
+            moment(getUser?.data?.[0]?.birthday?.split("T")[0]).format("jYYYY/jM/jD"),
+            "jYYYY/jM/jD",
+          ).toDate(),
+        );
+      }
+
+      if (getUser?.data?.[0]?.slogan) {
+        setSloganValue({
+          value: getUser?.data?.[0]?.slogan,
+          label: sloganOptions.find((element) => element?.value === getUser?.data?.[0]?.slogan)
+            ?.label,
+        });
+      }
+      if (getUser?.data?.[0]?.gender) {
+        setGenderValue({
+          value: getUser?.data?.[0]?.gender,
+          label: genderOptions.find((element) => element?.value === getUser?.data?.[0]?.gender)
+            ?.label,
+        });
+      }
+
+      if (getUser?.data?.[0]?.city) {
+        setCityId({
+          value: getUser?.data?.[0]?.city,
+          label: cityOptions?.find((element) => element?.value === getUser?.data?.[0]?.city)?.label,
+        });
+      }
+    }
+  }, [getUser?.data?.[0], cityOptions]);
+
+  useEffect(() => {
+    setProvinceId(getUser?.data?.[0]?.province);
+    setCityId(getUser?.data?.[0]?.city);
+    setGradeLevelId(getUser?.data?.[0]?.gradeLevel);
+    setFieldOfStudyId(getUser?.data?.[0]?.fieldOfStudy);
+    setFirstNameValue(getUser?.data?.[0]?.firstName);
+    setFamilyNameValue(getUser?.data?.[0]?.familyName);
+    setParentsPhoneValue(getUser?.data?.[0]?.parentsPhone);
+    setFathersNameValue(getUser?.data?.[0]?.fathersName);
+    setEmailValue(getUser?.data?.[0]?.email);
+    setMobileValue(getUser?.data?.[0]?.mobile);
+    if (getUser?.data?.[0]?.gender) {
+      setGenderValue({
+        value: getUser?.data?.[0]?.gender,
+        label: genderOptions.find((element) => element.value === getUser?.data?.[0]?.gender)?.label,
+      });
+    }
+
+    setNationalCodeValue(getUser?.data?.[0]?.national_id_number);
+  }, [getUser?.data?.[0]]);
+
+  useEffect(() => {
+    if (getUser?.data?.[0]?.province) {
+      setProvinceId({
+        value: Number(getUser?.data?.[0]?.province),
+        label: provinceOptions?.find((element) => element?.value == getUser?.data?.[0]?.province)
+          ?.label,
+      });
+    }
+  }, [provinceOptions]);
+
+  useEffect(() => {
+    if (getUser?.data?.[0]?.province) {
+      setGradeLevelId({
+        value: getUser?.data?.[0]?.gradeLevel,
+        label: gradeLevelOptions?.find(
+          (element) => element?.value == getUser?.data?.[0]?.gradeLevel,
+        )?.label,
+      });
+    }
+  }, [gradeLevelOptions]);
+
+  useEffect(() => {
+    if (getUser?.data?.[0]?.province) {
+      setFieldOfStudyId({
+        value: getUser?.data?.[0]?.fieldOfStudy,
+        label: fieldOfStudyOptions?.find(
+          (element) => element?.value == getUser?.data?.[0]?.fieldOfStudy,
+        )?.label,
+      });
+    }
+  }, [fieldOfStudyOptions]);
 
   const profilePhotoRef = useRef<any>();
 
@@ -214,18 +346,28 @@ const Profile = () => {
     data.username = userData?.username;
 
     data.profilePhoto = selectedFile;
-    updateUserData.mutate(data, {
-      onSuccess: async (result: { message: string; statusCode: number }) => {
-        if (result.statusCode === 200) {
-          setLoading(false);
-
-          toast.success(result.message);
-        } else {
-          setLoading(false);
-          toast(result.message);
-        }
+    updateUserData.mutate(
+      {
+        ...data,
+        province: provinceId?.value,
+        city: cityId?.value,
+        gender: genderValue?.value,
+        fieldOfStudy: fieldOfStudyId.value,
+        gradeLevel: gradeLevelId.value,
       },
-    });
+      {
+        onSuccess: async (result: { message: string; statusCode: number }) => {
+          if (result.statusCode === 200) {
+            setLoading(false);
+
+            toast.success(result.message);
+          } else {
+            setLoading(false);
+            toast(result.message);
+          }
+        },
+      },
+    );
   };
 
   useEffect(() => {
@@ -281,7 +423,9 @@ const Profile = () => {
   }, [getProvinces?.data]);
 
   useEffect(() => {
-    if (provinceId && provinceId !== "0" && provinceId !== "NaN") {
+    console.log(provinceId, "provinceId");
+
+    if (provinceId && provinceId !== "0") {
       getCitiesBasedOnProvinceId.refetch();
     }
   }, [provinceId]);
@@ -327,16 +471,23 @@ const Profile = () => {
                   control={control}
                   name="gender"
                   rules={{ required: "جنسیت الزامی است" }}
-                  render={({ field: { onChange } }) => (
+                  render={({ field }) => (
                     <Autocomplete
+                      {...field}
                       sx={{ "& > div div": { height: "56px" } }}
                       options={[
                         { value: "male", label: "مرد" },
                         { value: "female", label: "زن" },
                       ]}
+                      value={genderValue}
                       getOptionLabel={(option) => option.label}
                       onChange={(event, item) => {
-                        onChange(item.value);
+                        setGenderValue({
+                          value: item?.value,
+                          label: genderOptions.find((element) => element.value === item?.value)
+                            ?.label,
+                        });
+                        field.onChange(item?.value);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -361,6 +512,11 @@ const Profile = () => {
                       fullWidth
                       className={classes.formField}
                       variant="outlined"
+                      value={familyNameValue}
+                      onChange={(e) => {
+                        setFamilyNameValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       label="نام خانوادگی"
                       sx={{ "& > div": { height: "56px" } }}
                       type="text"
@@ -380,6 +536,11 @@ const Profile = () => {
                       {...field}
                       fullWidth
                       sx={{ "& > div": { height: "56px" } }}
+                      value={firstNameValue}
+                      onChange={(e) => {
+                        setFirstNameValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       className={classes.formField}
                       variant="outlined"
                       label="نام "
@@ -453,6 +614,11 @@ const Profile = () => {
                       sx={{ "& > div": { height: "56px" } }}
                       className={classes.formField}
                       variant="outlined"
+                      value={nationalCodeValue}
+                      onChange={(e) => {
+                        setNationalCodeValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       label="کد ملی"
                       type="text"
                       InputLabelProps={{ shrink: true }}
@@ -475,6 +641,11 @@ const Profile = () => {
                       className={classes.formField}
                       variant="outlined"
                       label="نام پدر "
+                      value={fathersNameValue}
+                      onChange={(e) => {
+                        setFathersNameValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       sx={{ "& > div": { height: "56px" } }}
                       type="text"
                       InputLabelProps={{ shrink: true }}
@@ -510,7 +681,7 @@ const Profile = () => {
               <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
                 <Controller
                   control={control}
-                  name="phone"
+                  name="mobile"
                   rules={{
                     required: "شماره تلفن همراه  الزامی است",
                   }}
@@ -522,9 +693,14 @@ const Profile = () => {
                       sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="شماره تلفن همراه"
+                      value={mobileValue}
+                      onChange={(e) => {
+                        setMobileValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       type="text"
                       InputLabelProps={{ shrink: true }}
-                      error={!!errors.phone}
+                      error={!!errors.mobile}
                     />
                   )}
                 />
@@ -544,6 +720,11 @@ const Profile = () => {
                       className={classes.formField}
                       sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
+                      value={parentsPhoneValue}
+                      onChange={(e) => {
+                        setParentsPhoneValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       label="شماره تلفن همراه والدین"
                       type="text"
                       InputLabelProps={{ shrink: true }}
@@ -567,6 +748,11 @@ const Profile = () => {
                       sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="ایمیل"
+                      value={emailValue}
+                      onChange={(e) => {
+                        setEmailValue(e.target.value);
+                        field.onChange(e);
+                      }}
                       type="text"
                       InputLabelProps={{ shrink: true }}
                       error={!!errors.email}
@@ -579,7 +765,7 @@ const Profile = () => {
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
               <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
                 <FormHelperText sx={{ color: "red" }}>
-                  {errors?.phone?.message?.toString()}
+                  {errors?.mobile?.message?.toString()}
                 </FormHelperText>
               </Box>
               <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
@@ -608,9 +794,10 @@ const Profile = () => {
                     <Autocomplete
                       options={provinceOptions}
                       getOptionLabel={(option) => option.label}
+                      value={provinceId}
                       onChange={(event, item) => {
-                        setProvinceId(item?.value);
-                        onChange(item.value);
+                        setProvinceId(item);
+                        onChange(item?.value);
                       }}
                       sx={{ width: "336px", "& > div div": { height: "56px" } }}
                       renderInput={(params) => (
@@ -635,8 +822,10 @@ const Profile = () => {
                     <Autocomplete
                       options={cityOptions}
                       getOptionLabel={(option) => option.label}
+                      value={cityId}
                       onChange={(event, item) => {
-                        onChange(item.value);
+                        setCityId(item);
+                        onChange(item?.value);
                       }}
                       sx={{ width: "336px", "& > div div": { height: "56px" } }}
                       renderInput={(params) => (
@@ -681,8 +870,11 @@ const Profile = () => {
                       options={fieldOfStudyOptions}
                       sx={{ width: "336px", "& > div div": { height: "56px" } }}
                       getOptionLabel={(option) => option.label}
+                      value={fieldOfStudyId}
                       onChange={(event, item) => {
-                        onChange(item.value);
+                        setFieldOfStudyId(item);
+
+                        onChange(item?.value);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -707,8 +899,10 @@ const Profile = () => {
                       options={gradeLevelOptions}
                       sx={{ width: "336px", "& > div div": { height: "56px" } }}
                       getOptionLabel={(option) => option.label}
+                      value={gradeLevelId}
                       onChange={(event, item) => {
-                        onChange(item.value);
+                        setGradeLevelId(item);
+                        onChange(item?.value);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -758,8 +952,14 @@ const Profile = () => {
                           { value: "5", label: "جاده باریک و پر سنگلاخ، ولی من قوی ترم" },
                         ]}
                         getOptionLabel={(option) => option.label}
+                        value={sloganValue}
                         onChange={(event, item) => {
-                          onChange(item.value);
+                          setSloganValue({
+                            value: item?.value,
+                            label: sloganOptions.find((element) => element.value === item?.value)
+                              ?.label,
+                          });
+                          onChange(item?.value);
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -853,16 +1053,29 @@ const Profile = () => {
               ) : (
                 <>
                   {" "}
-                  <Box
-                    component={"img"}
-                    src={UserImage}
-                    alt={"user image"}
-                    width={136}
-                    height={136}
-                    onClick={() => profilePhotoRef.current.click()}
-                    sx={{ cursor: "pointer" }}
-                    marginBottom={"2rem"}
-                  />
+                  {getUser?.data?.[0]?.profilePhoto ? (
+                    <Box
+                      component={"img"}
+                      src={`${process.env.REACT_APP_BASE_URL}/${getUser.data[0]?.profilePhoto}`}
+                      alt={"user image"}
+                      width={136}
+                      height={136}
+                      onClick={() => profilePhotoRef.current.click()}
+                      sx={{ cursor: "pointer" }}
+                      marginBottom={"2rem"}
+                    />
+                  ) : (
+                    <Box
+                      component={"img"}
+                      src={UserImage}
+                      alt={"user image"}
+                      width={136}
+                      height={136}
+                      onClick={() => profilePhotoRef.current.click()}
+                      sx={{ cursor: "pointer" }}
+                      marginBottom={"2rem"}
+                    />
+                  )}
                   <IconButton
                     sx={{
                       backgroundColor: "#FCF0FF",

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { makeStyles, useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ButtonKit } from "../../../../../components/kit/Button";
 import AssessmentImage from "../../../../../assets/images/assessment.png";
 import TutorialImage from "../../../../../assets/images/tutorial.png";
@@ -35,7 +35,7 @@ const Purchase = () => {
   const [type, setType] = useState<string>("multipleChoiceTest");
   const [term, setTerm] = useState<string>("multipleChoiceTest");
   const [books, setBooks] = useState<string>("multipleChoiceTest");
-  const [duration, setDuration] = useState<number>();
+  const [duration, setDuration] = useState<number>(-1);
   const [tutorialExamType, setTutorialExamType] = useState<string>("multipleChoiceTest");
   const [examState, setExamState] = useState(0);
   const [number, setNumber] = useState(0);
@@ -57,7 +57,7 @@ const Purchase = () => {
 
   const userData: any = userStore((state) => state.user);
   const createOrder = useCreateOrder();
-  const getUser = useGetUserBasedOnUsername(userData?.username);
+  const getUser: any = useGetUserBasedOnUsername(userData?.username);
 
   const test = () => {
     if (!getUser?.data[0]?.mobile) {
@@ -77,6 +77,20 @@ const Purchase = () => {
         },
       },
     );
+  };
+
+  useEffect(() => {
+    if (!getUser?.data?.[0]?.gradeLevel || getUser?.data?.[0]?.gradeLevel?.length == 0) {
+      toast.error("لطفا ابتدا از بخش مشخصات کاربری پایه خود را انتخاب کنید");
+    }
+  }, [getUser?.data?.[0]?.gradeLevel]);
+
+  const checkConfirmIsDisable = () => {
+    if (getUser?.gradeLevel?.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   const GenerateSubscriptionBoxes = ({ imageLink, bgColor, type }: IGenerateSubscriptionBoxes) => {
@@ -195,7 +209,7 @@ const Purchase = () => {
         <Box margin={"4rem 0"}>
           <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr 2fr"}>
             <Box>
-              <FormControl className={`${classes.formField} $`}>
+              <FormControl className={`${classes.formField} `}>
                 <InputLabel id="demo-simple-select-label">موارد اشتراکی </InputLabel>
                 <Select
                   {...register("tutorialExamType", {
@@ -216,7 +230,7 @@ const Purchase = () => {
             </Box>
 
             <Box>
-              <FormControl className={`${classes.formField} $`}>
+              <FormControl className={`${classes.formField} `}>
                 <InputLabel id="demo-simple-select-label"> مدت زمان </InputLabel>
                 <Select
                   {...register("duration", {
@@ -273,7 +287,13 @@ const Purchase = () => {
             <Box></Box>
             <Box>
               {" "}
-              <ButtonKit onClick={() => test()} size="large" fullWidth variant="contained">
+              <ButtonKit
+                disabled={checkConfirmIsDisable()}
+                onClick={() => test()}
+                size="large"
+                fullWidth
+                variant="contained"
+              >
                 <Typography fontSize="1.4rem"> خرید/تمدید</Typography>
               </ButtonKit>
             </Box>
@@ -459,7 +479,12 @@ const Purchase = () => {
                   />
                 </Box>
                 <Box display={"flex"} justifyContent={"center"}>
-                  <ButtonKit size="large" fullWidth variant="contained">
+                  <ButtonKit
+                    disabled={checkConfirmIsDisable()}
+                    size="large"
+                    fullWidth
+                    variant="contained"
+                  >
                     <Typography fontSize="1.4rem"> خرید/تمدید</Typography>
                   </ButtonKit>
                 </Box>

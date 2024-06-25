@@ -25,6 +25,7 @@
     "jalali-moment": "^3.3.11",
     "jwt-decode": "^3.1.2",
     "katex": "^0.16.9",
+    "moment-jalaali": "^0.10.1",
     "num2persian": "^3.2.2",
     "openapi-typescript-codegen": "^0.25.0",
     "react": "*",
