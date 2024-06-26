@@ -93,4 +93,27 @@ id: string,
         });
     }
 
+    /**
+     * @param bookId 
+     * @param gradeLevelId 
+     * @param type 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static contentEducationalPricingControllerFindPriceBasedOnBookAndGradeLevelAndType(
+bookId: string,
+gradeLevelId: string,
+type: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/content-educational-pricing/withBooks/{BookId}',
+            query: {
+                'bookId': bookId,
+                'gradeLevelId': gradeLevelId,
+                'type': type,
+            },
+        });
+    }
+
 }

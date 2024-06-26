@@ -47,6 +47,22 @@ const UserDashboardRoute = () => {
       />
 
       <Route
+        path="/purchase/callbackurl"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["User"],
+              resource: "profile",
+              action: "read",
+            }}
+          >
+            <Purchase />
+          </AuthorizedRoute>
+        }
+      />
+
+      <Route
         path="/shopping_list"
         element={
           <AuthorizedRoute

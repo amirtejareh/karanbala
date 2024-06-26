@@ -2,26 +2,26 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateOrderDto } from '../models/CreateOrderDto';
-import type { UpdateOrderDto } from '../models/UpdateOrderDto';
+import type { CreatePaymentDto } from '../models/CreatePaymentDto';
+import type { UpdatePaymentDto } from '../models/UpdatePaymentDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class OrderService {
+export class PaymentService {
 
     /**
      * @param requestBody 
      * @returns any 
      * @throws ApiError
      */
-    public static orderControllerCreate(
-requestBody: CreateOrderDto,
+    public static paymentControllerCreate(
+requestBody: CreatePaymentDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/order',
+            url: '/payment',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -31,10 +31,27 @@ requestBody: CreateOrderDto,
      * @returns any 
      * @throws ApiError
      */
-    public static orderControllerFindAll(): CancelablePromise<any> {
+    public static paymentControllerFindAll(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/order',
+            url: '/payment',
+        });
+    }
+
+    /**
+     * @param authorityId 
+     * @returns any 
+     * @throws ApiError
+     */
+    public static paymentControllerGetPaymentStatus(
+authorityId: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/payment/withAuthority/{authorityId}',
+            path: {
+                'authorityId': authorityId,
+            },
         });
     }
 
@@ -43,12 +60,12 @@ requestBody: CreateOrderDto,
      * @returns any 
      * @throws ApiError
      */
-    public static orderControllerFindOne(
+    public static paymentControllerFindOne(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/order/{id}',
+            url: '/payment/{id}',
             path: {
                 'id': id,
             },
@@ -61,13 +78,13 @@ id: string,
      * @returns any 
      * @throws ApiError
      */
-    public static orderControllerUpdate(
+    public static paymentControllerUpdate(
 id: string,
-requestBody: UpdateOrderDto,
+requestBody: UpdatePaymentDto,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/order/{id}',
+            url: '/payment/{id}',
             path: {
                 'id': id,
             },
@@ -81,12 +98,12 @@ requestBody: UpdateOrderDto,
      * @returns any 
      * @throws ApiError
      */
-    public static orderControllerRemove(
+    public static paymentControllerRemove(
 id: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/order/{id}',
+            url: '/payment/{id}',
             path: {
                 'id': id,
             },

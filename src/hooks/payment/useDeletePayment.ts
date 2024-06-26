@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { OrderService } from "../../services";
+import { PaymentService } from "../../services";
 
 const useDeletePayment = () => {
   return useMutation((request: string) => {
-    return OrderService.orderControllerRemove(request);
+    return PaymentService.paymentControllerRemove(request);
   });
 };
 

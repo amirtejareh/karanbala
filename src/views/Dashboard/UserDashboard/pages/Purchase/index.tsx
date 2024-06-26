@@ -7,21 +7,26 @@ import {
   Radio,
   RadioGroup,
   Select,
+  SelectChangeEvent,
   TextField,
   Theme,
   Typography,
 } from "@mui/material";
 import { makeStyles, useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ButtonKit } from "../../../../../components/kit/Button";
 import AssessmentImage from "../../../../../assets/images/assessment.png";
 import TutorialImage from "../../../../../assets/images/tutorial.png";
 import { useForm } from "react-hook-form";
 import { userStore } from "../../../../../stores";
-import useCreateOrder from "../../../../../hooks/order/useCreateOrder";
+import useCreatePayment from "../../../../../hooks/payment/useCreatePayment";
 import useGetUserBasedOnUsername from "../../../../../hooks/user/useGetUser";
 import { toast } from "react-toastify";
+import useGetBooksBasedOnGradeLevels from "../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
+import useGetPriceWithGradeLevelIdAndBookIdAndType from "../../../../../hooks/settings/content-educational-pricing/useGetPriceWithGradeLevelIdAndBookIdAndType";
+import { useLocation, useParams } from "react-router-dom";
+import useGetPaymentsStatus from "../../../../../hooks/payment/useGetPaymentsStatus";
 
 const useStyles = makeStyles((theme: Theme) => ({
   formField: {
@@ -44,7 +49,45 @@ const Purchase = () => {
   const [tutorailTotalAmountWithDiscount, setTutorailTotalAmountWithDiscount] = useState(0);
   const [tutorailTotalAmount, setTutorailTotalAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const userData: any = userStore((state) => state.user);
+  const getUser: any = useGetUserBasedOnUsername(userData?.username);
+  const [bookIds, setBookIds] = React.useState<any>(getUser?.data?.[0]?.gradeLevel);
+  const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(getUser?.data?.[0]?.gradeLevel);
+  const location = useLocation();
+  const search = useLocation().search;
+  const Authority = new URLSearchParams(search).get("Authority");
 
+  const getPaymentStatus = useGetPaymentsStatus(Authority);
+
+  useEffect(() => {
+    if (getPaymentStatus?.data?.statusCode == 500) {
+      toast.error(getPaymentStatus?.data?.message);
+    }
+    if (getPaymentStatus?.data?.statusCode == 404) {
+      toast.error(getPaymentStatus?.data?.message);
+    }
+    if (getPaymentStatus?.data?.statusCode == 200) {
+      toast.success(getPaymentStatus?.data?.message);
+    }
+  }, [getPaymentStatus]);
+
+  const getPriceWithGradeLevelIdAndBookIdAndType: any = useGetPriceWithGradeLevelIdAndBookIdAndType(
+    bookIds,
+    getUser?.data?.[0]?.gradeLevel,
+    tutorialExamType === "1" ? "comprehensive_test" : "quiz",
+  );
+
+  useEffect(() => {
+    if (getUser?.data?.[0]?.gradeLevel && tutorialExamType && bookIds) {
+      getPriceWithGradeLevelIdAndBookIdAndType.refetch();
+    }
+  }, [getUser?.data?.[0]?.gradeLevel, tutorialExamType, bookIds]);
+
+  useEffect(() => {
+    if (getUser?.data?.[0]?.gradeLevel) {
+      getBooksBasedOnGradeLevels.refetch();
+    }
+  }, [getUser?.data?.[0]?.gradeLevel]);
   interface IGenerateSubscriptionBoxes {
     imageLink: string;
     bgColor: string;
@@ -55,39 +98,67 @@ const Purchase = () => {
     formState: { errors },
   } = useForm();
 
-  const userData: any = userStore((state) => state.user);
-  const createOrder = useCreateOrder();
-  const getUser: any = useGetUserBasedOnUsername(userData?.username);
+  const createPayment = useCreatePayment();
+  const selectBookRef = useRef<any>();
 
-  const test = () => {
+  const handleBookChange = (event: SelectChangeEvent) => {
+    setBookIds(event.target.value as any);
+  };
+
+  console.log(userData?.sub);
+
+  const doPayment = () => {
     if (!getUser?.data[0]?.mobile) {
       toast.error("لطفا ابتدا موبایل خود را در مشخصات کاربری ثبت کنید");
       return;
     }
-    createOrder.mutate(
+    createPayment.mutate(
       {
-        amount: 1000,
+        amount: getPriceWithGradeLevelIdAndBookIdAndType?.data?.[0]?.price,
         email: getUser?.data[0]?.email,
-        userId: userData?.sub,
         mobile: getUser?.data[0]?.mobile,
+        gradeLevel: getUser?.data?.[0]?.gradeLevel,
+        type: tutorialExamType === "1" ? "comprehensive_test" : "quiz",
       },
       {
         onSuccess: async (result) => {
-          window.location.href = result.data;
+          if (result.statusCode == 200) {
+            window.location.href = result.data;
+          }
+
+          if (result.statusCode == 500) {
+            toast.error(result.message);
+          }
         },
       },
     );
   };
 
   useEffect(() => {
-    if (!getUser?.data?.[0]?.gradeLevel || getUser?.data?.[0]?.gradeLevel?.length == 0) {
-      toast.error("لطفا ابتدا از بخش مشخصات کاربری پایه خود را انتخاب کنید");
+    if (getUser?.data?.[0]) {
+      if (getUser?.data?.[0].gradeLevel != undefined) {
+        if (getUser?.data?.[0]?.gradeLevel == "") {
+          toast.error("لطفا ابتدا از بخش مشخصات کاربری پایه خود را انتخاب کنید");
+        }
+      } else {
+        toast.error("لطفا ابتدا از بخش مشخصات کاربری پایه خود را انتخاب کنید");
+      }
     }
-  }, [getUser?.data?.[0]?.gradeLevel]);
+  }, [getUser?.data?.[0]]);
 
   const checkConfirmIsDisable = () => {
-    if (getUser?.gradeLevel?.length > 0) {
-      return false;
+    if (getUser?.data?.[0].gradeLevel != undefined) {
+      if (
+        getUser?.data?.[0]?.gradeLevel == "" ||
+        getPriceWithGradeLevelIdAndBookIdAndType?.data?.[0]?.price <= 0 ||
+        getPriceWithGradeLevelIdAndBookIdAndType?.data?.[0]?.price === undefined ||
+        bookIds == undefined ||
+        bookIds == ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return true;
     }
@@ -207,7 +278,28 @@ const Purchase = () => {
 
       {examState === 0 && (
         <Box margin={"4rem 0"}>
-          <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr 2fr"}>
+          <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr 2fr "}>
+            <Box>
+              <FormControl className={classes.formField} fullWidth>
+                <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
+                <Select
+                  value={bookIds ?? []}
+                  {...register("books")}
+                  inputRef={selectBookRef}
+                  onChange={handleBookChange}
+                >
+                  {!getBooksBasedOnGradeLevels?.isLoading &&
+                    getBooksBasedOnGradeLevels?.data != undefined &&
+                    getBooksBasedOnGradeLevels?.data?.map((element) => {
+                      return (
+                        <MenuItem key={element._id} value={element._id}>
+                          {element.title}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+            </Box>
             <Box>
               <FormControl className={`${classes.formField} `}>
                 <InputLabel id="demo-simple-select-label">موارد اشتراکی </InputLabel>
@@ -228,23 +320,6 @@ const Purchase = () => {
                 </Select>
               </FormControl>
             </Box>
-
-            <Box>
-              <FormControl className={`${classes.formField} `}>
-                <InputLabel id="demo-simple-select-label"> مدت زمان </InputLabel>
-                <Select
-                  {...register("duration", {
-                    required: "لطفا مدت زمان را مشخص کنید",
-                  })}
-                  value={duration}
-                  onChange={(e: any) => setDuration(e.target.value)}
-                >
-                  <MenuItem value={0}>ترم اول</MenuItem>
-                  <MenuItem value={1}>ترم دوم</MenuItem>
-                  <MenuItem value={2}>سالیانه </MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
             <Box>
               <TextField
                 {...register("discount")}
@@ -257,8 +332,7 @@ const Purchase = () => {
               />
             </Box>
           </Box>
-
-          <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr"}>
+          <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr  2fr "}>
             <Box>
               <TextField
                 {...register("tutorailTotalAmount")}
@@ -266,7 +340,8 @@ const Purchase = () => {
                 className={classes.formField}
                 variant="outlined"
                 label="مبلغ کل"
-                type="number"
+                type="string"
+                value={getPriceWithGradeLevelIdAndBookIdAndType?.data?.[0]?.price ?? 0}
                 InputLabelProps={{ shrink: true }}
               />
             </Box>
@@ -286,10 +361,9 @@ const Purchase = () => {
           <Box display={"grid"} gap={"3rem"} gridTemplateColumns={"2fr 2fr"}>
             <Box></Box>
             <Box>
-              {" "}
               <ButtonKit
                 disabled={checkConfirmIsDisable()}
-                onClick={() => test()}
+                onClick={() => doPayment()}
                 size="large"
                 fullWidth
                 variant="contained"
