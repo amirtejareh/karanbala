@@ -28,13 +28,22 @@ requestBody: CreatePaymentDto,
     }
 
     /**
+     * @param page 
+     * @param limit 
      * @returns any 
      * @throws ApiError
      */
-    public static paymentControllerFindAll(): CancelablePromise<any> {
+    public static paymentControllerFindAll(
+page: number,
+limit: number,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/payment',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
         });
     }
 

@@ -22,6 +22,10 @@ export type CreatePaymentDto = {
      * mobile of the user
      */
     mobile: number;
+    /**
+     * id of the user
+     */
+    userId: number;
     type: CreatePaymentDto.type;
     /**
      * Grade level id

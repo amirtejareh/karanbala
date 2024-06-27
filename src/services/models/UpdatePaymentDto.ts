@@ -22,6 +22,10 @@ export type UpdatePaymentDto = {
      * mobile of the user
      */
     mobile?: number;
+    /**
+     * id of the user
+     */
+    userId?: number;
     type?: UpdatePaymentDto.type;
     /**
      * Grade level id
