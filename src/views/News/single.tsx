@@ -70,6 +70,9 @@ const News = () => {
           marginTop={"24px"}
           sx={{
             backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/${getOneNews?.data?.image}')`,
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
           }}
           id="image"
           height={"368px"}

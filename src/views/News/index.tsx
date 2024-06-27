@@ -112,6 +112,9 @@ const News = () => {
             <Box
               sx={{
                 backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/${getNews?.data?.allNews?.[0]?.image}')`,
+                backgroundPosition: "center",
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
               }}
               display={"flex"}
               flexBasis={"769px"}
