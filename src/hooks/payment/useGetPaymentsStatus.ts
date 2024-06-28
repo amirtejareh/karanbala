@@ -11,6 +11,7 @@ const useGetPaymentsStatus = (authority: string) => {
     {
       refetchOnWindowFocus: false,
       enabled: !!authority,
+      retry: 1,
     },
   );
 };

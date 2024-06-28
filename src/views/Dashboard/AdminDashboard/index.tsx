@@ -76,7 +76,11 @@ const AdminDashboard = () => {
             return (
               <Box key={role.title} className={classes.badge}>
                 <Typography variant="body2">
-                  {role.title === "User" ? "کاربر عادی" : "مدیر کل"}
+                  {role.title === "User"
+                    ? "کاربر عادی"
+                    : role.title === "SuperAdmin"
+                      ? "مدیرکل"
+                      : "کاربر ویژه"}
                 </Typography>
               </Box>
             );

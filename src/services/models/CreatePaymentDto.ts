@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { GradeLevel } from './GradeLevel';
+import type { Book } from './Book';
 
 export type CreatePaymentDto = {
     /**
@@ -25,12 +25,12 @@ export type CreatePaymentDto = {
     /**
      * id of the user
      */
-    userId: number;
+    userId: string;
     type: CreatePaymentDto.type;
     /**
-     * Grade level id
+     * Book id
      */
-    gradeLevel: GradeLevel;
+    book: Book;
 };
 
 export namespace CreatePaymentDto {

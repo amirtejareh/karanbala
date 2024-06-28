@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { authStore, userStore } from "../stores";
+import EducationDetailStore from "../stores/educationDetailStore";
 
 const CheckRoutes = () => {
   const navigate = useNavigate();
   const { accessToken } = authStore((state) => state);
   const userData: any = userStore((state) => state);
+  const { setBook, book } = EducationDetailStore((state) => state);
 
   useEffect(() => {
     if (accessToken === undefined || accessToken === null) {
@@ -15,14 +17,15 @@ const CheckRoutes = () => {
       userData.setUser(jwt_decode(accessToken));
     }
   }, [navigate, accessToken]);
+  console.log(userData, "userData");
 
   useEffect(() => {
     if (userData && userData?.user?.roles) {
-      if (userData?.user?.roles?.every((element: any) => element.title == "User")) {
+      if (userData?.user?.roles?.some((element: any) => element.title == "User")) {
         navigate("/dashboard/user/purchase");
       }
 
-      if (userData?.user?.roles?.every((element: any) => element.title == "SuperAdmin")) {
+      if (userData?.user?.roles?.some((element: any) => element.title == "SuperAdmin")) {
         navigate("/dashboard/admin/field-of-study");
       }
     }

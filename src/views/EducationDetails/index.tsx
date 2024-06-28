@@ -153,13 +153,15 @@ const EducationDetails = () => {
             <Typography lineHeight={"3.5rem"}>{getBookBasedOnId?.data?.description}</Typography>
           </Box>
           <Box flexBasis={"60%"} textAlign={"right"}>
-            <img
-              style={{ borderRadius: "50%" }}
-              src={`${process.env.REACT_APP_BASE_URL}/${getBookBasedOnId?.data?.image}`}
-              alt="dr samieee"
-              width={"273rem"}
-              height={"271rem"}
-            />
+            {getBookBasedOnId?.data && (
+              <img
+                style={{ borderRadius: "50%" }}
+                src={`${process.env.REACT_APP_BASE_URL}/${getBookBasedOnId?.data?.image}`}
+                alt="dr samieee"
+                width={"273rem"}
+                height={"271rem"}
+              />
+            )}
           </Box>
         </Box>
       </Box>

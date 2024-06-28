@@ -75,7 +75,6 @@ const Header = () => {
   const { accessToken } = authStore((state) => state);
   const userData: any = userStore((state) => state);
 
-  const [popoverAnchor, setPopoverAnchor] = useState<any>(null);
   useEffect(() => {
     if (accessToken && userData.user === null) {
       const user = jwt_decode(accessToken ?? "");

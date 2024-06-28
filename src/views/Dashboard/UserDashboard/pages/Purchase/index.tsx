@@ -50,14 +50,20 @@ const Purchase = () => {
   const [tutorailTotalAmount, setTutorailTotalAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const userData: any = userStore((state) => state.user);
+  const setUserData: any = userStore((state) => state.setUser);
   const getUser: any = useGetUserBasedOnUsername(userData?.username);
-  const [bookIds, setBookIds] = React.useState<any>(getUser?.data?.[0]?.gradeLevel);
+  const [bookIds, setBookIds] = React.useState<any>(getUser?.data?.[0]?.gradeLevel ?? 0);
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(getUser?.data?.[0]?.gradeLevel);
-  const location = useLocation();
   const search = useLocation().search;
   const Authority = new URLSearchParams(search).get("Authority");
 
   const getPaymentStatus = useGetPaymentsStatus(Authority);
+
+  useEffect(() => {
+    if (userData?.username) {
+      getUser.refetch();
+    }
+  }, [userData?.username]);
 
   useEffect(() => {
     if (getPaymentStatus?.data?.statusCode == 500) {
@@ -66,10 +72,25 @@ const Purchase = () => {
     if (getPaymentStatus?.data?.statusCode == 404) {
       toast.error(getPaymentStatus?.data?.message);
     }
-    if (getPaymentStatus?.data?.statusCode == 200) {
-      toast.success(getPaymentStatus?.data?.message);
-    }
   }, [getPaymentStatus]);
+
+  useEffect(() => {
+    if (getPaymentStatus?.data?.statusCode == 200) {
+      getUser.refetch();
+    }
+  }, [getPaymentStatus?.data?.statusCode]);
+  console.log(getUser?.data?.[0]?.roles);
+
+  useEffect(() => {
+    if (getUser?.data) {
+      if (getUser?.data?.[0]?.roles?.length > userData?.roles?.length) {
+        setUserData({ ...userData, roles: getUser?.data?.[0]?.roles });
+        toast.success(getPaymentStatus?.data?.message);
+      }
+    }
+  }, [getUser?.data]);
+
+  console.log(userData, "userData");
 
   const getPriceWithGradeLevelIdAndBookIdAndType: any = useGetPriceWithGradeLevelIdAndBookIdAndType(
     bookIds,
@@ -105,19 +126,20 @@ const Purchase = () => {
     setBookIds(event.target.value as any);
   };
 
-  console.log(userData?.sub);
-
   const doPayment = () => {
     if (!getUser?.data[0]?.mobile) {
       toast.error("لطفا ابتدا موبایل خود را در مشخصات کاربری ثبت کنید");
       return;
     }
+
     createPayment.mutate(
       {
         amount: getPriceWithGradeLevelIdAndBookIdAndType?.data?.[0]?.price,
         email: getUser?.data[0]?.email,
         mobile: getUser?.data[0]?.mobile,
         gradeLevel: getUser?.data?.[0]?.gradeLevel,
+        book: bookIds,
+        userId: userData?.sub,
         type: tutorialExamType === "1" ? "comprehensive_test" : "quiz",
       },
       {
@@ -127,6 +149,10 @@ const Purchase = () => {
           }
 
           if (result.statusCode == 500) {
+            toast.error(result.message);
+          }
+
+          if (result.statusCode == 400) {
             toast.error(result.message);
           }
         },
@@ -283,10 +309,10 @@ const Purchase = () => {
               <FormControl className={classes.formField} fullWidth>
                 <InputLabel id="demo-simple-select-label">انتخاب کتاب</InputLabel>
                 <Select
-                  value={bookIds ?? []}
                   {...register("books")}
                   inputRef={selectBookRef}
                   onChange={handleBookChange}
+                  value={bookIds ?? []}
                 >
                   {!getBooksBasedOnGradeLevels?.isLoading &&
                     getBooksBasedOnGradeLevels?.data != undefined &&

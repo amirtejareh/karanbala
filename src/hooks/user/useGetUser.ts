@@ -10,7 +10,7 @@ const useGetUserBasedOnUsername = (username: string) => {
     },
     {
       refetchOnWindowFocus: false,
-      enabled: !!username,
+      enabled: false,
     },
   );
 };

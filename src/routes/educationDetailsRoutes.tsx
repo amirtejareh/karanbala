@@ -21,15 +21,20 @@ import { useEffect } from "react";
 import EducationDetailStore from "../stores/educationDetailStore";
 import StandardReport from "../views/EducationDetails/pages/Quiz/page/Standard/Report";
 import SubjectiveReport from "../views/EducationDetails/pages/Quiz/page/Subjective/Report";
+import AuthorizedRoute from "../components/AuthorizedRoute";
+import { userStore } from "../stores";
 
 const EducationDetailsRoutes = () => {
   const { setBook, book } = EducationDetailStore((state) => state);
+  const user: any = userStore((state) => state);
 
   useEffect(() => {
     return () => {
       setBook(null);
     };
   }, []);
+
+  console.log("ComprehensiveTest" + book);
 
   return (
     <EducationLayoutComponent>
@@ -42,7 +47,22 @@ const EducationDetailsRoutes = () => {
         <Route path={"/introduction-book/book-review"} element={<BookReview />} />
         <Route path={"/lessons"} element={<Lessons />} />
         <Route path={"/questions"} element={<Questions />} />
-        <Route path={"/exam"} element={<Exam />} />
+        <Route
+          path="/exam"
+          element={
+            <AuthorizedRoute
+              userRole={user?.user}
+              route={{
+                requiredRoles: ["ComprehensiveTest" + book],
+                resource: "ComprehensiveTest" + book,
+                action: "read",
+              }}
+            >
+              <Exam />
+            </AuthorizedRoute>
+          }
+        />
+
         <Route path={"/point-and-test"} element={<PointAndTest />} />
         <Route path={"/example"} element={<Example />} />
         <Route path={"/attach"} element={<Attach />} />
