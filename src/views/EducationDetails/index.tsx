@@ -14,7 +14,6 @@ import {
   TextBookSvg,
 } from "../../assets";
 import { SelectKit } from "../../components/kit/Select";
-import DrSamiee from "../../assets/images/drsamiee.png";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { makeStyles } from "@mui/styles";

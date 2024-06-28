@@ -63,13 +63,59 @@ const EducationDetailsRoutes = () => {
           }
         />
 
+        <Route
+          path="/quiz"
+          element={
+            <AuthorizedRoute
+              userRole={user?.user}
+              route={{
+                requiredRoles: ["Quiz" + book],
+                resource: "Quiz" + book,
+                action: "read",
+              }}
+            >
+              <Quiz />
+            </AuthorizedRoute>
+          }
+        />
+
+        <Route
+          path="/quiz/standard/:id"
+          element={
+            <AuthorizedRoute
+              userRole={user?.user}
+              route={{
+                requiredRoles: ["Quiz" + book],
+                resource: "Quiz" + book,
+                action: "read",
+              }}
+            >
+              <StartSrandardExam />
+            </AuthorizedRoute>
+          }
+        />
+
+        <Route
+          path="/quiz/standard/:id/report"
+          element={
+            <AuthorizedRoute
+              userRole={user?.user}
+              route={{
+                requiredRoles: ["Quiz" + book],
+                resource: "Quiz" + book,
+                action: "read",
+              }}
+            >
+              <StandardReport />
+            </AuthorizedRoute>
+          }
+        />
+
         <Route path={"/point-and-test"} element={<PointAndTest />} />
         <Route path={"/example"} element={<Example />} />
         <Route path={"/attach"} element={<Attach />} />
         <Route path={"/practice"} element={<Practice />} />
-        <Route path={"/quiz"} element={<Quiz />} />
-        <Route path={"/quiz/standard/:id"} element={<StartSrandardExam />} />
-        <Route path={"/quiz/standard/:id/report"} element={<StandardReport />} />
+
         <Route path={"/quiz/subjective/:id"} element={<StartSubjectiveExam />} />
         <Route path={"/quiz/subjective/:id/report"} element={<SubjectiveReport />} />
 
