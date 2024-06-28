@@ -17,7 +17,6 @@ const CheckRoutes = () => {
       userData.setUser(jwt_decode(accessToken));
     }
   }, [navigate, accessToken]);
-  console.log(userData, "userData");
 
   useEffect(() => {
     if (userData && userData?.user?.roles) {

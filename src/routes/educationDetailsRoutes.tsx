@@ -34,8 +34,6 @@ const EducationDetailsRoutes = () => {
     };
   }, []);
 
-  console.log("ComprehensiveTest" + book);
-
   return (
     <EducationLayoutComponent>
       <Routes>

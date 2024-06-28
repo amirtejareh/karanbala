@@ -423,8 +423,6 @@ const Profile = () => {
   }, [getProvinces?.data]);
 
   useEffect(() => {
-    console.log(provinceId, "provinceId");
-
     if (provinceId && provinceId !== "0") {
       getCitiesBasedOnProvinceId.refetch();
     }

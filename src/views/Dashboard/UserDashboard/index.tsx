@@ -65,20 +65,34 @@ const UserDashboard = () => {
     user.setUser(null);
     navigate("/");
   };
+
+  const checkUserRole = () => {
+    let t = user?.user?.roles.find((element) => {
+      return element.title.includes("ComprehensiveTest") || element.title.includes("Quiz");
+    });
+
+    if (t) {
+      return (
+        <Box className={classes.badge}>
+          <Typography variant="body2">کاربر ویژه</Typography>
+        </Box>
+      );
+    } else {
+      return (
+        <Box className={classes.badge}>
+          <Typography variant="body2">کاربر عادی</Typography>
+        </Box>
+      );
+    }
+  };
+
   return (
     <Box className={classes.container}>
       <Box display={"flex"} justifyContent={"space-around"}>
         <Box display={"flex"} gap={"10px"}>
           <Typography variant="h5">{user?.user?.username}</Typography>
-          {user?.user?.roles?.map((role: { id: string; title: string }) => {
-            return (
-              <Box key={role.title} className={classes.badge}>
-                <Typography variant="body2">
-                  {role.title === "User" ? "کاربر عادی" : "مدیر کل"}
-                </Typography>
-              </Box>
-            );
-          })}
+
+          {checkUserRole()}
         </Box>
         <Box>
           <IconButton className={classes.button} onClick={handleLogout}>

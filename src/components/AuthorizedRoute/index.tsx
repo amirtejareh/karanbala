@@ -51,7 +51,6 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
       })
     );
   });
-  console.log(userRole?.roles, "userRole?.roles");
 
   if (!hasRequiredRole && hasRequiredRole !== undefined) {
     if (location.pathname === "/education-details/exam") {

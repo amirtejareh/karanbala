@@ -25,7 +25,7 @@ import useGetUserBasedOnUsername from "../../../../../hooks/user/useGetUser";
 import { toast } from "react-toastify";
 import useGetBooksBasedOnGradeLevels from "../../../../../hooks/book/useGetBooksBasedOnGradeLevels";
 import useGetPriceWithGradeLevelIdAndBookIdAndType from "../../../../../hooks/settings/content-educational-pricing/useGetPriceWithGradeLevelIdAndBookIdAndType";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useGetPaymentsStatus from "../../../../../hooks/payment/useGetPaymentsStatus";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -79,7 +79,6 @@ const Purchase = () => {
       getUser.refetch();
     }
   }, [getPaymentStatus?.data?.statusCode]);
-  console.log(getUser?.data?.[0]?.roles);
 
   useEffect(() => {
     if (getUser?.data) {
@@ -89,8 +88,6 @@ const Purchase = () => {
       }
     }
   }, [getUser?.data]);
-
-  console.log(userData, "userData");
 
   const getPriceWithGradeLevelIdAndBookIdAndType: any = useGetPriceWithGradeLevelIdAndBookIdAndType(
     bookIds,

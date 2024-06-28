@@ -59,8 +59,6 @@ const News = () => {
     }
   }, [getNews?.data]);
 
-  console.log(getNews);
-
   return (
     <Box>
       <Box
