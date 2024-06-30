@@ -130,6 +130,13 @@ input:-webkit-autofill {
     top: 0 !important;
   }
 }
+
+@media screen and (max-width: 680px) {
+  .profileWrapper {
+    width: 100% !important;
+  }
+}
+
 @media screen and (max-width: 690px) {
   .parentCaption {
     top: 0 !important;

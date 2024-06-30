@@ -454,8 +454,8 @@ const Profile = () => {
         {({ handleApproved }: any) => <ModalChangePassword close={handleApproved} />}
       </ModalKit>
       <form onSubmit={handleSubmit(updateSubmit)}>
-        <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
-          <Box width={"calc(100% - 320px)"}>
+        <Box display={"flex"} gap={"20px"} justifyContent={"space-between"} flexWrap={"wrap"}>
+          <Box className="profileWrapper" width={"calc(100% - 100px)"}>
             <Typography marginBottom={"2.4rem"} variant="body1">
               پروفایل
             </Typography>
@@ -464,7 +464,7 @@ const Profile = () => {
             </Typography>
 
             <Box display={"flex"} gap={"1rem"} flexWrap={"wrap"}>
-              <FormControl className={`${classes.formField}`}>
+              <FormControl className={classes.formField}>
                 <Controller
                   control={control}
                   name="gender"
@@ -499,7 +499,7 @@ const Profile = () => {
                   )}
                 />
               </FormControl>
-              <Box flexBasis={"336px"}>
+              <Box className={classes.formField}>
                 <Controller
                   control={control}
                   name="familyName"
@@ -508,7 +508,6 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
-                      className={classes.formField}
                       variant="outlined"
                       value={familyNameValue}
                       onChange={(e) => {
@@ -524,7 +523,7 @@ const Profile = () => {
                   )}
                 />
               </Box>
-              <Box flexBasis={"336px"}>
+              <Box className={classes.formField}>
                 <Controller
                   control={control}
                   name="firstName"
@@ -539,7 +538,6 @@ const Profile = () => {
                         setFirstNameValue(e.target.value);
                         field.onChange(e);
                       }}
-                      className={classes.formField}
                       variant="outlined"
                       label="نام "
                       type="text"
@@ -569,7 +567,7 @@ const Profile = () => {
               </Box>
             </Box>
             <Box display={"flex"} gap={"1rem"} flexWrap={"wrap"}>
-              <Box flexBasis={"336px"} display={"flex"} alignItems={"center"}>
+              <Box className={classes.formField} display={"flex"} alignItems={"center"}>
                 <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
                   <Controller
                     control={control}
@@ -598,7 +596,7 @@ const Profile = () => {
                 </LocalizationProvider>
               </Box>
 
-              <Box flexBasis={"336px"}>
+              <Box className={classes.formField}>
                 <Controller
                   control={control}
                   name="national_id_number"
@@ -610,7 +608,6 @@ const Profile = () => {
                       {...field}
                       fullWidth
                       sx={{ "& > div": { height: "56px" } }}
-                      className={classes.formField}
                       variant="outlined"
                       value={nationalCodeValue}
                       onChange={(e) => {
@@ -625,7 +622,7 @@ const Profile = () => {
                   )}
                 />
               </Box>
-              <Box flexBasis={"336px"}>
+              <Box className={classes.formField}>
                 <Controller
                   control={control}
                   name="fathersName"
@@ -636,7 +633,6 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
-                      className={classes.formField}
                       variant="outlined"
                       label="نام پدر "
                       value={fathersNameValue}
@@ -676,7 +672,7 @@ const Profile = () => {
             </Typography>
 
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
-              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+              <Box className={classes.formField} gap={"1px"} display={"flex"} alignItems={"center"}>
                 <Controller
                   control={control}
                   name="mobile"
@@ -687,7 +683,6 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
-                      className={classes.formField}
                       sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="شماره تلفن همراه"
@@ -704,7 +699,7 @@ const Profile = () => {
                 />
               </Box>
 
-              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+              <Box className={classes.formField} gap={"1px"} display={"flex"} alignItems={"center"}>
                 <Controller
                   control={control}
                   name="parentsPhone"
@@ -715,7 +710,6 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
-                      className={classes.formField}
                       sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       value={parentsPhoneValue}
@@ -731,7 +725,7 @@ const Profile = () => {
                   )}
                 />
               </Box>
-              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
+              <Box className={classes.formField} gap={"1px"} display={"flex"} alignItems={"center"}>
                 <Controller
                   control={control}
                   name="email"
@@ -742,7 +736,6 @@ const Profile = () => {
                     <TextField
                       {...field}
                       fullWidth
-                      className={classes.formField}
                       sx={{ "& > div": { height: "56px" } }}
                       variant="outlined"
                       label="ایمیل"
@@ -782,8 +775,8 @@ const Profile = () => {
               محل سکونت
             </Typography>
 
-            <Box display={"flex"} marginTop={"1rem"} gap={"1rem"}>
-              <Box display={"flex"} alignItems={"center"}>
+            <Box display={"flex"} marginTop={"1rem"} gap={"1rem"} flexWrap={"wrap"}>
+              <FormControl className={classes.formField}>
                 <Controller
                   control={control}
                   name="province"
@@ -797,7 +790,7 @@ const Profile = () => {
                         setProvinceId(item);
                         onChange(item?.value);
                       }}
-                      sx={{ width: "336px", "& > div div": { height: "56px" } }}
+                      sx={{ "& > div div": { height: "56px" } }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -809,9 +802,9 @@ const Profile = () => {
                     />
                   )}
                 />
-              </Box>
+              </FormControl>
 
-              <Box display={"flex"} alignItems={"center"}>
+              <FormControl className={classes.formField}>
                 <Controller
                   control={control}
                   name="city"
@@ -825,7 +818,7 @@ const Profile = () => {
                         setCityId(item);
                         onChange(item?.value);
                       }}
-                      sx={{ width: "336px", "& > div div": { height: "56px" } }}
+                      sx={{ "& > div div": { height: "56px" } }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -837,7 +830,7 @@ const Profile = () => {
                     />
                   )}
                 />
-              </Box>
+              </FormControl>
             </Box>
 
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
@@ -857,8 +850,8 @@ const Profile = () => {
               اطلاعات تحصیلی
             </Typography>
 
-            <Box display={"flex"} marginTop={"1rem"} gap={"1rem"}>
-              <Box display={"flex"} alignItems={"center"}>
+            <Box display={"flex"} marginTop={"1rem"} gap={"1rem"} flexWrap={"wrap"}>
+              <FormControl className={classes.formField}>
                 <Controller
                   control={control}
                   name="fieldOfStudy"
@@ -866,7 +859,7 @@ const Profile = () => {
                   render={({ field: { onChange } }) => (
                     <Autocomplete
                       options={fieldOfStudyOptions}
-                      sx={{ width: "336px", "& > div div": { height: "56px" } }}
+                      sx={{ "& > div div": { height: "56px" } }}
                       getOptionLabel={(option) => option.label}
                       value={fieldOfStudyId}
                       onChange={(event, item) => {
@@ -885,9 +878,9 @@ const Profile = () => {
                     />
                   )}
                 />
-              </Box>
+              </FormControl>
 
-              <Box display={"flex"} alignItems={"center"}>
+              <FormControl className={classes.formField}>
                 <Controller
                   control={control}
                   name="gradeLevel"
@@ -895,7 +888,7 @@ const Profile = () => {
                   render={({ field: { onChange } }) => (
                     <Autocomplete
                       options={gradeLevelOptions}
-                      sx={{ width: "336px", "& > div div": { height: "56px" } }}
+                      sx={{ "& > div div": { height: "56px" } }}
                       getOptionLabel={(option) => option.label}
                       value={gradeLevelId}
                       onChange={(event, item) => {
@@ -913,7 +906,7 @@ const Profile = () => {
                     />
                   )}
                 />
-              </Box>
+              </FormControl>
             </Box>
 
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
@@ -934,44 +927,42 @@ const Profile = () => {
             </Typography>
 
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
-              <Box flexBasis={"336px"} gap={"1px"} display={"flex"} alignItems={"center"}>
-                <FormControl className={`${classes.formField}`}>
-                  <Controller
-                    control={control}
-                    name="slogan"
-                    render={({ field: { onChange } }) => (
-                      <Autocomplete
-                        sx={{ "& > div div": { height: "56px" } }}
-                        options={[
-                          { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
-                          { value: "2", label: "صبر، حوصله، دقت و پشتکار" },
-                          { value: "3", label: "به کسی کاری ندارم، هدف مشخص است" },
-                          { value: "4", label: "انحراف به چپ ممنوع، مستقیم تا مقصد" },
-                          { value: "5", label: "جاده باریک و پر سنگلاخ، ولی من قوی ترم" },
-                        ]}
-                        getOptionLabel={(option) => option.label}
-                        value={sloganValue}
-                        onChange={(event, item) => {
-                          setSloganValue({
-                            value: item?.value,
-                            label: sloganOptions.find((element) => element.value === item?.value)
-                              ?.label,
-                          });
-                          onChange(item?.value);
-                        }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            InputLabelProps={{ shrink: true }}
-                            label="شعار"
-                            error={!!errors.slogan}
-                          />
-                        )}
-                      />
-                    )}
-                  />
-                </FormControl>
-              </Box>
+              <FormControl className={classes.formField}>
+                <Controller
+                  control={control}
+                  name="slogan"
+                  render={({ field: { onChange } }) => (
+                    <Autocomplete
+                      sx={{ "& > div div": { height: "56px" } }}
+                      options={[
+                        { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
+                        { value: "2", label: "صبر، حوصله، دقت و پشتکار" },
+                        { value: "3", label: "به کسی کاری ندارم، هدف مشخص است" },
+                        { value: "4", label: "انحراف به چپ ممنوع، مستقیم تا مقصد" },
+                        { value: "5", label: "جاده باریک و پر سنگلاخ، ولی من قوی ترم" },
+                      ]}
+                      getOptionLabel={(option) => option.label}
+                      value={sloganValue}
+                      onChange={(event, item) => {
+                        setSloganValue({
+                          value: item?.value,
+                          label: sloganOptions.find((element) => element.value === item?.value)
+                            ?.label,
+                        });
+                        onChange(item?.value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          InputLabelProps={{ shrink: true }}
+                          label="شعار"
+                          error={!!errors.slogan}
+                        />
+                      )}
+                    />
+                  )}
+                />
+              </FormControl>
             </Box>
 
             <Box display={"flex"} flexWrap={"wrap"} gap={"1rem"}>
