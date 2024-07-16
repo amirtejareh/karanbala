@@ -242,7 +242,7 @@ const Profile = () => {
     if (getUser?.data?.[0]) {
       setValue("province", getUser?.data?.[0]?.province ?? provinceId);
       setValue("city", getUser?.data?.[0]?.city ?? cityId);
-      setValue("gradeLevel", getUser?.data?.[0]?.gradeLevel ?? gradeLevelId);
+      setValue("gradeLevel", getUser?.data?.[0]?.gradeLevel[0] ?? gradeLevelId);
       setValue("fieldOfStudy", getUser?.data?.[0]?.fieldOfStudy ?? fieldOfStudyId);
       setValue("firstName", getUser?.data?.[0]?.firstName ?? firstNameValue);
       setValue("familyName", getUser?.data?.[0]?.familyName ?? familyNameValue);
@@ -290,7 +290,7 @@ const Profile = () => {
   useEffect(() => {
     setProvinceId(getUser?.data?.[0]?.province);
     setCityId(getUser?.data?.[0]?.city);
-    setGradeLevelId(getUser?.data?.[0]?.gradeLevel);
+    setGradeLevelId(getUser?.data?.[0]?.gradeLevel[0]);
     setFieldOfStudyId(getUser?.data?.[0]?.fieldOfStudy);
     setFirstNameValue(getUser?.data?.[0]?.firstName);
     setFamilyNameValue(getUser?.data?.[0]?.familyName);
@@ -321,9 +321,9 @@ const Profile = () => {
   useEffect(() => {
     if (getUser?.data?.[0]?.province) {
       setGradeLevelId({
-        value: getUser?.data?.[0]?.gradeLevel[0]?._id,
+        value: getUser?.data?.[0]?.gradeLevel[0],
         label: gradeLevelOptions?.find(
-          (element) => element?.value == getUser?.data?.[0]?.gradeLevel[0]?._id,
+          (element) => element?.value == getUser?.data?.[0]?.gradeLevel[0],
         )?.label,
       });
     }
