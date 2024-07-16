@@ -54,7 +54,7 @@ const Purchase = () => {
   const getUser: any = useGetUserBasedOnUsername(userData?.username);
   const [bookIds, setBookIds] = React.useState<any>(getUser?.data?.[0]?.gradeLevel ?? 0);
   const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
-    getUser?.data?.[0]?.gradeLevel ?? ["0"],
+    getUser?.data?.[0]?.gradeLevel ?? 0,
   );
 
   const search = useLocation().search;
@@ -111,7 +111,7 @@ const Purchase = () => {
   }, [getUser?.data?.[0]?.gradeLevel, tutorialExamType, bookIds]);
 
   useEffect(() => {
-    if (getUser?.data?.[0]?.gradeLevel) {
+    if (getUser?.data?.[0]?.gradeLevel != undefined && getUser?.data?.[0]?.gradeLevel.length > 0) {
       getBooksBasedOnGradeLevels.refetch();
     }
   }, [getUser?.data?.[0]?.gradeLevel]);
@@ -170,7 +170,7 @@ const Purchase = () => {
     if (getUser?.data?.[0]) {
       if (getUser?.data?.[0].gradeLevel != undefined) {
         if (
-          getUser?.data?.[0]?.gradeLevel == "" &&
+          (getUser?.data?.[0]?.gradeLevel == "" || getUser?.data?.[0]?.gradeLevel.length === 0) &&
           (userData?.gradeLevel?.length === 0 || userData?.gradeLevel[0]?.title == "")
         ) {
           toast.error("لطفا ابتدا از بخش مشخصات کاربری پایه خود را انتخاب کنید");
