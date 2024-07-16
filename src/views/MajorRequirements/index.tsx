@@ -14,7 +14,6 @@ import ProfilePicture from "../../assets/images/profilePicture.png";
 import AlirezaPicture from "../../assets/images/alireza.png";
 import AnaPicture from "../../assets/images/ana.png";
 import SaraPicture from "../../assets/images/sara.png";
-import DrSamiee from "../../assets/images/drsamiee.png";
 import { useTheme } from "@mui/styles";
 import { ThemeOptions } from "@mui/system";
 import { ButtonKit } from "../../components/kit/Button";
@@ -27,6 +26,7 @@ import { ModalKit } from "../../components/kit/Modal";
 import { userStore } from "../../stores";
 import { toast } from "react-toastify";
 import useGetGradeLevelBasedOnId from "../../hooks/grade-level/useGetGradeLevelBasedOnId";
+import useGetUserBasedOnUsername from "../../hooks/user/useGetUser";
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   parentEducationBoxes: {
     "& > div": {
@@ -48,6 +48,22 @@ const MajorRequirements = () => {
   const navigate = useNavigate();
   const user: any = userStore((state) => state);
   const gradeLevelId = localStorage.getItem("gradeLevel");
+  const getUser: any = useGetUserBasedOnUsername(user?.user?.username);
+  const sloganOptions = [
+    { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
+    { value: "2", label: "صبر، حوصله، دقت و پشتکار" },
+    { value: "3", label: "به کسی کاری ندارم، هدف مشخص است" },
+    { value: "4", label: "انحراف به چپ ممنوع، مستقیم تا مقصد" },
+    { value: "5", label: "جاده باریک و پر سنگلاخ، ولی من قوی ترم" },
+  ];
+  useEffect(() => {
+    if (user?.user?.username) {
+      getUser.refetch();
+    }
+  }, [user]);
+
+  console.log(getUser);
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
@@ -130,6 +146,30 @@ const MajorRequirements = () => {
     );
   };
 
+  console.log(user?.user, "user?.user");
+
+  useEffect(() => {
+    if (user?.user === null) {
+      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+      navigate("/");
+    }
+    if (user?.user?.gradeLevel?.length == 0 && user?.user?.roles[0]?.title != "SuperAdmin") {
+      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+    }
+  }, []);
+
+  if (
+    user?.user === null ||
+    (user?.user?.gradeLevel?.length == 0 && user?.user?.roles[0]?.title != "SuperAdmin")
+  ) {
+    navigate("/");
+    return <></>;
+  }
+
+  if (!getUser?.isSuccess) {
+    return <>Loading...</>;
+  }
+
   return (
     <>
       <ModalKit
@@ -166,19 +206,28 @@ const MajorRequirements = () => {
                 <Typography marginRight={"1rem"} variant="subtitle2">
                   نام و نام خانوادگی:{" "}
                 </Typography>
-                <Typography variant="subtitle1">امیر بهادری</Typography>
+                <Typography variant="subtitle1">
+                  {getUser?.data[0]?.firstName + " " + getUser?.data[0]?.familyName}
+                </Typography>
               </Box>
               <Box display={"flex"}>
                 <Typography marginRight={"1rem"} variant="subtitle2">
                   شعار من:{" "}
                 </Typography>
-                <Typography variant="subtitle1">من اهل جنگیدنم، از پای نمی‌افتم</Typography>
+                <Typography variant="subtitle1">
+                  {
+                    sloganOptions.find((element) => element?.value === getUser?.data?.[0]?.slogan)
+                      ?.label
+                  }
+                </Typography>
               </Box>
               <Box display={"flex"}>
                 <Typography marginRight={"1rem"} variant="subtitle2">
                   پایه من :{" "}
                 </Typography>
-                <Typography variant="subtitle1">دهم ریاضی</Typography>
+                <Typography variant="subtitle1">
+                  {getUser?.data[0]?.gradeLevel?.[0]?.title}
+                </Typography>
               </Box>
             </Box>
           </Box>

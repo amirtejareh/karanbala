@@ -8,7 +8,7 @@ const useGetBooksBasedOnGradeLevels = (gradeLevelIds: string[]) => {
     async () => {
       return await BookService.bookControllerFindBooksBasedOnGradeLevels(gradeLevelIds);
     },
-    { refetchOnWindowFocus: false, enabled: !!gradeLevelIds },
+    { refetchOnWindowFocus: false, enabled: false },
   );
 };
 

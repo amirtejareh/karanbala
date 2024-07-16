@@ -31,6 +31,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import useGetUserBasedOnUsername from "../../../../../hooks/user/useGetUser";
 import moment from "moment-jalaali";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   formField: {
@@ -184,7 +185,7 @@ const Profile = () => {
     setValue,
     handleSubmit,
   } = useForm();
-
+  const navigate = useNavigate();
   const classes = useStyles();
   const [provinceOptions, setProvinceOptions] = useState([]);
   const [familyNameValue, setFamilyNameValue] = useState("");
@@ -214,6 +215,7 @@ const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const updateUserData = useUpdateUser();
   const userData: any = userStore((state) => state.user);
+  const setUserData: any = userStore((state) => state.setUser);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const sloganOptions = [
     { value: "1", label: "من اهل جنگیدن هستم و از پا نمی افتم" },
@@ -229,6 +231,13 @@ const Profile = () => {
   ];
 
   const getUser: any = useGetUserBasedOnUsername(userData?.username);
+
+  useEffect(() => {
+    if (userData?.username) {
+      getUser.refetch();
+    }
+  }, [userData?.username]);
+
   useEffect(() => {
     if (getUser?.data?.[0]) {
       setValue("province", getUser?.data?.[0]?.province ?? provinceId);
@@ -312,9 +321,9 @@ const Profile = () => {
   useEffect(() => {
     if (getUser?.data?.[0]?.province) {
       setGradeLevelId({
-        value: getUser?.data?.[0]?.gradeLevel,
+        value: getUser?.data?.[0]?.gradeLevel[0]?._id,
         label: gradeLevelOptions?.find(
-          (element) => element?.value == getUser?.data?.[0]?.gradeLevel,
+          (element) => element?.value == getUser?.data?.[0]?.gradeLevel[0]?._id,
         )?.label,
       });
     }
@@ -330,6 +339,19 @@ const Profile = () => {
       });
     }
   }, [fieldOfStudyOptions]);
+
+  useEffect(() => {
+    if (getUser?.data?.[0]?.gradeLevelMaxUpdated && getUser?.data?.[0]?.gradeLevelMaxUpdated < 2) {
+      let count = getUser?.data?.[0]?.gradeLevelMaxUpdated;
+
+      toast.error(
+        <>
+          شما تنها <b style={{ color: "red", textDecoration: "underline" }}>{count}</b> بار دیگر
+          مجاز به تغییر پایه تحصیلی هستید
+        </>,
+      );
+    }
+  }, [getUser?.data?.[0]?.gradeLevelMaxUpdated]);
 
   const profilePhotoRef = useRef<any>();
 
@@ -358,6 +380,12 @@ const Profile = () => {
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           if (result.statusCode === 200) {
+            if (gradeLevelId?.label) {
+              setUserData({ ...userData, gradeLevel: [{ title: gradeLevelId.label }] });
+            }
+
+            navigate("/dashboard/user/purchase");
+
             setLoading(false);
 
             toast.success(result.message);
@@ -895,6 +923,7 @@ const Profile = () => {
                         setGradeLevelId(item);
                         onChange(item?.value);
                       }}
+                      disabled={getUser?.data?.[0]?.gradeLevelMaxUpdated >= 2 ? true : false}
                       renderInput={(params) => (
                         <TextField
                           {...params}

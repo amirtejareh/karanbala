@@ -6,6 +6,8 @@ import { makeStyles } from "@mui/styles";
 import { ButtonKit } from "../../../../components/kit/Button";
 import { useNavigate } from "react-router-dom";
 import useGetGradeLevels from "../../../../hooks/grade-level/useGetGradeLevels";
+import { userStore } from "../../../../stores";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   majorBox: {
@@ -30,22 +32,6 @@ const MainMajorBoxes = () => {
 
   const gradeLevels = useGetGradeLevels();
 
-  const path = [
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-    "major-requirements",
-  ];
-
   const color = [
     theme?.palette?.primary["light"],
     theme?.palette?.grey["50"],
@@ -62,9 +48,28 @@ const MainMajorBoxes = () => {
     "#E2E3FF",
   ];
 
-  const redirectRoute = (path: string) => {
-    return navigate(`/${path}`);
+  const user: any = userStore((state) => state.user);
+
+  const redirectRoute = (path: string, gradeLevelTitle: string) => {
+    if (user === null) {
+      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+    }
+
+    if (user.gradeLevel.length == 0 && user.roles[0]?.title != "SuperAdmin") {
+      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+    }
+
+    if (gradeLevelTitle != user.gradeLevel?.[0]?.title && user.roles[0]?.title != "SuperAdmin") {
+      return toast.error(
+        <>
+          پایه تحصیلی <b>{gradeLevelTitle}</b> که انتخاب کردید با پایه تحصیلی{" "}
+          <b>{user.gradeLevel?.[0]?.title}</b> که در میز کار خود ثبت کردید متفاوت است
+        </>,
+      );
+    }
+    return navigate(path);
   };
+
   return (
     <Box
       display={"flex"}
@@ -80,7 +85,7 @@ const MainMajorBoxes = () => {
               <ButtonKit
                 onClick={() => {
                   localStorage.setItem("gradeLevel", value?._id);
-                  redirectRoute(path[index]);
+                  redirectRoute("major-requirements", value?.title);
                 }}
               >
                 <Box

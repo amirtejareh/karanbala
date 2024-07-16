@@ -53,7 +53,10 @@ const Purchase = () => {
   const setUserData: any = userStore((state) => state.setUser);
   const getUser: any = useGetUserBasedOnUsername(userData?.username);
   const [bookIds, setBookIds] = React.useState<any>(getUser?.data?.[0]?.gradeLevel ?? 0);
-  const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(getUser?.data?.[0]?.gradeLevel);
+  const getBooksBasedOnGradeLevels = useGetBooksBasedOnGradeLevels(
+    getUser?.data?.[0]?.gradeLevel ?? ["0"],
+  );
+
   const search = useLocation().search;
   const Authority = new URLSearchParams(search).get("Authority");
 
@@ -64,6 +67,12 @@ const Purchase = () => {
       getUser.refetch();
     }
   }, [userData?.username]);
+
+  useEffect(() => {
+    if (userData?.username) {
+      getUser.refetch();
+    }
+  }, []);
 
   useEffect(() => {
     if (getPaymentStatus?.data?.statusCode == 500) {
@@ -156,11 +165,18 @@ const Purchase = () => {
       },
     );
   };
+  console.log(
+    getUser?.data?.[0]?.gradeLevel.length === 0 && userData?.gradeLevel[0]?.length === 0,
+    " getUser?.data?.[0]?.gradeLevel",
+  );
 
   useEffect(() => {
     if (getUser?.data?.[0]) {
       if (getUser?.data?.[0].gradeLevel != undefined) {
-        if (getUser?.data?.[0]?.gradeLevel == "") {
+        if (
+          getUser?.data?.[0]?.gradeLevel == "" &&
+          (userData?.gradeLevel?.length === 0 || userData?.gradeLevel[0]?.title == "")
+        ) {
           toast.error("لطفا ابتدا از بخش مشخصات کاربری پایه خود را انتخاب کنید");
         }
       } else {

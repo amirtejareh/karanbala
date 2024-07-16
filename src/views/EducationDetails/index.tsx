@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import useGetBooksBasedOnGradeLevels from "../../hooks/book/useGetBooksBasedOnGradeLevels";
 import EducationDetailStore from "../../stores/educationDetailStore";
 import useGetBookBasedOnId from "../../hooks/book/useGetBookBasedOnId";
+import { toast } from "react-toastify";
+import { userStore } from "../../stores";
 
 const useStyles = makeStyles((theme: ThemeOptions) => ({
   educationDetailsBox: {
@@ -39,6 +41,7 @@ const EducationDetails = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { setBook, book } = EducationDetailStore((state) => state);
+  const user: any = userStore((state) => state);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -101,7 +104,7 @@ const EducationDetails = () => {
   const [disable, setDisable] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!getBooksBasedOnGradeLevels.isLoading && getBooksBasedOnGradeLevels.data) {
+    if (!getBooksBasedOnGradeLevels.isLoading && getBooksBasedOnGradeLevels?.data) {
       setBooks(
         getBooksBasedOnGradeLevels?.data?.map((elements) => ({
           value: elements._id,
@@ -109,7 +112,7 @@ const EducationDetails = () => {
         })),
       );
     }
-  }, [getBooksBasedOnGradeLevels.data]);
+  }, [getBooksBasedOnGradeLevels?.data]);
 
   useEffect(() => {
     if (selectValue || book) {
@@ -118,6 +121,24 @@ const EducationDetails = () => {
       setDisable(true);
     }
   }, [selectValue, book]);
+
+  useEffect(() => {
+    if (user.user === null) {
+      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+      navigate("/");
+    }
+    if (user?.user?.gradeLevel?.length == 0 && user?.user?.roles[0]?.title != "SuperAdmin") {
+      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+    }
+  }, []);
+
+  if (
+    user.user === null ||
+    (user?.user?.gradeLevel?.length == 0 && user?.user?.roles[0]?.title != "SuperAdmin")
+  ) {
+    navigate("/");
+    return <></>;
+  }
 
   return (
     <Box margin={"0.75rem 3.25rem 6rem 3.25rem"} paddingBottom={"7.5rem"}>
