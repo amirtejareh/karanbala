@@ -30,6 +30,7 @@ const News = () => {
     setAccessToken("");
     user.setUser(null);
     localStorage.removeItem("auth-storage");
+    localStorage.removeItem("user-storage");
     navigate("/");
   };
 
