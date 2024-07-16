@@ -165,10 +165,6 @@ const Purchase = () => {
       },
     );
   };
-  console.log(
-    getUser?.data?.[0]?.gradeLevel.length === 0 && userData?.gradeLevel[0]?.length === 0,
-    " getUser?.data?.[0]?.gradeLevel",
-  );
 
   useEffect(() => {
     if (getUser?.data?.[0]) {

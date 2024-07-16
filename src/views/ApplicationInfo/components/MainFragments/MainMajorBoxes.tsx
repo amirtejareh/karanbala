@@ -55,7 +55,7 @@ const MainMajorBoxes = () => {
       toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
     }
 
-    if (user.gradeLevel.length == 0 && user.roles[0]?.title != "SuperAdmin") {
+    if (user?.gradeLevel?.length == 0 && user.roles[0]?.title != "SuperAdmin") {
       toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
     }
 
