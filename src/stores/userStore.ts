@@ -14,7 +14,7 @@ type UserPersist = (
 const userStore = create<UserState>(
   (persist as unknown as UserPersist)(
     (set) => ({
-      user: "",
+      user: null,
       setUser: (user: string) => set({ user }),
     }),
     {

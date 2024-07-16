@@ -52,14 +52,14 @@ const MainMajorBoxes = () => {
 
   const redirectRoute = (path: string, gradeLevelTitle: string) => {
     if (user === null) {
+      return toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
+    }
+
+    if (user?.gradeLevel?.length == 0 && user?.roles[0]?.title != "SuperAdmin") {
       toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
     }
 
-    if (user?.gradeLevel?.length == 0 && user.roles[0]?.title != "SuperAdmin") {
-      toast.error("دانش‌ آموز عزیز ابتدا ثبت نام کنید سپس پایه تحصیلی خود را انتخاب کنید");
-    }
-
-    if (gradeLevelTitle != user.gradeLevel?.[0]?.title && user.roles[0]?.title != "SuperAdmin") {
+    if (gradeLevelTitle != user?.gradeLevel?.[0]?.title && user?.roles[0]?.title != "SuperAdmin") {
       return toast.error(
         <>
           پایه تحصیلی <b>{gradeLevelTitle}</b> که انتخاب کردید با پایه تحصیلی{" "}
