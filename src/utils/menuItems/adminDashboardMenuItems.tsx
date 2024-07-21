@@ -1,6 +1,6 @@
 import React from "react";
 import HomeWork from "@mui/icons-material/HomeWork";
-import { DashboardSvg } from "../../assets";
+import { DashboardSvg, ProfileSvg } from "../../assets";
 
 export const adminDashboardMenuItems = [
   {
@@ -12,6 +12,15 @@ export const adminDashboardMenuItems = [
   {
     category: {
       children: [
+        {
+          title: "مدیریت کاربر",
+          submenu: [
+            {
+              title: "مشخصات کاربری",
+              to: "/dashboard/admin/profile",
+            },
+          ],
+        },
         {
           title: "مدیریت خبر",
           submenu: [

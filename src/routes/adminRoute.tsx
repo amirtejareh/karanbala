@@ -32,6 +32,7 @@ import CreateFirstQuestion from "../views/Dashboard/AdminDashboard/pages/educati
 import CreateSecondQuestion from "../views/Dashboard/AdminDashboard/pages/educational-management/ComprehensiveTest/CreateSecondQuestion";
 import News from "../views/Dashboard/AdminDashboard/pages/content-management/News";
 import ContentEducationalPricing from "../views/Dashboard/AdminDashboard/pages/settings/ContentEducationalPricing";
+import Profile from "../views/Dashboard/AdminDashboard/pages/user-management/Profile";
 
 const AdminDashboardRoute = () => {
   const user: any = useSelector((state: MainReducerInterface) => state.user);
@@ -50,6 +51,21 @@ const AdminDashboardRoute = () => {
             }}
           >
             <News />
+          </AuthorizedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <AuthorizedRoute
+            userRole={user?.user}
+            route={{
+              requiredRoles: ["SuperAdmin"],
+              resource: "post",
+              action: "create",
+            }}
+          >
+            <Profile />
           </AuthorizedRoute>
         }
       />

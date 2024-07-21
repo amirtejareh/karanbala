@@ -19,7 +19,6 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
   const { accessToken, setAccessToken } = authStore((state) => state);
   const { setUser } = userStore((state) => state);
   const location = useLocation();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,16 +38,17 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
       localStorage.removeItem("auth-storage");
       setUser(null);
       setAccessToken(null);
-      navigate("/");
+      navigate(-1);
     }
   }, [accessToken, navigate]);
 
   const hasRequiredRole = userRole?.roles?.some((role: any) => {
     return (
-      route.requiredRoles.includes(role.title) &&
-      role.permissions?.some((permission: any) => {
-        return permission.resource === route.resource && permission.action === route.action;
-      })
+      role.title === "SuperAdmin" ||
+      (route.requiredRoles.includes(role.title) &&
+        role.permissions?.some((permission: any) => {
+          return permission.resource === route.resource && permission.action === route.action;
+        }))
     );
   });
 
@@ -57,10 +57,9 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
       toast.error("شما به تست‌های جامع دسترسی ندارید از طریق میز کار خود تست جامع را خریداری کنید");
       return <Navigate to={"/education-details"} />;
     } else {
-      localStorage.removeItem("auth-storage");
-      setUser(null);
-      setAccessToken(null);
-      return <Navigate to={"/"} />;
+      toast.error("شما به این بخش دسترسی ندارید");
+      window.history.back();
+      return <></>;
     }
   }
 
