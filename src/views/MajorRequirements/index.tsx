@@ -62,8 +62,6 @@ const MajorRequirements = () => {
     }
   }, [user]);
 
-  console.log(getUser);
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
