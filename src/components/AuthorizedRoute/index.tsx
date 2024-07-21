@@ -56,8 +56,10 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
     if (location.pathname === "/education-details/exam") {
       toast.error("شما به تست‌های جامع دسترسی ندارید از طریق میز کار خود تست جامع را خریداری کنید");
       return <Navigate to={"/education-details"} />;
-    } else {
-      toast.error("شما به این بخش دسترسی ندارید");
+    } else if (location.pathname === "/education-details/quiz") {
+      toast.error(
+        "شما به آزمون انتخابی دسترسی ندارید از طریق میز کار خود آزمون انتخابی را خریداری کنید",
+      );
       window.history.back();
       return <></>;
     }
