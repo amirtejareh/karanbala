@@ -256,16 +256,16 @@ const CreateExam = () => {
       {
         onSuccess: async (result: { message: string; statusCode: number }) => {
           toast.success(result.message);
-          setGradeLevelIds(null);
-          setBookIds(null);
-          setChapterIds(null);
-          setTermIds([]);
-          setGradeLevelIds(null);
-          setBookIds(null);
-          setTermIds([]);
-          setExamTypeIds("");
-          setNumber("");
-          setTime("");
+          // setGradeLevelIds(null);
+          // setBookIds(null);
+          // setChapterIds(null);
+          // setTermIds([]);
+          // setGradeLevelIds(null);
+          // setBookIds(null);
+          // setTermIds([]);
+          // setExamTypeIds("");
+          // setNumber("");
+          // setTime("");
           setIsPublished(false);
           getCreateExamBasedOnStandardExamAndChapters.refetch();
         },
@@ -295,15 +295,15 @@ const CreateExam = () => {
           if (result.statusCode == 200) {
             setLoading(false);
             toast.success(result.message);
-            setValue({ doUpdate: false, data: "", id: null });
-            setGradeLevelIds(null);
-            setBookIds(null);
-            setChapterIds(null);
-            setTermIds([]);
-            setExamTypeIds("");
-            setNumber("");
-            setTime("");
-            setSelectedFile([]);
+            // setValue({ doUpdate: false, data: "", id: null });
+            // setGradeLevelIds(null);
+            // setBookIds(null);
+            // setChapterIds(null);
+            // setTermIds([]);
+            // setExamTypeIds("");
+            // setNumber("");
+            // setTime("");
+            // setSelectedFile([]);
             setIsPublished(false);
             getCreateExamBasedOnStandardExamAndChapters.refetch();
           } else {
@@ -768,12 +768,14 @@ const CreateExam = () => {
                               selectExamTypeRef.current.focus();
                             }, 350);
 
+                            console.log(item);
+
                             if (
                               item.AnswerSheetSourcePdfFile &&
                               item.AnswerSheetSourcePdfFile?.length > 0 &&
-                              item.AnswerSheetSourcePdfFile[0] != ""
+                              item.AnswerSheetSourcePdfFile?.[0] != ""
                             ) {
-                              const fileName = item.AnswerSheetSourcePdfFile[0].split("/").pop();
+                              const fileName = item.AnswerSheetSourcePdfFile?.[0]?.title;
                               const updatedSelectedFile = [{ name: fileName, size: null }];
                               setSelectedFile(updatedSelectedFile);
                             }
@@ -857,7 +859,7 @@ const CreateExam = () => {
                               item.AnswerSheetSourcePdfFile?.length > 0 &&
                               item.AnswerSheetSourcePdfFile[0] != ""
                             ) {
-                              const fileName = item.AnswerSheetSourcePdfFile[0].split("/").pop();
+                              const fileName = item.AnswerSheetSourcePdfFile?.title;
                               const updatedSelectedFile = [{ name: fileName, size: null }];
                               setSelectedFile(updatedSelectedFile);
                             }
@@ -930,15 +932,15 @@ const CreateExam = () => {
                               selectExamTypeRef.current.focus();
                             }, 350);
 
-                            if (
-                              item.AnswerSheetSourcePdfFile &&
-                              item.AnswerSheetSourcePdfFile?.length > 0 &&
-                              item.AnswerSheetSourcePdfFile[0] != ""
-                            ) {
-                              const fileName = item.AnswerSheetSourcePdfFile[0].split("/").pop();
-                              const updatedSelectedFile = [{ name: fileName, size: null }];
-                              setSelectedFile(updatedSelectedFile);
-                            }
+                            // if (
+                            //   item.AnswerSheetSourcePdfFile &&
+                            //   item.AnswerSheetSourcePdfFile?.length > 0 &&
+                            //   item.AnswerSheetSourcePdfFile[0] != ""
+                            // ) {
+                            //   const fileName = item.AnswerSheetSourcePdfFile?.[0]?.split("/").pop();
+                            //   const updatedSelectedFile = [{ name: fileName, size: null }];
+                            //   setSelectedFile(updatedSelectedFile);
+                            // }
                           }}
                         >
                           <EditLightSvg width={12} height={12} />
