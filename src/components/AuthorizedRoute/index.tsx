@@ -30,12 +30,18 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({ route, userRole, chil
 
       if (currentTime > decodedToken.exp) {
         localStorage.removeItem("auth-storage");
+        localStorage.removeItem("user-storage");
+        localStorage.removeItem("gradeLevel");
+        localStorage.removeItem("EducationDetail-storage");
         setUser(null);
         setAccessToken(null);
         navigate("/");
       }
     } else {
       localStorage.removeItem("auth-storage");
+      localStorage.removeItem("user-storage");
+      localStorage.removeItem("gradeLevel");
+      localStorage.removeItem("EducationDetail-storage");
       setUser(null);
       setAccessToken(null);
       navigate(-1);

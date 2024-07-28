@@ -29,8 +29,11 @@ const News = () => {
   const handleLogout = () => {
     setAccessToken("");
     user.setUser(null);
+
     localStorage.removeItem("auth-storage");
     localStorage.removeItem("user-storage");
+    localStorage.removeItem("gradeLevel");
+    localStorage.removeItem("EducationDetail-storage");
     navigate("/");
   };
 
